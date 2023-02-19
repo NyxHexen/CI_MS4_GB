@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+
+{{ response.json.results|length }}
+<!-- {{ response.json.results }} -->
+
+{% for game in response.json.results %}
+<p>{{ game }}</p>
+<!-- <img src="{{ game.background_image }}" alt="" style="max-width: 100%;"> -->
+<p> </p>
+{% endfor %}
+
+{% endblock %}
+
+{% block content %}
+{% endblock %}
