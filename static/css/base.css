@@ -1,0 +1,84 @@
+/* IMPORTS */
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
+/* CSS VARS */
+:root {
+    --ui-font: "Major Mono Display", sans-serif;
+    --lm-logo-color: 0, 0, 0;
+    --lm-text-color: 30, 30, 30;
+    --lm-bg-color: 220, 220, 220;
+    --dm-text-color: 255, 251, 252;
+}
+
+/* Bootstrap Overwrite */
+[data-bs-theme="light"] .nav-link:hover,
+[data-bs-theme="light"] .navbar-nav {
+    --bs-nav-link-hover-color: rgb(144, 0, 255);
+    --bs-nav-link-padding-y: 0rem;
+}
+
+/* ANY MODE */
+
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: bolder;
+}
+
+.nav-link {
+    font-weight: bold;
+}
+
+nav *,
+button {
+    font-family: var(--ui-font);
+}
+
+/* LIGHT MODE */
+[data-bs-theme="light"] body {
+    min-height: 100vh;
+    background-color: rgb(var(--lm-bg-color));
+}
+
+[data-bs-theme="light"] nav {
+    position: relative;
+    width: 90%;
+    background-color: rgba(255, 255, 255, 85%);
+    border: 1px solid #1f1f1f;
+    border-radius: 5px;
+}
+
+[data-bs-theme="light"] nav::after {
+    content: " ";
+    position: absolute;
+    background-color: rgba(var(--lm-text-color), .95);
+    width: 100%;
+    height: 100%;
+    top: .5rem;
+    left: .5rem;
+    border-radius: 5px;
+    filter: blur(.05rem);
+    z-index: -1;
+}
+
+[data-bs-theme="light"] nav * {
+    color: var(--lm-text-color);
+}
+
+[data-bs-theme="light"] .navbar-brand {
+    color: var(--lm-logo-color);
+}
+
+[data-bs-theme="light"] .navbar-brand:hover {
+    text-shadow: 0 0 6px #9f0;
+    transition: text-shadow 1s ease;
+}
+
+[data-bs-theme="light"] .navbar-brand>span {
+    letter-spacing: -.15rem;
+    z-index: 0;
+}
+
+[data-bs-theme="light"] .nav-link.active {
+    color: #9000ff;
+    font-size: calc(100% + .2rem);
+}
