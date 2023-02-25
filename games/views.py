@@ -1,3 +1,8 @@
 from django.shortcuts import render
+import requests
 
-# Create your views here.
+
+def games(request):
+    context = {
+    }
+    return render(request, 'games/index.html', context)
