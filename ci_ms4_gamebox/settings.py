@@ -31,10 +31,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_cleanup.apps.CleanupConfig', # Automatically invokes delete method on FileField
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'home',
+    'games',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +63,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
