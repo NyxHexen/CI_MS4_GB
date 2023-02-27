@@ -12,18 +12,20 @@ class CustomBaseModel(models.Model):
     class Meta:
         abstract = True
 
-    def save(self, force_insert=False, 
-             force_update=False, using=None, update_fields=None):
-        if self.base_price and self.base_price != 0:
-            self.final_price = self.base_price
-        if self.slug and self.slug is None:
+    def __init__(self, *args, **kwargs):
+        if "slug" in self.__dict__ and self.slug is None:
             self.slug = slugify(self.name)
-        super().save(
-            force_insert=force_insert,
-            force_update=force_update,
-            using=using,
-            update_fields=update_fields,
-        )
+        super().__init__(*args, **kwargs)
+        
+
+    def save(self, *args, **kwargs):
+        if "slug" in self.__dict__ and self.slug is None:
+            self.slug = slugify(self.name)
+        if "base_price" in self.__dict__:
+            if self.base_price != 0.00:
+                self.final_price = self.base_price 
+        super().save(*args, **kwargs)
+
 
 
 class Game(CustomBaseModel):
