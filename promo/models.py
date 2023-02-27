@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import pre_save, post_save, m2m_changed, pre_init
+from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.utils.text import slugify
 from games.models import Game
