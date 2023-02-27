@@ -1,13 +1,14 @@
 from django.db import models
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
-from django.utils.text import slugify
 from games.models import Game
 
+from games.models import CustomBaseModel
 
-class Promo(models.Model):
+
+class Promo(CustomBaseModel):
     name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254)
+    slug = models.SlugField(max_length=254, null=True, blank=True)
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField(auto_now_add=True)
     apply_to = models.ManyToManyField('games.Game', 'games.DLC+')
@@ -41,16 +42,6 @@ class Promo(models.Model):
                     game = Game.objects.get(id=i.id)
                     game.in_promo = True
                     game.save()
-
-
-    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-        self.slug = slugify(self.name)
-        super().save(
-            force_insert=force_insert,
-            force_update=force_update,
-            using=using,
-            update_fields=update_fields,
-        )
 
     def delete(self, using=None, keep_parents=False):
         for i in self.apply_to.all():

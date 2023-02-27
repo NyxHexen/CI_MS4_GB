@@ -11,9 +11,9 @@ class RatingSetAdminInline(admin.StackedInline):
 
 class GameAdmin(admin.ModelAdmin):
     inlines = (RatingSetAdminInline,)
-
+    readonly_fields = ('id', 'slug','final_price',)
     list_display = ('id', 'name','slug',
-                    'publishers', 'release_date', 'base_price',
+                    'publisher', 'release_date', 'base_price',
                     'in_promo', 'final_price')
     filter_horizontal = ['developers', 'platforms', 'tags',
                          'genres','media',]
