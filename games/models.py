@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.timezone import now
 from django.utils.text import slugify
 
 
@@ -145,7 +144,8 @@ class Media(CustomBaseModel):
     slug = models.SlugField(max_length=254, null=True, blank=True)
     file = models.FileField(null=True, blank=True)
     media_url = models.URLField(max_length=1024, null=True, blank=True)
-    media_type = models.CharField(max_length=6, null=True, blank=True)
+    media_type = models.CharField(max_length=6, choices=[('image', 'Image'), ('video', 'Video')])
+    media_ext = models.CharField(max_length=6, null=True, blank=True)
     description = models.CharField(null=True, max_length=526)
 
     def __str__(self) -> str:
