@@ -13,9 +13,11 @@ class GameAdmin(admin.ModelAdmin):
     inlines = (RatingSetAdminInline,)
 
     list_display = ('id', 'name','slug',
-                    'publishers', 'release_date', 'price')
+                    'publishers', 'release_date', 'base_price',
+                    'in_promo', 'final_price')
     filter_horizontal = ['developers', 'platforms', 'tags',
                          'genres','media',]
+    list_editable = ('in_promo',)
     
 
 class RatingSetAdmin(admin.ModelAdmin):

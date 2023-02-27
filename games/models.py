@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 
 # Create your models here.
 
@@ -12,21 +13,31 @@ class Game(models.Model):
     description = models.TextField(null=True)
     platforms = models.ManyToManyField('Platform', blank=True)
     tags = models.ManyToManyField('Tag', blank=True)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
     media = models.ManyToManyField('Media', blank=True)
+    base_price = models.DecimalField(max_digits=6, decimal_places=2)
+    in_promo = models.BooleanField(default=False, null=True, blank=True)
+    promo = models.ForeignKey('promo.Promo', null=True, blank=True, on_delete=models.SET_NULL)
+    promo_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    promo_percentage = models.PositiveIntegerField(null=True, blank=True)
+    final_price = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     def __str__(self) -> str:
         return self.slug
 
     def get_friendly_name(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if self.base_price != 0:
+            self.final_price = self.base_price
+        super().save(*args, **kwargs)
 
 
 class DLC(models.Model):
     class Meta:
         verbose_name_plural = 'DLCs'
 
-    game = models.ForeignKey('Game', default=None, on_delete=models.CASCADE)
+    required_game = models.ForeignKey('Game', default=None, on_delete=models.CASCADE)
     name = models.CharField(max_length=254)
     slug = models.SlugField(max_length=254)
     publishers = models.ForeignKey('Publisher', on_delete=models.CASCADE)

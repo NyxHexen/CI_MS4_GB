@@ -5,7 +5,7 @@
 <div class="container my-5 text-center">
     <div class="games row">
         {% for game in games %}
-        <div class="game col-sm-2 {% if forloop.first %}sale{% endif %}">
+        <div class="game col-sm-2 {% if game.in_promo %}sale{% endif %}">
             <div class="game-cover--front">
                 <div class="game-cover-image">
                     <img src="{{ MEDIA_URL }}{{ game.media.values.0.file }}" alt="">
@@ -19,7 +19,7 @@
                 <p>{{ game.name }}</p>
             </div>
             <div class="game-back--reverse d-flex justify-content-end align-items-end">
-                <div class="game-price text-bg-warning">£ {{ game.price }}</div>
+                <div class="game-price text-bg-warning">£ {{ game.base_price }}</div>
             </div>
         </div>
         {% endfor %}
