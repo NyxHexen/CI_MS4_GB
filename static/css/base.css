@@ -267,18 +267,18 @@ button {
 }
 
 [data-bs-theme="light"] .game:hover .game-back--reverse {
-    --shadow-color: 76deg 100% 22% !important; /* Lime */
+    --shadow-color: 76deg 100% 22% !important;
     transition: all .4s linear;
 }
 
 [data-bs-theme="light"] .game-cover--front {
-    --shadow-color: 264deg 69% 23% !important; /* Purple */
+    --shadow-color: 264deg 69% 23% !important;
     color: white;
     background-color: #1f1f1f;
 }
 
 [data-bs-theme="light"] .sale .game-cover--front {
-    --shadow-color: 41deg 99% 22% !important; /* Yellow */
+    --shadow-color: 41deg 99% 22% !important;
 }
 
 [data-bs-theme="light"] .game-cover--reverse {
@@ -298,7 +298,8 @@ button {
     0% {
         -webkit-transform: rotateY(0) translateY(0) translateZ(25px);
         transform: rotateY(0) translateY(0) translateZ(25px);
-        --shadow-color: 0deg 0% 42% !important; /* Neutral */ 
+        --shadow-color: 0deg 0% 42% !important;
+        /* Neutral */
     }
 
     100% {
