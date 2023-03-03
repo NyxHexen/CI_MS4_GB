@@ -118,6 +118,7 @@ class RatingSet(CustomBaseModel):
 class EsrbRating(CustomBaseModel):
     name = models.CharField(max_length=254)
     slug = models.SlugField(max_length=254, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -126,6 +127,7 @@ class EsrbRating(CustomBaseModel):
 class Platform(CustomBaseModel):
     name = models.CharField(max_length=254)
     slug = models.SlugField(max_length=254, null=True, blank=True)
+    icon = models.ImageField(null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -143,14 +145,62 @@ class Media(CustomBaseModel):
     class Meta:
         verbose_name_plural = 'Media'
 
+    class MediaUseChoices(models.TextChoices):
+        COVER = 'COVER', ('Cover Image')
+        LANDING = 'LANDING', ('Landing Image')
+        PREVIEW = 'PREVIEW', ('Preview Media')
+        OTHER = 'OTHER', ('Other Media')
+
     name = models.CharField(max_length=254)
     slug = models.SlugField(max_length=254, null=True, blank=True)
     file = models.FileField(null=True, blank=True)
     media_url = models.URLField(max_length=1024, null=True, blank=True)
     media_type = models.CharField(max_length=6, null=True,
                                   choices=[('image', 'Image'), ('video', 'Video')])
+    media_use = models.CharField(max_length=24, default=MediaUseChoices.OTHER, choices=MediaUseChoices.choices)
     media_ext = models.CharField(max_length=6, null=True, blank=True)
     description = models.CharField(null=True, max_length=526)
 
     def __str__(self) -> str:
         return self.name
+    
+
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+import os
+
+
+@receiver(pre_save, sender=Media)
+def receiver(instance, *args, **kwargs):
+
+    if instance.file._file is not None: # If a file is being uploaded
+        _, new_file_extension = os.path.splitext(instance.file._file.name)
+        new_file_extension = new_file_extension.replace('.', '')
+
+    if len(instance.file.name) != 0:
+        _, curr_file_extension = os.path.splitext(instance.file.name)
+        curr_file_extension = curr_file_extension.replace('.', '')
+
+    if  len(instance.file.name) != 0 and instance.media_ext is not None and instance.file._file is None:
+        print("File exists, there is a media extension, and no new file is coming in.")
+        if curr_file_extension != instance.media_ext:
+            print("Auto-fill media extension.")
+            instance.media_ext = curr_file_extension
+    elif (instance.media_ext is None):
+        print("There is no media extension.")
+        if instance.file._file is not None:
+            print(", but there is a new file coming in.")
+            instance.media_ext = new_file_extension
+        elif (len(instance.file.name) != 0):
+            print(", but there's a file already.")
+            instance.media_ext = curr_file_extension
+    elif (instance.media_ext is not None and len(instance.file.name) == 0 ):
+        print("There is no extension and no file.")
+        instance.media_ext = None
+    elif (instance.media_ext is not None and instance.file._file is not None):
+        print("There is an extension, but a new file is coming in.")
+        instance.media_ext = new_file_extension
+    else: 
+        print("None of the above applied.")
+        print("If a cover photo exists already, don't save.")
+
