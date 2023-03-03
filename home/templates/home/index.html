@@ -2,31 +2,55 @@
 {% load static %}
 
 {% block page_header %}
-<div class="container my-5 text-center">
-    <div class="games row">
-        {% for game in games %}
-        <div class="game col-sm-2 {% if game.in_promo %}sale{% endif %}">
-            <div class="game-cover--front">
-                <div class="game-cover-image">
-                    <img src="{{ MEDIA_URL }}{{ game.media.values.0.file }}" alt="">
-                </div>
-                <p class="game-title">{{ game.name }}</p>
-            </div>
-            <div class="game-cover--reverse">
-                <p class="game-title">{{ game.name }}</p>
-            </div>
-            <div class="game-back--front">
-                <p>{{ game.name }}</p>
-            </div>
-            <div class="game-back--reverse d-flex justify-content-end align-items-end">
-                <div class="game-price text-bg-warning">£ {{ game.base_price }}</div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
 {% endblock %}
 
 {% block content %}
+<div class="carousel-container">
+  <div id="games-carousel" class="carousel slide container">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="0" class="active"
+        aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="1"
+        aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="2"
+        aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <!-- TEMPLATE for carousel slide -->
+      <div class="carousel-item active">
+        <div class="overlay d-block d-sm-none"></div>
+        <img src="{{ MEDIA_URL }}/3.jpg" class="d-block" alt="">
+        <div class="carousel-caption px-5 d-flex justify-content-between align-items-end">
+          <h3 class="fs-1 my-auto w-auto">Sekiro: Shadows Die Twice</h3>
+          <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span class="d-none d-sm-inline"> Add to Cart</span></button>
+        </div>
+      </div>
+      <!-- / -->
+      <div class="carousel-item">
+        <div class="overlay d-block d-sm-none"></div>
+        <img src="{{ MEDIA_URL }}/1.webp" class="d-block" alt="...">
+        <div class="carousel-caption px-5 d-flex justify-content-between align-items-end">
+          <h3 class="fs-1 my-auto w-auto">Watch Dogs: Legion</h3>
+          <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span class="d-none d-sm-inline"> Add to Cart</span></button>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="overlay d-block d-sm-none"></div>
+        <img src="{{ MEDIA_URL }}/2.jpg" class="d-block" alt="...">
+        <div class="carousel-caption px-5 d-flex justify-content-between align-items-end">
+          <h3 class="my-auto w-auto">Sekiro: Shadows Die Twice</h3>
+          <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span class="d-none d-sm-inline"> Add to Cart</span></button>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#games-carousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#games-carousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
 {% endblock %}
