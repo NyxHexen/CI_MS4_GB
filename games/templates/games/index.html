@@ -2,6 +2,33 @@
 {% load static %}
 
 {% block page_header %}
+<div class="container my-5">
+    <div class="games row">
+        {% for game in games %}
+        <div class="game col-sm-2 {% if game.in_promo %}sale{% endif %}">
+            <div class="game-cover--front">
+                <div class="game-cover-image">
+                    <img src="{{ MEDIA_URL }}{{ game.media.values.0.file }}" alt="">
+                </div>
+                <p class="game-title">{{ game.name }}</p>
+            </div>
+            <div class="game-cover--reverse">
+            </div>
+            <div class="game-back--front">
+                <p class="game-title">{{ game.name }}</p>
+            </div>
+            <div class="game-back--reverse d-flex justify-content-between align-items-end">
+                <div class="game-platforms">
+                    {% for platform in game.platforms.all %}
+                    <span>{{game.platforms}}</span>
+                    {% endfor %}
+                </div>
+                <div class="game-price text-bg-warning">£ {{ game.base_price }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
 
 {% block content %}
