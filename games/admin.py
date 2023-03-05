@@ -11,22 +11,31 @@ class RatingSetAdminInline(admin.StackedInline):
 
 class GameAdmin(admin.ModelAdmin):
     inlines = (RatingSetAdminInline,)
-    readonly_fields = ('id', 'slug','final_price',)
+    readonly_fields = ('id', 'slug','final_price_with_prefix', 'promo_percentage_with_suffix',
+                       'promo', 'in_promo',)
     list_display = ('id', 'name','slug',
-                    'publisher', 'release_date', 'base_price_with_prefix',
+                    'publisher', 'release_date', 'base_price',
                     'in_promo', 'promo_percentage_with_suffix',
-                    'final_price_with_prefix')
+                    'final_price_with_prefix',)
     filter_horizontal = ['developers', 'platforms', 'tags',
                          'genres','media',]
+    fields = ('id', 'name', 'slug', 'platforms', 'developers', 'publisher',
+              'genres', 'tags', 'media', 'base_price',
+              'in_promo', 'promo', 'promo_percentage_with_suffix',
+              'final_price_with_prefix',)
 
 
 class DLCAdmin(admin.ModelAdmin):
-    readonly_fields = ('id', 'slug','final_price',)
+    readonly_fields = ('id', 'slug','final_price_with_prefix', 'promo_percentage_with_suffix',
+                    'promo', 'in_promo',)
     list_display = ('id', 'name','slug',
-                    'publisher', 'release_date', 'base_price_with_prefix',
+                    'publisher', 'release_date', 'base_price',
                     'in_promo', 'promo_percentage_with_suffix',
                     'final_price_with_prefix')
     filter_horizontal = ['developers', 'tags','media',]
+    fields = ('id', 'name', 'slug', 'developers', 'publisher',
+            'tags', 'media', 'in_promo', 'promo',
+            'promo_percentage_with_suffix', 'final_price_with_prefix',)
 
 
 class RatingSetAdmin(admin.ModelAdmin):
