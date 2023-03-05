@@ -14,7 +14,8 @@ class GameAdmin(admin.ModelAdmin):
     readonly_fields = ('id', 'slug','final_price',)
     list_display = ('id', 'name','slug',
                     'publisher', 'release_date', 'base_price_with_prefix',
-                    'in_promo', 'promo_percentage_with_suffix', 'final_price_with_prefix')
+                    'in_promo', 'promo_percentage_with_suffix',
+                    'final_price_with_prefix')
     filter_horizontal = ['developers', 'platforms', 'tags',
                          'genres','media',]
     
