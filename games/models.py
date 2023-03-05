@@ -1,5 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+import os
 
 
 # Create your models here.
@@ -22,9 +25,10 @@ class CustomBaseModel(models.Model):
             self.slug = slugify(self.name)
         if "base_price" in self.__dict__:
             if self.base_price != 0.00:
-                self.final_price = self.base_price 
+                self.final_price = self.base_price
+        if "promo_percentage" in self.__dict__ and self.__dict__["promo_percentage"] != 0:
+            self.__dict__["final_price"] = float(self.__dict__["base_price"]) * (1 + (self.__dict__["promo_percentage"] / 100 * -1 ))
         super().save(*args, **kwargs)
-
 
 
 class Game(CustomBaseModel):
@@ -43,7 +47,7 @@ class Game(CustomBaseModel):
     promo = models.ForeignKey('promo.Promo', null=True, blank=True, on_delete=models.SET_NULL)
     promo_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, 
                                       blank=True)
-    promo_percentage = models.PositiveIntegerField(null=True, blank=True)
+    promo_percentage = models.PositiveIntegerField(default=0, null=True, blank=True)
     final_price = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     def __str__(self) -> str:
@@ -51,6 +55,19 @@ class Game(CustomBaseModel):
 
     def get_friendly_name(self):
         return self.name
+    
+    def promo_percentage_with_suffix(self):
+        return f'{self.promo_percentage}%'
+    
+    def base_price_with_prefix(self):
+        return f'£{self.base_price}'
+    
+    def final_price_with_prefix(self):
+        return f'£{self.final_price}'
+
+    promo_percentage_with_suffix.short_description = "Discount"
+    base_price_with_prefix.short_description = "Base Price"
+    final_price_with_prefix.short_description = "Final Price"
 
 
 class DLC(CustomBaseModel):
@@ -68,11 +85,10 @@ class DLC(CustomBaseModel):
     media = models.ManyToManyField('Media', blank=True)
     base_price = models.DecimalField(max_digits=6, decimal_places=2)
     in_promo = models.BooleanField(default=False, null=True, blank=True)
-    promo = models.ForeignKey('promo.Promo', null=True, blank=True, 
-                              on_delete=models.SET_NULL)
+    promo = models.ForeignKey('promo.Promo', null=True, blank=True, on_delete=models.SET_NULL)
     promo_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, 
                                       blank=True)
-    promo_percentage = models.PositiveIntegerField(null=True, blank=True)
+    promo_percentage = models.PositiveIntegerField(default=0, null=True, blank=True)
     final_price = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     def __str__(self) -> str:
@@ -80,6 +96,19 @@ class DLC(CustomBaseModel):
 
     def get_friendly_name(self):
         return self.name
+    
+    def promo_percentage_with_suffix(self):
+        return f'{self.promo_percentage}%'
+    
+    def base_price_with_prefix(self):
+        return f'£{self.base_price}'
+    
+    def final_price_with_prefix(self):
+        return f'£{self.final_price}'
+
+    promo_percentage_with_suffix.short_description = "Discount"
+    base_price_with_prefix.short_description = "Base Price"
+    final_price_with_prefix.short_description = "Final Price"
 
 
 
@@ -163,11 +192,6 @@ class Media(CustomBaseModel):
 
     def __str__(self) -> str:
         return self.name
-    
-
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-import os
 
 
 @receiver(pre_save, sender=Media)
