@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from ci_ms4_gamebox.utils import get_or_none
 from .models import *
 
@@ -16,14 +16,19 @@ class PromoAdminModel(admin.ModelAdmin):
                 if re.match(r"promo_percentage-\d+\b", key):
                     pk = int(key.split("-")[-1])
                     try:
-                        game = get_or_none(Game, id=pk).values('promo_percentage')
-                        dlc = get_or_none(DLC, id=pk).values('promo_percentage')
-                        game_list = game.union(dlc)
-                        if game_list.promo_percentage != int(value):
-                            game_list.promo_percentage = int(value)
-                            game_list.save()
+                        game_set = set()
+                        game = get_or_none(Game, id=pk)
+                        dlc = get_or_none(DLC, id=pk)
+                        if dlc is not None:
+                            game_set.add(dlc)
+                        elif (game is not None):
+                            game_set.add(game)
                     except Exception as e:
-                        print(e)
+                        messages.error(request, f'{e}')
+                    for item in game_set:
+                        if item.promo_percentage != int(value):
+                                item.promo_percentage = int(value)
+                                item.save()
         return super().save_model(request, *args, **kwargs)
 
 

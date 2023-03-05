@@ -17,7 +17,7 @@ def get_or_none(klass, *args, **kwargs):
             klass.__name__ if isinstance(klass, type) else klass.__class__.__name__
         )
         raise ValueError(
-            "First argument to get_object_or_404() must be a Model, Manager, "
+            "First argument to get_or_none() must be a Model, Manager, "
             "or QuerySet, not '%s'." % klass__name
         )
     try:

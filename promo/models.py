@@ -32,7 +32,6 @@ class Promo(CustomBaseModel):
             case 'pre_remove':
                 self.pre_remove = set(self.apply_to_game.all())
                 self.pre_remove = self.pre_remove.union(set(self.apply_to_dlc.all()))
-                print(self.pre_remove)
             case 'post_remove':
                 self.post_remove = set(self.apply_to_game.all())
                 self.post_remove = self.post_remove.union(set(self.apply_to_dlc.all()))
