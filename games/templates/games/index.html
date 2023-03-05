@@ -6,26 +6,42 @@
 <div class="container my-5">
     <div class="games row">
         {% for game in games %}
-        <div class="game col-sm-2 {% if game.in_promo %}sale{% endif %}">
+        <div class="game col-sm-2 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
             <div class="game-cover--front">
                 <div class="game-cover-image">
-                    <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER' }}" alt="">
+                    {% if game|use_media:'COVER.src' is not None %}
+                    <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}">
+                    {% else %}
+                    <img src="{{ MEDIA_URL }}noimage.jpg" alt="This game does not yet have a cover image!">
+                    {% endif %}
                 </div>
                 <p class="game-title">{{ game.name }}</p>
             </div>
-            <div class="game-cover--reverse">
+            <div class="game-cover--reverse d-flex justify-content-between align-items-end">
+                <div class="game-platforms d-flex">
+                    {% for platform in game.platforms.all %}
+                        {% if platform.file.icon is not None %}
+                            <img src="{{ platforms.file.name }}" alt="">
+                        {% else %}
+                            <div class="icon-verbal">
+                                {{ platform.name }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
             <div class="game-back--front">
                 <p class="game-title">{{ game.name }}</p>
             </div>
-            <div class="game-back--reverse d-flex justify-content-between align-items-end">
-                <div class="game-platforms">
-                    {% for platform in game.platforms.all %}
-                    <a href="#"><img src="{{game.platforms.icon}}" alt=""></a>
-                    
-                    {% endfor %}
+            <div class="game-back--reverse d-flex {% if game.in_promo and game.promo.active is True%} justify-content-end {% else %} justify-content-between {% endif %} align-items-end">
+                {% if game.in_promo and game.promo.active is True%}
+                <div class="promo-discount">
+                    -{{ game.promo_percentage }}%
                 </div>
-                <div class="game-price text-bg-warning">£ {{ game.base_price }}</div>
+                {% endif %}
+                <div class="game-price">£
+                    {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
+                </div>
             </div>
         </div>
         {% endfor %}
