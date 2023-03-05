@@ -45,8 +45,6 @@ class Game(CustomBaseModel):
     base_price = models.DecimalField(max_digits=6, decimal_places=2)
     in_promo = models.BooleanField(default=False, null=True, blank=True)
     promo = models.ForeignKey('promo.Promo', null=True, blank=True, on_delete=models.SET_NULL)
-    promo_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, 
-                                      blank=True)
     promo_percentage = models.PositiveIntegerField(default=0, null=True, blank=True)
     final_price = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
@@ -86,8 +84,6 @@ class DLC(CustomBaseModel):
     base_price = models.DecimalField(max_digits=6, decimal_places=2)
     in_promo = models.BooleanField(default=False, null=True, blank=True)
     promo = models.ForeignKey('promo.Promo', null=True, blank=True, on_delete=models.SET_NULL)
-    promo_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, 
-                                      blank=True)
     promo_percentage = models.PositiveIntegerField(default=0, null=True, blank=True)
     final_price = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
