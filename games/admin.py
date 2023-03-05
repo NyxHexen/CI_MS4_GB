@@ -18,7 +18,16 @@ class GameAdmin(admin.ModelAdmin):
                     'final_price_with_prefix')
     filter_horizontal = ['developers', 'platforms', 'tags',
                          'genres','media',]
-    
+
+
+class DLCAdmin(admin.ModelAdmin):
+    readonly_fields = ('id', 'slug','final_price',)
+    list_display = ('id', 'name','slug',
+                    'publisher', 'release_date', 'base_price_with_prefix',
+                    'in_promo', 'promo_percentage_with_suffix',
+                    'final_price_with_prefix')
+    filter_horizontal = ['developers', 'tags','media',]
+
 
 class RatingSetAdmin(admin.ModelAdmin):
     readonly_fields = ('game',)
@@ -26,7 +35,7 @@ class RatingSetAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Game, GameAdmin)
-admin.site.register(DLC)
+admin.site.register(DLC, DLCAdmin)
 admin.site.register(Genre)
 admin.site.register(Publisher)
 admin.site.register(Developer)

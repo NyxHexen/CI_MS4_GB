@@ -1,6 +1,7 @@
 from django.contrib import admin, messages
 from ci_ms4_gamebox.utils import get_or_none
-from .models import *
+from games.models import Game, DLC
+from .models import Promo
 
 import re
 
@@ -27,8 +28,8 @@ class PromoAdminModel(admin.ModelAdmin):
                         messages.error(request, f'{e}')
                     for item in game_set:
                         if item.promo_percentage != int(value):
-                                item.promo_percentage = int(value)
-                                item.save()
+                            item.promo_percentage = int(value)
+                            item.save()                                
         return super().save_model(request, *args, **kwargs)
 
 

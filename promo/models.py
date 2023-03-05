@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 
-from games.models import Game, DLC
 from games.models import CustomBaseModel
 from ci_ms4_gamebox.utils import get_or_none
 
