@@ -1,0 +1,13 @@
+{% extends 'admin/base.html' %}
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    th,
+    td[class*='column-'],
+    td[class*='column-'] a,
+    td[class*='field-']:not([class*='name'], [class*='slug']),
+    td[class*='field-']:not([class*='name'], [class*='slug']) a{
+        text-align: center;
+    }
+</style>
+{% endblock %}
