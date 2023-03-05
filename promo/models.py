@@ -38,6 +38,7 @@ class Promo(CustomBaseModel):
                 for i in self.pre_remove.difference(self.post_remove):
                     game = get_or_none(kwargs['model'], id=i.id)
                     game.in_promo = False
+                    game.promo = None
                     game.promo_percentage = 0
                     game.save()
             case 'pre_add':
