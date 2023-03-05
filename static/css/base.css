@@ -240,6 +240,7 @@ button {
 
 .game * {
     border-radius: 10px;
+    transform-origin: center;
 }
 
 .game>* {
@@ -269,36 +270,35 @@ button {
 }
 
 .game-cover--front {
-    transform: translateZ(75px);
+    transform: translateZ(40px);
 }
 
 .game-cover--reverse {
     position: absolute;
     top: 0;
-    width: calc(100% - (var(--bs-gutter-x) * .5) * 2);
     height: 100%;
     border-radius: 10px;
-    transform: rotateY(180deg) translateZ(75px);
+    transform: rotateY(180deg) translateZ(-39px);
 }
 
 .game-back--front {
     position: absolute;
-    width: calc(100% - (var(--bs-gutter-x) * .5) * 2);
     top: 20%;
-    transform: rotateY(180deg);
+    transform: rotateY(180deg) translateZ(40px);
 }
 
 .game-back--reverse {
     position: absolute;
     top: 20%;
-    width: calc(100% - (var(--bs-gutter-x) * .5) * 2);
     height: 100%;
     transform-style: preserve-3d;
-    padding: 0.3rem;
+    transform: translateZ(-39px);
 }
 
-.game:not(.sale) .game-back--reverse {
-    padding: 0.4rem !important;
+[class*='game-cover-']:not([class*='image'], .game-cover--front),
+[class*='game-back-']:not([class*='image'], img) {
+    width: calc(100% - (var(--bs-gutter-x) * .5) * 2);
+    padding: 0.4rem;
 }
 
 .game.sale .game-back--reverse {
@@ -340,22 +340,37 @@ button {
 .game .game-title {
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: -6px;
     z-index: 2;
     padding: 0 1rem;
 }
 
 .game .game-price {
-    font-size: .95rem;
+    font-size: .85rem;
     font-weight: bold;
     background-color: #ededed !important;
-    padding: 0.2rem 0.3rem 0.1rem;
+    padding: 0.1rem 0.3rem 0.1rem;
     border-radius: 6px !important;
     box-shadow: inset 0 1px 3px #1f1f1f;
 }
 
-.game:is(.sale) .game-price {
+.game .promo-discount {
+    font-size: .85rem;
+    font-weight: bold;
+    background-color: #ededed !important;
+    padding: 0.1rem 0.3rem 0.1rem;
+    border-radius: 6px !important;
+    box-shadow: inset 0 1px 3px #1f1f1f;
+}
+
+.game.sale .game-price,
+.game.sale .promo-discount {
     border: 1px solid #1f1f1f;
+    margin-left: .25rem;
+}
+
+.game.sale .game-back--reverse {
+    padding: calc(0.4rem - 2px);
 }
 
 /* LIGHT MODE */
@@ -440,50 +455,50 @@ button {
 
 @keyframes game-cover-front-flip {
     0% {
-        -webkit-transform: rotateY(0) translateY(0) translateZ(25px);
-        transform: rotateY(0) translateY(0) translateZ(25px);
+        -webkit-transform: rotateY(0) translateY(0) translateZ(40px);
+        transform: rotateY(0) translateY(0) translateZ(40px);
         --shadow-color: 0deg 0% 42% !important;
         /* Neutral */
     }
 
     100% {
-        -webkit-transform: rotateY(-180deg) translateY(20%) translateZ(25px);
-        transform: rotateY(-180deg) translateY(20%) translateZ(25px);
+        -webkit-transform: rotateY(-180deg) translateY(20%) translateZ(40px);
+        transform: rotateY(-180deg) translateY(20%) translateZ(40px);
     }
 }
 
 @keyframes game-cover-reverse-flip {
     0% {
-        -webkit-transform: rotateY(0) translateY(0) translateZ(24px);
-        transform: rotateY(0) translateY(0) translateZ(24px);
+        -webkit-transform: rotateY(180deg) translateY(0) translateZ(-39px);
+        transform: rotateY(180deg) translateY(0) translateZ(-39px);
     }
 
     100% {
-        -webkit-transform: rotateY(-180deg) translateY(20%) translateZ(24px);
-        transform: rotateY(-180deg) translateY(20%) translateZ(24px);
+        -webkit-transform: rotateY(0) translateY(20%) translateZ(-39px);
+        transform: rotateY(0) translateY(20%) translateZ(-39px);
     }
 }
 
 @keyframes game-back-front-flip {
     0% {
-        -webkit-transform: rotateY(180deg) translateY(0);
-        transform: rotateY(180deg) translateY(0);
+        -webkit-transform: rotateY(180deg) translateY(0) translateZ(40px);
+        transform: rotateY(180deg) translateY(0) translateZ(40px);
     }
 
     100% {
-        -webkit-transform: rotateY(0deg) translateY(-20%);
-        transform: rotateY(0deg) translateY(-20%);
+        -webkit-transform: rotateY(0deg) translateY(-20%) translateZ(40px);
+        transform: rotateY(0deg) translateY(-20%) translateZ(40px);
     }
 }
 
 @keyframes game-back-reverse-flip {
     0% {
-        -webkit-transform: rotateY(0deg) translateY(0) translateZ(1px);
-        transform: rotateY(0deg) translateY(0) translateZ(1px);
+        -webkit-transform: rotateY(0deg) translateY(0) translateZ(-39px);
+        transform: rotateY(0deg) translateY(0) translateZ(-39px);
     }
 
     100% {
-        -webkit-transform: rotateY(-180deg) translateY(-20%) translateZ(1px);
-        transform: rotateY(-180deg) translateY(-20%) translateZ(1px);
+        -webkit-transform: rotateY(-180deg) translateY(-20%) translateZ(-39px);
+        transform: rotateY(-180deg) translateY(-20%) translateZ(-39px);
     }
 }
