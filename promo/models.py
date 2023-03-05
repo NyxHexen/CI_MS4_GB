@@ -27,6 +27,7 @@ class Promo(CustomBaseModel):
     post_remove = None
     
     def _update_games(self, **kwargs):
+        promo = self
         match kwargs["action"]:
             case 'pre_remove':
                 self.pre_remove = set(self.apply_to_game.all())
@@ -48,6 +49,7 @@ class Promo(CustomBaseModel):
                 for i in self.post_add.difference(self.pre_add):
                     game = get_or_none(kwargs['model'], id=i.id)
                     game.in_promo = True
+                    game.promo = promo
                     game.save()
 
     def delete(self, using=None, keep_parents=False):
