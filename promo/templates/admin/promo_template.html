@@ -1,0 +1,61 @@
+{% extends "admin/change_form.html" %}
+{% load promo_tags %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+  #promo_games {
+    width: 100%;
+  }
+</style>
+{% endblock %}
+
+{% block field_sets %}
+{{ block.super }}
+
+{{ fieldsets }}
+
+<fieldset>
+<table id="promo_games">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Slug</th>
+      <th>Base Price</th>
+      <th>Discount %</th>
+      <th>Discount Price</th>
+      <th>Final Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in subtitle|promo_games %}
+    <tr>
+      <td>
+        {{ i.id }}
+      </td>
+      <td>
+        {{ i.name }}
+      </td>
+      <td>
+        {{ i.slug }}
+      </td>
+      <td>
+        {{ i.base_price }}
+      </td>
+      <td>
+        <input type="text" name="promo_percentage-{{ i.id }}" id="promo_percentage-{{ i.id }}" value="{{i.promo_percentage}}">
+      </td>
+      <td>
+        {{ i.promo_price }}
+      </td>
+      <td>
+        {{ i.final_price }}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</fieldset>
+<br>
+{% endblock %}
