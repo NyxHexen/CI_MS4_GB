@@ -267,6 +267,7 @@ button {
 
 .game-cover--front {
     transform: translateZ(40px);
+    pointer-events: none;
 }
 
 .game-cover--reverse {
@@ -336,7 +337,6 @@ button {
     position: absolute;
     left: 0;
     bottom: -6px;
-    z-index: 2;
     padding: 0 1rem;
 }
 
@@ -482,7 +482,6 @@ button {
         -webkit-transform: rotateY(0) translateY(0) translateZ(40px);
         transform: rotateY(0) translateY(0) translateZ(40px);
         --shadow-color: 0deg 0% 42% !important;
-        /* Neutral */
     }
 
     100% {
