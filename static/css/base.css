@@ -200,10 +200,6 @@ button {
     border-color: transparent;
 }
 
-/* .carousel-control-next {
-    right: -10%;
-} */
-
 @media (max-width: 576px) {
     .carousel-indicators {
         bottom: -43px;
@@ -328,7 +324,6 @@ button {
     background: -webkit-linear-gradient(180deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 1) 100%);
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#000000", GradientType=1);
-    z-index: 1;
 }
 
 .game-cover-image img {
@@ -337,7 +332,7 @@ button {
     object-fit: cover;
 }
 
-.game .game-title {
+.game-title {
     position: absolute;
     left: 0;
     bottom: -6px;
@@ -345,32 +340,61 @@ button {
     padding: 0 1rem;
 }
 
-.game .game-price {
-    font-size: .85rem;
-    font-weight: bold;
-    background-color: #ededed !important;
-    padding: 0.1rem 0.3rem 0.1rem;
+.game-price,
+.promo-discount {
+    font-size: .9rem;
+    font-weight: bolder;
+    padding: 0.1rem 0.4rem 0;
     border-radius: 6px !important;
+}
+
+.game-price {
+    background-color: #ededed !important;
     box-shadow: inset 0 1px 3px #1f1f1f;
 }
 
-.game .promo-discount {
-    font-size: .85rem;
-    font-weight: bold;
-    background-color: #ededed !important;
-    padding: 0.1rem 0.3rem 0.1rem;
-    border-radius: 6px !important;
-    box-shadow: inset 0 1px 3px #1f1f1f;
+.promo-discount {
+    color: white;
+    background-color: #6f2dbd !important;
+    margin-bottom: 1px;
 }
 
-.game.sale .game-price,
-.game.sale .promo-discount {
+.game.sale .game-price {
     border: 1px solid #1f1f1f;
     margin-left: .25rem;
 }
 
 .game.sale .game-back--reverse {
     padding: calc(0.4rem - 2px);
+}
+
+.game-platforms {
+    min-height: 28px;
+    margin-left: .25rem;
+}
+
+.game-platforms img {
+    border-radius: 0;
+    height: fit-content;
+    width: 24px;
+    margin: 0 .25rem .1rem 0;
+    filter: invert(0%) sepia(26%) saturate(2976%) hue-rotate(73deg) brightness(88%) contrast(87%);
+}
+
+.game .add-cart {
+    background-color: #1f1f1f;
+    color: white;
+    padding: 0 .4rem;
+    font-size: 1.25rem;
+    border-radius: 5px;
+}
+
+.game .add-cart i {
+    padding-top: .1rem;
+}
+
+.game .add-cart span {
+    font-size: 1rem;
 }
 
 /* LIGHT MODE */
