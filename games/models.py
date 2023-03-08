@@ -4,7 +4,6 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 import os
 
-
 # Create your models here.
 
 class CustomBaseModel(models.Model):
@@ -156,7 +155,7 @@ class Platform(CustomBaseModel):
 
     def __str__(self) -> str:
         return self.name
-
+    
 
 class Tag(CustomBaseModel):
     name = models.CharField(max_length=254)
@@ -178,8 +177,7 @@ class Media(CustomBaseModel):
 
     name = models.CharField(max_length=254)
     slug = models.SlugField(max_length=254, null=True, blank=True)
-    file = models.FileField(null=True, blank=True)
-    media_url = models.URLField(max_length=1024, null=True, blank=True)
+    file = models.ImageField(null=True, blank=True)
     media_type = models.CharField(max_length=6, null=True,
                                   choices=[('image', 'Image'), ('video', 'Video')])
     media_use = models.CharField(max_length=24, default=MediaUseChoices.OTHER, choices=MediaUseChoices.choices)
