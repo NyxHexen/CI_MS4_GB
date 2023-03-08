@@ -246,23 +246,23 @@ button {
 }
 
 .game:hover .game-cover--front {
-    -webkit-animation: game-cover-front-flip 0.4s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
-    animation: game-cover-front-flip 0.4s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+    -webkit-animation: game-cover-front-flip 0.4s 0.15s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+    animation: game-cover-front-flip 0.4s 0.15s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
 }
 
 .game:hover .game-cover--reverse {
-    -webkit-animation: game-cover-reverse-flip 0.4s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
-    animation: game-cover-reverse-flip 0.4s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+    -webkit-animation: game-cover-reverse-flip 0.4s 0.15s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+    animation: game-cover-reverse-flip 0.4s 0.15s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
 }
 
 .game:hover .game-back--front {
-    -webkit-animation: game-back-front-flip 0.4s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
-    animation: game-back-front-flip 0.4s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+    -webkit-animation: game-back-front-flip 0.4s 0.15s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+    animation: game-back-front-flip 0.4s 0.15s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
 }
 
 .game:hover .game-back--reverse {
-    -webkit-animation: game-back-reverse-flip 0.4s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
-    animation: game-back-reverse-flip 0.4s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+    -webkit-animation: game-back-reverse-flip 0.4s 0.15s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+    animation: game-back-reverse-flip 0.4s 0.15s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
 }
 
 .game-cover--front {
