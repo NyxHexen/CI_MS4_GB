@@ -232,6 +232,7 @@ button {
 .game {
     position: relative;
     transform-style: preserve-3d;
+    margin-bottom: 4rem;
 }
 
 .game * {
@@ -267,7 +268,6 @@ button {
 
 .game-cover--front {
     transform: translateZ(40px);
-    pointer-events: none;
 }
 
 .game-cover--reverse {
@@ -325,6 +325,7 @@ button {
     background: -webkit-linear-gradient(180deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 1) 100%);
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#000000", GradientType=1);
+    pointer-events: none;
 }
 
 .game-cover-image img {
