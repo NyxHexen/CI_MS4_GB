@@ -6,6 +6,53 @@
 
 {% block content %}
 <div class="carousel-container">
+  
+  <svg>
+    <style>
+      #top-side { fill: url(#box-gradient-top); }
+      #left-side { fill: url(#box-gradient-left); }
+      #right-side { fill: url(#box-gradient-right); }
+      #bottom-side { fill: url(#box-gradient-bottom); }
+      .stop1 { stop-color: black; stop-opacity: .1; }
+      .stop2 { stop-color: black; stop-opacity: .5; }
+    </style>
+
+    <defs>
+      <linearGradient id="box-gradient-top"
+      gradientTransform="rotate(90)">
+        <stop class="stop1" offset="0%" />
+        <stop class="stop2" offset="100%" />
+      </linearGradient>
+
+      <linearGradient id="box-gradient-left">
+        <stop class="stop1" offset="0%" />
+        <stop class="stop2" offset="100%" />
+      </linearGradient>
+
+      <linearGradient id="box-gradient-right">
+        <stop class="stop2" offset="0%" />
+        <stop class="stop1" offset="100%" />
+      </linearGradient>
+
+      <linearGradient id="box-gradient-bottom"
+      gradientTransform="rotate(90)">
+        <stop class="stop2" offset="0%" />
+        <stop class="stop1" offset="100%" />
+      </linearGradient>
+    </defs>
+
+    <polygon id="top-side" points="0,0 1835,0 1605,110 230,110" />
+    <polygon id="top-side-blur" points="0,0 1835,0 1605,110 230,110" fill="none" stroke="#1f1f1f" stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-1835" />
+    <polygon id="left-side" points="0,990 0,0 230,110 230,884"/>
+    <polygon id="left-side-blur" points="0,990 0,0 230,110 230,884" fill="none" stroke="#1f1f1f" stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-990" />
+    <polygon id="right-side" points="1605,884 1605,110 1835,0 1835,990"  />
+    <polygon id="right-side-blur" points="1835,0 1835,990 1605,884 1605,110" fill="none" stroke="#1f1f1f" stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-990" />
+    <polygon id="bottom-side" points="0,990 1835,990 1605,884 230,884" />
+    <polygon id="bottom-side-blur" points="1835,990 0,990 230,884 1605,884" fill="none" stroke="#1f1f1f" stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-1835" />
+    <rect id="box-bottom-shadows" x="230" y="110" width="1375" height="778" stroke="#1f1f1f" fill="none" stroke-width="20"/>
+    <rect id="box-bottom" x="230" y="110" width="1375" height="778" fill="none"/>
+  </svg>
+
   <div id="games-carousel" class="carousel slide container">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="0" class="active"

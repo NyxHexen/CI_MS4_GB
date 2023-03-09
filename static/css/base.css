@@ -127,18 +127,61 @@ button {
 }
 
 /* Carousel */
+svg {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    /* z-index: 10000; */
+}
+
+svg * {
+    transform-box: fill-box;
+    transform-origin: center center;
+}
+
+#box-bottom-shadows {
+    filter: blur(15px);
+}
+
+[id*='-side-blur'] {
+    filter: blur(20px);
+}
+
 .carousel-container {
     --shadow-color: 0deg 0% 25%;
-    background-color: hsl(0, 0%, 50%);
+    background-color: hsl(0, 0%, 100%);
     padding: 8.5rem 0;
     margin-top: -7rem;
 }
 
 #games-carousel {
-    --shadow-color: 0deg 0% 25%;
     width: 98vw;
     background-color: #1f1f1f;
     padding: 0 !important;
+    z-index: 1;
+}
+
+#games-carousel::before {
+    position: absolute;
+    content: '';
+    inset: -3px;
+    height: calc(100% + 6px);
+    width: calc(100% + 6px);
+    background-color: hsl(0, 0%, 0%);
+    filter: blur(5px);
+    z-index: 0;
+}
+
+#games-carousel::after {
+    position: absolute;
+    content: '';
+    inset: -3px;
+    height: calc(100% + 15px);
+    width: calc(100% + 15px);
+    background-color: hsl(88deg 100% 29%);
+    filter: blur(15px);
+    z-index: -1;
 }
 
 #games-carousel,
