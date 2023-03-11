@@ -31,25 +31,20 @@
       </linearGradient>
     </defs>
 
-    <polygon id="top-side" points="0,0 1835,0 1605,110 230,110" />
-    <polygon id="top-side-blur" points="0,0 1835,0 1605,110 230,110" fill="none" stroke="#1f1f1f"
-      stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-1835" />
+    <polygon id="top-side" />
+    <polygon id="top-side-blur" fill="none" stroke="#575757" stroke-width="20" />
 
-    <polygon id="left-side" points="0,990 0,0 230,110 230,884" />
-    <polygon id="left-side-blur" points="0,990 0,0 230,110 230,884" fill="none" stroke="#1f1f1f"
-      stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-990" />
+    <polygon id="left-side" />
+    <polygon id="left-side-blur" fill="none" stroke="#575757" stroke-width="20" />
 
-    <polygon id="right-side" points="1605,884 1605,110 1835,0 1835,990" />
-    <polygon id="right-side-blur" points="1835,0 1835,990 1605,884 1605,110" fill="none" stroke="#1f1f1f"
-      stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-990" />
+    <polygon id="right-side" />
+    <polygon id="right-side-blur" fill="none" stroke="#575757" stroke-width="20" />
 
-    <polygon id="bottom-side" points="0,990 1835,990 1605,884 230,884" />
-    <polygon id="bottom-side-blur" points="1835,990 0,990 230,884 1605,884" fill="none" stroke="#1f1f1f"
-      stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-1835" />
+    <polygon id="bottom-side" />
+    <polygon id="bottom-side-blur" fill="none" stroke="#575757" stroke-width="20" />
 
-    <rect id="box-bottom" x="230" y="110" width="1375" height="778" fill="none" />
-    <rect id="box-bottom-shadows" x="230" y="110" width="1375" height="778" stroke="#1f1f1f" fill="none"
-      stroke-width="20" />
+    <rect id="box-bottom" fill="#404040" />
+    <rect id="box-bottom-shadows" stroke="#575757" fill="none" stroke-width="20" />
   </svg>
 
   <div id="games-carousel" class="carousel slide container">
@@ -127,7 +122,7 @@
 
   .stop2 {
     stop-color: black;
-    stop-opacity: .5;
+    stop-opacity: .8;
   }
 </style>
 {% endblock %}
@@ -150,28 +145,28 @@
   // Polygons - sides of box
 
   // Height of polygons for top and bottom
-  const ySideHeight = Math.floor((carouselContainer.offsetHeight - gamesCarousel.offsetHeight) / 2 - (gamesCarousel
+  const ySideWidth = Math.floor((carouselContainer.offsetHeight - gamesCarousel.offsetHeight) / 2 - (gamesCarousel
     .offsetHeight * 0.05));
 
   // Width of polygons for left and right
-  const xSideWidth = Math.floor((carouselContainer.offsetWidth - gamesCarousel.offsetWidth) / 2 - (gamesCarousel
+  const xSideHeight = Math.floor((carouselContainer.offsetWidth - gamesCarousel.offsetWidth) / 2 - (gamesCarousel
     .offsetWidth * 0.025));
-  console.log(xSideWidth);
 
   // Generate points for top side based on screen size
   const topPointA = "0,0";
   const topPointB = `${carouselContainer.offsetWidth},0`;
-  const topPointC = `${xSideWidth + gamesCarousel.offsetWidth * 1.05},${ySideHeight}`;
-  const topPointD = `${xSideWidth},${ySideHeight}`;
+  const topPointC = `${Math.floor(xSideHeight + gamesCarousel.offsetWidth * 1.05)},${ySideWidth}`;
+  const topPointD = `${xSideHeight},${ySideWidth}`;
 
   // Generate points for left side based on screen size
   const leftPointA = `0,${carouselContainer.offsetHeight}`;
   const leftPointB = "0,0";
   const leftPointC = topPointD;
-  const leftPointD = `${xSideWidth},${ySideHeight + gamesCarousel.offsetHeight * 1.08}`;
+  const leftPointD = `${xSideHeight},${Math.floor(ySideWidth + gamesCarousel.offsetHeight * 1.08)}`;
 
   // Generate points for right side based on screen size
-  const rightPointA = `${xSideWidth + gamesCarousel.offsetWidth * 1.05},${ySideHeight + gamesCarousel.offsetHeight * 1.08}`;
+  const rightPointA =
+    `${Math.floor(xSideHeight + gamesCarousel.offsetWidth * 1.05)},${Math.floor(ySideWidth + gamesCarousel.offsetHeight * 1.08)}`;
   const rightPointB = topPointC;
   const rightPointC = topPointB;
   const rightPointD = `${carouselContainer.offsetWidth},${carouselContainer.offsetHeight}`;
@@ -184,8 +179,7 @@
   const bottomPointD = leftPointD;
 
   // Find dash-array value by finding the length of the side (diagonal) polygon sides.
-  const dashArrayValue = Math.sqrt(Math.pow(ySideHeight, 2) + Math.pow(Math.floor(carouselContainer.offsetWidth - (
-    carouselContainer.offsetWidth - carouselContainer.offsetWidth * .13)), 2));
+  const dashArrayValue = Math.sqrt(Math.pow(xSideHeight, 2) + Math.pow(carouselContainer.offsetWidth - ySideWidth, 2));
 
   // Collect and format all points before feeding to setPoints()
   const points = {
@@ -200,17 +194,17 @@
   const boxBottomBlur = document.getElementById('box-bottom-shadows');
 
   [boxBottom, boxBottomBlur].forEach(element => {
-    element.setAttribute('x', Math.floor(carouselContainer.offsetWidth - carouselContainer.offsetWidth * .87));
-    element.setAttribute('y', ySideHeight)
-    element.setAttribute('width', carouselContainer.offsetWidth - (Math.floor(carouselContainer.offsetWidth -
-      carouselContainer.offsetWidth * .87) * 2));
-    element.setAttribute('height', xSideWidth - ySideHeight);
+    element.setAttribute('x', xSideHeight);
+    element.setAttribute('y', ySideWidth)
+    element.setAttribute('width', Math.floor(gamesCarousel.offsetWidth * 1.05))
+    element.setAttribute('height', Math.floor(gamesCarousel.offsetHeight * 1.08));
   })
 
   function setPoints(side) {
     let element = sides[side];
     let elementBlur = document.getElementById(`${side}-side-blur`);
     let elementPoints = points[side];
+    console.log(points[side]);
     element.setAttribute('points', elementPoints);
     // Some of the element points have been swapped around 
     // in the blur polygons (shadow effect) to make it easier to reuse vars

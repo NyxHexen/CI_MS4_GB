@@ -143,7 +143,7 @@ svg * {
 }
 
 [id*='-side-blur'] {
-    filter: blur(20px);
+    filter: blur(25px);
 }
 
 .carousel-container {
@@ -154,7 +154,7 @@ svg * {
 }
 
 #games-carousel {
-    width: 70vw;
+    width: 60vw;
     background-color: #1f1f1f;
     padding: 0 !important;
     z-index: 1;
