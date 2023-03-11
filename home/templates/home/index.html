@@ -149,29 +149,29 @@
 
   // Polygons - sides of box
 
-  // Find height of sides of polygons for top and bottom
-  const ySideHeight = Math.floor((carouselContainer.offsetHeight - gamesCarousel.offsetHeight) / 2 - (((
-    carouselContainer.offsetHeight - gamesCarousel.offsetHeight) / 2) * .2));
+  // Height of polygons for top and bottom
+  const ySideHeight = Math.floor((carouselContainer.offsetHeight - gamesCarousel.offsetHeight) / 2 - (gamesCarousel
+    .offsetHeight * 0.05));
 
-  // Find width of sides of polygons for left and right
-  const xSideWidth = Math.floor((gamesCarousel.offsetHeight + ((carouselContainer.offsetHeight - gamesCarousel
-    .offsetHeight) / 2) + ((carouselContainer.offsetHeight - gamesCarousel.offsetHeight) / 2) * .1));
+  // Width of polygons for left and right
+  const xSideWidth = Math.floor((carouselContainer.offsetWidth - gamesCarousel.offsetWidth) / 2 - (gamesCarousel
+    .offsetWidth * 0.025));
+  console.log(xSideWidth);
 
   // Generate points for top side based on screen size
   const topPointA = "0,0";
   const topPointB = `${carouselContainer.offsetWidth},0`;
-  const topPointC = `${Math.floor(carouselContainer.offsetWidth - carouselContainer.offsetWidth * .13)},${ySideHeight}`;
-  const topPointD = `${Math.floor(carouselContainer.offsetWidth - carouselContainer.offsetWidth * .87)},${ySideHeight}`;
+  const topPointC = `${xSideWidth + gamesCarousel.offsetWidth * 1.05},${ySideHeight}`;
+  const topPointD = `${xSideWidth},${ySideHeight}`;
 
   // Generate points for left side based on screen size
   const leftPointA = `0,${carouselContainer.offsetHeight}`;
   const leftPointB = "0,0";
   const leftPointC = topPointD;
-  const leftPointD = `${Math.floor(carouselContainer.offsetWidth - carouselContainer.offsetWidth * .87)},${xSideWidth}`;
+  const leftPointD = `${xSideWidth},${ySideHeight + gamesCarousel.offsetHeight * 1.08}`;
 
   // Generate points for right side based on screen size
-  const rightPointA =
-    `${Math.floor(carouselContainer.offsetWidth - carouselContainer.offsetWidth * .13)},${xSideWidth}`;
+  const rightPointA = `${xSideWidth + gamesCarousel.offsetWidth * 1.05},${ySideHeight + gamesCarousel.offsetHeight * 1.08}`;
   const rightPointB = topPointC;
   const rightPointC = topPointB;
   const rightPointD = `${carouselContainer.offsetWidth},${carouselContainer.offsetHeight}`;
@@ -198,7 +198,7 @@
 
   const boxBottom = document.getElementById('box-bottom');
   const boxBottomBlur = document.getElementById('box-bottom-shadows');
-  
+
   [boxBottom, boxBottomBlur].forEach(element => {
     element.setAttribute('x', Math.floor(carouselContainer.offsetWidth - carouselContainer.offsetWidth * .87));
     element.setAttribute('y', ySideHeight)
