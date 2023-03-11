@@ -130,9 +130,7 @@ button {
 svg {
     position: absolute;
     inset: 0;
-    height: 100%;
     width: 100%;
-    /* z-index: 10000; */
 }
 
 svg * {
@@ -156,7 +154,7 @@ svg * {
 }
 
 #games-carousel {
-    width: 98vw;
+    width: 70vw;
     background-color: #1f1f1f;
     padding: 0 !important;
     z-index: 1;

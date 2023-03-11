@@ -6,20 +6,11 @@
 
 {% block content %}
 <div class="carousel-container">
-  
-  <svg>
-    <style>
-      #top-side { fill: url(#box-gradient-top); }
-      #left-side { fill: url(#box-gradient-left); }
-      #right-side { fill: url(#box-gradient-right); }
-      #bottom-side { fill: url(#box-gradient-bottom); }
-      .stop1 { stop-color: black; stop-opacity: .1; }
-      .stop2 { stop-color: black; stop-opacity: .5; }
-    </style>
+
+  <svg id="game-box">
 
     <defs>
-      <linearGradient id="box-gradient-top"
-      gradientTransform="rotate(90)">
+      <linearGradient id="box-gradient-top" gradientTransform="rotate(90)">
         <stop class="stop1" offset="0%" />
         <stop class="stop2" offset="100%" />
       </linearGradient>
@@ -34,33 +25,39 @@
         <stop class="stop1" offset="100%" />
       </linearGradient>
 
-      <linearGradient id="box-gradient-bottom"
-      gradientTransform="rotate(90)">
+      <linearGradient id="box-gradient-bottom" gradientTransform="rotate(90)">
         <stop class="stop2" offset="0%" />
         <stop class="stop1" offset="100%" />
       </linearGradient>
     </defs>
 
     <polygon id="top-side" points="0,0 1835,0 1605,110 230,110" />
-    <polygon id="top-side-blur" points="0,0 1835,0 1605,110 230,110" fill="none" stroke="#1f1f1f" stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-1835" />
-    <polygon id="left-side" points="0,990 0,0 230,110 230,884"/>
-    <polygon id="left-side-blur" points="0,990 0,0 230,110 230,884" fill="none" stroke="#1f1f1f" stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-990" />
-    <polygon id="right-side" points="1605,884 1605,110 1835,0 1835,990"  />
-    <polygon id="right-side-blur" points="1835,0 1835,990 1605,884 1605,110" fill="none" stroke="#1f1f1f" stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-990" />
+    <polygon id="top-side-blur" points="0,0 1835,0 1605,110 230,110" fill="none" stroke="#1f1f1f"
+      stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-1835" />
+
+    <polygon id="left-side" points="0,990 0,0 230,110 230,884" />
+    <polygon id="left-side-blur" points="0,990 0,0 230,110 230,884" fill="none" stroke="#1f1f1f"
+      stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-990" />
+
+    <polygon id="right-side" points="1605,884 1605,110 1835,0 1835,990" />
+    <polygon id="right-side-blur" points="1835,0 1835,990 1605,884 1605,110" fill="none" stroke="#1f1f1f"
+      stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-990" />
+
     <polygon id="bottom-side" points="0,990 1835,990 1605,884 230,884" />
-    <polygon id="bottom-side-blur" points="1835,990 0,990 230,884 1605,884" fill="none" stroke="#1f1f1f" stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-1835" />
-    <rect id="box-bottom-shadows" x="230" y="110" width="1375" height="778" stroke="#1f1f1f" fill="none" stroke-width="20"/>
-    <rect id="box-bottom" x="230" y="110" width="1375" height="778" fill="none"/>
+    <polygon id="bottom-side-blur" points="1835,990 0,990 230,884 1605,884" fill="none" stroke="#1f1f1f"
+      stroke-dasharray="253 1835" stroke-width="20" stroke-dashoffset="-1835" />
+
+    <rect id="box-bottom" x="230" y="110" width="1375" height="778" fill="none" />
+    <rect id="box-bottom-shadows" x="230" y="110" width="1375" height="778" stroke="#1f1f1f" fill="none"
+      stroke-width="20" />
   </svg>
 
   <div id="games-carousel" class="carousel slide container">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="0" class="active"
-        aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="1"
-        aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="2"
-        aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="0" class="active" aria-current="true"
+        aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
     <div class="carousel-inner">
       <!-- TEMPLATE for carousel slide -->
@@ -69,7 +66,8 @@
         <img src="{{ MEDIA_URL }}/3.jpg" class="d-block" alt="">
         <div class="carousel-caption px-5 d-flex justify-content-between align-items-end">
           <h3 class="fs-1 my-auto w-auto">Sekiro: Shadows Die Twice</h3>
-          <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span class="d-none d-sm-inline"> Add to Cart</span></button>
+          <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span
+              class="d-none d-sm-inline"> Add to Cart</span></button>
         </div>
       </div>
       <!-- / -->
@@ -78,7 +76,8 @@
         <img src="{{ MEDIA_URL }}/1.webp" class="d-block" alt="...">
         <div class="carousel-caption px-5 d-flex justify-content-between align-items-end">
           <h3 class="fs-1 my-auto w-auto">Watch Dogs: Legion</h3>
-          <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span class="d-none d-sm-inline"> Add to Cart</span></button>
+          <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span
+              class="d-none d-sm-inline"> Add to Cart</span></button>
         </div>
       </div>
       <div class="carousel-item">
@@ -86,7 +85,8 @@
         <img src="{{ MEDIA_URL }}/2.jpg" class="d-block" alt="...">
         <div class="carousel-caption px-5 d-flex justify-content-between align-items-end">
           <h3 class="my-auto w-auto">Sekiro: Shadows Die Twice</h3>
-          <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span class="d-none d-sm-inline"> Add to Cart</span></button>
+          <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span
+              class="d-none d-sm-inline"> Add to Cart</span></button>
         </div>
       </div>
     </div>
@@ -100,4 +100,142 @@
     </button>
   </div>
 </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  #top-side {
+    fill: url(#box-gradient-top);
+  }
+
+  #left-side {
+    fill: url(#box-gradient-left);
+  }
+
+  #right-side {
+    fill: url(#box-gradient-right);
+  }
+
+  #bottom-side {
+    fill: url(#box-gradient-bottom);
+  }
+
+  .stop1 {
+    stop-color: black;
+    stop-opacity: .1;
+  }
+
+  .stop2 {
+    stop-color: black;
+    stop-opacity: .5;
+  }
+</style>
+{% endblock %}
+
+{% block postloadjs %}
+<script>
+  const carouselContainer = document.querySelector('.carousel-container');
+  const gamesCarousel = document.querySelector('#games-carousel');
+
+  const svgObject = document.getElementById('game-box');
+  const sides = {
+    top: document.getElementById('top-side'),
+    left: document.getElementById('left-side'),
+    right: document.getElementById('right-side'),
+    bottom: document.getElementById('bottom-side'),
+  };
+
+  svgObject.setAttribute('height', Math.floor(carouselContainer.offsetHeight) - 5);
+
+  // Polygons - sides of box
+
+  // Find height of sides of polygons for top and bottom
+  const ySideHeight = Math.floor((carouselContainer.offsetHeight - gamesCarousel.offsetHeight) / 2 - (((
+    carouselContainer.offsetHeight - gamesCarousel.offsetHeight) / 2) * .2));
+
+  // Find width of sides of polygons for left and right
+  const xSideWidth = Math.floor((gamesCarousel.offsetHeight + ((carouselContainer.offsetHeight - gamesCarousel
+    .offsetHeight) / 2) + ((carouselContainer.offsetHeight - gamesCarousel.offsetHeight) / 2) * .1));
+
+  // Generate points for top side based on screen size
+  const topPointA = "0,0";
+  const topPointB = `${carouselContainer.offsetWidth},0`;
+  const topPointC = `${Math.floor(carouselContainer.offsetWidth - carouselContainer.offsetWidth * .13)},${ySideHeight}`;
+  const topPointD = `${Math.floor(carouselContainer.offsetWidth - carouselContainer.offsetWidth * .87)},${ySideHeight}`;
+
+  // Generate points for left side based on screen size
+  const leftPointA = `0,${carouselContainer.offsetHeight}`;
+  const leftPointB = "0,0";
+  const leftPointC = topPointD;
+  const leftPointD = `${Math.floor(carouselContainer.offsetWidth - carouselContainer.offsetWidth * .87)},${xSideWidth}`;
+
+  // Generate points for right side based on screen size
+  const rightPointA =
+    `${Math.floor(carouselContainer.offsetWidth - carouselContainer.offsetWidth * .13)},${xSideWidth}`;
+  const rightPointB = topPointC;
+  const rightPointC = topPointB;
+  const rightPointD = `${carouselContainer.offsetWidth},${carouselContainer.offsetHeight}`;
+
+  // Generate points for bottom side based on screen size
+  // We already have most of the points calculated, so we just assign a variable as value
+  const bottomPointA = leftPointA;
+  const bottomPointB = rightPointD;
+  const bottomPointC = rightPointA;
+  const bottomPointD = leftPointD;
+
+  // Find dash-array value by finding the length of the side (diagonal) polygon sides.
+  const dashArrayValue = Math.sqrt(Math.pow(ySideHeight, 2) + Math.pow(Math.floor(carouselContainer.offsetWidth - (
+    carouselContainer.offsetWidth - carouselContainer.offsetWidth * .13)), 2));
+
+  // Collect and format all points before feeding to setPoints()
+  const points = {
+    top: `${topPointA} ${topPointB} ${topPointC} ${topPointD}`,
+    left: `${leftPointA} ${leftPointB} ${leftPointC} ${leftPointD}`,
+    right: `${rightPointA} ${rightPointB} ${rightPointC} ${rightPointD}`,
+    bottom: `${bottomPointA} ${bottomPointB} ${bottomPointC} ${bottomPointD}`,
+  };
+
+
+  const boxBottom = document.getElementById('box-bottom');
+  const boxBottomBlur = document.getElementById('box-bottom-shadows');
+  
+  [boxBottom, boxBottomBlur].forEach(element => {
+    element.setAttribute('x', Math.floor(carouselContainer.offsetWidth - carouselContainer.offsetWidth * .87));
+    element.setAttribute('y', ySideHeight)
+    element.setAttribute('width', carouselContainer.offsetWidth - (Math.floor(carouselContainer.offsetWidth -
+      carouselContainer.offsetWidth * .87) * 2));
+    element.setAttribute('height', xSideWidth - ySideHeight);
+  })
+
+  function setPoints(side) {
+    let element = sides[side];
+    let elementBlur = document.getElementById(`${side}-side-blur`);
+    let elementPoints = points[side];
+    element.setAttribute('points', elementPoints);
+    // Some of the element points have been swapped around 
+    // in the blur polygons (shadow effect) to make it easier to reuse vars
+    // so we do some small tweaks as efficiently as possible.
+    if (side == "right") {
+      const pointsArray = elementPoints.match(/[\d,]+/g); // Extract points as an array
+      const reorderedArray = [pointsArray[2], pointsArray[3], pointsArray[0], pointsArray[1]]; // Reorder array
+      elementPoints = reorderedArray; // reassign array
+    } else if (side == "bottom") {
+      const pointsArray = elementPoints.match(/[\d,]+/g); // Extract points as an array
+      const reorderedArray = [pointsArray[1], pointsArray[0], pointsArray[3], pointsArray[2]]; // Reorder array
+      elementPoints = reorderedArray; // reassign array
+    }
+    elementBlur.setAttribute('points', elementPoints);
+    elementBlur.setAttribute('stroke-dasharray', `${dashArrayValue} ${carouselContainer.offsetWidth}`);
+    if (side == "top" || side == "bottom") {
+      elementBlur.setAttribute('stroke-dashoffset', -Math.abs(carouselContainer.offsetWidth));
+    } else {
+      elementBlur.setAttribute('stroke-dashoffset', -Math.abs(carouselContainer.offsetHeight));
+    }
+  }
+
+  setPoints("top");
+  setPoints("left");
+  setPoints("right");
+  setPoints("bottom");
+</script>
 {% endblock %}
