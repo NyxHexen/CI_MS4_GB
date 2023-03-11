@@ -14,13 +14,13 @@ class GameAdmin(admin.ModelAdmin):
     readonly_fields = ('id', 'slug','final_price_with_prefix', 'promo_percentage_with_suffix',
                        'promo', 'in_promo',)
     list_display = ('id', 'name','slug',
-                    'publisher', 'release_date', 'base_price',
+                    'publisher', 'release_date', 'base_price', 'featured', 'carousel',
                     'in_promo', 'promo_percentage_with_suffix',
                     'final_price_with_prefix',)
     filter_horizontal = ['developers', 'platforms', 'tags',
                          'genres','media',]
     fields = ('id', 'name', 'slug', 'platforms', 'developers', 'publisher',
-              'genres', 'tags', 'media', 'base_price',
+              'genres', 'tags', 'media', 'featured', 'carousel', 'base_price',
               'in_promo', 'promo', 'promo_percentage_with_suffix',
               'final_price_with_prefix',)
 
@@ -29,12 +29,12 @@ class DLCAdmin(admin.ModelAdmin):
     readonly_fields = ('id', 'slug','final_price_with_prefix', 'promo_percentage_with_suffix',
                     'promo', 'in_promo',)
     list_display = ('id', 'name','slug',
-                    'publisher', 'release_date', 'base_price',
+                    'publisher', 'release_date', 'base_price', 'featured', 'carousel',
                     'in_promo', 'promo_percentage_with_suffix',
                     'final_price_with_prefix')
     filter_horizontal = ['developers', 'tags','media',]
     fields = ('id', 'name', 'slug', 'developers', 'publisher',
-            'tags', 'media', 'in_promo', 'promo',
+            'tags', 'media', 'featured', 'carousel', 'in_promo', 'promo',
             'promo_percentage_with_suffix', 'final_price_with_prefix',)
 
 

@@ -16,6 +16,8 @@ class Promo(CustomBaseModel):
     apply_to_dlc = models.ManyToManyField('games.DLC', related_name='mtm', blank=True)
     landing_page = models.BooleanField(default=False)
     url = models.URLField(max_length=1024, null=True, blank=True)
+    featured = models.BooleanField(default=False, null=True, blank=True)
+    carousel = models.BooleanField(default=False, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name

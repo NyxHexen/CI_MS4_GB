@@ -41,11 +41,14 @@ class Game(CustomBaseModel):
     platforms = models.ManyToManyField('Platform', blank=True)
     tags = models.ManyToManyField('Tag', blank=True)
     media = models.ManyToManyField('Media', blank=True)
+    featured = models.BooleanField(default=False, null=True, blank=True)
+    carousel = models.BooleanField(default=False, null=True, blank=True)
     base_price = models.DecimalField(max_digits=6, decimal_places=2)
     in_promo = models.BooleanField(default=False, null=True, blank=True)
     promo = models.ForeignKey('promo.Promo', null=True, blank=True, on_delete=models.SET_NULL)
     promo_percentage = models.PositiveIntegerField(default=0, null=True, blank=True)
     final_price = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+
 
     def __str__(self) -> str:
         return self.slug
@@ -80,6 +83,8 @@ class DLC(CustomBaseModel):
     description = models.TextField(null=True)
     tags = models.ManyToManyField('Tag', blank=True)
     media = models.ManyToManyField('Media', blank=True)
+    featured = models.BooleanField(default=False, null=True, blank=True)
+    carousel = models.BooleanField(default=False, null=True, blank=True)
     base_price = models.DecimalField(max_digits=6, decimal_places=2)
     in_promo = models.BooleanField(default=False, null=True, blank=True)
     promo = models.ForeignKey('promo.Promo', null=True, blank=True, on_delete=models.SET_NULL)
