@@ -15,7 +15,7 @@ class Promo(CustomBaseModel):
     apply_to_game = models.ManyToManyField('games.Game', related_name='mtm')
     apply_to_dlc = models.ManyToManyField('games.DLC', related_name='mtm', blank=True)
     landing_page = models.BooleanField(default=False)
-    media = models.ManyToManyField(Media)
+    media = models.ForeignKey(Media, null=True, on_delete=models.SET_NULL)
     url = models.URLField(max_length=1024, null=True, blank=True)
     featured = models.BooleanField(default=False, null=True, blank=True)
     carousel = models.BooleanField(default=False, null=True, blank=True)
@@ -29,7 +29,6 @@ class Promo(CustomBaseModel):
     post_remove = None
     
     def _update_games(self, **kwargs):
-        promo = self
         match kwargs["action"]:
             case 'pre_remove':
                 self.pre_remove = set(self.apply_to_game.all())
@@ -52,7 +51,7 @@ class Promo(CustomBaseModel):
                 for i in self.post_add.difference(self.pre_add):
                     game = get_or_none(kwargs['model'], id=i.id)
                     game.in_promo = True
-                    game.promo = promo
+                    game.promo = self
                     game.save()
 
     def delete(self, using=None, keep_parents=False):
