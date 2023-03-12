@@ -199,33 +199,33 @@ class Media(CustomBaseModel):
 @receiver(pre_save, sender=Media)
 def receiver(instance, *args, **kwargs):
 
-    if instance.file and hasattr(instance.file, '_file'): # If a file is being uploaded
+    if instance.file._file is not None: # If a file is being uploaded
         _, new_file_extension = os.path.splitext(instance.file._file.name)
         new_file_extension = new_file_extension.replace('.', '')
-        print(_, new_file_extension)
+        print("NEW ", _, new_file_extension)
 
-    if instance.file and hasattr(instance.file, 'path'):
+    if len(instance.file.name) != 0:
         _, curr_file_extension = os.path.splitext(instance.file.name)
         curr_file_extension = curr_file_extension.replace('.', '')
-        print(_, curr_file_extension)
+        print("CURRENT ", _, curr_file_extension)
 
-    if  hasattr(instance.file, 'name') and instance.media_ext is not None and instance.file._file is None:
+    if len(instance.file.name) != 0 and instance.media_ext is not None and instance.file._file is None:
         print("File exists, there is a media extension, and no new file is coming in.")
         if curr_file_extension != instance.media_ext:
             print("Auto-fill media extension.")
             instance.media_ext = curr_file_extension
     elif (instance.media_ext is None):
         print("There is no media extension.")
-        if instance.file and hasattr(instance.file, '_file'):
+        if instance.file and instance.file._file is not None:
             print(", but there is a new file coming in.")
             instance.media_ext = new_file_extension
-        elif hasattr(instance.file, 'name'):
+        elif len(instance.file.name) != 0:
             print(", but there's a file already.")
             instance.media_ext = curr_file_extension
-    elif (instance.media_ext is not None and hasattr(instance.file, 'name')):
-        print("There is no extension and no file.")
+    elif (instance.media_ext is not None and len(instance.file.name) == 0):
+        print("There is an extension but no file.")
         instance.media_ext = None
-    elif (instance.media_ext is not None and hasattr(instance.file, '_file')):
+    elif (instance.media_ext is not None and instance.file._file is not None):
         print("There is an extension, but a new file is coming in.")
         instance.media_ext = new_file_extension
     else: 
