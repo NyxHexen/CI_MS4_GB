@@ -19,6 +19,8 @@ class Promo(CustomBaseModel):
     url = models.URLField(max_length=1024, null=True, blank=True)
     featured = models.BooleanField(default=False, null=True, blank=True)
     carousel = models.BooleanField(default=False, null=True, blank=True)
+    short_description = models.TextField(max_length=512, null=True, blank=True)
+    long_description = models.TextField(max_length=1024, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
