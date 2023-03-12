@@ -171,17 +171,6 @@ svg * {
     z-index: 0;
 }
 
-#games-carousel::after {
-    position: absolute;
-    content: '';
-    inset: -3px;
-    height: calc(100% + 15px);
-    width: calc(100% + 15px);
-    background-color: hsl(88deg 100% 29%);
-    filter: blur(15px);
-    z-index: -1;
-}
-
 #games-carousel,
 .carousel-inner,
 #games-carousel img {

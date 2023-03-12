@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static tags %}
 
 {% block page_header %}
 {% endblock %}
@@ -43,8 +43,8 @@
     <polygon id="bottom-side" />
     <polygon id="bottom-side-blur" fill="none" stroke="#575757" stroke-width="20" />
 
-    <rect id="box-bottom" fill="#404040" />
-    <rect id="box-bottom-shadows" stroke="#575757" fill="none" stroke-width="20" />
+    <rect id="box-bottom" fill="#575757" />
+    <rect id="box-bottom-shadows" stroke="#404040" fill="none" stroke-width="20" />
   </svg>
 
   <div id="games-carousel" class="carousel slide container">
@@ -55,35 +55,17 @@
       <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
     <div class="carousel-inner">
-      <!-- TEMPLATE for carousel slide -->
-      <div class="carousel-item active">
+      {% for game in carousel %}
+      <div class="carousel-item{% if forloop.first %} active{% endif %}">
         <div class="overlay d-block d-sm-none"></div>
-        <img src="{{ MEDIA_URL }}/3.jpg" class="d-block" alt="">
+        <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" class="d-block" alt="">
         <div class="carousel-caption px-5 d-flex justify-content-between align-items-end">
-          <h3 class="fs-1 my-auto w-auto">Sekiro: Shadows Die Twice</h3>
+          <h3 class="fs-1 my-auto w-auto">{{ game.name }}</h3>
           <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span
               class="d-none d-sm-inline"> Add to Cart</span></button>
         </div>
       </div>
-      <!-- / -->
-      <div class="carousel-item">
-        <div class="overlay d-block d-sm-none"></div>
-        <img src="{{ MEDIA_URL }}/1.webp" class="d-block" alt="...">
-        <div class="carousel-caption px-5 d-flex justify-content-between align-items-end">
-          <h3 class="fs-1 my-auto w-auto">Watch Dogs: Legion</h3>
-          <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span
-              class="d-none d-sm-inline"> Add to Cart</span></button>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <div class="overlay d-block d-sm-none"></div>
-        <img src="{{ MEDIA_URL }}/2.jpg" class="d-block" alt="...">
-        <div class="carousel-caption px-5 d-flex justify-content-between align-items-end">
-          <h3 class="my-auto w-auto">Sekiro: Shadows Die Twice</h3>
-          <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span
-              class="d-none d-sm-inline"> Add to Cart</span></button>
-        </div>
-      </div>
+      {% endfor %}
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#games-carousel" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -94,6 +76,57 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
+</div>
+<div class="container my-5">
+  <h2>Featured Games</h2>
+  <hr>
+  <div class="games row">
+      {% for game in featured %}
+      <div class="game col-6 col-md-3 col-lg-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
+          <div class="game-cover--front">
+              <div class="game-cover-image">
+                  {% if game|use_media:'COVER.src' is not None %}
+                  <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}">
+                  {% else %}
+                  <img src="{{ MEDIA_URL }}noimage.jpg" alt="This game does not yet have a cover image!">
+                  {% endif %}
+              </div>
+              <p class="game-title">{{ game.name }}</p>
+          </div>
+          <div class="game-cover--reverse d-flex justify-content-between align-items-end">
+              <div class="game-platforms d-flex align-items-center">
+                  {% for platform in game.platforms.all %}
+                      {% if platform.icon.file is not None %}
+                          <img src="{{ MEDIA_URL }}{{ platform.icon.file }}" alt="This game is available on {{ platform.name }}">
+                      {% else %}
+                          <span class="icon-verbal">
+                              {{ platform.name }}
+                          </span>
+                      {% endif %}
+                  {% endfor %}
+              </div>
+              <button type="button" onclick="alert('This works!')" aria-label="Add to cart" class="add-cart btn"><span>Add to </span><i class="fa-solid fa-cart-plus"></i></button>
+          </div>
+          <div class="game-back--front">
+              <p class="game-title">{{ game.name }}</p>
+          </div>
+          <div class="game-back--reverse d-flex {% if game.in_promo and game.promo.active is True%} justify-content-end {% else %} justify-content-between {% endif %} align-items-end">
+              {% if game.in_promo and game.promo.active is True%}
+              <div class="promo-discount">
+                  -{{ game.promo_percentage }}%
+              </div>
+              {% endif %}
+              <div class="game-price">£
+                  {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</div>
+<div class="container my-5">
+  <h2>Deals of The Day</h2>
+  <hr>
 </div>
 {% endblock %}
 
