@@ -22,7 +22,6 @@ class Promo(CustomBaseModel):
     def __str__(self) -> str:
         return self.name
 
-
     pre_add = None
     post_add = None
     pre_remove = None

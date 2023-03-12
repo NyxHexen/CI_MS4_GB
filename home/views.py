@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from games.models import Game
+from games.models import Game, DLC
+from promo.models import Promo
 import datetime as dt
 
 import random
@@ -7,7 +8,10 @@ import random
 
 def index(request):
     """ A view to return the index page """
-    carousel = Game.objects.filter(carousel=True)
+    carousel = list(Game.objects.filter(carousel=True))
+    carousel += list(Promo.objects.filter(carousel=True))
+    carousel += list(DLC.objects.filter(carousel=True))
+
     featured = list(Game.objects.filter(featured=True))
     if len(featured) > 4:
         featured = random.sample(featured, 4)
@@ -28,14 +32,13 @@ def index(request):
             break
         elif iter_count == 8:
             target_date = target_date + dt.timedelta(days=2)
-            print(target_date)
         elif iter_count == 4:
             target_date = target_date + dt.timedelta(days=2)
-            print(target_date)
 
 
     context = {
         'carousel': carousel,
         'featured': featured,
+        'dotd': dotd_nearest
     }
     return render(request, 'home/index.html', context)

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="carousel-container">
+<section class="carousel-container">
 
   <svg id="game-box">
 
@@ -55,14 +55,18 @@
       <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
     <div class="carousel-inner">
-      {% for game in carousel %}
+      {% for item in carousel %}
       <div class="carousel-item{% if forloop.first %} active{% endif %}">
         <div class="overlay d-block d-sm-none"></div>
-        <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" class="d-block" alt="">
+        <img src="{{ MEDIA_URL }}{{ item|use_media:'LANDING.src' }}" class="d-block" alt="">
         <div class="carousel-caption px-5 d-flex justify-content-between align-items-end">
-          <h3 class="fs-1 my-auto w-auto">{{ game.name }}</h3>
-          <button type="button" class="fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span
-              class="d-none d-sm-inline"> Add to Cart</span></button>
+          <h3 class="fs-1 my-auto w-auto">{{ item.name }}</h3>
+          {% if item.model_name == 'game' %}
+          <button type="button" class="add-to-cart fs-5 btn btn-lg py-3 px-4 float-end"><i class="fa-solid fa-cart-plus"></i><span
+            class="d-none d-sm-inline"> Add to Cart</span></button>
+          {% elif item.model_name == 'promo' %}
+          <button type="button" class="browse fs-5 btn btn-lg py-3 px-4 float-end">Browse</button>
+          {% endif %}
         </div>
       </div>
       {% endfor %}
@@ -76,58 +80,85 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-</div>
-<div class="container my-5">
+</section>
+<section class="container my-5">
   <h2>Featured Games</h2>
   <hr>
-  <div class="games row">
-      {% for game in featured %}
-      <div class="game col-6 col-md-3 col-lg-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
-          <div class="game-cover--front">
-              <div class="game-cover-image">
-                  {% if game|use_media:'COVER.src' is not None %}
-                  <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}">
-                  {% else %}
-                  <img src="{{ MEDIA_URL }}noimage.jpg" alt="This game does not yet have a cover image!">
-                  {% endif %}
-              </div>
-              <p class="game-title">{{ game.name }}</p>
-          </div>
-          <div class="game-cover--reverse d-flex justify-content-between align-items-end">
-              <div class="game-platforms d-flex align-items-center">
-                  {% for platform in game.platforms.all %}
-                      {% if platform.icon.file is not None %}
-                          <img src="{{ MEDIA_URL }}{{ platform.icon.file }}" alt="This game is available on {{ platform.name }}">
-                      {% else %}
-                          <span class="icon-verbal">
-                              {{ platform.name }}
-                          </span>
-                      {% endif %}
-                  {% endfor %}
-              </div>
-              <button type="button" onclick="alert('This works!')" aria-label="Add to cart" class="add-cart btn"><span>Add to </span><i class="fa-solid fa-cart-plus"></i></button>
-          </div>
-          <div class="game-back--front">
-              <p class="game-title">{{ game.name }}</p>
-          </div>
-          <div class="game-back--reverse d-flex {% if game.in_promo and game.promo.active is True%} justify-content-end {% else %} justify-content-between {% endif %} align-items-end">
-              {% if game.in_promo and game.promo.active is True%}
-              <div class="promo-discount">
-                  -{{ game.promo_percentage }}%
-              </div>
-              {% endif %}
-              <div class="game-price">£
-                  {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
-              </div>
-          </div>
+  <div class="games row justify-content-center">
+    {% for game in featured %}
+    <div class="game col-6 col-md-3 col-lg-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
+      <div class="game-cover--front">
+        <div class="game-cover-image">
+          {% if game|use_media:'COVER.src' is not None %}
+          <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}">
+          {% else %}
+          <img src="{{ MEDIA_URL }}noimage.jpg" alt="This game does not yet have a cover image!">
+          {% endif %}
+        </div>
+        <p class="game-title">{{ game.name }}</p>
       </div>
-      {% endfor %}
+      <div class="game-cover--reverse d-flex justify-content-between align-items-end">
+        <div class="game-platforms d-flex align-items-center">
+          {% for platform in game.platforms.all %}
+          {% if platform.icon.file is not None %}
+          <img src="{{ MEDIA_URL }}{{ platform.icon.file }}" alt="This game is available on {{ platform.name }}">
+          {% else %}
+          <span class="icon-verbal">
+            {{ platform.name }}
+          </span>
+          {% endif %}
+          {% endfor %}
+        </div>
+        <button type="button" onclick="alert('This works!')" aria-label="Add to cart" class="add-cart btn"><span>Add to
+          </span><i class="fa-solid fa-cart-plus"></i></button>
+      </div>
+      <div class="game-back--front">
+        <p class="game-title">{{ game.name }}</p>
+      </div>
+      <div
+        class="game-back--reverse d-flex {% if game.in_promo and game.promo.active is True%} justify-content-end {% else %} justify-content-between {% endif %} align-items-end">
+        {% if game.in_promo and game.promo.active is True%}
+        <div class="promo-discount">
+          -{{ game.promo_percentage }}%
+        </div>
+        {% endif %}
+        <div class="game-price">£
+          {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
   </div>
-</div>
-<div class="container my-5">
+</section>
+<section class="deals container my-5">
   <h2>Deals of The Day</h2>
   <hr>
-</div>
+  <div class="row justify-content-center">
+    {% for deal in dotd %}
+    <div class="countdown col-3 mx-2">
+      <a class="content-overlay d-flex flex-column">
+        <div class="content-overlay__name-wrapper d-flex flex-column justify-content-center align-items-center">
+          <h3>{{ deal.name }}</h3>
+        </div>
+        <div class="content-overlay__discount-wrapper d-flex flex-column justify-content-center align-items-center">
+          <p class="text-align-center text-warning fs-2">
+            Up to <br><span class="display-2">-{{ deal.promo_percentage }}%</span>
+          </p>
+        </div>
+        <div class="content-overlay__bottom-wrapper d-flex flex-column justify-content-center align-items-center">
+          <p class="fs-5 countdown-timer" data-end-time="{{ deal.promo.end_date|date:'Y-m-d H:i' }}"></p>
+          {% if deal.model_name == 'game' %}
+          <button class="btn btn-light" role="button"><strong>Add to Cart</strong></button>
+          {% elif deal.model_name == 'promo' %}
+          <button class="btn btn-light" role="button"><strong>Browse Deals</strong></button>
+          {% endif %}
+        </div>
+      </a>
+      <img src="{{ MEDIA_URL }}{{ deal|use_media:'COVER.src'}}" alt="{{ game|use_media:'COVER.descr' }}">
+    </div>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}
 
 {% block extra_css %}
@@ -237,7 +268,6 @@
     let element = sides[side];
     let elementBlur = document.getElementById(`${side}-side-blur`);
     let elementPoints = points[side];
-    console.log(points[side]);
     element.setAttribute('points', elementPoints);
     // Some of the element points have been swapped around 
     // in the blur polygons (shadow effect) to make it easier to reuse vars
@@ -264,5 +294,40 @@
   setPoints("left");
   setPoints("right");
   setPoints("bottom");
+
+
+  let dotdCountdowns = document.querySelectorAll('.countdown-timer');
+
+  var _second = 1000;
+  var _minute = _second * 60;
+  var _hour = _minute * 60;
+  var _day = _hour * 24;
+
+  function updateCountdown(element) {
+    var end = new Date(element.getAttribute('data-end-time'));
+    var now = new Date();
+    var distance = end - now;
+    if (distance < 0) {
+      element.innerHTML = 'EXPIRED!';
+      return;
+    }
+    var days = Math.floor(distance / _day);
+    var hours = Math.floor((distance % _day) / _hour);
+    var minutes = Math.floor((distance % _hour) / _minute);
+    var seconds = Math.floor((distance % _minute) / _second);
+
+    element.innerHTML = `${days}days `;
+    element.innerHTML += hours + 'hrs ';
+    element.innerHTML += minutes + 'mins ';
+    element.innerHTML += seconds + 'secs';
+
+    setTimeout(function () {
+      updateCountdown(element);
+    }, 1000 - (now % 1000));
+  }
+
+  dotdCountdowns.forEach(element => {
+    updateCountdown(element);
+  })
 </script>
 {% endblock %}

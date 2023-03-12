@@ -47,7 +47,8 @@ nav {
 
 .game-cover--front,
 .game-back--reverse,
-#games-carousel {
+#games-carousel,
+.countdown img {
     --lg-stacked-shadow:
         0px 0.5px 0.4px hsl(var(--shadow-color) / 0.67),
         0px 0.6px 0.5px -0.6px hsl(var(--shadow-color) / 0.61),
@@ -252,7 +253,8 @@ svg * {
     margin-bottom: 4rem;
 }
 
-.game * {
+.game *,
+.deals * {
     border-radius: 10px;
     transform-origin: center;
 }
@@ -345,7 +347,8 @@ svg * {
     pointer-events: none;
 }
 
-.game-cover-image img {
+.game-cover-image img,
+.countdown img {
     height: 100%;
     width: 100%;
     object-fit: cover;
@@ -415,6 +418,79 @@ svg * {
     font-size: 1rem;
 }
 
+/* Deals of the Day Countdown*/
+.countdown {
+    --shadow-color: 0deg 0% 25%;
+    position: relative;
+    height: 400px;
+}
+
+.countdown::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 8px;
+    width: calc((100% + 8px) - var(--bs-gutter-x));
+    height: calc(100% + 6px);
+    border-radius: inherit;
+    filter: blur(10px);
+}
+
+.countdown:nth-child(odd)::after {
+    border: 4px solid #9f0;
+}
+
+.countdown:nth-child(even)::after {
+    border: 4px solid #9000ff;
+}
+
+.countdown::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: calc(var(--bs-gutter-x) * .5);
+    width: calc(100% - var(--bs-gutter-x));
+    height: calc(100% + 1px);
+    border-radius: inherit;
+    z-index: 1;
+}
+
+.countdown:nth-child(odd)::before {
+    border: 2px solid rgb(203, 255, 124);
+}
+
+.countdown:nth-child(even)::before {
+    border: 2px solid #c77dff;
+}
+
+.content-overlay {
+    position: absolute;
+    top: 0;
+    left: calc(var(--bs-gutter-x) * .5);
+    width: calc(100% - var(--bs-gutter-x));
+    height: calc(100% + 1px);
+    z-index: 2;
+    color: white;
+    text-decoration: none;
+}
+
+.content-overlay [class*='wrapper'] {
+    height: 33%;
+    width: 100%;
+}
+
+.countdown p {
+    line-height: .5rem;
+}
+
+.countdown p span {
+    font-weight: bolder;
+}
+
+.countdown img {
+    filter: brightness(20%) saturate(50%);
+}
+
 /* LIGHT MODE */
 
 [data-bs-theme="light"] body {
@@ -452,8 +528,13 @@ svg * {
 
 /* Carousel */
 
-.carousel-item button {
+.carousel-item button.add-to-cart {
     background-color: #9f0;
+}
+
+.carousel-item button.browse {
+    color: white;
+    background-color: #6f2dbd;
 }
 
 /* Game Container */

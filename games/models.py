@@ -13,6 +13,9 @@ class CustomBaseModel(models.Model):
     class Meta:
         abstract = True
 
+    def model_name(self):
+        return self._meta.model_name
+
     def __init__(self, *args, **kwargs):
         if "slug" in self.__dict__ and self.slug is None:
             self.slug = slugify(self.name)
