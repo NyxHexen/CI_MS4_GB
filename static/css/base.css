@@ -24,12 +24,6 @@
     --bs-nav-link-padding-y: 0rem;
 }
 
-/* ANY MODE */
-
-nav {
-    z-index: 1000;
-}
-
 /* Shadows */
 .navbar {
     --lg-stacked-shadow:
@@ -89,6 +83,7 @@ nav {
     box-shadow: var(--inset-test-stacked-shadow);
 }
 
+/* ANY MODE */
 body {
     min-height: 100vh;
     font-family: var(--content-font);
@@ -98,6 +93,7 @@ nav {
     position: relative;
     width: 90%;
     border-radius: 5px;
+    z-index: 1000;
 }
 
 .navbar-brand {
