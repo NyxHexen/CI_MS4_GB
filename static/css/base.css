@@ -485,6 +485,17 @@ svg * {
     filter: brightness(20%) saturate(50%);
 }
 
+/* Deals */
+footer form div {
+    padding: 0 0 .5rem;
+}
+
+footer h5,
+footer p {
+    margin: 0 5%;
+    text-align: center;
+}
+
 /* LIGHT MODE */
 
 [data-bs-theme="light"] body {
@@ -626,5 +637,16 @@ svg * {
     100% {
         -webkit-transform: rotateY(-180deg) translateY(-20%) translateZ(-39px);
         transform: rotateY(-180deg) translateY(-20%) translateZ(-39px);
+    }
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+
+    /* Deals */
+    footer h5,
+    footer p {
+        text-align: end;
+        margin: auto 0;
     }
 }
