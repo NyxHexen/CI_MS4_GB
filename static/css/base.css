@@ -57,7 +57,8 @@
     box-shadow: var(--lg-stacked-shadow);
 }
 
-.carousel-container {
+.carousel-container,
+.deals {
     --inset-test-stacked-shadow:
         inset 0px -0.1px 0.1px hsl(var(--shadow-color) / 0.54),
         inset 0px -0.3px 0.3px -0.4px hsl(var(--shadow-color) / 0.52),
@@ -568,6 +569,16 @@ svg * {
 [data-bs-theme="light"] .game-back--reverse {
     background-color: #6f2dbd;
 }
+
+/* Deals */
+
+[data-bs-theme="light"] .deals {
+    --shadow-color: 0deg 0% 4%;
+    background-color: #1f1f1f;
+    color: white;
+}
+
+/* Animations/Keyframes */
 
 @keyframes game-cover-front-flip {
     0% {
