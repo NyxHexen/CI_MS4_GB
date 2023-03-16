@@ -201,9 +201,7 @@ svg * {
 }
 
 .carousel-caption h3 {
-    max-width: 55%;
     font-weight: 700;
-    text-align: left;
 }
 
 .carousel-item button {
