@@ -204,7 +204,7 @@ def receiver(instance, *args, **kwargs):
         new_file_extension = new_file_extension.replace('.', '')
         print("NEW ", _, new_file_extension)
 
-    if len(instance.file.name) != 0:
+    if instance.file.name is not None and len(instance.file.name) != 0:
         _, curr_file_extension = os.path.splitext(instance.file.name)
         curr_file_extension = curr_file_extension.replace('.', '')
         print("CURRENT ", _, curr_file_extension)
