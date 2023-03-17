@@ -93,7 +93,7 @@
   <hr>
   <div class="games row justify-content-center mt-3">
     {% for game in featured %}
-    <div class="game col-6 col-md-3 col-lg-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
+    <div class="game col-6 col-md-3 col-lg-2 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
       <div class="game-cover--front">
         <div class="game-cover-image">
           {% if game|use_media:'COVER.src' is not None %}
@@ -105,17 +105,6 @@
         <p class="game-title">{{ game.name }}</p>
       </div>
       <div class="game-cover--reverse d-flex justify-content-between align-items-end">
-        <div class="game-platforms d-flex align-items-center">
-          {% for platform in game.platforms.all %}
-          {% if platform.icon.file is not None %}
-          <img src="{{ MEDIA_URL }}{{ platform.icon.file }}" alt="This game is available on {{ platform.name }}">
-          {% else %}
-          <span class="icon-verbal">
-            {{ platform.name }}
-          </span>
-          {% endif %}
-          {% endfor %}
-        </div>
         <button type="button" onclick="alert('This works!')" aria-label="Add to cart" class="add-cart btn"><span>Add to
           </span><i class="fa-solid fa-cart-plus"></i></button>
       </div>
