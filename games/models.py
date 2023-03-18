@@ -79,7 +79,7 @@ class DLC(CustomBaseModel):
 
     required_game = models.ForeignKey('Game', default=None, on_delete=models.CASCADE)
     name = models.CharField(max_length=254, unique=True, null=True)
-    slug = models.SlugField(max_length=254, unique=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
     publishers = models.ManyToManyField('Publisher')
     developers = models.ManyToManyField('Developer')
     release_date = models.DateField(null=True)
@@ -117,7 +117,7 @@ class DLC(CustomBaseModel):
 
 class Genre(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
-    slug = models.SlugField(max_length=254, unique=True, null=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
     game_list = models.Field
 
     def __str__(self) -> str:
@@ -126,14 +126,14 @@ class Genre(CustomBaseModel):
 
 class Publisher(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
-    slug = models.SlugField(max_length=254, unique=True, null=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
 
 class Developer(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
-    slug = models.SlugField(max_length=254, unique=True, null=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -151,7 +151,7 @@ class RatingSet(CustomBaseModel):
 
 class EsrbRating(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
-    slug = models.SlugField(max_length=254, unique=True, null=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
     image = models.ImageField(null=True)
 
     def __str__(self) -> str:
@@ -159,7 +159,7 @@ class EsrbRating(CustomBaseModel):
     
 class PegiRating(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
-    slug = models.SlugField(max_length=254, unique=True, null=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
     image = models.ImageField(null=True)
 
     def __str__(self) -> str:
@@ -168,7 +168,7 @@ class PegiRating(CustomBaseModel):
     
 class Platform(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
-    slug = models.SlugField(max_length=254, unique=True, null=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
     icon = models.ImageField(null=True, blank=True)
 
     def __str__(self) -> str:
@@ -177,7 +177,7 @@ class Platform(CustomBaseModel):
 
 class Tag(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
-    slug = models.SlugField(max_length=254, unique=True, null=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
