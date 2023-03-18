@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.signals import m2m_changed
+from django.core.exceptions import ValidationError
 from django.dispatch import receiver
 
 from games.models import CustomBaseModel, Media
@@ -24,6 +25,11 @@ class Promo(CustomBaseModel):
 
     def __str__(self) -> str:
         return self.name
+    
+    def clean(self):
+        super().clean()
+        if self.start_date and self.end_date and self.start_date > self.end_date:
+            raise ValidationError('End date cannot be before start date.', code='invalid', params={'end_date': 'End date'})
 
     pre_add = None
     post_add = None
