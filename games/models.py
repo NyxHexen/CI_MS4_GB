@@ -54,9 +54,6 @@ class Game(CustomBaseModel):
 
 
     def __str__(self) -> str:
-        return self.slug
-
-    def get_friendly_name(self):
         return self.name
     
     def promo_percentage_with_suffix(self):
@@ -95,9 +92,6 @@ class DLC(CustomBaseModel):
     final_price = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     def __str__(self) -> str:
-        return self.slug
-
-    def get_friendly_name(self):
         return self.name
     
     def promo_percentage_with_suffix(self):
