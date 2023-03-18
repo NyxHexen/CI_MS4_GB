@@ -16,7 +16,7 @@ class GameAdmin(admin.ModelAdmin):
                     'release_date', 'base_price', 'featured', 'carousel',
                     'in_promo', 'promo_percentage_with_suffix',
                     'final_price_with_prefix',)
-    filter_horizontal = ['developers', 'platforms', 'tags',
+    filter_horizontal = ['developers', 'publishers', 'platforms', 'tags',
                          'genres','media',]
     fields = ('id', 'name', 'slug', 'release_date', 'platforms', 'developers', 'publishers',
               'genres', 'tags', 'media', 'featured', 'carousel', 'base_price',
@@ -31,7 +31,7 @@ class DLCAdmin(admin.ModelAdmin):
                     'release_date', 'base_price', 'featured', 'carousel',
                     'in_promo', 'promo_percentage_with_suffix',
                     'final_price_with_prefix')
-    filter_horizontal = ['developers', 'tags','media',]
+    filter_horizontal = ['developers', 'publishers', 'tags','media',]
     fields = ('id', 'name', 'release_date', 'slug', 'developers', 'publishers',
             'tags', 'media', 'featured', 'carousel', 'in_promo', 'promo',
             'promo_percentage_with_suffix', 'final_price_with_prefix',)
