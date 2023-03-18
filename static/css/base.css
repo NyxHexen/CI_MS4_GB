@@ -312,7 +312,7 @@ svg * {
 
 .game.sale .game-back--reverse {
     background-color: rgb(255, 238, 0) !important;
-    background-image: url("/media/sale-card-v4.jpg");
+    background-image: url("/media/sale.jpg");
     background-position: bottom left;
     background-repeat: no-repeat;
     background-size: cover;
