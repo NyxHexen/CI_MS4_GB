@@ -78,7 +78,7 @@ class DLC(CustomBaseModel):
         verbose_name_plural = 'DLCs'
 
     required_game = models.ForeignKey('Game', default=None, on_delete=models.CASCADE)
-    name = models.CharField(max_length=254, null=True, blank=True)
+    name = models.CharField(max_length=254, null=True)
     slug = models.SlugField(max_length=254)
     publishers = models.ManyToManyField('Publisher', on_delete=models.CASCADE)
     developers = models.ManyToManyField('Developer')
@@ -86,8 +86,8 @@ class DLC(CustomBaseModel):
     description = models.TextField(null=True)
     tags = models.ManyToManyField('Tag')
     media = models.ManyToManyField('Media')
-    featured = models.BooleanField(default=False, null=True, blank=True)
-    carousel = models.BooleanField(default=False, null=True, blank=True)
+    featured = models.BooleanField(default=False, null=True)
+    carousel = models.BooleanField(default=False, null=True)
     base_price = models.DecimalField(max_digits=6, decimal_places=2)
     in_promo = models.BooleanField(default=False, null=True, blank=True)
     promo = models.ForeignKey('promo.Promo', null=True, blank=True, on_delete=models.SET_NULL)
@@ -117,7 +117,7 @@ class DLC(CustomBaseModel):
 
 class Genre(CustomBaseModel):
     name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True, blank=True)
+    slug = models.SlugField(max_length=254, null=True)
     game_list = models.Field
 
     def __str__(self) -> str:
@@ -126,14 +126,14 @@ class Genre(CustomBaseModel):
 
 class Publisher(CustomBaseModel):
     name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True, blank=True)
+    slug = models.SlugField(max_length=254, null=True)
 
     def __str__(self) -> str:
         return self.name
 
 class Developer(CustomBaseModel):
     name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True, blank=True)
+    slug = models.SlugField(max_length=254, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -141,7 +141,9 @@ class Developer(CustomBaseModel):
 
 class RatingSet(CustomBaseModel):
     game = models.OneToOneField('Game', on_delete=models.CASCADE)
-    esrb_ratings = models.ManyToManyField('EsrbRating')
+    esrb_rating = models.ForeignKey('EsrbRating', on_delete=models.SET_NULL)
+    pegi_rating = models.ForeignKey('PegiRating', on_delete=models.SET_NULL)
+
 
     def __str__(self) -> str:
         return self.game.name
@@ -149,8 +151,16 @@ class RatingSet(CustomBaseModel):
 
 class EsrbRating(CustomBaseModel):
     name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True, blank=True)
-    image = models.ImageField(null=True, blank=True)
+    slug = models.SlugField(max_length=254, null=True)
+    image = models.ImageField(null=True)
+
+    def __str__(self) -> str:
+        return self.name
+    
+class EsrbRating(CustomBaseModel):
+    name = models.CharField(max_length=254)
+    slug = models.SlugField(max_length=254, null=True)
+    image = models.ImageField(null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -158,7 +168,7 @@ class EsrbRating(CustomBaseModel):
     
 class Platform(CustomBaseModel):
     name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True, blank=True)
+    slug = models.SlugField(max_length=254, null=True)
     icon = models.ImageField(null=True, blank=True)
 
     def __str__(self) -> str:
@@ -167,7 +177,7 @@ class Platform(CustomBaseModel):
 
 class Tag(CustomBaseModel):
     name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True, blank=True)
+    slug = models.SlugField(max_length=254, null=True)
 
     def __str__(self) -> str:
         return self.name
