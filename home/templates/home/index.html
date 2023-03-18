@@ -132,21 +132,32 @@
     <hr>
     <div class="row justify-content-center mt-5">
       {% for deal in dotd %}
-      <div class="countdown col-3 mx-2">
+      <div class="countdown col-3">
         <a href="#" class="content-overlay d-flex flex-column">
           <div class="content-overlay__name-wrapper d-flex flex-column justify-content-center align-items-center">
-            <h3>{{ deal.name }}</h3>
+            <h3 class="px-3 text-center">{{ deal.name }} {% if deal.model_name == 'dlc' %}<span
+                class="badge bg-warning text-black fs-6">DLC</span>{% endif %}</h3>
           </div>
           <div class="content-overlay__discount-wrapper d-flex flex-column justify-content-center align-items-center">
-            <p class="text-align-center text-warning fs-2">
-              Up to <br><span class="display-2">-{{ deal.promo_percentage }}%</span>
+            <p class="deal-discount text-align-center fs-2">
+              {% if deal.model_name == 'promo' %}
+              Up to <br>
+              {% endif %}
+              <span class="display-2">-{{ deal.promo_percentage }}%</span>
             </p>
+            {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
+            <div class="d-flex align-items-center">
+              <span class="base-price mx-1"><s>£ {{ deal.base_price }}</s></span>
+              <span class="final-price fs-5 mx-1 px-1">£ {{ deal.final_price }}</span>
+            </div>
+            {% endif %}
           </div>
           <div class="content-overlay__bottom-wrapper d-flex flex-column justify-content-center align-items-center">
+            {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
             <p class="fs-5 countdown-timer" data-end-time="{{ deal.promo.end_date|date:'Y-m-d H:i' }}"></p>
-            {% if deal.model_name == 'game' %}
             <button class="btn btn-light" role="button"><strong>Add to Cart</strong></button>
             {% elif deal.model_name == 'promo' %}
+            <p class="fs-5 countdown-timer" data-end-time="{{ deal.end_date|date:'Y-m-d H:i' }}"></p>
             <button class="btn btn-light" role="button"><strong>Browse Deals</strong></button>
             {% endif %}
           </div>

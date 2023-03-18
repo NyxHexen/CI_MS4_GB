@@ -247,7 +247,7 @@ svg * {
 }
 
 .game *,
-.deals * {
+.deals *:not(.badge) {
     border-radius: 10px;
     transform-origin: center;
 }
@@ -485,6 +485,26 @@ svg * {
 }
 
 /* Deals */
+.countdown:nth-child(even) .deal-discount {
+    color: #FFFFFF;
+    text-shadow: 0 0 10px #FFF, 0 0 20px #9f0, 0 0 30px #9f0, 0 0 40px #9f0, 0 0 55px #9f0, 0 0 75px #9f0;
+}
+
+.countdown:nth-child(odd) .deal-discount {
+    color: #FFFFFF;
+    text-shadow: 0 0 10px #FFF, 0 0 20px #9000ff, 0 0 30px #9000ff, 0 0 40px #9000ff, 0 0 55px #9000ff, 0 0 75px #9000ff;
+}
+
+.countdown:nth-child(odd) .final-price {
+    background-color: #9f0;
+    color: #1f1f1f;
+}
+
+.countdown:nth-child(even) .final-price {
+    background-color: #9000ff;
+}
+
+/* Footer */
 footer form div {
     padding: 0 0 .5rem;
 }
@@ -642,7 +662,7 @@ footer p {
 /* Media Queries */
 @media (min-width: 768px) {
 
-    /* Deals */
+    /* Footer */
     footer h5,
     footer p {
         text-align: end;
