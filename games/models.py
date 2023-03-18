@@ -195,7 +195,7 @@ class Media(CustomBaseModel):
 
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
-    url = models.URLField()
+    url = models.URLField(null=True, blank=True)
     file = models.ImageField(null=True, blank=True)
     media_type = models.CharField(max_length=6, null=True,
                                   choices=[('image', 'Image'), ('video', 'Video')])
