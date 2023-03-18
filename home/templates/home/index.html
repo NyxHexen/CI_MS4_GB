@@ -325,10 +325,17 @@
     var minutes = Math.floor((distance % _hour) / _minute);
     var seconds = Math.floor((distance % _minute) / _second);
 
-    element.innerHTML = `${days}days `;
-    element.innerHTML += hours + 'hrs ';
-    element.innerHTML += minutes + 'mins ';
-    element.innerHTML += seconds + 'secs';
+    if (window.innerHeight < 1200) {
+      element.innerHTML = `${days}d `;
+      element.innerHTML += hours + 'h ';
+      element.innerHTML += minutes + 'm ';
+      element.innerHTML += seconds + 's';
+    } else {
+      element.innerHTML = `${days}days `;
+      element.innerHTML += hours + 'hrs ';
+      element.innerHTML += minutes + 'mins ';
+      element.innerHTML += seconds + 'secs';
+    }
 
     setTimeout(function () {
       updateCountdown(element);
