@@ -34,8 +34,8 @@ class CustomBaseModel(models.Model):
 
 
 class Game(CustomBaseModel):
-    name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True, blank=True)
+    name = models.CharField(max_length=254, unique=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
     genres = models.ManyToManyField('Genre')
     publishers = models.ManyToManyField('Publisher')
     developers = models.ManyToManyField('Developer')
@@ -78,8 +78,8 @@ class DLC(CustomBaseModel):
         verbose_name_plural = 'DLCs'
 
     required_game = models.ForeignKey('Game', default=None, on_delete=models.CASCADE)
-    name = models.CharField(max_length=254, null=True)
-    slug = models.SlugField(max_length=254)
+    name = models.CharField(max_length=254, unique=True, null=True)
+    slug = models.SlugField(max_length=254, unique=True)
     publishers = models.ManyToManyField('Publisher')
     developers = models.ManyToManyField('Developer')
     release_date = models.DateField(null=True)
@@ -116,8 +116,8 @@ class DLC(CustomBaseModel):
 
 
 class Genre(CustomBaseModel):
-    name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True)
+    name = models.CharField(max_length=254, unique=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True)
     game_list = models.Field
 
     def __str__(self) -> str:
@@ -125,15 +125,15 @@ class Genre(CustomBaseModel):
 
 
 class Publisher(CustomBaseModel):
-    name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True)
+    name = models.CharField(max_length=254, unique=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True)
 
     def __str__(self) -> str:
         return self.name
 
 class Developer(CustomBaseModel):
-    name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True)
+    name = models.CharField(max_length=254, unique=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -150,16 +150,16 @@ class RatingSet(CustomBaseModel):
 
 
 class EsrbRating(CustomBaseModel):
-    name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True)
+    name = models.CharField(max_length=254, unique=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True)
     image = models.ImageField(null=True)
 
     def __str__(self) -> str:
         return self.name
     
 class PegiRating(CustomBaseModel):
-    name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True)
+    name = models.CharField(max_length=254, unique=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True)
     image = models.ImageField(null=True)
 
     def __str__(self) -> str:
@@ -167,8 +167,8 @@ class PegiRating(CustomBaseModel):
 
     
 class Platform(CustomBaseModel):
-    name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True)
+    name = models.CharField(max_length=254, unique=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True)
     icon = models.ImageField(null=True, blank=True)
 
     def __str__(self) -> str:
@@ -176,8 +176,8 @@ class Platform(CustomBaseModel):
     
 
 class Tag(CustomBaseModel):
-    name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True)
+    name = models.CharField(max_length=254, unique=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True)
 
     def __str__(self) -> str:
         return self.name
@@ -193,8 +193,9 @@ class Media(CustomBaseModel):
         PREVIEW = 'PREVIEW', ('Preview Media')
         OTHER = 'OTHER', ('Other Media')
 
-    name = models.CharField(max_length=254)
-    slug = models.SlugField(max_length=254, null=True, blank=True)
+    name = models.CharField(max_length=254, unique=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
+    url = models.URLField()
     file = models.ImageField(null=True, blank=True)
     media_type = models.CharField(max_length=6, null=True,
                                   choices=[('image', 'Image'), ('video', 'Video')])
