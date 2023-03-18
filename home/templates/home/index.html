@@ -132,7 +132,7 @@
     <hr>
     <div class="row justify-content-center mt-5">
       {% for deal in dotd %}
-      <div class="countdown col-3">
+      <div class="countdown col-7 col-xs-6 col-md-4 col-lg-3">
         <a href="#" class="content-overlay d-flex flex-column">
           <div class="content-overlay__name-wrapper d-flex flex-column justify-content-center align-items-center">
             <h3 class="px-3 text-center">{{ deal.name }} {% if deal.model_name == 'dlc' %}<span
@@ -146,9 +146,9 @@
               <span class="display-2">-{{ deal.promo_percentage }}%</span>
             </p>
             {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
-            <div class="d-flex align-items-center">
-              <span class="base-price mx-1"><s>£ {{ deal.base_price }}</s></span>
-              <span class="final-price fs-5 mx-1 px-1">£ {{ deal.final_price }}</span>
+            <div class="btn-group d-flex align-items-center" role="group" aria-label="Deal prices">
+              <span class="btn btn-dark base-price"><s>£ {{ deal.base_price }}</s></span>
+              <span class="btn btn-dark final-price">£ {{ deal.final_price }}</span>
             </div>
             {% endif %}
           </div>

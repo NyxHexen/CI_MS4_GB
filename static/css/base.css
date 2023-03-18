@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Quicksand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600&family=Major+Mono+Display&display=swap');
 
 /* CSS VARS */
 :root {
     --ui-font: "Major Mono Display", sans-serif;
-    --content-font: "Quicksand", sans-serif;
+    --content-font: "Jost", sans-serif;
     --lm-logo-color: 0, 0, 0;
     --lm-text-color: 30, 30, 30;
     --lm-bg-color: 220, 220, 220;
@@ -179,9 +179,9 @@ svg * {
     inset: 0;
     top: 20%;
     background: rgb(136, 136, 136);
-    background: -moz-linear-gradient(180deg, rgba(136, 136, 136, 0) 0%, rgba(112, 45, 189, 1) 50%);
-    background: -webkit-linear-gradient(180deg, rgba(136, 136, 136, 0) 0%, rgba(112, 45, 189, 1) 50%);
-    background: linear-gradient(180deg, rgba(136, 136, 136, 0) 0%, rgba(112, 45, 189, 1) 50%);
+    background: -moz-linear-gradient(180deg, rgba(136, 136, 136, 0) 0%, rgba(112, 45, 189, 1) 45%);
+    background: -webkit-linear-gradient(180deg, rgba(136, 136, 136, 0) 0%, rgba(112, 45, 189, 1) 45%);
+    background: linear-gradient(180deg, rgba(136, 136, 136, 0) 0%, rgba(112, 45, 189, 1) 45%);
 }
 
 #games-carousel img {
@@ -212,12 +212,16 @@ svg * {
 }
 
 @media (max-width: 576px) {
+    #games-carousel img {
+        height: initial;
+    }
+
     .carousel-indicators {
         bottom: -43px;
     }
 
     .carousel-item {
-        min-height: 50vh;
+        min-height: 35vh;
     }
 
     .carousel-item button {
@@ -429,14 +433,6 @@ svg * {
     filter: blur(10px);
 }
 
-.countdown:nth-child(odd)::after {
-    border: 4px solid #9f0;
-}
-
-.countdown:nth-child(even)::after {
-    border: 4px solid #9000ff;
-}
-
 .countdown::before {
     content: '';
     position: absolute;
@@ -448,12 +444,39 @@ svg * {
     z-index: 1;
 }
 
+.countdown:nth-child(odd)::after {
+    border: 4px solid #9f0;
+}
+
+.countdown:nth-child(even)::after {
+    border: 4px solid #9000ff;
+}
+
 .countdown:nth-child(odd)::before {
     border: 2px solid rgb(203, 255, 124);
 }
 
 .countdown:nth-child(even)::before {
     border: 2px solid #c77dff;
+}
+
+.countdown:nth-child(even) .deal-discount {
+    color: #FFFFFF;
+    text-shadow: 0 0 10px #FFF, 0 0 20px hsl(84, 100%, 30%), 0 0 30px hsl(84, 100%, 30%), 0 0 40px hsl(84, 100%, 30%), 0 0 55px #9f0, 0 0 75px #9f0;
+}
+
+.countdown:nth-child(odd) .deal-discount {
+    color: #FFFFFF;
+    text-shadow: 0 0 10px #FFF, 0 0 20px #9000ff, 0 0 30px #9000ff, 0 0 40px #9000ff, 0 0 55px #9000ff, 0 0 75px #9000ff;
+}
+
+.countdown:nth-child(odd) .final-price {
+    background-color: #9f0;
+    color: #1f1f1f;
+}
+
+.countdown:nth-child(even) .final-price {
+    background-color: #9000ff;
 }
 
 .content-overlay {
@@ -482,26 +505,6 @@ svg * {
 
 .countdown img {
     filter: brightness(20%) saturate(50%);
-}
-
-/* Deals */
-.countdown:nth-child(even) .deal-discount {
-    color: #FFFFFF;
-    text-shadow: 0 0 10px #FFF, 0 0 20px #9f0, 0 0 30px #9f0, 0 0 40px #9f0, 0 0 55px #9f0, 0 0 75px #9f0;
-}
-
-.countdown:nth-child(odd) .deal-discount {
-    color: #FFFFFF;
-    text-shadow: 0 0 10px #FFF, 0 0 20px #9000ff, 0 0 30px #9000ff, 0 0 40px #9000ff, 0 0 55px #9000ff, 0 0 75px #9000ff;
-}
-
-.countdown:nth-child(odd) .final-price {
-    background-color: #9f0;
-    color: #1f1f1f;
-}
-
-.countdown:nth-child(even) .final-price {
-    background-color: #9000ff;
 }
 
 /* Footer */
@@ -660,6 +663,12 @@ footer p {
 }
 
 /* Media Queries */
+@media (max-width: 350px) {
+    #games-carousel {
+        width: 90vw;
+    }
+}
+
 @media (min-width: 768px) {
 
     /* Footer */
@@ -667,5 +676,33 @@ footer p {
     footer p {
         text-align: end;
         margin: auto 0;
+    }
+}
+
+@media (max-width: 1200px) {
+    .badge {
+        line-height: initial;
+    }
+
+    #games-carousel {
+        width: 80vw;
+    }
+
+    .deals .container {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    .deals .row {
+        justify-content: unset !important;
+        margin: -1rem auto 0 !important;
+        padding: 2rem 0;
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        scrollbar-width: none;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
     }
 }
