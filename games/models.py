@@ -141,8 +141,8 @@ class Developer(CustomBaseModel):
 
 class RatingSet(CustomBaseModel):
     game = models.OneToOneField('Game', on_delete=models.CASCADE)
-    esrb_rating = models.ForeignKey('EsrbRating', on_delete=models.SET_NULL)
-    pegi_rating = models.ForeignKey('PegiRating', on_delete=models.SET_NULL)
+    esrb_rating = models.ForeignKey('EsrbRating', null=True, on_delete=models.SET_NULL)
+    pegi_rating = models.ForeignKey('PegiRating', null=True, on_delete=models.SET_NULL)
 
 
     def __str__(self) -> str:
@@ -157,7 +157,7 @@ class EsrbRating(CustomBaseModel):
     def __str__(self) -> str:
         return self.name
     
-class EsrbRating(CustomBaseModel):
+class PegiRating(CustomBaseModel):
     name = models.CharField(max_length=254)
     slug = models.SlugField(max_length=254, null=True)
     image = models.ImageField(null=True)
