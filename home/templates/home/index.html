@@ -325,7 +325,7 @@
     var minutes = Math.floor((distance % _hour) / _minute);
     var seconds = Math.floor((distance % _minute) / _second);
 
-    if (window.innerHeight < 1200) {
+    if (window.innerWidth < 1200) {
       element.innerHTML = `${days}d `;
       element.innerHTML += hours + 'h ';
       element.innerHTML += minutes + 'm ';
