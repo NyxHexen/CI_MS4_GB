@@ -16,7 +16,7 @@ class Promo(CustomBaseModel):
     apply_to_game = models.ManyToManyField('games.Game', related_name='mtm')
     apply_to_dlc = models.ManyToManyField('games.DLC', related_name='mtm', blank=True)
     landing_page = models.BooleanField(default=False)
-    media = models.ForeignKey(Media, null=True, on_delete=models.SET_NULL)
+    media = models.ForeignKey(Media, null=True, blank=True, on_delete=models.SET_NULL)
     url = models.URLField(max_length=1024, null=True, blank=True)
     featured = models.BooleanField(default=False, null=True, blank=True)
     carousel = models.BooleanField(default=False, null=True, blank=True)
