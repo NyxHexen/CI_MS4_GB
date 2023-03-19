@@ -50,13 +50,13 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item  d-flex align-items-center">
-                            <a class="nav-link active" aria-current="page" href="{% url 'games' %}">browse</a>
+                            <a class="nav-link {% if request.path == '/games/' %}active{% endif %}" aria-current="page" href="{% url 'games' %}">browse</a>
                         </li>
                         <li class="nav-item d-flex align-items-center">
-                            <a class="nav-link" href="#">About</a>
+                            <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="#">About</a>
                         </li>
                         <li class="nav-item  d-flex align-items-center">
-                            <a class="nav-link" href="#">support</a>
+                            <a class="nav-link {% if request.path == '/support/' %}active{% endif %}" href="#">support</a>
                         </li>
                         <li class="nav-item  d-flex align-items-center">
                             <a class="nav-link d-lg-none" href="#">sign in</a>
