@@ -10,7 +10,7 @@
     --dm-text-color: 255, 251, 252;
 }
 
-/* Bootstrap Overwrite */
+/* Bootstrap Overrides */
 [data-bs-theme="light"] .nav-link:hover,
 [data-bs-theme="light"] .navbar-nav {
     --bs-nav-link-hover-color: rgb(144, 0, 255);
@@ -21,6 +21,39 @@
 [data-bs-theme="dark"] .navbar-nav {
     --bs-nav-link-hover-color: #9f0;
     --bs-nav-link-padding-y: 0rem;
+}
+
+/* noUIslider Overrides */
+.noUi-horizontal {
+    height: 9px;
+}
+
+.noUi-connect {
+    background-color: #9000ff;
+    border: 1px solid #1f1f1f;
+}
+
+.noUi-horizontal .noUi-handle {
+    width: 20px;
+    height: 20px;
+    right: -17px;
+    top: -6px;
+}
+
+.noUi-handle {
+    border: 1px solid #646464;
+    border-radius: 10px;
+}
+
+.noUi-handle:before, .noUi-handle::after {
+    height: 12px;
+    background: #cccccc;
+    left: 10px;
+    top: 3px;
+}
+
+.noUi-handle::after {
+    left: 7px;
 }
 
 /* Shadows */
@@ -538,7 +571,7 @@ svg * {
     font-weight: 500;
 }
 
-#games-filter .accordion * {
+#games-filter .accordion>* {
     border-radius: 0 !important;
 }
 
