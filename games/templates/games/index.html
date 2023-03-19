@@ -142,14 +142,29 @@
             </form>
         </div>
         <div id="games-list" class="col-8plus">
-            <div id="games-header" class="row card mb-2">
-                <div class="col card-body">
-                    Pagination
+            <div id="games-header" class="row card mb-2 d-flex flex-row">
+                <div class="col-6 card-body d-flex align-items-center">
+                    <a class="btn btn-light {% if not page.has_previous %}disabled{% endif %}"
+                        href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}#{% endif %}"
+                        href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}#{% endif %}"
+                        aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                    <div class="col-1 me-1">
+                        <label for="page-input" class="visually-hidden form-label">Page Number</label>
+                        <input type="number" class="form-control" id="page-input" placeholder="{{ page.number }}">
+                    </div>
+                    <span>of {{ page.paginator.num_pages }}</span>
+                    <a class="btn btn-light {% if not page.has_next %}disabled{% endif %}"
+                        href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
+                        aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                </div>
+                <div class="col-6 card-body">
                     Sort
                 </div>
             </div>
             <div class="games row">
-                {% for game in games %}
+                {% for game in page %}
                 <div
                     class="game col-6 col-sm-3 col-md-4 col-xl-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
                     <div class="game-cover--front">
@@ -248,5 +263,27 @@
         console.log("Hello")
         priceSlider.noUiSlider.set([null, this.value]);
     });
+</script>
+
+<script>
+    let pageInput = document.getElementById('page-input');
+
+    function goToPage(e) {
+        console.log(e.type ==='blur' || e.code === "Enter" || e.code === "NumpadEnter")
+        console.log(pageInput.value != "" && pageInput.value != pageInput.placeholder)
+        if (e.type ==='blur' || e.code === "Enter" || e.code === "NumpadEnter") {
+            if (pageInput.value != "" && pageInput.value != pageInput.placeholder) {
+                console.log("Away we go!")
+                window.location.href = `/games/?page=${pageInput.value}`;
+            }
+        }
+    }
+
+    pageInput.addEventListener('blur', e => {
+        goToPage(e)
+    });
+    pageInput.addEventListener('keyup', e => {
+        goToPage(e)
+    })
 </script>
 {% endblock %}
