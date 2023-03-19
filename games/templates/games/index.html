@@ -3,41 +3,250 @@
 {% load tags %}
 
 {% block page_header %}
+{% endblock %}
+
+{% block content %}
 <div class="container my-5">
-    <div class="games row">
-        {% for game in games %}
-        <div class="game col-6 col-md-3 col-lg-2 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
-            <div class="game-cover--front">
-                <div class="game-cover-image">
-                    {% if game|use_media:'COVER.src' is not None %}
-                    <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}">
-                    {% else %}
-                    <img src="{{ MEDIA_URL }}noimage.jpg" alt="This game does not yet have a cover image!">
-                    {% endif %}
+    <div class="row justify-content-evenly align-items-start">
+        <div id="games-filter" class="col-3plus card px-0">
+            <form action="" class="d-flex flex-column pt-3">
+                <div class="form-check ms-3">
+                    <input class="form-check-input" type="checkbox" value="" id="saleOnly">
+                    <label class="form-check-label" for="saleOnly">
+                        On Sale Only
+                    </label>
                 </div>
-                <p class="game-title">{{ game.name }}</p>
-            </div>
-            <div class="game-cover--reverse d-flex justify-content-between align-items-end">
-                <button type="button" onclick="alert('This works!')" aria-label="Add to cart" class="add-cart btn"><span>Add to </span><i class="fa-solid fa-cart-plus"></i></button>
-            </div>
-            <div class="game-back--front">
-                <p class="game-title">{{ game.name }}</p>
-            </div>
-            <div class="game-back--reverse d-flex {% if game.in_promo and game.promo.active is True%} justify-content-end {% else %} justify-content-between {% endif %} align-items-end">
-                {% if game.in_promo and game.promo.active is True%}
-                <div class="promo-discount">
-                    -{{ game.promo_percentage }}%
+                <div class="form-check ms-3">
+                    <input class="form-check-input" type="checkbox" value="" id="dlcAndExtras">
+                    <label class="form-check-label" for="dlcAndExtras">
+                        Hide DLCs and extras
+                    </label>
                 </div>
-                {% endif %}
-                <div class="game-price">£
-                    {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
+                                Price Range
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                            aria-labelledby="panelsStayOpen-headingOne">
+                            <div class="accordion-body">
+                                <div id="price-slider"></div>
+                                <div class="priceInput input-group mt-3">
+                                    <input class="form-control" name="price-slider__from" id="price-slider__from">
+                                    <span class="input-group-text">to</span>
+                                    <input class="form-control" name="price-slider__to" id="price-slider__to">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseTwo">
+                                Genres
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                            aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body">
+                                <strong>This is the second item's accordion body.</strong> It is hidden by default,
+                                until the collapse plugin adds the appropriate classes that we use to style each
+                                element. These classes control the overall appearance, as well as the showing and hiding
+                                via CSS transitions. You can modify any of this with custom CSS or overriding our
+                                default variables. It's also worth noting that just about any HTML can go within the
+                                <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseThree">
+                                Tags
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                            aria-labelledby="panelsStayOpen-headingThree">
+                            <div class="accordion-body">
+                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until
+                                the collapse plugin adds the appropriate classes that we use to style each element.
+                                These classes control the overall appearance, as well as the showing and hiding via CSS
+                                transitions. You can modify any of this with custom CSS or overriding our default
+                                variables. It's also worth noting that just about any HTML can go within the
+                                <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseFour">
+                                Platform
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
+                            aria-labelledby="panelsStayOpen-headingFour">
+                            <div class="accordion-body">
+                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until
+                                the collapse plugin adds the appropriate classes that we use to style each element.
+                                These classes control the overall appearance, as well as the showing and hiding via CSS
+                                transitions. You can modify any of this with custom CSS or overriding our default
+                                variables. It's also worth noting that just about any HTML can go within the
+                                <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingFive">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseFive">
+                                Features
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse"
+                            aria-labelledby="panelsStayOpen-headingFive">
+                            <div class="accordion-body">
+                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until
+                                the collapse plugin adds the appropriate classes that we use to style each element.
+                                These classes control the overall appearance, as well as the showing and hiding via CSS
+                                transitions. You can modify any of this with custom CSS or overriding our default
+                                variables. It's also worth noting that just about any HTML can go within the
+                                <code>.accordion-body</code>, though the transition does limit overflow.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingSix">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false"
+                                aria-controls="panelsStayOpen-collapseSix">
+                                Release Date
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse"
+                            aria-labelledby="panelsStayOpen-headingSix">
+                            <div class="accordion-body">
+                                Two-point slider goes here!
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </form>
+        </div>
+        <div id="games-list" class="col-8plus">
+            <div id="games-header" class="row card mb-2">
+                <div class="col-5 card-body">
+                    Pagination
+                    Sort
+                </div>
+            </div>
+            <div class="games row">
+                {% for game in games %}
+                <div
+                    class="game col-6 col-md-3 col-lg-2 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
+                    <div class="game-cover--front">
+                        <div class="game-cover-image">
+                            {% if game|use_media:'COVER.src' is not None %}
+                            <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
+                                alt="{{ game|use_media:'COVER.descr' }}">
+                            {% else %}
+                            <img src="{{ MEDIA_URL }}noimage.jpg" alt="This game does not yet have a cover image!">
+                            {% endif %}
+                        </div>
+                        <p class="game-title">{{ game.name }}</p>
+                    </div>
+                    <div class="game-cover--reverse d-flex justify-content-between align-items-end">
+                        <button type="button" onclick="alert('This works!')" aria-label="Add to cart"
+                            class="add-cart btn"><span>Add to </span><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                    <div class="game-back--front">
+                        <p class="game-title">{{ game.name }}</p>
+                    </div>
+                    <div
+                        class="game-back--reverse d-flex {% if game.in_promo and game.promo.active is True%} justify-content-end {% else %} justify-content-between {% endif %} align-items-end">
+                        {% if game.in_promo and game.promo.active is True%}
+                        <div class="promo-discount">
+                            -{{ game.promo_percentage }}%
+                        </div>
+                        {% endif %}
+                        <div class="game-price">£
+                            {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %}
 
-{% block content %}
+{% block corecss %}
+<link href="{% static 'css/nouislider.css' %}" rel="stylesheet">
+{{ block.super }}
+{% endblock %}
+
+{% block corejs %}
+<script src="{% static 'js/nouislider.js' %}"></script>
+<script src="{% static 'js/wNumb.min.js' %}"></script>
+{{ block.super }}
+{% endblock %}
+
+{% block postloadcss %}
+<style>
+    #price-slider__from,
+    #price-slider__to {
+        padding: 7px;
+        margin: 15px 5px 5px;
+        width: 70px;
+    }
+</style>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+
+<script>
+    let priceSlider = document.getElementById('price-slider');
+    let nodes = [
+        document.getElementById('price-slider__from'),
+        document.getElementById('price-slider__to'),
+    ]
+
+    noUiSlider.create(priceSlider, {
+        start: [0, 129],
+        connect: true,
+        step: 10,
+        range: {
+            'min': 0,
+            'max': 129
+        },
+        format: wNumb({
+            decimals: 2,
+            thousand: ',',
+            prefix: '£'
+        })
+    });
+
+    priceSlider.noUiSlider.on('update', function (values, handle) {
+        nodes[handle].value = values[handle]
+    });
+
+    nodes[0].addEventListener('change', function () {
+        priceSlider.noUiSlider.set([this.value, null]);
+    });
+
+    nodes[1].addEventListener('change', function () {
+        console.log("Hello")
+        priceSlider.noUiSlider.set([null, this.value]);
+    });
+</script>
 {% endblock %}
