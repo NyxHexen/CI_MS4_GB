@@ -10,16 +10,6 @@
     --dm-text-color: 255, 251, 252;
 }
 
-/* Custom Bootstraps */
-.col-3plus {
-    width: 20%;
-}
-
-.col-8plus {
-    flex: 0 0 auto;
-    width: 68.19%;
-}
-
 /* Bootstrap Overwrite */
 [data-bs-theme="light"] .nav-link:hover,
 [data-bs-theme="light"] .navbar-nav {
@@ -255,7 +245,6 @@ svg * {
 /* Game Container */
 
 .game {
-    min-width: 225px !important;
     position: relative;
     transform-style: preserve-3d;
     margin-bottom: 4rem;
@@ -719,7 +708,24 @@ footer p {
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 1200px) {
+    .container {
+        max-width: 800px;
+    }
+
+    .col-lg-2plus {
+        width: 29%;
+    }
+
+    /* Custom Bootstraps */
+    .col-3plus {
+        width: 31%;
+    }
+
+    .col-8plus {
+        flex: 0 0 auto;
+        width: 68.19%;
+    }
 
     /* Footer */
     footer h5,
@@ -733,6 +739,28 @@ footer p {
     .col-lg-2plus {
         flex: 0 0 auto;
         width: 21%;
+    }
+
+    /* Custom Bootstraps */
+    .col-3plus {
+        width: 20%;
+    }
+
+    .col-8plus {
+        flex: 0 0 auto;
+        width: 68.19%;
+    }
+}
+
+@media (max-width: 992px) {
+    .game>* {
+        --game-height: 206px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .game {
+        min-width: 225px;
     }
 }
 
