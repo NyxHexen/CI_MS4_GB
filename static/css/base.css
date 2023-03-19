@@ -538,11 +538,6 @@ svg * {
 }
 
 /* Browse/Games */
-
-#games-header {
-    width: 900px;
-}
-
 #games-filter {
     --shadow-color: 0deg 0% 25%;
 }
