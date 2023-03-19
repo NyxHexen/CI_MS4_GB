@@ -471,12 +471,12 @@ svg * {
 }
 
 .countdown:nth-child(odd) .final-price {
-    background-color: #9f0;
-    color: #1f1f1f;
+    background-color: #9000ff;
 }
 
 .countdown:nth-child(even) .final-price {
-    background-color: #9000ff;
+    color: #1f1f1f;
+    background-color: #9f0;
 }
 
 .content-overlay {
@@ -505,6 +505,25 @@ svg * {
 
 .countdown img {
     filter: brightness(20%) saturate(50%);
+}
+
+.countdown-timer {
+    color: #9f0;
+    font-weight: 600;
+}
+
+.countdown:nth-child(odd) .countdown-timer {
+    color:  hsl(274, 100%, 80%);
+}
+
+.countdown:nth-child(even) .countdown-timer {
+    color: #9f0;
+}
+
+.countdown-timer span {
+    color: white;
+    font-size: 1rem;
+    font-weight: 400 !important;
 }
 
 /* Footer */

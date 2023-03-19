@@ -326,15 +326,15 @@
     var seconds = Math.floor((distance % _minute) / _second);
 
     if (window.innerWidth < 1200) {
-      element.innerHTML = `${days}d `;
-      element.innerHTML += hours + 'h ';
-      element.innerHTML += minutes + 'm ';
-      element.innerHTML += seconds + 's';
+      element.innerHTML = `${days}<span>D </span>`;
+      element.innerHTML += `${hours}<span>H </span>`;
+      element.innerHTML += `${minutes}<span>M </span>`;
+      element.innerHTML += `${seconds}<span>S</span>`;
     } else {
-      element.innerHTML = `${days}days `;
-      element.innerHTML += hours + 'hrs ';
-      element.innerHTML += minutes + 'mins ';
-      element.innerHTML += seconds + 'secs';
+      element.innerHTML = `${days}<span> Days </span>`;
+      element.innerHTML += `${hours}<span> Hours </span>`;
+      element.innerHTML += `${minutes}<span> Mins </span>`;
+      element.innerHTML += `${seconds}<span> Secs</span>`;
     }
 
     setTimeout(function () {
