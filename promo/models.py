@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.signals import m2m_changed
+from datetime import datetime, time, timedelta
 from django.core.exceptions import ValidationError
 from django.dispatch import receiver
 
@@ -11,8 +12,8 @@ class Promo(CustomBaseModel):
     active = models.BooleanField(default=False)
     name = models.CharField(max_length=254)
     slug = models.SlugField(max_length=254, null=True, blank=True)
-    start_date = models.DateTimeField(null=True)
-    end_date = models.DateTimeField(null=True)
+    start_date = models.DateTimeField(null=True, default=datetime.combine(datetime.now().date(), time(hour=0, minute=1)))
+    end_date = models.DateTimeField(null=True, default=datetime.combine(datetime.now() + timedelta(days=1), time(hour=0, minute=1)))
     apply_to_game = models.ManyToManyField('games.Game', related_name='mtm', blank=True)
     apply_to_dlc = models.ManyToManyField('games.DLC', related_name='mtm', blank=True)
     landing_page = models.BooleanField(default=False)
