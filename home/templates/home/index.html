@@ -92,7 +92,7 @@
   <h2>Featured Games</h2>
   <hr>
   <div class="games row justify-content-center mt-3">
-    {% for game in featured %}
+    {% for game in is_featured %}
     <div class="game col-6 col-md-3 col-lg-2 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
       <div class="game-cover--front">
         <div class="game-cover-image">

@@ -11,13 +11,13 @@
         <div id="games-filter" class="d-none d-md-block col-3plus card px-0">
             <form action="" class="d-flex flex-column pt-3">
                 <div class="form-check ms-3">
-                    <input class="form-check-input" type="checkbox" value="" id="saleOnly">
+                    <input class="form-check-input" type="checkbox" id="saleOnly">
                     <label class="form-check-label" for="saleOnly">
                         On Sale Only
                     </label>
                 </div>
                 <div class="form-check ms-3">
-                    <input class="form-check-input" type="checkbox" value="" id="dlcAndExtras">
+                    <input class="form-check-input" type="checkbox" id="dlcAndExtras">
                     <label class="form-check-label" for="dlcAndExtras">
                         Hide DLCs and extras
                     </label>
@@ -54,12 +54,14 @@
                         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
                             aria-labelledby="panelsStayOpen-headingTwo">
                             <div class="accordion-body">
-                                <strong>This is the second item's accordion body.</strong> It is hidden by default,
-                                until the collapse plugin adds the appropriate classes that we use to style each
-                                element. These classes control the overall appearance, as well as the showing and hiding
-                                via CSS transitions. You can modify any of this with custom CSS or overriding our
-                                default variables. It's also worth noting that just about any HTML can go within the
-                                <code>.accordion-body</code>, though the transition does limit overflow.
+                                {% for genre in genres %}
+                                <div class="form-check ms-3">
+                                    <input class="form-check-input" type="checkbox" id="{{ genre.slug }}">
+                                    <label class="form-check-label" for="{{ genre.slug }}">
+                                        {{ genre.name }}
+                                    </label>
+                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -74,12 +76,14 @@
                         <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
                             aria-labelledby="panelsStayOpen-headingThree">
                             <div class="accordion-body">
-                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until
-                                the collapse plugin adds the appropriate classes that we use to style each element.
-                                These classes control the overall appearance, as well as the showing and hiding via CSS
-                                transitions. You can modify any of this with custom CSS or overriding our default
-                                variables. It's also worth noting that just about any HTML can go within the
-                                <code>.accordion-body</code>, though the transition does limit overflow.
+                                {% for tag in tags %}
+                                <div class="form-check ms-3">
+                                    <input class="form-check-input" type="checkbox" id="{{ tag.slug }}">
+                                    <label class="form-check-label" for="{{ tag.slug }}">
+                                        {{ tag.name }}
+                                    </label>
+                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -94,12 +98,14 @@
                         <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
                             aria-labelledby="panelsStayOpen-headingFour">
                             <div class="accordion-body">
-                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until
-                                the collapse plugin adds the appropriate classes that we use to style each element.
-                                These classes control the overall appearance, as well as the showing and hiding via CSS
-                                transitions. You can modify any of this with custom CSS or overriding our default
-                                variables. It's also worth noting that just about any HTML can go within the
-                                <code>.accordion-body</code>, though the transition does limit overflow.
+                                {% for platform in platforms %}
+                                <div class="form-check ms-3">
+                                    <input class="form-check-input" type="checkbox" id="{{ platform.slug }}">
+                                    <label class="form-check-label" for="{{ platform.slug }}">
+                                        {{ platform.name }}
+                                    </label>
+                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -114,12 +120,14 @@
                         <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse"
                             aria-labelledby="panelsStayOpen-headingFive">
                             <div class="accordion-body">
-                                <strong>This is the third item's accordion body.</strong> It is hidden by default, until
-                                the collapse plugin adds the appropriate classes that we use to style each element.
-                                These classes control the overall appearance, as well as the showing and hiding via CSS
-                                transitions. You can modify any of this with custom CSS or overriding our default
-                                variables. It's also worth noting that just about any HTML can go within the
-                                <code>.accordion-body</code>, though the transition does limit overflow.
+                                {% for feature in features %}
+                                <div class="form-check ms-3">
+                                    <input class="form-check-input" type="checkbox" id="{{ feature.slug }}">
+                                    <label class="form-check-label" for="{{ feature.slug }}">
+                                        {{ feature.name }}
+                                    </label>
+                                </div>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -134,7 +142,12 @@
                         <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse"
                             aria-labelledby="panelsStayOpen-headingSix">
                             <div class="accordion-body">
-                                Two-point slider goes here!
+                                <div id="release-date-slider"></div>
+                                <div class="release-dateInput input-group mt-3">
+                                    <input class="form-control" name="release-date-slider__from" id="release-date-slider__from">
+                                    <span class="input-group-text">to</span>
+                                    <input class="form-control" name="release-date-slider__to" id="release-date-slider__to">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -231,7 +244,7 @@
 
 <script>
     let priceSlider = document.getElementById('price-slider');
-    let nodes = [
+    let priceNodes = [
         document.getElementById('price-slider__from'),
         document.getElementById('price-slider__to'),
     ]
@@ -252,16 +265,47 @@
     });
 
     priceSlider.noUiSlider.on('update', function (values, handle) {
-        nodes[handle].value = values[handle]
+        priceNodes[handle].value = values[handle]
     });
 
-    nodes[0].addEventListener('change', function () {
+    priceNodes[0].addEventListener('change', function () {
         priceSlider.noUiSlider.set([this.value, null]);
     });
 
-    nodes[1].addEventListener('change', function () {
+    priceNodes[1].addEventListener('change', function () {
         console.log("Hello")
         priceSlider.noUiSlider.set([null, this.value]);
+    });
+
+    let releaseDateSlider = document.getElementById('release-date-slider');
+    let dateNodes = [
+        document.getElementById('release-date-slider__from'),
+        document.getElementById('release-date-slider__to'),
+    ]
+
+    noUiSlider.create(releaseDateSlider, {
+        start: [1980, new Date().getFullYear()],
+        connect: true,
+        step: 1,
+        range: {
+            'min': 1980,
+            'max': new Date().getFullYear()
+        },
+        format: wNumb({
+            decimals: 0,
+        })
+    });
+
+    releaseDateSlider.noUiSlider.on('update', function (values, handle) {
+        dateNodes[handle].value = values[handle]
+    });
+
+    dateNodes[0].addEventListener('change', function () {
+        releaseDateSlider.noUiSlider.set([this.value, null]);
+    });
+
+    dateNodes[1].addEventListener('change', function () {
+        releaseDateSlider.noUiSlider.set([null, this.value]);
     });
 </script>
 
@@ -269,9 +313,7 @@
     let pageInput = document.getElementById('page-input');
 
     function goToPage(e) {
-        console.log(e.type ==='blur' || e.code === "Enter" || e.code === "NumpadEnter")
-        console.log(pageInput.value != "" && pageInput.value != pageInput.placeholder)
-        if (e.type ==='blur' || e.code === "Enter" || e.code === "NumpadEnter") {
+        if (e.type === 'blur' || e.code === "Enter" || e.code === "NumpadEnter") {
             if (pageInput.value != "" && pageInput.value != pageInput.placeholder) {
                 console.log("Away we go!")
                 window.location.href = `/games/?page=${pageInput.value}`;
