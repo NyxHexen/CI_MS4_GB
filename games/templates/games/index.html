@@ -249,13 +249,15 @@
         document.getElementById('price-slider__to'),
     ]
 
+    priceSliderCeiling = Number("{{price_slider_ceil}}")
+
     noUiSlider.create(priceSlider, {
-        start: [0, 129],
+        start: [0, priceSliderCeiling],
         connect: true,
         step: 10,
         range: {
             'min': 0,
-            'max': 129
+            'max': priceSliderCeiling
         },
         format: wNumb({
             decimals: 2,
