@@ -43,8 +43,9 @@ class Game(CustomBaseModel):
     description = models.TextField(null=True)
     platforms = models.ManyToManyField('Platform')
     tags = models.ManyToManyField('Tag')
+    features = models.ManyToManyField('Feature')
     media = models.ManyToManyField('Media')
-    featured = models.BooleanField(default=False, null=True, blank=True)
+    is_featured = models.BooleanField(default=False, null=True, blank=True)
     carousel = models.BooleanField(default=False, null=True, blank=True)
     base_price = models.DecimalField(max_digits=6, decimal_places=2)
     in_promo = models.BooleanField(default=False, null=True, blank=True)
@@ -83,7 +84,8 @@ class DLC(CustomBaseModel):
     description = models.TextField(null=True)
     tags = models.ManyToManyField('Tag')
     media = models.ManyToManyField('Media')
-    featured = models.BooleanField(default=False, null=True)
+    features = models.ManyToManyField('Feature')
+    is_featured = models.BooleanField(default=False, null=True)
     carousel = models.BooleanField(default=False, null=True)
     base_price = models.DecimalField(max_digits=6, decimal_places=2)
     in_promo = models.BooleanField(default=False, null=True, blank=True)
@@ -170,6 +172,14 @@ class Platform(CustomBaseModel):
     
 
 class Tag(CustomBaseModel):
+    name = models.CharField(max_length=254, unique=True)
+    slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Feature(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
 

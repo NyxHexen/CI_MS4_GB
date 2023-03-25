@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='promo',
-            name='featured',
+            name='is_featured',
             field=models.BooleanField(blank=True, default=False, null=True),
         ),
         migrations.AlterField(

@@ -13,9 +13,9 @@ def index(request):
     carousel += list(Promo.objects.filter(carousel=True))
     carousel += list(DLC.objects.filter(carousel=True))
 
-    featured = list(Game.objects.filter(featured=True))
-    if len(featured) > 4:
-        featured = random.sample(featured, 6)
+    is_featured = list(Game.objects.filter(is_featured=True))
+    if len(is_featured) > 4:
+        is_featured = random.sample(is_featured, 6)
     
     dotd = list(Promo.objects.filter(active=True, landing_page=True))
 
@@ -35,7 +35,7 @@ def index(request):
 
     context = {
         'carousel': carousel,
-        'featured': featured,
+        'is_featured': is_featured,
         'dotd': dotd
     }
     return render(request, 'home/index.html', context)

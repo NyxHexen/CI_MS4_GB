@@ -19,7 +19,7 @@ class Promo(CustomBaseModel):
     landing_page = models.BooleanField(default=False)
     media = models.ForeignKey(Media, null=True, blank=True, on_delete=models.SET_NULL)
     url = models.URLField(max_length=1024, null=True, blank=True)
-    featured = models.BooleanField(default=False, null=True, blank=True)
+    is_featured = models.BooleanField(default=False, null=True, blank=True)
     carousel = models.BooleanField(default=False, null=True, blank=True)
     short_description = models.TextField(max_length=512, null=True, blank=True)
     long_description = models.TextField(max_length=1024, null=True, blank=True)
