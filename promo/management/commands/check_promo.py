@@ -13,4 +13,3 @@ class Command(BaseCommand):
             else:
                 promo.active = False
             promo.save()
-            print(f"Promo {promo.name} active: {promo.active}")
