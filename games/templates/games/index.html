@@ -172,8 +172,18 @@
                         href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
                         aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
                 </div>
-                <div class="col-6 card-body">
-                    Sort
+                <div class="col-3 offset-3 card-body">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected disabled>Open this select menu</option>
+                        <option value="1">Price (from highest)</option>
+                        <option value="2">Price (from lowest)</option>
+                        <option value="3">Discount (from highest)</option>
+                        <option value="4">Title (A to Z)</option>
+                        <option value="5">Title (Z to A)</option>
+                        <option value="6">Release Date (newest first)</option>
+                        <option value="7">Release Date (oldest first)</option>
+                        <option value="8">Rating (from highest)</option>
+                      </select>
                 </div>
             </div>
             <div class="games row">
