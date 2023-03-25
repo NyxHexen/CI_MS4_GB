@@ -45,7 +45,8 @@
     border-radius: 10px;
 }
 
-.noUi-handle:before, .noUi-handle::after {
+.noUi-handle:before,
+.noUi-handle::after {
     height: 12px;
     background: #cccccc;
     left: 10px;
@@ -566,13 +567,15 @@ svg * {
 
 #games-list .form-control::-webkit-outer-spin-button,
 #games-list .form-control::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 #games-list .form-control[type=number] {
-  -moz-appearance: textfield;
+    appearance: none;
+    -moz-appearance: textfield;
 }
 
 #games-filter .form-control {
