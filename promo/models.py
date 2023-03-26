@@ -1,8 +1,9 @@
 from django.db import models
-from django.db.models.signals import m2m_changed
+from django.db.models.signals import m2m_changed, pre_save
 from datetime import datetime, time, timedelta
 from django.core.exceptions import ValidationError
 from django.dispatch import receiver
+from decimal import Decimal
 
 from games.models import CustomBaseModel, Media
 from ci_ms4_gamebox.utils import get_or_none
@@ -37,6 +38,7 @@ class Promo(CustomBaseModel):
     pre_remove = None
     post_remove = None
     
+    # Handles adding and removing from Promos
     def _update_games(self, **kwargs):
         match kwargs["action"]:
             case 'pre_remove':
@@ -85,3 +87,25 @@ def game_receiver(instance, *args, **kwargs):
 @receiver(m2m_changed, sender=Promo.apply_to_game.through)
 def dlc_receiver(instance, *args, **kwargs):
     instance._update_games(**kwargs)
+
+
+# Handles promo active status and percentage adjustment to final_price if active
+@receiver(pre_save, sender=Promo)
+def promo_price_apply(instance, *args, **kwargs):
+    current = Promo.objects.filter(id=instance.id).all()[0].active
+    updated = instance.active
+    apply_discount(instance) if current < updated else remove_discount(instance) if current > updated else None
+
+
+def apply_discount(instance):
+    for queryset in [instance.apply_to_game.all(), instance.apply_to_dlc.all()]:
+        for item in queryset:
+            final_price = Decimal(round(item.base_price * (1 + (Decimal(item.promo_percentage) / 100 * -1 )), 2))
+            queryset.filter(id=item.id).update(final_price=final_price)
+
+
+def remove_discount(instance):
+    for queryset in [instance.apply_to_game.all(), instance.apply_to_dlc.all()]:
+        for item in queryset:
+            final_price = item.base_price
+            queryset.filter(id=item.id).update(final_price=final_price)

@@ -28,8 +28,6 @@ class CustomBaseModel(models.Model):
         if "base_price" in self.__dict__:
             if self.base_price != 0.00:
                 self.final_price = self.base_price
-        if "promo_percentage" in self.__dict__ and self.__dict__["promo_percentage"] != 0:
-            self.__dict__["final_price"] = float(self.__dict__["base_price"]) * (1 + (self.__dict__["promo_percentage"] / 100 * -1 ))
         super().save(*args, **kwargs)
 
 
