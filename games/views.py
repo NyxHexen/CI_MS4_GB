@@ -21,7 +21,7 @@ def games(request):
             'price_range': lambda queryset, param: queryset.filter(final_price__gte=Decimal(param[0]),final_price__lte=Decimal(param[1])) if len(param) == 2 else queryset,
             'genres_filter': lambda queryset, param: queryset.filter(genres__slug__in=param).distinct() if not all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset,
             'tags_filter': lambda queryset, param: queryset.filter(tags__slug__in=param).distinct(),
-            'platforms_filter': lambda queryset, param: queryset.filter(platforms__slug__in=param).distinct(),
+            'platforms_filter': lambda queryset, param: queryset.filter(platforms__slug__in=param).distinct() if not all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset.filter(required_game__platforms__slug__in=param),
             'features_filter': lambda queryset, param: queryset.filter(features__slug__in=param).distinct(),
             'release_date': lambda queryset, param: queryset.filter(release_date__lte=param[0], release_date_gte=param[1]) if len(param) == 2 else queryset,
         }

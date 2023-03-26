@@ -114,15 +114,18 @@
                         <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse"
                             aria-labelledby="panelsStayOpen-headingFour">
                             <div class="accordion-body">
-                                {% for platform in platforms %}
-                                <div class="form-check ms-3">
-                                    <input class="form-check-input" type="checkbox" id="platform-{{ platform.slug }}"
-                                        name="platforms" value="{{ platform.slug }}">
-                                    <label class="form-check-label" for="platform-{{ platform.slug }}">
-                                        {{ platform.name }}
-                                    </label>
-                                </div>
-                                {% endfor %}
+                                <fieldset id="platforms">
+                                    <input type="hidden" name="platforms_filter">
+                                    {% for platform in platforms %}
+                                    <div class="form-check ms-3">
+                                        <input class="form-check-input" type="checkbox"
+                                            id="platform-{{ platform.slug }}" value="{{ platform.slug }}">
+                                        <label class="form-check-label" for="platform-{{ platform.slug }}">
+                                            {{ platform.name }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </fieldset>
                             </div>
                         </div>
                     </div>
@@ -350,8 +353,8 @@
 
     let initialFromDate = dateNodes[0].value;
     let initialToDate = dateNodes[1].value;
-    let initialFromPrice = priceNodes[0].value;
-    let initialToPrice = priceNodes[1].value;
+    let initialFromPrice = priceNodes[0].value.replace("£", "");
+    let initialToPrice = priceNodes[1].value.replace("£", "");
 
     let form = document.getElementById('game-filter-form');
 
@@ -371,7 +374,7 @@
         initFilter(price, "price");
         initFilter(genres, "genres");
         initFilter(tags, "tags");
-        initFilter(platform, "platform");
+        initFilter(platforms, "platforms");
         initFilter(features, "features");
         // initFilter(release_date, "release_date");
 
@@ -379,17 +382,20 @@
     });
 
     function initFilter(filter_group, filter_name) {
-        if (filter_name == "price" || filter_name == "date") {
-            let sliders = Array.from(document.querySelectorAll(`fieldset[id="${filter_name}"] input:not([type=hidden])`))
-            .map(input => input.value.replace("£", ""));
-            if (sliders.length != 0 && sliders[0] !== initialFromDate || sliders[1] !== initialToDate) {
+        if (filter_name == "price") {
+            let sliders = Array.from(document.querySelectorAll(
+                    `fieldset[id="${filter_name}"] input:not([type=hidden])`))
+                .map(input => input.value.replace("£", ""));
+            if (sliders.length != 0 && (sliders[0] !== initialFromPrice || sliders[1] !== initialToPrice)) {
                 form.querySelector(`input[name="${filter_name}_range"]`).value = sliders;
             } else {
                 form.querySelector(`input[name="${filter_name}_range"]`).removeAttribute('name')
             }
+        } else if (filter_name == "date"){
+            null
         } else {
             let checkboxes = Array.from(document.querySelectorAll(`fieldset[id="${filter_name}"] input:checked`))
-            .map(input => input.value);
+                .map(input => input.value);
             if (checkboxes.length != 0) {
                 form.querySelector(`input[name="${filter_name}_filter"]`).value = checkboxes;
             } else {
