@@ -140,15 +140,18 @@
                         <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse"
                             aria-labelledby="panelsStayOpen-headingFive">
                             <div class="accordion-body">
-                                {% for feature in features %}
-                                <div class="form-check ms-3">
-                                    <input class="form-check-input" type="checkbox" id="feature-{{ feature.slug }}"
-                                        name="features" value="{{ feature.slug }}">
-                                    <label class="form-check-label" for="feature-{{ feature.slug }}">
-                                        {{ feature.name }}
-                                    </label>
-                                </div>
-                                {% endfor %}
+                                <fieldset id="features">
+                                    <input type="hidden" name="features_filter">
+                                    {% for feature in features %}
+                                    <div class="form-check ms-3">
+                                        <input class="form-check-input" type="checkbox" id="feature-{{ feature.slug }}"
+                                            name="features" value="{{ feature.slug }}">
+                                        <label class="form-check-label" for="feature-{{ feature.slug }}">
+                                            {{ feature.name }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </fieldset>
                             </div>
                         </div>
                     </div>
@@ -385,7 +388,7 @@
             } else {
                 form.querySelector(`input[name="${filter_name}_range"]`).removeAttribute('name')
             }
-        } else if (filter_name == "date"){
+        } else if (filter_name == "date") {
             let sliders = Array.from(document.querySelectorAll(
                     `fieldset[id="${filter_name}"] input:not([type=hidden])`))
                 .map(input => input.value);
