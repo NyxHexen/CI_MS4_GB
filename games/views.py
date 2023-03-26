@@ -23,7 +23,7 @@ def games(request):
             'tags_filter': lambda queryset, param: queryset.filter(tags__slug__in=param).distinct(),
             'platforms_filter': lambda queryset, param: queryset.filter(platforms__slug__in=param).distinct() if not all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset.filter(required_game__platforms__slug__in=param).distinct(),
             'features_filter': lambda queryset, param: queryset.filter(features__slug__in=param).distinct(),
-            'release_date': lambda queryset, param: queryset.filter(release_date__lte=param[0], release_date_gte=param[1]) if len(param) == 2 else queryset,
+            'date_range': lambda queryset, param: queryset.filter(release_date__gte=param[0], release_date__lte=param[1]) if len(param) == 2 else queryset,
         }
 
         filtered_results_games = games
