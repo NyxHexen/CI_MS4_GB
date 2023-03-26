@@ -1,5 +1,7 @@
 from django import template
 from promo.models import Promo
+from decimal import Decimal
+import math
 
 register = template.Library()
 
@@ -15,4 +17,12 @@ def promo_games(name):
                                                          'final_price')
         return games.union(dlc)
     except Exception as e:
+        return None
+
+@register.filter
+def calc_promo_price(price, increase):
+    try:
+        promo_calc = round(price * (1 + (Decimal(increase) / 100 * -1 )), 2)
+        return promo_calc
+    except Exception:
         return None

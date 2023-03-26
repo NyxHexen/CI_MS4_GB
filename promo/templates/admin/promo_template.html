@@ -47,7 +47,7 @@
         <input type="text" name="promo_percentage-{{ i.id }}" id="promo_percentage-{{ i.id }}" value="{{i.promo_percentage}}">
       </td>
       <td>
-        {{ i.promo_price }}
+        {{ i.base_price|calc_promo_price:i.promo_percentage }}
       </td>
       <td>
         {{ i.final_price }}
