@@ -36,7 +36,7 @@ class PromoAdminModel(admin.ModelAdmin):
 class PromoAdmin(PromoAdminModel):
     change_form_template = "admin/promo_template.html"
     filter_horizontal = ['apply_to_game', 'apply_to_dlc',]
-    list_display = ['id', 'name', 'slug', 'url', 'total_in_promo', 
+    list_display = ['id', 'name', 'slug', 'active', 'url', 'total_in_promo', 
                     'is_featured', 'carousel', 'start_date', 'end_date' ]
     readonly_fields = ['slug',]
 
