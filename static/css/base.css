@@ -603,12 +603,52 @@ svg * {
     font-family: 'Jost', sans-serif;
 }
 
+#games-header {
+    background-color: transparent;
+    border: none;
+}
+
 #games-header .card-body {
     padding: .5rem;
 }
 
-#games-header .pagination {
-    margin: 0;
+#pagination>*:first-child{
+    border-radius: 5px 0 0 5px;
+}
+
+#pagination>*:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+#pagination>*:first-child:hover,
+#pagination>*:last-child:hover {
+    transform: scale(1.1);
+    color: #9000ff;
+    border: 1px solid #9000ff;
+    box-shadow: 0 0 2px #9000ff;
+    transition: all .2s ease-in;
+}
+
+#pagination input:hover,
+#pagination input:focus,
+#pagination input:active {
+    color: #9000ff;
+    box-shadow: 0 0 2px #9000ff;
+    border-color: #9000ff;
+    transition: all .2s ease-in;
+}
+
+#pagination *:not(input) {
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+#pagination div {
+    width: 20%;
+}
+
+#pagination input {
+    border-radius: 0;
 }
 
 /* Footer */
@@ -773,6 +813,12 @@ footer p {
     }
 }
 
+@media (min-width: 500px) {
+    #pagination div {
+        width: 15%;
+    }
+}
+
 @media (min-width: 768px) and (max-width: 1200px) {
     .container {
         max-width: 800px;
@@ -817,15 +863,21 @@ footer p {
     }
 }
 
+@media (min-width: 992px) {
+    #pagination div {
+        width: 15%;
+    }
+}
+
 @media (max-width: 992px) {
     .game>* {
         --game-height: 206px;
     }
 }
 
-@media (min-width: 1400px) {
-    .game {
-        min-width: 225px;
+@media (min-width: 1200px) {
+    #pagination div {
+        width: 10%;
     }
 }
 
@@ -854,5 +906,15 @@ footer p {
         scrollbar-width: none;
         scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
+    }
+}
+
+@media (min-width: 1400px) {
+    .game {
+        min-width: 225px;
+    }
+
+    #pagination div {
+        width: 9%;
     }
 }

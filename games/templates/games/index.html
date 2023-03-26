@@ -11,34 +11,35 @@
         {% include './includes/filter.html' %}
         <div id="games-list" class="col-8plus">
             <div id="games-header" class="row card mb-2 d-flex flex-row">
-                <div class="col-6 card-body d-flex align-items-center">
+                <div id="pagination" class="col-6 card-body d-flex align-items-center">
                     {% if filter_dict %}
-                    <a class="btn btn-light {% if not page.has_previous %}disabled{% endif %}"
+                    <a class="btn {% if not page.has_previous %}disabled{% endif %}"
                         href="{% if page.has_previous %}?filter=true&{{ filter_dict }}&page={{ page.previous_page_number }}{% else %}#{% endif %}"
-                        aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span></a>
+                        aria-label="Previous Page">
                     {% else %}
-                    <a class="btn btn-light {% if not page.has_previous %}disabled{% endif %}"
+                    <a class="btn {% if not page.has_previous %}disabled{% endif %}"
                         href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}#{% endif %}"
                         aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span></a>
                     {% endif %}
-                    <div class="col-1 me-1">
+                    <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span></a>
+                    <div class="col-2">
                         <label for="page-input" class="visually-hidden form-label">Page Number</label>
                         <input type="number" class="form-control" id="page-input" placeholder="{{ page.number }}">
                     </div>
-                    <span>of {{ page.paginator.num_pages }}</span>
+                    <span class="px-2 py-1">of</span>
+                    <span class="px-2 py-1">{{ page.paginator.num_pages }}</span>
                     {% if filter_dict %}
-                    <a class="btn btn-light {% if not page.has_next %}disabled{% endif %}"
+                    <a class="btn {% if not page.has_next %}disabled{% endif %}"
                         href="{% if page.has_next %}?filter=true&{{ filter_dict }}&page={{ page.next_page_number }}{% else %}#{% endif %}"
-                        aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                        aria-label="Next Page">
                     {% else %}
-                    <a class="btn btn-light {% if not page.has_next %}disabled{% endif %}"
+                    <a class="btn {% if not page.has_next %}disabled{% endif %}"
                         href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
-                        aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                        aria-label="Next Page">
                     {% endif %}
+                    <span aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span></a>
                 </div>
-                <div class="col-3 offset-3 card-body">
+                <div class="col-3 offset-md-3 card-body">
                     <select class="form-select" aria-label="Default select example">
                         <option selected disabled>Sort By</option>
                         <option value="1">Price (from highest)</option>
