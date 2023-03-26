@@ -39,12 +39,15 @@
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
                             aria-labelledby="panelsStayOpen-headingOne">
                             <div class="accordion-body">
-                                <div id="price-slider"></div>
-                                <div class="priceInput input-group mt-3">
-                                    <input class="form-control" id="price-slider__from" name="price_from">
-                                    <span class="input-group-text">to</span>
-                                    <input class="form-control" name="price_to" id="price-slider__to">
-                                </div>
+                                <fieldset id="price">
+                                    <input type="hidden" name="price_range">
+                                    <div id="price-slider"></div>
+                                    <div class="priceInput input-group mt-3">
+                                        <input class="form-control" id="price-slider__from">
+                                        <span class="input-group-text">to</span>
+                                        <input class="form-control" id="price-slider__to">
+                                    </div>
+                                </fieldset>
                             </div>
                         </div>
                     </div>
@@ -183,20 +186,20 @@
                         aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span></a>
                     {% endif %}
-                        <div class="col-1 me-1">
-                            <label for="page-input" class="visually-hidden form-label">Page Number</label>
-                            <input type="number" class="form-control" id="page-input" placeholder="{{ page.number }}">
-                        </div>
-                        <span>of {{ page.paginator.num_pages }}</span>
-                        {% if filter_dict %}
-                        <a class="btn btn-light {% if not page.has_next %}disabled{% endif %}"
-                            href="{% if page.has_next %}?filter=true&{{ filter_dict }}&page={{ page.next_page_number }}{% else %}#{% endif %}"
-                            aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-                        {% else %}
-                        <a class="btn btn-light {% if not page.has_next %}disabled{% endif %}"
-                            href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
-                            aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-                        {% endif %}
+                    <div class="col-1 me-1">
+                        <label for="page-input" class="visually-hidden form-label">Page Number</label>
+                        <input type="number" class="form-control" id="page-input" placeholder="{{ page.number }}">
+                    </div>
+                    <span>of {{ page.paginator.num_pages }}</span>
+                    {% if filter_dict %}
+                    <a class="btn btn-light {% if not page.has_next %}disabled{% endif %}"
+                        href="{% if page.has_next %}?filter=true&{{ filter_dict }}&page={{ page.next_page_number }}{% else %}#{% endif %}"
+                        aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                    {% else %}
+                    <a class="btn btn-light {% if not page.has_next %}disabled{% endif %}"
+                        href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
+                        aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                    {% endif %}
                 </div>
                 <div class="col-3 offset-3 card-body">
                     <select class="form-select" aria-label="Default select example">
@@ -357,14 +360,6 @@
     })
 
     form.addEventListener('submit', function (event) {
-        if (priceNodes[0].value !== initialFromPrice || priceNodes[1].value !== initialToPrice) {
-            console.log("Prices have changed");
-        } else {
-            console.log("Prices have not changed");
-            priceNodes[0].removeAttribute('name');
-            priceNodes[1].removeAttribute('name');
-        }
-
         if (dateNodes[0].value !== initialFromDate || dateNodes[1].value !== initialToDate) {
             console.log("Dates have changed");
         } else {
@@ -373,23 +368,33 @@
             dateNodes[1].removeAttribute('name');
         }
 
-        // initFilter(price_filter, "price_filter");
+        initFilter(price, "price");
         initFilter(genres, "genres");
         initFilter(tags, "tags");
         initFilter(platform, "platform");
         initFilter(features, "features");
-        // initFilter(release_date_filter, "release_date_filter");
+        // initFilter(release_date, "release_date");
 
         return true
     });
 
     function initFilter(filter_group, filter_name) {
-        let checkboxes = Array.from(document.querySelectorAll(`fieldset[id="${filter_name}"] input:checked`))
-            .map(input => input.value);
-        if (checkboxes.length != 0) {
-            form.querySelector(`input[name="${filter_name}_filter"]`).value = checkboxes;
+        if (filter_name == "price" || filter_name == "date") {
+            let sliders = Array.from(document.querySelectorAll(`fieldset[id="${filter_name}"] input:not([type=hidden])`))
+            .map(input => input.value.replace("£", ""));
+            if (sliders.length != 0 && sliders[0] !== initialFromDate || sliders[1] !== initialToDate) {
+                form.querySelector(`input[name="${filter_name}_range"]`).value = sliders;
+            } else {
+                form.querySelector(`input[name="${filter_name}_range"]`).removeAttribute('name')
+            }
         } else {
-            form.querySelector(`input[name="${filter_name}_filter"]`).removeAttribute('name')
+            let checkboxes = Array.from(document.querySelectorAll(`fieldset[id="${filter_name}"] input:checked`))
+            .map(input => input.value);
+            if (checkboxes.length != 0) {
+                form.querySelector(`input[name="${filter_name}_filter"]`).value = checkboxes;
+            } else {
+                form.querySelector(`input[name="${filter_name}_filter"]`).removeAttribute('name')
+            }
         }
     }
 </script>

@@ -5,6 +5,8 @@ from django.core.paginator import Paginator, EmptyPage
 from urllib.parse import urlencode
 from games.models import Game, Genre, Tag, Platform, Feature, DLC
 
+from decimal import Decimal
+
 
 def games(request):
     dlcs = DLC.objects.all()
@@ -16,12 +18,13 @@ def games(request):
         filter_condition = {
             'sale_only': lambda queryset, *args: queryset.filter(in_promo=True, promo__active=True),
             'hide_extras': lambda queryset, param: queryset.exclude(required_game__isnull=False) if all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset,
-            'price_range': lambda queryset, param: queryset.filter(release_date__lte=param[0], release_date_gte=param[1] if param.length == 2 else print(param)),
+            # 'price_range': lambda queryset, param: print([x.final_price <= Decimal(param[1]) for x in queryset], Decimal(param[0]), Decimal(param[1])),
+            'price_range': lambda queryset, param: queryset.filter(final_price__lte=Decimal(param[1])) if len(param) == 2 else print("Fail"),
             'genres_filter': lambda queryset, param: queryset.filter(genres__slug__in=param).distinct() if not all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset,
             'tags_filter': lambda queryset, param: queryset.filter(tags__slug__in=param).distinct(),
             'platforms_filter': lambda queryset, param: queryset.filter(platforms__slug__in=param).distinct(),
             'features_filter': lambda queryset, param: queryset.filter(features__slug__in=param).distinct(),
-            'release_date': lambda x, param: param[0] <= x.release_date <= param[1] if param.length == 2 else True,
+            'release_date': lambda queryset, param: queryset.filter(release_date__lte=param[0], release_date_gte=param[1]) if len(param) == 2 else queryset,
         }
 
         filtered_results_games = games
@@ -31,15 +34,12 @@ def games(request):
             if key in request.GET:
                 if filter_dict.get(key) is None:
                     filter_dict.update({f'{key}': f'{request.GET.get(key)}'})
-                filter_param = request.GET.getlist(key)[0].split(',') if key.endswith('_filter') else request.GET.get(key)
+                filter_param = request.GET.getlist(key)[0].split(',') if key.endswith('_filter') or key.endswith('_range') else request.GET.get(key)
                 filtered_results_games = value(filtered_results_games, filter_param)
                 filtered_results_dlcs = value(filtered_results_dlcs, filter_param)
         
-        print(filtered_results_games)
-        print(filtered_results_dlcs)
-        filtered_results = list(filtered_results_games) + list(filtered_results_dlcs if filtered_results_dlcs is not None else None)
+        filtered_results = list(filtered_results_games) if filtered_results_games is not None else list() + list(filtered_results_dlcs) if filtered_results_dlcs is not None else list() 
         paginator = Paginator(filtered_results, 4)
-        print(filter_dict)
     else:
         games = list(games) + list(dlcs)
         paginator = Paginator(games, 4)
@@ -68,7 +68,6 @@ def games(request):
     }
     if "filter" in request.GET:
         context['filter_dict'] = urlencode(filter_dict)
-        print(filter_dict)
         return render(request, 'games/index.html', context)
     else: 
         return render(request, 'games/index.html', context)
