@@ -1,7 +1,6 @@
 from django import template
 from promo.models import Promo
 from decimal import Decimal
-import math
 
 register = template.Library()
 
