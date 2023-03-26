@@ -38,39 +38,9 @@ class Promo(CustomBaseModel):
     pre_remove = None
     post_remove = None
     
-    # Handles adding and removing from Promos
-    def _update_games(self, **kwargs):
-        match kwargs["action"]:
-            case 'pre_remove':
-                self.pre_remove = set(self.apply_to_game.all())
-                self.pre_remove = self.pre_remove.union(set(self.apply_to_dlc.all()))
-            case 'post_remove':
-                self.post_remove = set(self.apply_to_game.all())
-                self.post_remove = self.post_remove.union(set(self.apply_to_dlc.all()))
-                for i in self.pre_remove.difference(self.post_remove):
-                    game = get_or_none(kwargs['model'], id=i.id)
-                    game.in_promo = False
-                    game.promo = None
-                    game.promo_percentage = 0
-                    game.save()
-            case 'pre_add':
-                self.pre_add = set(self.apply_to_game.all())
-                self.pre_add = self.pre_add.union(set(self.apply_to_dlc.all()))
-            case 'post_add':
-                self.post_add = set(self.apply_to_game.all())
-                self.post_add = self.post_add.union(set(self.apply_to_dlc.all()))
-                for i in self.post_add.difference(self.pre_add):
-                    game = get_or_none(kwargs['model'], id=i.id)
-                    game.in_promo = True
-                    game.promo = self
-                    game.save()
 
     def delete(self, using=None, keep_parents=False):
-        games = (self.apply_to_game.all()).union(self.apply_to_dlc.all())
-        for game in games:
-            game.in_promo = False
-            game.promo_percentage = 0
-            game.save()
+        remove_discount(self)
         return super().delete(using=using, 
                               keep_parents=keep_parents)
     
@@ -79,33 +49,29 @@ class Promo(CustomBaseModel):
 
     total_in_promo.short_description = "Games In Promo"
 
-@receiver(m2m_changed, sender=Promo.apply_to_dlc.through)
-def game_receiver(instance, *args, **kwargs):
-    instance._update_games(**kwargs)
 
-
-@receiver(m2m_changed, sender=Promo.apply_to_game.through)
-def dlc_receiver(instance, *args, **kwargs):
-    instance._update_games(**kwargs)
-
-
-# Handles promo active status and percentage adjustment to final_price if active
+# Controls actions that occur when a Promo becomes active/offline.
 @receiver(pre_save, sender=Promo)
 def promo_price_apply(instance, *args, **kwargs):
-    current = Promo.objects.filter(id=instance.id).all()[0].active
-    updated = instance.active
-    apply_discount(instance) if current < updated else remove_discount(instance) if current > updated else None
+    promo = get_or_none(Promo, id=instance.id)
+    if promo is not None:
+        current = promo.active
+        updated = instance.active
+        apply_discount(instance) if current < updated else remove_discount(instance) if current > updated else None
 
-
+# Applies the discount to all associated games/DLCs when a Promo becomes active.
+# It calculates the final price and sets the promo and in_promo fields for each game/DLC.
 def apply_discount(instance):
     for queryset in [instance.apply_to_game.all(), instance.apply_to_dlc.all()]:
         for item in queryset:
             final_price = Decimal(round(item.base_price * (1 + (Decimal(item.promo_percentage) / 100 * -1 )), 2))
-            queryset.filter(id=item.id).update(final_price=final_price)
+            queryset.filter(id=item.id).update(final_price=final_price, promo=instance, in_promo=True)
 
 
+# Removes the discount from all associated games/DLCs when a Promo becomes offline.
+# It sets the final price back to the base price and clears the promo and in_promo fields for each game/DLC.
 def remove_discount(instance):
     for queryset in [instance.apply_to_game.all(), instance.apply_to_dlc.all()]:
         for item in queryset:
             final_price = item.base_price
-            queryset.filter(id=item.id).update(final_price=final_price)
+            queryset.filter(id=item.id).update(final_price=final_price, promo_percentage=0, in_promo=False, promo=None)
