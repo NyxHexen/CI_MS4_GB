@@ -19,7 +19,7 @@ def games(request):
             'sale_only': lambda queryset, *args: queryset.filter(in_promo=True, promo__active=True),
             'hide_extras': lambda queryset, param: queryset.exclude(required_game__isnull=False) if all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset,
             # 'price_range': lambda queryset, param: print([x.final_price <= Decimal(param[1]) for x in queryset], Decimal(param[0]), Decimal(param[1])),
-            'price_range': lambda queryset, param: queryset.filter(final_price__lte=Decimal(param[1])) if len(param) == 2 else print("Fail"),
+            'price_range': lambda queryset, param: queryset.filter(final_price__lte=Decimal(param[1])) if len(param) == 2 else queryset,
             'genres_filter': lambda queryset, param: queryset.filter(genres__slug__in=param).distinct() if not all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset,
             'tags_filter': lambda queryset, param: queryset.filter(tags__slug__in=param).distinct(),
             'platforms_filter': lambda queryset, param: queryset.filter(platforms__slug__in=param).distinct(),
