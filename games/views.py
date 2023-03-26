@@ -18,8 +18,7 @@ def games(request):
         filter_condition = {
             'sale_only': lambda queryset, *args: queryset.filter(in_promo=True, promo__active=True),
             'hide_extras': lambda queryset, param: queryset.exclude(required_game__isnull=False) if all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset,
-            # 'price_range': lambda queryset, param: print([x.final_price <= Decimal(param[1]) for x in queryset], Decimal(param[0]), Decimal(param[1])),
-            'price_range': lambda queryset, param: queryset.filter(final_price__lte=Decimal(param[1])) if len(param) == 2 else queryset,
+            'price_range': lambda queryset, param: queryset.filter(final_price__gte=Decimal(param[0]),final_price__lte=Decimal(param[1])) if len(param) == 2 else queryset,
             'genres_filter': lambda queryset, param: queryset.filter(genres__slug__in=param).distinct() if not all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset,
             'tags_filter': lambda queryset, param: queryset.filter(tags__slug__in=param).distinct(),
             'platforms_filter': lambda queryset, param: queryset.filter(platforms__slug__in=param).distinct(),
@@ -37,8 +36,8 @@ def games(request):
                 filter_param = request.GET.getlist(key)[0].split(',') if key.endswith('_filter') or key.endswith('_range') else request.GET.get(key)
                 filtered_results_games = value(filtered_results_games, filter_param)
                 filtered_results_dlcs = value(filtered_results_dlcs, filter_param)
-        
-        filtered_results = list(filtered_results_games) if filtered_results_games is not None else list() + list(filtered_results_dlcs) if filtered_results_dlcs is not None else list() 
+
+        filtered_results = (list(filtered_results_games) if filtered_results_games is not None else list()) + (list(filtered_results_dlcs) if filtered_results_dlcs is not None else list())
         paginator = Paginator(filtered_results, 4)
     else:
         games = list(games) + list(dlcs)
