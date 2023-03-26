@@ -572,6 +572,16 @@ svg * {
     margin: 0;
 }
 
+#game-filter-form [type=reset] {
+    background-color: rgb(133, 133, 133);
+    border: 1px solid rgb(133, 133, 133);
+}
+
+#game-filter-form [type=submit] {
+    background-color: #6f2dbd;
+    border: 1px solid #6f2dbd;
+}
+
 /* Firefox */
 #games-list .form-control[type=number] {
     appearance: none;
