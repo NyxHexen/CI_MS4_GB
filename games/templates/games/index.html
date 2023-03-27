@@ -16,40 +16,40 @@
                     <a class="btn {% if not page.has_previous %}disabled{% endif %}"
                         href="{% if page.has_previous %}?filter=true&{{ filter_dict }}&page={{ page.previous_page_number }}{% else %}#{% endif %}"
                         aria-label="Previous Page">
-                    {% else %}
-                    <a class="btn {% if not page.has_previous %}disabled{% endif %}"
-                        href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}#{% endif %}"
-                        aria-label="Previous">
-                    {% endif %}
-                    <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span></a>
-                    <div class="col-2">
-                        <label for="page-input" class="visually-hidden form-label">Page Number</label>
-                        <input type="number" class="form-control" id="page-input" placeholder="{{ page.number }}">
-                    </div>
-                    <span class="px-2 py-1">of</span>
-                    <span class="px-2 py-1">{{ page.paginator.num_pages }}</span>
-                    {% if filter_dict %}
-                    <a class="btn {% if not page.has_next %}disabled{% endif %}"
-                        href="{% if page.has_next %}?filter=true&{{ filter_dict }}&page={{ page.next_page_number }}{% else %}#{% endif %}"
-                        aria-label="Next Page">
-                    {% else %}
-                    <a class="btn {% if not page.has_next %}disabled{% endif %}"
-                        href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
-                        aria-label="Next Page">
-                    {% endif %}
-                    <span aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span></a>
+                        {% else %}
+                        <a class="btn {% if not page.has_previous %}disabled{% endif %}"
+                            href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}#{% endif %}"
+                            aria-label="Previous">
+                            {% endif %}
+                            <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span></a>
+                        <div class="col-2">
+                            <label for="page-input" class="visually-hidden form-label">Page Number</label>
+                            <input type="number" class="form-control" id="page-input" placeholder="{{ page.number }}">
+                        </div>
+                        <span class="px-2 py-1">of</span>
+                        <span class="px-2 py-1">{{ page.paginator.num_pages }}</span>
+                        {% if filter_dict %}
+                        <a class="btn {% if not page.has_next %}disabled{% endif %}"
+                            href="{% if page.has_next %}?filter=true&{{ filter_dict }}&page={{ page.next_page_number }}{% else %}#{% endif %}"
+                            aria-label="Next Page">
+                            {% else %}
+                            <a class="btn {% if not page.has_next %}disabled{% endif %}"
+                                href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
+                                aria-label="Next Page">
+                                {% endif %}
+                                <span aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span></a>
                 </div>
                 <div class="col-3 offset-md-3 card-body">
-                    <select class="form-select" aria-label="Default select example">
+                    <select id="games_sort" class="form-select" aria-label="Default select example">
                         <option selected disabled>Sort By</option>
-                        <option value="1">Price (from highest)</option>
-                        <option value="2">Price (from lowest)</option>
-                        <option value="3">Discount (from highest)</option>
-                        <option value="4">Title (A to Z)</option>
-                        <option value="5">Title (Z to A)</option>
-                        <option value="6">Release Date (newest first)</option>
-                        <option value="7">Release Date (oldest first)</option>
-                        <option value="8">Rating (from highest)</option>
+                        <option value="price_desc">Price (from highest)</option>
+                        <option value="price_asc">Price (from lowest)</option>
+                        <option value="discount_desc">Discount (from highest)</option>
+                        <option value="title_asc">Title (A to Z)</option>
+                        <option value="title_desc">Title (Z to A)</option>
+                        <option value="date_desc">Release Date (newest first)</option>
+                        <option value="date_asc">Release Date (oldest first)</option>
+                        <option value="rating_desc">Rating (from highest)</option>
                     </select>
                 </div>
             </div>
@@ -257,5 +257,36 @@
     pageInput.addEventListener('keyup', e => {
         goToPage(e)
     })
+</script>
+
+<script>
+let gamesSort = document.querySelector('#games_sort')
+
+gamesSort.addEventListener('change', (e) => {
+    select = e.target;
+    console.log(select.value);
+    switch (select.value) {
+        case "price_desc":
+            break;
+        case "price_asc":
+            break;
+        case "discount_desc":
+            break;
+        case "title_asc":
+            break;
+        case "title_desc":
+            break;
+        case "date_desc":
+            break;
+        case "date_asc":
+            break;
+        case "rating_desc":
+            break;
+        default:
+            // Refresh and raise toast
+            break;
+    }
+});
+
 </script>
 {% endblock %}
