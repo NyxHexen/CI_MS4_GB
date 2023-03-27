@@ -131,6 +131,7 @@
     <h2>Deals of The Day</h2>
     <hr>
     <div class="row justify-content-center mt-5">
+      {% if  dotd|length != 0 %}
       {% for deal in dotd %}
       <div class="countdown col-7 col-xs-6 col-md-4 col-lg-3">
         <a href="#" class="content-overlay d-flex flex-column">
@@ -165,6 +166,12 @@
         <img src="{{ MEDIA_URL }}{{ deal|use_media:'COVER.src'}}" alt="{{ game|use_media:'COVER.descr' }}">
       </div>
       {% endfor %}
+      {% else %}
+      <div class="dotd-empty">
+        <img src="{{ MEDIA_URL }}pngkey.com-thats-all-folks-png-1286457.png" alt="That's all folks!">
+        <p class="text-center"><small>Please check back later!</small></p>
+      </div>
+      {% endif %}
     </div>
   </div>
 </section>

@@ -33,6 +33,8 @@ def index(request):
         dotd_topup = sorted(dotd_topup, key=lambda x: x.promo.end_date)
         dotd = dotd + dotd_topup[:4 - len(dotd)]
 
+    print(dotd)
+
     context = {
         'carousel': carousel,
         'is_featured': is_featured,

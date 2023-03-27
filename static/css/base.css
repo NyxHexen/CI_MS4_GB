@@ -560,6 +560,14 @@ svg * {
     font-weight: 400 !important;
 }
 
+.dotd-empty {
+    width: 50%;
+}
+
+.dotd-empty img {
+    width: 80%;
+}
+
 /* Browse/Games */
 #games-filter {
     --shadow-color: 0deg 0% 25%;
