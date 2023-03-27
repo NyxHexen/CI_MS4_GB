@@ -83,7 +83,7 @@
                         </div>
                         {% endif %}
                         <div class="game-price">£
-                            {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
+                            {{game.final_price}}
                         </div>
                     </div>
                 </div>
@@ -260,33 +260,22 @@
 </script>
 
 <script>
-let gamesSort = document.querySelector('#games_sort')
+    let gamesSort = document.querySelector('#games_sort')
 
-gamesSort.addEventListener('change', (e) => {
-    select = e.target;
-    console.log(select.value);
-    switch (select.value) {
-        case "price_desc":
-            break;
-        case "price_asc":
-            break;
-        case "discount_desc":
-            break;
-        case "title_asc":
-            break;
-        case "title_desc":
-            break;
-        case "date_desc":
-            break;
-        case "date_asc":
-            break;
-        case "rating_desc":
-            break;
-        default:
-            // Refresh and raise toast
-            break;
-    }
-});
+    gamesSort.addEventListener('change', (e) => {
+        let select = e.target;
+        let url = window.location.search;
+        console.log(url)
 
+        if (url.includes('sort_by')) {
+            url = url.replace(/sort_by=[^&]*/, `sort_by=${select.value}`);
+        } else if (url.startsWith('?')) {
+            url += `&sort_by=${select.value}`;
+        }  else {
+            url += `?sort_by=${select.value}`;
+        }
+
+        window.location.href = url;
+    });
 </script>
 {% endblock %}
