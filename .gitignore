@@ -1,6 +1,7 @@
 # Additional Ignores
 node_modules
 package*.json
+db.sqlite3.backup
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
