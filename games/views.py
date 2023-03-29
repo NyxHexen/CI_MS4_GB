@@ -27,9 +27,6 @@ def games(request):
             'date_range': lambda queryset, param: queryset.filter(release_date__gte=datetime(int(param[0]), 1, 1), release_date__lte=datetime(int(param[1]), 12, 31)) if len(param) == 2 else queryset,
         }
 
-        filtered_results_games = games
-        filtered_results_dlcs = dlcs
-
         for key,value in filter_condition.items():
             if key in request.GET:
                 if filter_dict.get(key) is None:
@@ -37,20 +34,19 @@ def games(request):
                 filter_param = request.GET.getlist(key)[0].split(',') if key.endswith('_filter') or key.endswith('_range') else request.GET.get(key)
                 
 
-                filtered_results_games = value(filtered_results_games, filter_param) if len(filtered_results_games) >= 1 else list()
-                filtered_results_dlcs = value(filtered_results_dlcs, filter_param) if len(filtered_results_dlcs) >= 1 else list()
+                filtered_games = value(games, filter_param) if len(games) >= 1 else list()
+                filtered_dlcs = value(dlcs, filter_param) if len(dlcs) >= 1 else list()
 
         if "sort_by" in request.GET:
             filter_dict.update({f'sort_by': f'{request.GET.get("sort_by")}'})
 
-        filtered_results = sort_by(request.GET.get("sort_by"), filtered_results_games, filtered_results_dlcs)
-
+        filtered_results = sort_by(request.GET.get("sort_by"), filtered_games, filtered_dlcs)
         paginator = Paginator(filtered_results, 4)
     else:
         if "sort_by" in request.GET:
             filter_dict.update({f'sort_by': f'{request.GET.get("sort_by")}'})
-        games = sort_by(request.GET.get("sort_by"), games, dlcs)
-        paginator = Paginator(games, 4)
+        sorted_games = sort_by(request.GET.get("sort_by"), games, dlcs)
+        paginator = Paginator(sorted_games, 4)
 
     page_number = request.GET.get('page')
 
@@ -60,13 +56,12 @@ def games(request):
         page  = paginator.get_page(paginator.num_pages)
         
     paginator_iter = range(1, page.paginator.num_pages + 1)
-    price_slider_ceil = float(max(games, key=lambda item: item.final_price).final_price)
 
     genres = Genre.objects.all()
     tags = Tag.objects.all()
     platforms = Platform.objects.all()
     features = Feature.objects.all()
-    
+
     context = {
         'page': page,
         'paginator_iter': paginator_iter,
@@ -74,8 +69,15 @@ def games(request):
         'tags': tags,
         'platforms': platforms,
         'features': features,
-        'price_slider_ceil': price_slider_ceil,
     }
+
+    if "filter" in request.GET:
+        items = filtered_results or list(games) + list(dlcs)
+    else:
+        items = sorted_games or list(games) + list(dlcs)
+
+    context['price_slider_ceil'] = float(max(items, key=lambda item: item.final_price).final_price)
+
     if "filter" in request.GET or "sort_by" in request.GET:
         context['filter_dict'] = urlencode(filter_dict)
         return render(request, 'games/index.html', context)
