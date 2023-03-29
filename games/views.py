@@ -18,7 +18,7 @@ def games(request):
     if "filter" in request.GET:
         filter_condition = {
             'sale_only': lambda queryset, *args: queryset.filter(in_promo=True, promo__active=True),
-            'hide_extras': lambda queryset, param: queryset.exclude(required_game__isnull=False) if all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset,
+            'hide_extras': lambda queryset, *args: queryset.exclude(required_game__isnull=False) if all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset,
             'price_range': lambda queryset, param: queryset.filter(final_price__gte=Decimal(param[0]),final_price__lte=Decimal(param[1])) if len(param) == 2 else queryset,
             'genres_filter': lambda queryset, param: queryset.filter(genres__slug__in=param).distinct() if not all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset.filter(required_game__genres__slug__in=param).distinct(),
             'tags_filter': lambda queryset, param: queryset.filter(tags__slug__in=param).distinct(),
@@ -35,8 +35,10 @@ def games(request):
                 if filter_dict.get(key) is None:
                     filter_dict.update({f'{key}': f'{request.GET.get(key)}'})
                 filter_param = request.GET.getlist(key)[0].split(',') if key.endswith('_filter') or key.endswith('_range') else request.GET.get(key)
-                filtered_results_games = value(filtered_results_games, filter_param)
-                filtered_results_dlcs = value(filtered_results_dlcs, filter_param)
+                
+
+                filtered_results_games = value(filtered_results_games, filter_param) if len(filtered_results_games) >= 1 else list()
+                filtered_results_dlcs = value(filtered_results_dlcs, filter_param) if len(filtered_results_dlcs) >= 1 else list()
 
         if "sort_by" in request.GET:
             filter_dict.update({f'sort_by': f'{request.GET.get("sort_by")}'})
@@ -82,7 +84,7 @@ def games(request):
 
 
 def sort_by(sort_value, *args):
-    sorted_args = [list(arg) for arg in args] if len(args) != 0 else list()
+    sorted_args = [list(arg) for arg in args]
     sorted_args = [item for sublist in sorted_args for item in sublist]
     match sort_value:
         case "price_desc":
