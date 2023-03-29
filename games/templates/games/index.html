@@ -126,10 +126,19 @@
         document.getElementById('price-slider__to'),
     ]
 
-    priceSliderCeiling = Number("{{price_slider_ceil}}")
+    let priceSliderCeiling = Number("{{price_slider_ceil}}")
+    let filterDict = "{{ filter_dict }}"
+    let filterDictPrice, filterDictDate;
+
+    if (filterDict.includes('price_range') == true) {
+        filterDictPrice = filterDict.match(/price_range=([^&]+)/)[1].split('%2C')
+    } else if (filterDict.includes('date_range')) {
+        filterDictDate = filterDict.match(/date_range=([^&]+)/)[1].split('%2C')
+    }
 
     noUiSlider.create(priceSlider, {
-        start: [0, priceSliderCeiling],
+        start: filterDict.includes('price_range') && filterDictPrice ? [filterDictPrice[0], filterDictPrice[
+            1]] : [0, priceSliderCeiling],
         connect: true,
         step: 10,
         range: {
@@ -188,8 +197,8 @@
 
     let initialFromDate = dateNodes[0].value;
     let initialToDate = dateNodes[1].value;
-    let initialFromPrice = priceNodes[0].value.replace("£", "");
-    let initialToPrice = priceNodes[1].value.replace("£", "");
+    let initialFromPrice = 0;
+    let initialToPrice = priceSliderCeiling;
 
     let form = document.getElementById('game-filter-form');
 
@@ -212,7 +221,7 @@
             let sliders = Array.from(document.querySelectorAll(
                     `fieldset[id="${filter_name}"] input:not([type=hidden])`))
                 .map(input => input.value.replace("£", ""));
-            if (sliders.length != 0 && (sliders[0] !== initialFromPrice || sliders[1] !== initialToPrice)) {
+            if (sliders.length != 0 && (sliders[0] != initialFromPrice || sliders[1] != initialToPrice)) {
                 form.querySelector(`input[name="${filter_name}_range"]`).value = sliders;
             } else {
                 form.querySelector(`input[name="${filter_name}_range"]`).removeAttribute('name')
@@ -221,7 +230,6 @@
             let sliders = Array.from(document.querySelectorAll(
                     `fieldset[id="${filter_name}"] input:not([type=hidden])`))
                 .map(input => input.value);
-            console.log(sliders)
             if (sliders.length != 0 && (sliders[0] !== initialFromDate || sliders[1] !== initialToDate)) {
                 form.querySelector(`input[name="${filter_name}_range"]`).value = sliders;
             } else {
@@ -245,7 +253,6 @@
     function goToPage(e) {
         if (e.type === 'blur' || e.code === "Enter" || e.code === "NumpadEnter") {
             if (pageInput.value != "" && pageInput.value != pageInput.placeholder) {
-                console.log("Away we go!")
                 window.location.href = `/games/?page=${pageInput.value}`;
             }
         }
@@ -265,13 +272,12 @@
     gamesSort.addEventListener('change', (e) => {
         let select = e.target;
         let url = window.location.search;
-        console.log(url)
 
         if (url.includes('sort_by')) {
             url = url.replace(/sort_by=[^&]*/, `sort_by=${select.value}`);
         } else if (url.startsWith('?')) {
             url += `&sort_by=${select.value}`;
-        }  else {
+        } else {
             url += `?sort_by=${select.value}`;
         }
 
