@@ -6,13 +6,13 @@
             <button class="btn btn-primary" type="submit">Submit</button>
         </div>
         <div class="form-check ms-3">
-            <input class="form-check-input" type="checkbox" id="saleOnly" name="sale_only">
+            <input class="form-check-input" type="checkbox" id="saleOnly" name="sale_only" {% if "sale_only" in filter_dict %} checked {% endif %}>
             <label class="form-check-label" for="saleOnly">
                 On Sale Only
             </label>
         </div>
         <div class="form-check ms-3">
-            <input class="form-check-input" type="checkbox" id="dlcAndExtras" name="hide_extras">
+            <input class="form-check-input" type="checkbox" id="dlcAndExtras" name="hide_extras" {% if "hide_extras" in filter_dict %} checked {% endif %}>
             <label class="form-check-label" for="dlcAndExtras">
                 Hide DLCs and extras
             </label>
@@ -33,7 +33,7 @@
                             <input type="hidden" name="price_range">
                             <div id="price-slider"></div>
                             <div class="priceInput input-group mt-3">
-                                <input class="form-control" id="price-slider__from">
+                                <input class="form-control" id="price-slider__from" >
                                 <span class="input-group-text">to</span>
                                 <input class="form-control" id="price-slider__to">
                             </div>
@@ -57,7 +57,7 @@
                             {% for genre in genres %}
                             <div class="form-check ms-3">
                                 <input class="form-check-input" type="checkbox" id="genre-{{ genre.slug }}"
-                                    value="{{ genre.slug }}">
+                                    value="{{ genre.slug }}" {% if genre.slug in filter_dict %} checked {% endif %}>
                                 <label class="form-check-label" for="genre-{{ genre.slug }}">
                                     {{ genre.name }}
                                 </label>
@@ -83,7 +83,7 @@
                             {% for tag in tags %}
                             <div class="form-check ms-3">
                                 <input class="form-check-input" type="checkbox" id="tag-{{ tag.slug }}"
-                                    value="{{ tag.slug }}">
+                                    value="{{ tag.slug }}" {% if tag.slug in filter_dict %} checked {% endif %}>
                                 <label class="form-check-label" for="tag-{{ tag.slug }}">
                                     {{ tag.name }}
                                 </label>
@@ -109,7 +109,7 @@
                             {% for platform in platforms %}
                             <div class="form-check ms-3">
                                 <input class="form-check-input" type="checkbox"
-                                    id="platform-{{ platform.slug }}" value="{{ platform.slug }}">
+                                    id="platform-{{ platform.slug }}" value="{{ platform.slug }}" {% if platform.slug in filter_dict %} checked {% endif %}>
                                 <label class="form-check-label" for="platform-{{ platform.slug }}">
                                     {{ platform.name }}
                                 </label>
@@ -135,7 +135,7 @@
                             {% for feature in features %}
                             <div class="form-check ms-3">
                                 <input class="form-check-input" type="checkbox" id="feature-{{ feature.slug }}"
-                                    name="features" value="{{ feature.slug }}">
+                                    name="features" value="{{ feature.slug }}" {% if feature.slug in filter_dict %} checked {% endif %}>
                                 <label class="form-check-label" for="feature-{{ feature.slug }}">
                                     {{ feature.name }}
                                 </label>
