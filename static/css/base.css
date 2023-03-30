@@ -609,14 +609,27 @@ svg * {
     border: 1px solid #6f2dbd;
 }
 
-#games-filter .accordion-button:not(.collapsed) {
-    color: #9000ff;
-    background-color: hsl(274, 100%, 95%);
+.accordion-item {
+    border: none;
+    box-shadow: none;
 }
 
-#games-filter .accordion-item:first-of-type .accordion-button {
-    border-top-left-radius: none;
-    border-top-right-radius: none;
+.accordion-button:focus {
+    border-color:#9000ff;
+    box-shadow: none;
+}
+
+#games-filter .accordion-button:not(.collapsed) {
+    color: #1f1f1f;
+    background-color: #FFF;
+}
+
+#games-filter .accordion-item .accordion-button {
+    border-radius: var(--bs-card-border-radius);
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: var(--bs-accordion-btn-icon);
 }
 
 
