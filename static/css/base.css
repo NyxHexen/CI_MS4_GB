@@ -23,6 +23,25 @@
     --bs-nav-link-padding-y: 0rem;
 }
 
+.form-check-input:checked {
+    background-color: #9000ff;
+    border-color: #9000ff;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 4px #9000ff;
+    border-color: #9000ff;
+    transition: all .2s ease-in;
+}
+
+.form-select:hover,
+.form-select:focus {
+    outline: none;
+    box-shadow: 0 0 4px #9000ff;
+    border-color: #9000ff;
+    transition: all .2s ease-in;
+}
+
 /* noUIslider Overrides */
 .noUi-horizontal {
     height: 9px;
@@ -590,6 +609,17 @@ svg * {
     border: 1px solid #6f2dbd;
 }
 
+#games-filter .accordion-button:not(.collapsed) {
+    color: #9000ff;
+    background-color: hsl(274, 100%, 95%);
+}
+
+#games-filter .accordion-item:first-of-type .accordion-button {
+    border-top-left-radius: none;
+    border-top-right-radius: none;
+}
+
+
 /* Firefox */
 #games-list .form-control[type=number] {
     appearance: none;
@@ -637,9 +667,9 @@ svg * {
     transition: all .2s ease-in;
 }
 
-#pagination input:hover,
-#pagination input:focus,
-#pagination input:active {
+input:hover,
+input:focus,
+input:active {
     color: #9000ff;
     box-shadow: 0 0 2px #9000ff;
     border-color: #9000ff;
