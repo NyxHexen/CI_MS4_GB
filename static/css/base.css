@@ -42,6 +42,20 @@
     transition: all .2s ease-in;
 }
 
+.accordion-item {
+    border: none;
+    box-shadow: none;
+}
+
+.accordion-button:focus {
+    border-color:#9000ff;
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: var(--bs-accordion-btn-icon);
+}
+
 /* noUIslider Overrides */
 .noUi-horizontal {
     height: 9px;
@@ -609,16 +623,6 @@ svg * {
     border: 1px solid #6f2dbd;
 }
 
-.accordion-item {
-    border: none;
-    box-shadow: none;
-}
-
-.accordion-button:focus {
-    border-color:#9000ff;
-    box-shadow: none;
-}
-
 #games-filter .accordion-button:not(.collapsed) {
     color: #1f1f1f;
     background-color: #FFF;
@@ -627,11 +631,6 @@ svg * {
 #games-filter .accordion-item .accordion-button {
     border-radius: var(--bs-card-border-radius);
 }
-
-.accordion-button:not(.collapsed)::after {
-    background-image: var(--bs-accordion-btn-icon);
-}
-
 
 /* Firefox */
 #games-list .form-control[type=number] {
