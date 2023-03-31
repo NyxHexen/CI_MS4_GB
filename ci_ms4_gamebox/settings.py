@@ -17,7 +17,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEVELOPMENT' in os.environ
 
-ALLOWED_HOSTS = ['ci-ms4-gamebox.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['ci-ms4-gamebox.herokuapp.com', 'localhost', '127.0.0.1']
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
@@ -139,6 +139,18 @@ ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL= '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+        'APP': {
+            'client_id': os.getenv('GOOGLE_ALLAUTH_ID'),
+            'secret': os.getenv('GOOGLE_ALLAUTH_SECRET'),
+            'key': ''
+        }
+    }
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -154,7 +166,6 @@ USE_TZ = True
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
