@@ -6,8 +6,22 @@
 {% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
 
 {% block content %}
-    <h1>{% trans "Verify Your E-mail Address" %}</h1>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div id="allauth__verification-sent" class="card my-5">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <h1 class="card-title py-3">{% trans "Verify Your E-mail Address" %}</h1>
 
-    <p>{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification e-mail in your main inbox, check your spam folder. Please contact us if you do not receive the verification e-mail within a few minutes.{% endblocktrans %}</p>
-
+                    <p class="px-3">{% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to
+                        finalize the signup process. If you do not see the verification e-mail in your main inbox, check
+                        your spam folder. Please contact us if you do not receive the verification e-mail within a few
+                        minutes.{% endblocktrans %}</p>
+                    <a href="{% url 'account_login' %}" class="btn btn-outline-gamebox mt-4">TAKE ME HOME!</a>
+                    <p class="small text-muted ms-1 m-0">Country roads...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
