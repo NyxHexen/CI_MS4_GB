@@ -16,6 +16,13 @@ def games(request):
     filter_dict = QueryDict(mutable=True)
 
     if "filter" in request.GET:
+        """     
+        Lambda is an anonymous function, by defining a dictionary which holds a query key as a key received via request.GET
+        passed on from the filter form and a value which is a function, it allows us to easily filter sets
+        by running them through a for loop and using value(queryset, param) to apply the filter. 
+        The dictionary structure of the filter also improves readability, so long lambda functions are kept simple,
+        and maintainability. 
+        """
         filter_condition = {
             'sale_only': lambda queryset, *args: queryset.filter(in_promo=True, promo__active=True),
             'hide_extras': lambda queryset, *args: queryset.exclude(required_game__isnull=False) if all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset,
