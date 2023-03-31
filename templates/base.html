@@ -69,7 +69,8 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">sign out</a></li>
                         {% else %}
                         <li class="nav-item btn"><a class="nav-link" href="{% url 'account_signup' %}">sign up</a></li>
-                        <li class="nav-item align-self-center"><a class="nav-link" href="{% url 'account_login' %}">sign in</a></li>
+                        <li class="nav-item align-self-center"><a class="nav-link" href="{% url 'account_login' %}">sign
+                                in</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -111,8 +112,8 @@
     {% block content %}
     {% endblock %}
 
-    <div class="container">
-        <footer class="pt-3">
+    <footer class="pt-3">
+        <div id="footer" class="container">
             <ul class="nav justify-content-center mb-4">
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
@@ -147,8 +148,9 @@
                             </svg></a></li>
                 </ul>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
+
 
     {% block postloadjs %}
     {% endblock %}
