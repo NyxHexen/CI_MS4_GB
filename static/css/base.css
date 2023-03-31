@@ -13,7 +13,7 @@
 /* Bootstrap Overrides */
 [data-bs-theme="light"] .nav-link:hover,
 [data-bs-theme="light"] .navbar-nav {
-    --bs-nav-link-hover-color: rgb(144, 0, 255);
+    --bs-nav-link-hover-color: #6f2dbd;
     --bs-nav-link-padding-y: 0rem;
 }
 
@@ -23,22 +23,56 @@
     --bs-nav-link-padding-y: 0rem;
 }
 
+[data-bs-theme="light"] .btn-gamebox {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #6f2dbd;
+    --bs-btn-border-color: #6f2dbd;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #6f2dbd;
+    --bs-btn-hover-border-color: #6f2dbd;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #6f2dbd;
+    --bs-btn-active-border-color: #6f2dbd;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #6f2dbd;
+    --bs-btn-disabled-border-color: #6f2dbd;
+}
+
+[data-bs-theme="light"] .btn-outline-gamebox {
+    --bs-btn-color: #6f2dbd;
+    --bs-btn-border-color: #6f2dbd;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #6f2dbd;
+    --bs-btn-hover-border-color: #6f2dbd;
+    --bs-btn-focus-shadow-rgb: 220,53,69;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #6f2dbd;
+    --bs-btn-active-border-color: #6f2dbd;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #6f2dbd;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #6f2dbd;
+    --bs-gradient: none;
+}
+
 .form-check-input:checked {
-    background-color: #9000ff;
-    border-color: #9000ff;
+    background-color: #6f2dbd;
+    border-color: #6f2dbd;
 }
 
 .form-check-input:focus {
-    box-shadow: 0 0 4px #9000ff;
-    border-color: #9000ff;
+    box-shadow: 0 0 4px #6f2dbd;
+    border-color: #6f2dbd;
     transition: all .2s ease-in;
 }
 
 .form-select:hover,
 .form-select:focus {
     outline: none;
-    box-shadow: 0 0 4px #9000ff;
-    border-color: #9000ff;
+    box-shadow: 0 0 4px #6f2dbd;
+    border-color: #6f2dbd;
     transition: all .2s ease-in;
 }
 
@@ -48,7 +82,7 @@
 }
 
 .accordion-button:focus {
-    border-color:#9000ff;
+    border-color:#6f2dbd;
     box-shadow: none;
 }
 
@@ -62,7 +96,7 @@
 }
 
 .noUi-connect {
-    background-color: #9000ff;
+    background-color: #6f2dbd;
     border: 1px solid #1f1f1f;
 }
 
@@ -530,7 +564,7 @@ svg * {
 }
 
 .countdown:nth-child(even)::after {
-    border: 4px solid #9000ff;
+    border: 4px solid #6f2dbd;
 }
 
 .countdown:nth-child(odd)::before {
@@ -548,11 +582,11 @@ svg * {
 
 .countdown:nth-child(odd) .deal-discount {
     color: #FFFFFF;
-    text-shadow: 0 0 10px #FFF, 0 0 20px #9000ff, 0 0 30px #9000ff, 0 0 40px #9000ff, 0 0 55px #9000ff, 0 0 75px #9000ff;
+    text-shadow: 0 0 10px #FFF, 0 0 20px #6f2dbd, 0 0 30px #6f2dbd, 0 0 40px #6f2dbd, 0 0 55px #6f2dbd, 0 0 75px #6f2dbd;
 }
 
 .countdown:nth-child(odd) .final-price {
-    background-color: #9000ff;
+    background-color: #6f2dbd;
 }
 
 .countdown:nth-child(even) .final-price {
@@ -632,11 +666,6 @@ svg * {
     border: 1px solid rgb(133, 133, 133);
 }
 
-#game-filter-form [type=submit] {
-    background-color: #6f2dbd;
-    border: 1px solid #6f2dbd;
-}
-
 #games-filter .accordion-button:not(.collapsed) {
     color: #1f1f1f;
     background-color: #FFF;
@@ -687,18 +716,18 @@ svg * {
 #pagination>*:first-child:hover,
 #pagination>*:last-child:hover {
     transform: scale(1.1);
-    color: #9000ff;
-    border: 1px solid #9000ff;
-    box-shadow: 0 0 2px #9000ff;
+    color: #6f2dbd;
+    border: 1px solid #6f2dbd;
+    box-shadow: 0 0 2px #6f2dbd;
     transition: all .2s ease-in;
 }
 
 input:hover,
 input:focus,
 input:active {
-    color: #9000ff;
-    box-shadow: 0 0 2px #9000ff;
-    border-color: #9000ff;
+    color: #6f2dbd;
+    box-shadow: 0 0 2px #6f2dbd;
+    border-color: #6f2dbd;
     transition: all .2s ease-in;
 }
 
@@ -762,7 +791,7 @@ footer p {
 }
 
 [data-bs-theme="light"] .nav-link.active {
-    color: #9000ff;
+    color: #6f2dbd;
 }
 
 /* Allauth Cards */
@@ -778,7 +807,7 @@ footer p {
 }
 
 .reset-password:hover {
-    background-color: #9000ff;
+    background-color: #6f2dbd;
     color: white;
 }
 
