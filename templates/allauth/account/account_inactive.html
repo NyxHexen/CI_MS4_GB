@@ -6,7 +6,19 @@
 {% block head_title %}{% trans "Account Inactive" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Account Inactive" %}</h1>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div id="allauth__inactive" class="card my-5">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <h1 class="card-title py-3">{% trans "Account Inactive" %}</h1>
 
-<p>{% trans "This account is inactive." %}</p>
+                    <p>{% trans "This account is inactive." %}</p>
+                    <button role="button" onclick="history.back()" class="btn btn-outline-gamebox mt-3 mb-1">BACK</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
