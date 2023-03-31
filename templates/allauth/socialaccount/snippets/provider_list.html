@@ -13,8 +13,16 @@
 </li>
 {% endfor %}
 {% endif %}
+{% if provider.name == "Google" %}
 <li>
-  <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}}" 
+  <a title="{{provider.name}}" class="d-flex btn btn-large btn-outline-dark socialaccount_provider {{provider.id}}" 
+  href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+  <img class="google-logo me-2" src="{{ MEDIA_URL }}google__g__logo.svg" alt="Google Logo">{{provider.name}}</a>
+</li>
+{% else %}
+<li>
+  <a title="{{provider.name}}" class="btn btn-large btn-light socialaccount_provider {{provider.id}}" 
      href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">{{provider.name}}</a>
 </li>
+{% endif %}
 {% endfor %}

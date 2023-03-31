@@ -8,10 +8,10 @@
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
-<div id="allauth__login" class="container my-5">
+<div class="container my-5">
   <div class="row justify-content-center">
     <div class="col-4">
-      <div class="card">
+      <div id="allauth__login" class="card">
         <div class="card-body d-flex flex-column align-items-center">
           <h1 class="card-title py-3">{% trans "Sign In" %}</h1>
           {% get_providers as socialaccount_providers %}
@@ -28,13 +28,14 @@
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
           </form>
-          
-          <p class="text-center mt-3">{% blocktrans %}Or, sign in with one of your existing third party accounts:{% endblocktrans %}</p>
+
+          <p class="text-center mt-3">{% blocktrans %}Or, sign in with one of your existing third party
+            accounts:{% endblocktrans %}</p>
 
           {% include "socialaccount/snippets/login_extra.html" %}
 
           <div class="socialaccount_ballot">
-            <ul class="socialaccount_providers">
+            <ul class="socialaccount_providers mb-2">
               {% include "socialaccount/snippets/provider_list.html" with process="login" %}
             </ul>
           </div>
@@ -45,8 +46,7 @@
           {% endif %}
         </div>
       </div>
-      <a class="button ps-3 pt-3 secondaryAction"
-              href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+      <a class="reset-password btn ps-3 mt-3 secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
     </div>
   </div>
 </div>
