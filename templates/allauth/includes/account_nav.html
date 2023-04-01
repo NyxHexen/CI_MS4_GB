@@ -1,0 +1,34 @@
+{% load i18n %}
+
+{% if user.is_authenticated %}
+<div id="accounts_nav" class="card col-3 float-start">
+<div class="card-body">
+    <h2 class="ui-font m-0 fs-3">account navigation</h2>
+    <hr>
+    <ul class="nav flex-column">
+        <li class="pt-2"><span class="text-muted">GENERAL</span></li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">{% trans 'PROFILE' %}</a>
+        </li>
+        <li class="pt-2"><span class="text-muted">SECURITY</span></li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'account_change_password' %}">{% trans "CHANGE PASSWORD" %}</a>
+        </li>
+        <li class="pt-2"><span class="text-muted">EMAIL & SOCIAL</span></li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'socialaccount_connections' %}">{% trans "SOCIAL CONNECTIONS" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'account_email' %}">{% trans "MANAGE EMAIL ACCOUNTS" %}</a>
+        </li>
+        <li class="pt-2"><span class="text-muted">PAYMENT INFORMATION</span></li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">{% trans "MANAGE PAYMENT DETAILS" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">{% trans "MANAGE ADDRESSES" %}</a>
+        </li>
+      </ul>
+</div>
+</div>
+{% endif %}

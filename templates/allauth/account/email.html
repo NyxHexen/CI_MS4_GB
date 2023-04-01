@@ -8,8 +8,9 @@
 
 {% block content %}
 <div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col col-xs-4 col-sm-10 col-md-7 col-xl-6">
+  <div class="row align-items-center">
+    {% include "includes/account_nav.html" %}
+    <div class="col col-xs-4 col-sm-10 col-md-7 col-xl-5 offset-xl-1">
       <div id="allauth__emails" class="card">
         <div class="card-body d-flex flex-column align-items-center">
           <h1 class="card-title py-3">{% trans "E-mail Addresses" %}</h1>

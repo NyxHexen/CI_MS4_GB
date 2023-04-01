@@ -11,10 +11,10 @@
 }
 
 /* Bootstrap Overrides */
-[data-bs-theme="light"] .nav-link:hover,
+[data-bs-theme="light"] .nav-link,
 [data-bs-theme="light"] .navbar-nav {
     --bs-nav-link-hover-color: #6f2dbd;
-    --bs-nav-link-padding-y: 0rem;
+    --bs-nav-link-padding-y: .25rem;
 }
 
 [data-bs-theme="dark"] .nav-link:hover,
@@ -230,6 +230,21 @@ footer {
     box-shadow: var(--inset-stacked-shadow);
 }
 
+#accounts_nav {
+    --shadow-elevation-high:
+    0px 0.1px 0.1px hsl(var(--shadow-color) / 0.46),
+    -0.1px 0.2px 0.2px -0.4px hsl(var(--shadow-color) / 0.43),
+    -0.1px 0.4px 0.4px -0.8px hsl(var(--shadow-color) / 0.4),
+    -0.2px 0.7px 0.7px -1.2px hsl(var(--shadow-color) / 0.37),
+    -0.3px 1.1px 1.1px -1.7px hsl(var(--shadow-color) / 0.34),
+    -0.5px 1.8px 1.8px -2.1px hsl(var(--shadow-color) / 0.31),
+    -0.7px 2.7px 2.6px -2.5px hsl(var(--shadow-color) / 0.28),
+    -1.1px 4px 3.9px -2.9px hsl(var(--shadow-color) / 0.25),
+    -1.5px 5.6px 5.4px -3.3px hsl(var(--shadow-color) / 0.22),
+    -2.1px 7.8px 7.6px -3.7px hsl(var(--shadow-color) / 0.19);
+    box-shadow: var(--shadow-elevation-high);
+}
+
 /* ANY MODE */
 body {
     min-height: 100vh;
@@ -270,6 +285,10 @@ nav * {
 }
 
 h1 {
+    font-family: var(--ui-font);
+}
+
+.ui-font {
     font-family: var(--ui-font);
 }
 
@@ -829,7 +848,7 @@ footer p {
     color: #6f2dbd;
 }
 
-/* Allauth Cards */
+/* Accounts/Allauth/Crispy */
 
 [id*='allauth__'] {
     --shadow-color: 0deg 0% 40%;
@@ -858,6 +877,27 @@ a.socialaccount_provider.google {
 
 .google-logo {
     width: 24px;
+}
+
+.row {
+    position: relative;
+}
+
+#accounts_nav {
+    --shadow-color: 0deg 0% 49%;
+}
+
+#accounts_nav hr {
+    margin: .5rem 0;
+}
+
+#accounts_nav a {
+    color: #6f2dbd;
+    font-weight: 500;
+}
+
+#accounts_nav a:hover {
+    color: #1f1f1f;
 }
 
 /* Carousel */
