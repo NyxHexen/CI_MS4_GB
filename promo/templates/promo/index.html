@@ -5,4 +5,56 @@
 {% endblock %}
 
 {% block content %}
+<div class="promo-header">
+    <img class=""
+        src="{{ MEDIA_URL }}57567bbbba12a6c39ddee8eadda55d81de760a3de25b68fac5418efc04013bfb_hero_2560x423.webp" alt="">
+    <div class="promo-info w-100 px-5 py-2">
+        <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }}</h1>
+        <p class="long-description">{{ promo.long_description }}</p>
+    </div>
+</div>
+<div class="container__shadow position-relative">
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col">
+                <h2 class="mt-4">Get 'em while you can</h2>
+                <hr>
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                        {% for game in promo.apply_to_game.all %}
+                            {% if forloop.counter|divisibleby:5 %}
+                            </div>
+                            <div class="carousel-item active"></div>
+                            <img src="..." class="d-block w-100" alt="...">
+                            {% else %}
+                            <img src="..." class="d-block w-100" alt="...">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
 {% endblock %}

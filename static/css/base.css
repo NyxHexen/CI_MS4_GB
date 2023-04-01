@@ -170,7 +170,8 @@
     box-shadow: var(--lg-stacked-shadow);
 }
 
-footer {
+footer,
+.container__shadow {
     --shadow-elevation-high:
     0px 0px 0px hsl(var(--shadow-color) / 1),
     0px -0.1px 0.1px -0.7px hsl(var(--shadow-color) / 0.89),
@@ -796,6 +797,45 @@ input:active {
 
 #pagination input {
     border-radius: 0;
+}
+
+/* Promo */
+.promo-header {
+    position: relative;
+    margin-top: -6.6rem;
+    height: 45vh;
+    overflow: hidden;
+}
+
+.promo-info {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    bottom: 0;
+    color: white;
+}
+
+#promo-name {
+    width: 100%;
+}
+
+.promo-header img {
+    height: 100%;
+}
+
+.promo-header a {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    color: white;
+    text-shadow: 0 0 10px #1f1f1f;
+    font-size: 5rem;
+    z-index: 30;
+}
+
+.container__shadow {
+    --shadow-color: 0deg 0% 35%;
+    background-color: rgb(var(--lm-bg-color));
+    z-index: 2;
 }
 
 /* Footer */
