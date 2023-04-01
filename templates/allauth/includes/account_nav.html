@@ -8,25 +8,25 @@
     <ul class="nav flex-column">
         <li class="pt-2"><span class="text-muted">GENERAL</span></li>
         <li class="nav-item">
-          <a class="nav-link" href="#">{% trans 'PROFILE' %}</a>
+          <a class="nav-link" href="#"><i class="fa-regular fa-user me-2"></i></i>{% trans 'PROFILE' %}</a>
         </li>
         <li class="pt-2"><span class="text-muted">SECURITY</span></li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'account_change_password' %}">{% trans "CHANGE PASSWORD" %}</a>
+          <a class="nav-link" href="{% url 'account_change_password' %}"><i class="fa-solid fa-key me-2"></i>{% trans "CHANGE PASSWORD" %}</a>
         </li>
         <li class="pt-2"><span class="text-muted">EMAIL & SOCIAL</span></li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'socialaccount_connections' %}">{% trans "SOCIAL CONNECTIONS" %}</a>
+          <a class="nav-link" href="{% url 'socialaccount_connections' %}"><i class="fa-regular fa-comment me-2"></i>{% trans "SOCIAL CONNECTIONS" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'account_email' %}">{% trans "MANAGE EMAIL ACCOUNTS" %}</a>
+          <a class="nav-link" href="{% url 'account_email' %}"><i class="fa-solid fa-at me-2"></i>{% trans "MANAGE EMAIL ACCOUNTS" %}</a>
         </li>
         <li class="pt-2"><span class="text-muted">PAYMENT INFORMATION</span></li>
         <li class="nav-item">
-          <a class="nav-link" href="#">{% trans "MANAGE PAYMENT DETAILS" %}</a>
+          <a class="nav-link" href="#"><i class="fa-regular fa-credit-card me-2"></i>{% trans "MANAGE PAYMENT DETAILS" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">{% trans "MANAGE ADDRESSES" %}</a>
+          <a class="nav-link" href="#"><i class="fa-solid fa-location-dot me-2"></i>{% trans "MANAGE ADDRESSES" %}</a>
         </li>
       </ul>
 </div>
