@@ -40,6 +40,23 @@
     --bs-btn-disabled-border-color: #6f2dbd;
 }
 
+[data-bs-theme="light"] .btn-gamebox:hover {
+    /* --bs-btn-color: #fff; */
+    --bs-btn-bg: #6f2dbd;
+    --bs-btn-border-color: #6f2dbd;
+    --bs-btn-hover-color: #6f2dbd;
+    --bs-btn-hover-bg: #fff;
+    --bs-btn-hover-border-color: #6f2dbd;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #6f2dbd;
+    --bs-btn-active-border-color: #6f2dbd;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #6f2dbd;
+    --bs-btn-disabled-border-color: #6f2dbd;
+}
+
 [data-bs-theme="light"] .btn-outline-gamebox {
     --bs-btn-color: #6f2dbd;
     --bs-btn-border-color: #6f2dbd;
@@ -88,6 +105,20 @@
 
 .accordion-button:not(.collapsed)::after {
     background-image: var(--bs-accordion-btn-icon);
+}
+
+/* Allauth Forms */
+
+[id*="allauth__"] [id*="div_"]:not(.form-check) {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+[id*="allauth__"] [id*="div_"] label {
+    min-width: 25%;
+    margin-bottom: 0;
+    margin-right: 1rem;
 }
 
 /* noUIslider Overrides */
@@ -236,6 +267,12 @@ nav * {
 
 .nav-link.active {
     font-size: calc(100% + .2rem);
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--ui-font);
 }
 
 /* Carousel */
