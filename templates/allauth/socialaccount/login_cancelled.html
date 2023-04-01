@@ -5,11 +5,22 @@
 {% block head_title %}{% trans "Login Cancelled" %}{% endblock %}
 
 {% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-11 col-sm-8 col-md-6 col-xl-4">
+            <div id="allauth__oauth_login" class="card my-5">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <h1 class="card-title py-3 text-center">{% trans "Login Cancelled" %}</h1>
 
-<h1>{% trans "Login Cancelled" %}</h1>
+                    {% url 'account_login' as login_url %}
 
-{% url 'account_login' as login_url %}
-
-<p>{% blocktrans %}You decided to cancel logging in to our site using one of your existing accounts. If this was a mistake, please proceed to <a href="{{login_url}}">sign in</a>.{% endblocktrans %}</p>
-
+                    <p>{% blocktrans %}You decided to cancel logging in to our site using one of your existing accounts.
+                        If this was a mistake, please proceed to sign in.{% endblocktrans %}
+                    </p>
+                    <a href="{{login_url}}" class="btn btn-outline-gamebox">{% trans 'SIGN IN' %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
