@@ -25,3 +25,15 @@ def calc_promo_price(price, increase):
         return promo_calc
     except Exception:
         return None
+    
+
+@register.filter
+def slide_split(iter, request):
+    """ Group items of 'iter' into batches of 'size'."""
+    if request.user_agent.is_tablet:
+        size = 3
+    elif request.user_agent.is_mobile:
+        size = 1
+    else:
+        size = 4
+    return [iter[i:i+size] for i in range(0, len(iter), size)]
