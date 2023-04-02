@@ -15,7 +15,7 @@ def index(request):
 
     is_featured = list(Game.objects.filter(is_featured=True))
     if len(is_featured) > 4:
-        is_featured = random.sample(is_featured, 6)
+        is_featured = random.sample(is_featured, 5)
     
     dotd = list(Promo.objects.filter(active=True, landing_page=True))
 
@@ -32,8 +32,6 @@ def index(request):
         dotd_topup += list(DLC.objects.filter(in_promo=True, promo__active=True, promo__landing_page=False))
         dotd_topup = sorted(dotd_topup, key=lambda x: x.promo.end_date)
         dotd = dotd + dotd_topup[:4 - len(dotd)]
-
-    print(dotd)
 
     context = {
         'carousel': carousel,
