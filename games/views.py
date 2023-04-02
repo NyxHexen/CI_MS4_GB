@@ -25,8 +25,10 @@ def games(request):
         """
         filter_condition = {
             'sale_only': lambda queryset, *args: queryset.filter(in_promo=True, promo__active=True),
-            'hide_extras': lambda queryset, *args: queryset.exclude(required_game__isnull=False) if all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset,
-            'price_range': lambda queryset, param: queryset.filter(final_price__gte=Decimal(param[0]),final_price__lte=Decimal(param[1])) if len(param) == 2 else queryset,
+            'hide_extras': lambda queryset, *args: queryset.exclude(
+            required_game__isnull=False) if all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset,
+            'price_range': lambda queryset, param: queryset.filter(
+            final_price__gte=Decimal(param[0]),final_price__lte=Decimal(param[1])) if len(param) == 2 else queryset,
             'genres_filter': lambda queryset, param: queryset.filter(genres__slug__in=param).distinct() if not all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset.filter(required_game__genres__slug__in=param).distinct(),
             'tags_filter': lambda queryset, param: queryset.filter(tags__slug__in=param).distinct(),
             'platforms_filter': lambda queryset, param: queryset.filter(platforms__slug__in=param).distinct() if not all(hasattr(obj, 'required_game') for obj in queryset.all()) else queryset.filter(required_game__platforms__slug__in=param).distinct(),
@@ -34,15 +36,18 @@ def games(request):
             'date_range': lambda queryset, param: queryset.filter(release_date__gte=datetime(int(param[0]), 1, 1), release_date__lte=datetime(int(param[1]), 12, 31)) if len(param) == 2 else queryset,
         }
 
+        filtered_games = games
+        filtered_dlcs = dlcs
+
         for key,value in filter_condition.items():
             if key in request.GET:
                 if filter_dict.get(key) is None:
                     filter_dict.update({f'{key}': f'{request.GET.get(key)}'})
                 filter_param = request.GET.getlist(key)[0].split(',') if key.endswith('_filter') or key.endswith('_range') else request.GET.get(key)
                 
-
-                filtered_games = value(games, filter_param) if len(games) >= 1 else list()
-                filtered_dlcs = value(dlcs, filter_param) if len(dlcs) >= 1 else list()
+                print(key)
+                filtered_games = value(games, filter_param) if len(games) >= 1 else games
+                filtered_dlcs = value(dlcs, filter_param) if len(dlcs) >= 1 else dlcs
 
         if "sort_by" in request.GET:
             filter_dict.update({f'sort_by': f'{request.GET.get("sort_by")}'})
