@@ -853,10 +853,6 @@ input:active {
     padding: 0;
 }
 
-#promo-carousel .carousel-inner {
-    overflow: visible;
-}
-
 #promo-carousel .card-holder {
     padding: 0;
 }
