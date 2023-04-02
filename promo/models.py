@@ -34,16 +34,19 @@ class Promo(CustomBaseModel):
             raise ValidationError('End date cannot be before start date.', code='invalid', params={'end_date': 'End date'})
 
     def save(self):
-        if self.active:
+        if self.active and self.id:
             for game in set(self.apply_to_dlc.all()).union(set(self.apply_to_dlc.all())):
                 game.in_promo = True
                 game.promo = self
                 game.save()
-        elif not self.active:
+        elif not self.active and self.id:
             for game in set(self.apply_to_dlc.all()).union(set(self.apply_to_dlc.all())):
                 game.in_promo = False
                 game.promo = None
+                game.promo_percentage = 0
                 game.save()
+        else:
+            pass
         return super().save()
     
     def delete(self, using=None, keep_parents=False):
@@ -70,7 +73,7 @@ class Promo(CustomBaseModel):
                     game = get_or_none(kwargs['model'], id=i.id)
                     game.in_promo = False
                     game.promo = None
-                    game.percentage = 0
+                    game.promo_percentage = 0
                     game.save()
             case 'pre_add':
                 self.pre_add = set(self.apply_to_game.all())
