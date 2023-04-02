@@ -360,22 +360,22 @@ svg * {
     object-fit: cover;
 }
 
-.carousel-caption {
+#games-carousel .carousel-caption {
     width: 100%;
     left: 0;
     padding-bottom: 2.5rem;
 }
 
-.carousel-caption h3 {
+#games-carousel .carousel-caption h3 {
     font-weight: 700;
 }
 
-.carousel-item button {
+#games-carousel .carousel-item button {
     max-height: 72px;
     font-weight: 600;
 }
 
-.carousel-item button:hover {
+#games-carousel .carousel-item button:hover {
     color: black;
     background-color: #9f0;
     border-color: transparent;
@@ -386,27 +386,27 @@ svg * {
         height: initial;
     }
 
-    .carousel-indicators {
+    #games-carousel .carousel-indicators {
         bottom: -43px;
     }
 
-    .carousel-item {
+    #games-carousel .carousel-item {
         min-height: 35vh;
     }
 
-    .carousel-item button {
+    #games-carousel .carousel-item button {
         padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x) !important;
         float: right;
     }
 
-    .carousel-item .carousel-caption {
+    #games-carousel .carousel-item .carousel-caption {
         display: block !important;
         bottom: .5rem;
         flex-direction: column;
         padding: 0 .5rem !important;
     }
 
-    .carousel-item .carousel-caption h3 {
+    #games-carousel .carousel-item .carousel-caption h3 {
         max-width: 100%;
         padding-bottom: .5rem;
     }
@@ -807,6 +807,12 @@ input:active {
     overflow: hidden;
 }
 
+@media (max-width: 400px) {
+    .promo-header {
+        height: 55vh;
+    }
+}
+
 .promo-info {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.75);
@@ -836,6 +842,64 @@ input:active {
     --shadow-color: 0deg 0% 35%;
     background-color: rgb(var(--lm-bg-color));
     z-index: 2;
+}
+
+#promo-carousel {
+    position: relative;
+}
+
+#promo-carousel .row {
+    margin: 0;
+    padding: 0;
+}
+
+#promo-carousel .carousel-inner {
+    overflow: visible;
+}
+
+#promo-carousel .card-holder {
+    padding: 0;
+}
+
+#promo-carousel .carousel-item .card {
+    border: 1px solid rgb(255, 255, 255);
+    padding: 0;
+}
+
+#promo-carousel .card-body {
+    overflow: hidden;
+}
+
+#promo-carousel .carousel-item img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: calc(var(--bs-card-border-radius) - 2px);
+}
+
+#promo-carousel-inner hr {
+    margin: .5rem 0;
+    border: none;
+}
+
+#promo-carousel .carousel-indicators {
+    bottom: -3rem;
+}
+
+#promo-carousel .carousel-indicators * {
+    background-color: #1f1f1f;
+}
+
+#promo-carousel [class*="carousel-control-"] {
+    filter: saturate(100%) brightness(0%);
+}
+
+#promo-carousel .carousel-control-prev {
+    left: -15%;
+}
+
+#promo-carousel .carousel-control-next {
+    right: -15%;
 }
 
 /* Footer */
@@ -942,11 +1006,11 @@ a.socialaccount_provider.google {
 
 /* Carousel */
 
-.carousel-item button.add-to-cart {
+#games-carousel .carousel-item button.add-to-cart {
     background-color: #9f0;
 }
 
-.carousel-item button.browse {
+#games-carousel .carousel-item button.browse {
     color: white;
     background-color: #6f2dbd;
 }

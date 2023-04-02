@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
+{% load promo_tags %}
+{% load tags %}
 
 {% block page_header %}
 {% endblock %}
@@ -10,50 +12,70 @@
         src="{{ MEDIA_URL }}57567bbbba12a6c39ddee8eadda55d81de760a3de25b68fac5418efc04013bfb_hero_2560x423.webp" alt="">
     <div class="promo-info w-100 px-5 py-2">
         <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }}</h1>
-        <p class="long-description">{{ promo.long_description }}</p>
+        <p class="d-md-none short-description card-text">{{ promo.short_description }}</p>
+        <p class="d-none d-md-block long-description card-text">{{ promo.long_description }}</p>
     </div>
 </div>
-<div class="container__shadow position-relative">
+<div id="promo-carousel" class="container__shadow position-relative">
     <div class="container mb-5">
-        <div class="row">
-            <div class="col">
+        <div class="row justify-content-center">
+            <div class="col-10">
                 <h2 class="mt-4">Get 'em while you can</h2>
                 <hr>
-                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+                <div id="promo-carousel-inner" class="carousel slide" data-bs-ride="true">
                     <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
-                            class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                            aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                            aria-label="Slide 3"></button>
-                    </div>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                        {% for game in promo.apply_to_game.all %}
-                            {% if forloop.counter|divisibleby:5 %}
-                            </div>
-                            <div class="carousel-item active"></div>
-                            <img src="..." class="d-block w-100" alt="...">
-                            {% else %}
-                            <img src="..." class="d-block w-100" alt="...">
-                            {% endif %}
+                        {% for slide in promo.apply_to_game.all|slide_split:request %}
+                        {% if forloop.first %}
+                        <button type="button" data-bs-target="#promo-carousel-inner" data-bs-slide-to="0" class="active"
+                            aria-current="true" aria-label="Slide {{ forloop.counter}}"></button>
+                        {% else %}
+                        <button type="button" data-bs-target="#promo-carousel-inner"
+                            data-bs-slide-to="{{ forloop.counter|add:'-1' }}" aria-current="false"
+                            aria-label="Slide {{ forloop.counter}}"></button>
+                        {% endif %}
                         {% endfor %}
                     </div>
+                    <div class="carousel-inner">
+                        {% for slide in promo.apply_to_game.all|slide_split:request %}
+                        {% if forloop.first %}
+                        <div class="carousel-item active">
+                            {% else %}
+                            <div class="carousel-item">
+                                {% endif %}
+                                <div class="d-flex row w-100">
+                                    {% for game in slide %}
+                                    <div class="card-holder col col-md-4 col-lg-3">
+                                        <div class="card d-flex mx-1">
+                                            <a href="#" class="card-body p-0">
+                                                <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" class=""
+                                                    alt="{{ game|use_media:'LANDING.descr' }}">
+                                            </a>
+                                            <div class="card-body">
+                                                {{ game.name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#promo-carousel-inner"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#promo-carousel-inner"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 
