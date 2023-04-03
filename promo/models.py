@@ -3,7 +3,6 @@ from django.db.models.signals import m2m_changed, pre_save
 from datetime import datetime, time, timedelta
 from django.core.exceptions import ValidationError
 from django.dispatch import receiver
-from django.contrib import messages
 from decimal import Decimal
 
 from games.models import CustomBaseModel, Media
@@ -36,20 +35,26 @@ class Promo(CustomBaseModel):
         
 
     def save(self, *args, **kwargs):
-        if self.active and self.id:
-            for game in set(self.apply_to_dlc.all()).union(set(self.apply_to_dlc.all())):
-                game.in_promo = True
-                game.promo = self
-                game.save()
-        elif not self.active and self.id:
-            for game in set(self.apply_to_dlc.all()).union(set(self.apply_to_dlc.all())):
-                game.in_promo = False
-                game.promo = None
-                game.promo_percentage = 0
-                game.save()
+        super().save(*args, **kwargs)
+        # Self contains no information about its fields, query the database instead.
+        promo = Promo.objects.get(id=self.id)
+        if self.active and self.id is not None:
+            for queryset in [promo.apply_to_game.all(), promo.apply_to_dlc.all()]:
+                for game in queryset:
+                    game.in_promo = True
+                    game.promo = self
+                    game.final_price = Decimal(round(game.base_price * (1 + (Decimal(game.promo_percentage) / 100 * -1 )), 2))
+                    game.save()
+        elif not self.active and self.id is not None:
+            for queryset in [promo.apply_to_game.all(), promo.apply_to_dlc.all()]:
+                for game in queryset:
+                    game.in_promo = False
+                    game.promo = None
+                    game.promo_percentage = 0
+                    game.final_price = game.base_price
+                    game.save()
         else:
             pass
-        return super().save()
     
     def delete(self, using=None, keep_parents=False):
         remove_discount(self)
@@ -76,6 +81,7 @@ class Promo(CustomBaseModel):
                     game.in_promo = False
                     game.promo = None
                     game.promo_percentage = 0
+                    game.final_price = game.base_price
                     game.save()
             case 'pre_add':
                 self.pre_add = set(self.apply_to_game.all())
