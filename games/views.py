@@ -45,9 +45,8 @@ def games(request):
                     filter_dict.update({f'{key}': f'{request.GET.get(key)}'})
                 filter_param = request.GET.getlist(key)[0].split(',') if key.endswith('_filter') or key.endswith('_range') else request.GET.get(key)
                 
-                print(key)
-                filtered_games = value(games, filter_param) if len(games) >= 1 else games
-                filtered_dlcs = value(dlcs, filter_param) if len(dlcs) >= 1 else dlcs
+                filtered_games = value(games, filter_param) if len(games) > 0 else list()
+                filtered_dlcs = value(dlcs, filter_param) if len(dlcs) > 0 else list()
 
         if "sort_by" in request.GET:
             filter_dict.update({f'sort_by': f'{request.GET.get("sort_by")}'})
@@ -98,8 +97,11 @@ def games(request):
 
 
 def sort_by(sort_value, *args):
+    # Convert each argument to a list
     sorted_args = [list(arg) for arg in args]
+    # Flatten the list of lists into a single list
     sorted_args = [item for sublist in sorted_args for item in sublist]
+    # Sort the list based on the value of sort_value
     match sort_value:
         case "price_desc":
             sorted_args.sort(key=lambda x: x.final_price)
