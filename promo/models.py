@@ -3,6 +3,7 @@ from django.db.models.signals import m2m_changed, pre_save
 from datetime import datetime, time, timedelta
 from django.core.exceptions import ValidationError
 from django.dispatch import receiver
+from django.contrib import messages
 from decimal import Decimal
 
 from games.models import CustomBaseModel, Media
@@ -11,7 +12,7 @@ from ci_ms4_gamebox.utils import get_or_none
 
 class Promo(CustomBaseModel):
     active = models.BooleanField(default=False)
-    name = models.CharField(max_length=254)
+    name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, null=True, blank=True)
     start_date = models.DateTimeField(null=True, default=datetime.combine(datetime.now().date(), time(hour=0, minute=1)))
     end_date = models.DateTimeField(null=True, default=datetime.combine(datetime.now() + timedelta(days=1), time(hour=0, minute=1)))
@@ -29,11 +30,12 @@ class Promo(CustomBaseModel):
         return self.name
     
     def clean(self):
-        super().clean()
+        # Check if end date is before start date
         if self.start_date and self.end_date and self.start_date > self.end_date:
             raise ValidationError('End date cannot be before start date.', code='invalid', params={'end_date': 'End date'})
+        
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.active and self.id:
             for game in set(self.apply_to_dlc.all()).union(set(self.apply_to_dlc.all())):
                 game.in_promo = True
@@ -52,7 +54,7 @@ class Promo(CustomBaseModel):
     def delete(self, using=None, keep_parents=False):
         remove_discount(self)
         return super().delete(using=using, 
-                              keep_parents=keep_parents)
+                              keep_parents=keep_parents)   
     
     pre_add = None
     post_add = None
@@ -83,6 +85,8 @@ class Promo(CustomBaseModel):
                 self.post_add = self.post_add.union(set(self.apply_to_dlc.all()))
                 for i in self.post_add.difference(self.pre_add):
                     game = get_or_none(kwargs['model'], id=i.id)
+                    if check_dupe(self, game):
+                        break
                     game.in_promo = True if self.active else False
                     game.promo = self if self.active else None
                     game.save()
@@ -127,7 +131,17 @@ def remove_discount(instance):
 def game_change(instance, *args, **kwargs):
     instance._update_promo_items(**kwargs)
 
+
 @receiver(m2m_changed, sender=Promo.apply_to_dlc.through)
 def dlc_change(instance, *args, **kwargs):
     instance._update_promo_items(**kwargs)
-        
+
+
+def check_dupe(instance, game):
+        """ If the game passed in is already in another Promo - remove it from this Promo """
+        game_dupes = Promo.objects.filter(apply_to_game__id=game.id).exclude(id=instance.id)
+        if len(game_dupes) > 0:
+            if game.model_name() == 'game':
+                instance.apply_to_game.remove(game)
+            else:
+                instance.apply_to_dlc.remove(game)
