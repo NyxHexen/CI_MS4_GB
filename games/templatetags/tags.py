@@ -1,5 +1,4 @@
 from django import template
-from django.contrib import messages
 
 register = template.Library()
 
