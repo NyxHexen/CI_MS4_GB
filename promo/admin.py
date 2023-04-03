@@ -1,4 +1,5 @@
 from django.contrib import admin, messages
+from django.core.exceptions import ValidationError
 from ci_ms4_gamebox.utils import get_or_none
 from games.models import Game, DLC
 from .models import Promo
@@ -9,9 +10,6 @@ import re
 
 class PromoAdminModel(admin.ModelAdmin):
     def save_model(self, request, *args, **kwargs):
-        """
-        Hijacking a method to use 'request' to access custom-added input fields.
-        """
         if request.method == "POST":
             for key, value in request.POST.items():
                 if re.match(r"promo_percentage-\d+\b", key):
@@ -29,7 +27,7 @@ class PromoAdminModel(admin.ModelAdmin):
                     for item in game_set:
                         if item.promo_percentage != int(value):
                             item.promo_percentage = int(value)
-                            item.save()                                
+                            item.save()
         return super().save_model(request, *args, **kwargs)
 
 
