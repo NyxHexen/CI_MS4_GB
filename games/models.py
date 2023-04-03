@@ -25,9 +25,6 @@ class CustomBaseModel(models.Model):
     def save(self, *args, **kwargs):
         if "slug" in self.__dict__ and self.slug is None:
             self.slug = slugify(self.name)
-        if "base_price" in self.__dict__:
-            if self.base_price != 0.00:
-                self.final_price = self.base_price
         super().save(*args, **kwargs)
 
 
