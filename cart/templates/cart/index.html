@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_header %}
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        {% if 0 %}
+        <div class="col"></div>
+        {% else %}
+        <div class="empty-cart col d-flex flex-row align-items-center py-2">
+            <img src="{{ MEDIA_URL }}customer-profile-glados-portal-game.webp" alt="">
+            <div class="bubble pt-2 pb-1 px-3 ms-4 d-flex flex-column align-items-center">
+                <h2 class="fs-2">It's not often I encounter an empty cart in this facility. I'm almost impressed by your lack of items.</h2>
+                <a href="{% url 'games' %}" class="btn btn-outline-gamebox mb-2">KEEP LOOKING</a>
+            </div>
+        </div>
+        {% endif %}
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Some other stuff here:</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
