@@ -15,10 +15,11 @@
         {% if 0 %}
         <div class="col"></div>
         {% else %}
-        <div class="empty-cart col d-flex flex-row align-items-center py-2">
+        <div class="empty-cart col-8 d-flex flex-row align-items-center py-2">
             <img src="{{ MEDIA_URL }}customer-profile-glados-portal-game.webp" alt="">
             <div class="bubble pt-2 pb-1 px-3 ms-4 d-flex flex-column align-items-center">
-                <h2 class="fs-2">It's not often I encounter an empty cart in this facility. I'm almost impressed by your lack of items.</h2>
+                <h2 class="fs-2">It's not often I encounter an empty cart in this facility. I'm almost impressed by your
+                    lack of items.</h2>
                 <a href="{% url 'games' %}" class="btn btn-outline-gamebox mb-2">KEEP LOOKING</a>
             </div>
         </div>
@@ -30,6 +31,13 @@
                 </div>
             </div>
         </div>
+        {% if 1 %}
+        <div class="col-8 mt-2">
+            <small>
+                Just like the witty character who inspired it, this message is meant to be humorous. No judgment here! We do however encourage you to keep exploring our selection of games! &#59;&#41;
+            </small>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
