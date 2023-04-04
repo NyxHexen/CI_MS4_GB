@@ -373,6 +373,7 @@ svg * {
 #games-carousel .carousel-item button {
     max-height: 72px;
     font-weight: 600;
+    z-index: 99;
 }
 
 #games-carousel .carousel-item button:hover {

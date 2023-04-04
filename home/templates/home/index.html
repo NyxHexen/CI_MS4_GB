@@ -68,11 +68,11 @@
             <p class="text-start">{{ item.short_description }}</p>
             {% endif %}
           </div>
-          {% if item.model_name == 'game' %}
-          <button type="button" class="add-to-cart fs-5 btn btn-lg py-3 px-4 float-end"><i
+          {% if item.model_name == 'game' or item.model_name == 'dlc' %}
+          <button onclick="alert('It works!')" type="button" class="add-to-cart fs-5 btn btn-lg py-3 px-4 float-end"><i
               class="fa-solid fa-cart-plus"></i><span class="d-none d-sm-inline"> Add to Cart</span></button>
           {% elif item.model_name == 'promo' %}
-          <button type="button" class="browse fs-5 btn btn-lg py-3 px-4 float-end">Browse</button>
+          <button onclick="alert('It works!')" type="button" class="browse fs-5 btn btn-lg py-3 px-4 float-end">Browse</button>
           {% endif %}
         </div>
       </div>
