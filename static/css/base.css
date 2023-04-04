@@ -30,7 +30,7 @@
     --bs-btn-hover-color: #fff;
     --bs-btn-hover-bg: #6f2dbd;
     --bs-btn-hover-border-color: #6f2dbd;
-    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
     --bs-btn-active-color: #fff;
     --bs-btn-active-bg: #6f2dbd;
     --bs-btn-active-border-color: #6f2dbd;
@@ -47,7 +47,7 @@
     --bs-btn-hover-color: #6f2dbd;
     --bs-btn-hover-bg: #fff;
     --bs-btn-hover-border-color: #6f2dbd;
-    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
     --bs-btn-active-color: #fff;
     --bs-btn-active-bg: #6f2dbd;
     --bs-btn-active-border-color: #6f2dbd;
@@ -63,7 +63,7 @@
     --bs-btn-hover-color: #fff;
     --bs-btn-hover-bg: #6f2dbd;
     --bs-btn-hover-border-color: #6f2dbd;
-    --bs-btn-focus-shadow-rgb: 220,53,69;
+    --bs-btn-focus-shadow-rgb: 220, 53, 69;
     --bs-btn-active-color: #fff;
     --bs-btn-active-bg: #6f2dbd;
     --bs-btn-active-border-color: #6f2dbd;
@@ -99,7 +99,7 @@
 }
 
 .accordion-button:focus {
-    border-color:#6f2dbd;
+    border-color: #6f2dbd;
     box-shadow: none;
 }
 
@@ -173,14 +173,14 @@
 footer,
 .container__shadow {
     --shadow-elevation-high:
-    0px 0px 0px hsl(var(--shadow-color) / 1),
-    0px -0.1px 0.1px -0.7px hsl(var(--shadow-color) / 0.89),
-    0px -0.2px 0.2px -1.4px hsl(var(--shadow-color) / 0.76),
-    0px -0.6px 0.5px -2.1px hsl(var(--shadow-color) / 0.63),
-    0.1px -1.3px 1px -2.9px hsl(var(--shadow-color) / 0.51),
-    0.2px -2.5px 1.9px -3.6px hsl(var(--shadow-color) / 0.38),
-    0.3px -4.3px 3.2px -4.3px hsl(var(--shadow-color) / 0.25),
-    0.5px -6.9px 5.2px -5px hsl(var(--shadow-color) / 0.13);
+        0px 0px 0px hsl(var(--shadow-color) / 1),
+        0px -0.1px 0.1px -0.7px hsl(var(--shadow-color) / 0.89),
+        0px -0.2px 0.2px -1.4px hsl(var(--shadow-color) / 0.76),
+        0px -0.6px 0.5px -2.1px hsl(var(--shadow-color) / 0.63),
+        0.1px -1.3px 1px -2.9px hsl(var(--shadow-color) / 0.51),
+        0.2px -2.5px 1.9px -3.6px hsl(var(--shadow-color) / 0.38),
+        0.3px -4.3px 3.2px -4.3px hsl(var(--shadow-color) / 0.25),
+        0.5px -6.9px 5.2px -5px hsl(var(--shadow-color) / 0.13);
     box-shadow: var(--shadow-elevation-high);
 }
 
@@ -233,16 +233,16 @@ footer,
 
 #accounts_nav {
     --shadow-elevation-high:
-    0px 0.1px 0.1px hsl(var(--shadow-color) / 0.46),
-    -0.1px 0.2px 0.2px -0.4px hsl(var(--shadow-color) / 0.43),
-    -0.1px 0.4px 0.4px -0.8px hsl(var(--shadow-color) / 0.4),
-    -0.2px 0.7px 0.7px -1.2px hsl(var(--shadow-color) / 0.37),
-    -0.3px 1.1px 1.1px -1.7px hsl(var(--shadow-color) / 0.34),
-    -0.5px 1.8px 1.8px -2.1px hsl(var(--shadow-color) / 0.31),
-    -0.7px 2.7px 2.6px -2.5px hsl(var(--shadow-color) / 0.28),
-    -1.1px 4px 3.9px -2.9px hsl(var(--shadow-color) / 0.25),
-    -1.5px 5.6px 5.4px -3.3px hsl(var(--shadow-color) / 0.22),
-    -2.1px 7.8px 7.6px -3.7px hsl(var(--shadow-color) / 0.19);
+        0px 0.1px 0.1px hsl(var(--shadow-color) / 0.46),
+        -0.1px 0.2px 0.2px -0.4px hsl(var(--shadow-color) / 0.43),
+        -0.1px 0.4px 0.4px -0.8px hsl(var(--shadow-color) / 0.4),
+        -0.2px 0.7px 0.7px -1.2px hsl(var(--shadow-color) / 0.37),
+        -0.3px 1.1px 1.1px -1.7px hsl(var(--shadow-color) / 0.34),
+        -0.5px 1.8px 1.8px -2.1px hsl(var(--shadow-color) / 0.31),
+        -0.7px 2.7px 2.6px -2.5px hsl(var(--shadow-color) / 0.28),
+        -1.1px 4px 3.9px -2.9px hsl(var(--shadow-color) / 0.25),
+        -1.5px 5.6px 5.4px -3.3px hsl(var(--shadow-color) / 0.22),
+        -2.1px 7.8px 7.6px -3.7px hsl(var(--shadow-color) / 0.19);
     box-shadow: var(--shadow-elevation-high);
 }
 
@@ -344,6 +344,30 @@ svg * {
     border-radius: 4px;
 }
 
+.carousel-control-next:hover {
+    background: hsla(267, 62%, 46%, 1);
+
+    background: linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
+
+    background: -moz-linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
+
+    background: -webkit-linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
+
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#6F2DBD", endColorstr="#FFFFFF", GradientType=1);
+}
+
+.carousel-control-prev:hover {
+    background: hsla(267, 62%, 46%, 1);
+
+    background: linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
+
+    background: -moz-linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
+
+    background: -webkit-linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
+
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#6F2DBD", endColorstr="#FFFFFF", GradientType=1);
+}
+
 #games-carousel .overlay {
     position: absolute;
     inset: 0;
@@ -364,10 +388,12 @@ svg * {
     width: 100%;
     left: 0;
     padding-bottom: 2.5rem;
+    z-index: 9;
 }
 
 #games-carousel .carousel-caption h3 {
     font-weight: 700;
+    text-shadow: 0 0 5px #1f1f1f, 0 0 6px #1f1f1f, 0 0 7px #1f1f1f, 0 0 10px #1f1f1f;
 }
 
 #games-carousel .carousel-item button {
@@ -380,6 +406,10 @@ svg * {
     color: black;
     background-color: #9f0;
     border-color: transparent;
+}
+
+#games-carousel .item-info {
+    text-shadow: 0 0 5px #1f1f1f, 0 0 7px #1f1f1f, 0 0 10px #1f1f1f;
 }
 
 @media (max-width: 576px) {
@@ -761,7 +791,7 @@ svg * {
     padding: .5rem;
 }
 
-#pagination>*:first-child{
+#pagination>*:first-child {
     border-radius: 5px 0 0 5px;
 }
 
