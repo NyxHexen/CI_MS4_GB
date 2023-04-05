@@ -345,27 +345,19 @@ svg * {
     border-radius: 4px;
 }
 
-.carousel-control-next:hover {
+#games-carousel .carousel-control-next:hover {
     background: hsla(267, 62%, 46%, 1);
-
     background: linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
-
     background: -moz-linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
-
     background: -webkit-linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
-
     filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#6F2DBD", endColorstr="#FFFFFF", GradientType=1);
 }
 
-.carousel-control-prev:hover {
+#games-carousel .carousel-control-prev:hover {
     background: hsla(267, 62%, 46%, 1);
-
     background: linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
-
     background: -moz-linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
-
     background: -webkit-linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
-
     filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#6F2DBD", endColorstr="#FFFFFF", GradientType=1);
 }
 
