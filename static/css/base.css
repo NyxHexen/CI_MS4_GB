@@ -1128,6 +1128,33 @@ a.socialaccount_provider.google {
     margin-top: -10px;
 }
 
+#cart-items th:nth-child(1n+2),
+#cart-items td:nth-child(1n+3) {
+    text-align: center;
+}
+
+#cart-items tbody tr td:first-child  {
+    width: 10%;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+#cart-items tbody tr td:last-child {
+    padding-right: .5rem;
+}
+
+#cart-items td,
+#cart-items th {
+    padding: .25rem;
+}
+
+.cart-image {
+    width: 5rem;
+    aspect-ratio: 3/4;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
 /* Animations/Keyframes */
 
 @keyframes game-cover-front-flip {

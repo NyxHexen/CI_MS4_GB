@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
+{% load tags %}
+{% load cart_tags %}
 
 {% block page_header %}
 <div class="container">
@@ -12,8 +14,32 @@
 {% block content %}
 <div class="container my-5">
     <div class="row">
-        {% if 0 %}
-        <div class="col"></div>
+        {% if cart_items %}
+        <div class="col">
+            <div class="card pt-4">
+                <table id="cart-items" class="table-responsive mb-1">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Qty</th>
+                            <th scope="col">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td><img class="cart-image" src="{{ MEDIA_URL }}{{ item.item|use_media:'COVER.src' }}"
+                                    alt="{{ item.item|use_media:'COVER.descr' }}"></td>
+                            <td>{{ item.item.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.item.final_price|multiply:item.quantity }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
         {% else %}
         <div class="empty-cart col-8 d-flex flex-row align-items-center py-2">
             <img src="{{ MEDIA_URL }}customer-profile-glados-portal-game.webp" alt="">
@@ -31,10 +57,11 @@
                 </div>
             </div>
         </div>
-        {% if 1 %}
+        {% if not cart_items %}
         <div class="col-8 mt-2">
             <small>
-                Just like the witty character who inspired it, this message is meant to be humorous. No judgment here! We do however encourage you to keep exploring our selection of games! &#59;&#41;
+                Just like the witty character who inspired it, this message is meant to be humorous. No judgment here!
+                We do however encourage you to keep exploring our selection of games! &#59;&#41;
             </small>
         </div>
         {% endif %}
