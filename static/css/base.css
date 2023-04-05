@@ -754,10 +754,13 @@ svg * {
     border-radius: var(--bs-card-border-radius);
 }
 
-/* Firefox */
-#games-list .form-control[type=number] {
+#games-list .form-control[type=number]:not(#item_quantity) {
     appearance: none;
     -moz-appearance: textfield;
+}
+
+#games-list [id*="id_qty_"] {
+    width: 2.25rem;
 }
 
 #games-filter .form-control {
