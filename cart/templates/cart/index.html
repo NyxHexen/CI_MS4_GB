@@ -24,6 +24,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Qty</th>
                             <th scope="col">Price</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,9 @@
                             <td>{{ item.item.name }}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.item.final_price|multiply:item.quantity }}</td>
+                            <td class="remove-item"><button role="button" data-id="{{ item.item.id }}"
+                                    class="remove-item__btn btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-title="Remove Game"><i
+                                        class="fa-solid fa-xmark"></i></button></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -67,4 +71,36 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+
+{% block postloadjs %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+    let removeItemBtns = document.querySelectorAll('.remove-item__btn')
+    console.log(removeItemBtns)
+
+    removeItemBtns.forEach(btn => {
+        let btnParentRow = btn.parentNode.parentNode
+        let gameId = btn.dataset.id
+        btn.addEventListener('click', function (event) {
+            console.log(btnParentRow);
+            console.log(gameId)
+        })
+        btn.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                console.log(btnParentRow);
+                console.log(gameId)
+            }
+        });
+    })
+
+    function removeCartItem(item) {
+        console.log(item)
+    }
+
+    // removeCartItem(item);
+</script>
 {% endblock %}

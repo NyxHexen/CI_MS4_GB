@@ -1155,6 +1155,16 @@ a.socialaccount_provider.google {
     object-fit: cover;
 }
 
+.remove-item {
+    width: 50px;
+}
+
+.remove-item .btn {
+    height: 20px;
+    width: 20px;
+    padding: 0 !important;
+}
+
 /* Animations/Keyframes */
 
 @keyframes game-cover-front-flip {
