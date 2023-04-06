@@ -16,7 +16,6 @@ def cart_add(request, model_name, game_id):
     if not request.user.is_authenticated:
         game = Game.objects.filter(id=game_id) if model_name == 'game' else DLC.objects.filter(id=game_id)
         quantity = int(request.POST.get('quantity'))
-        redirect_url = request.POST.get('redirect_url')
 
         cart = get_and_unsign_cart(request)
 
@@ -26,6 +25,8 @@ def cart_add(request, model_name, game_id):
             cart[game_id] = {'model': model_name, 'quantity': quantity }
 
         sign_and_set_cart(request, cart)
+
+    redirect_url = request.POST.get('redirect_url')
     return redirect(redirect_url)
 
 
