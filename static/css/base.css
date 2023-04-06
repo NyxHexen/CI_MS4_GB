@@ -405,6 +405,10 @@ svg * {
     text-shadow: 0 0 5px #1f1f1f, 0 0 7px #1f1f1f, 0 0 10px #1f1f1f;
 }
 
+#games-carousel form {
+    width: fit-content !important;
+}
+
 @media (max-width: 576px) {
     #games-carousel img {
         height: initial;
@@ -1033,9 +1037,27 @@ a.socialaccount_provider.google {
     background-color: #9f0;
 }
 
-#games-carousel .carousel-item button.browse {
-    color: white;
-    background-color: #6f2dbd;
+#games-carousel .carousel-item .browse {
+    position: relative;
+}
+
+
+#games-carousel .carousel-item .browse:hover {
+    background-color: transparent;
+    border: 1px solid hsl(268, 62%, 66%);
+    color: hsl(268, 62%, 66%);
+}
+
+#games-carousel .carousel-item .browse:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 1px solid #6f2dbd;
+    border-radius: 5px;
+    filter: blur(5px)
 }
 
 /* Game Container */

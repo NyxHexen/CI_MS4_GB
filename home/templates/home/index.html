@@ -69,10 +69,18 @@
             {% endif %}
           </div>
           {% if item.model_name == 'game' or item.model_name == 'dlc' %}
-          <button onclick="alert('It works!')" type="button" class="add-to-cart fs-5 btn btn-lg py-3 px-4 float-end"><i
-              class="fa-solid fa-cart-plus"></i><span class="d-none d-sm-inline"> Add to Cart</span></button>
+          <form action="{% url 'cart_add' item.model_name item.id %}" method="POST" class="d-flex flex-row">
+            {% csrf_token %}
+            <label for="quantity" class="visually-hidden form-label">Quantity</label>
+            <input class="form-control" type="hidden" name="quantity" id="id_qty_{{ game.id }}" value="1" min="1"
+              max="99" data-game-id="{{ game.id }}">
+            <button type="submit" aria-label="Add to cart"
+              class="add-to-cart fs-5 btn btn-lg py-3 px-4 float-end"><span>Add to </span><i
+                class="fa-solid fa-cart-plus"></i></button>
+            <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
+          </form>
           {% elif item.model_name == 'promo' %}
-          <button onclick="alert('It works!')" type="button" class="browse fs-5 btn btn-lg py-3 px-4 float-end">Browse</button>
+          <a href="{% url 'promo' item.id %}" class="browse fs-5 btn btn-lg btn-gamebox py-3 px-4 float-end">Browse</a>
           {% endif %}
         </div>
       </div>
@@ -134,13 +142,8 @@
       {% if  dotd|length != 0 %}
       {% for deal in dotd %}
       <div class="countdown col-7 col-xs-6 col-md-4 col-lg-3">
-        <a 
-        {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
-          href="{% url 'games' %}" 
-        {% else %} 
-          href="{% url 'promo' deal.id %}" 
-        {% endif %}
-        class="content-overlay d-flex flex-column">
+        <a {% if deal.model_name == 'game' or deal.model_name == 'dlc' %} href="{% url 'games' %}" {% else %}
+          href="{% url 'promo' deal.id %}" {% endif %} class="content-overlay d-flex flex-column">
           <div class="content-overlay__name-wrapper d-flex flex-column justify-content-center align-items-center">
             <h3 class="px-3 text-center">{{ deal.name }} {% if deal.model_name == 'dlc' %}<span
                 class="badge bg-warning text-black fs-6">DLC</span>{% endif %}</h3>
