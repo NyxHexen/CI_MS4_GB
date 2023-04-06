@@ -24,8 +24,6 @@ def cart_contents(request):
             total += final_price
             item_count += 1
 
-    print(cart_items)
-
     context = {
         "cart_items": cart_items,
         "total" : total,

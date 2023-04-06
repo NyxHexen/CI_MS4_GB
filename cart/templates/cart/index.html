@@ -36,8 +36,9 @@
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.item.final_price|multiply:item.quantity }}</td>
                             <td class="remove-item"><button role="button" data-id="{{ item.item.id }}"
-                                    class="remove-item__btn btn btn-sm btn-danger" data-bs-toggle="tooltip" data-bs-title="Remove Game"><i
-                                        class="fa-solid fa-xmark"></i></button></td>
+                                    data-game="{{ item.item.model_name }}"
+                                    class="remove-item__btn btn btn-sm btn-danger" data-bs-toggle="tooltip"
+                                    data-bs-title="Remove Game"><i class="fa-solid fa-xmark"></i></button></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -80,27 +81,68 @@
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
     let removeItemBtns = document.querySelectorAll('.remove-item__btn')
-    console.log(removeItemBtns)
 
     removeItemBtns.forEach(btn => {
         let btnParentRow = btn.parentNode.parentNode
         let gameId = btn.dataset.id
+        let gameType = btn.dataset.game
         btn.addEventListener('click', function (event) {
-            console.log(btnParentRow);
-            console.log(gameId)
+            removeCartItem('remove', gameId, gameType, btnParentRow);
         })
         btn.addEventListener('keydown', function (event) {
             if (event.key === 'Enter' || event.key === ' ') {
-                console.log(btnParentRow);
-                console.log(gameId)
+                removeCartItem('remove', gameId, gameType, btnParentRow);
             }
         });
     })
 
-    function removeCartItem(item) {
-        console.log(item)
-    }
+    function removeCartItem(action, gameId, model_name, row) {
+        const csrftoken = document.cookie.match(/csrftoken=([\w-]+)/)[1];
 
-    // removeCartItem(item);
+        const data = {
+            'game_id': gameId,
+            'model_name': model_name,
+            'action': action,
+        };
+
+        const url = "{% url 'cart_remove' %}";
+
+        fetch('/cart/_remove/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                credentials: 'include',
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                let table = document.querySelector('#cart-items');
+                let tableParent = table.parentNode
+                row.remove();
+                let strayTooltips = document.querySelectorAll("[id^='tooltip']")
+                strayTooltips.forEach(tip => {
+                    tip.remove()
+                })
+                if (table.querySelectorAll('tbody tr').length == 0) {
+                    table.remove()
+                    tableParent.innerHTML = `
+                    <div class='card-body d-flex flex-column align-items-center'>
+                        <h2 class='cart-title ui-font'>uh-oh!</h2>
+                        <h3 class='cart-title text-center'>Your cart appears to be empty. Looks like you'll have to find some games to add!</h3>
+                        <a href="/games/" class="btn btn-outline-gamebox my-2">BROWSE GAMES</a>
+                    </div>`
+                }
+            })
+            .catch(error => {
+                console.error('There was an error:', error);
+            });
+    }
 </script>
 {% endblock %}

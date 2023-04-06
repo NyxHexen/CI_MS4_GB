@@ -125,5 +125,5 @@ def sort_by(sort_value, *args):
         case "rating_desc":
             sorted_args.sort(key=lambda x: x.rating, reverse=True)
         case _:
-            print("Wooops!")
+            pass
     return sorted_args
