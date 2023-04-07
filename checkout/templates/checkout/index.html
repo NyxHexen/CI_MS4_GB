@@ -3,6 +3,11 @@
 {% load tags %}
 {% load cart_tags %}
 
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'js/checkout.js' %}"></script>
+{% endblock %}
+
 {% block page_header %}
 <div class="container">
     <div class="row">
@@ -13,7 +18,7 @@
 
 {% block content %}
 <div class="container my-5">
-    <form action="{% url 'checkout' %}" id="address-form" method="POST"  class="row">
+    <form action="{% url 'checkout' %}" id="payment-form" method="POST" class="row">
         <div class="col-4">
             <div class="card pt-4">
                 <h2 class="text-center ui-font">your order</h2>
@@ -31,13 +36,14 @@
                             <td><img class="cart-image" src="{{ MEDIA_URL }}{{ item.item|use_media:'COVER.src' }}"
                                     alt="{{ item.item|use_media:'COVER.descr' }}"></td>
                             <td>{{ item.item.name }}</td>
-                            <td class="text-muted small"><em>{{ item.quantity }} @ £{{ item.item.final_price }}</em></td>
-                        {% endfor %}
+                            <td class="text-muted small"><em>{{ item.quantity }} @ £{{ item.item.final_price }}</em>
+                            </td>
+                            {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="col-5">
+        <div class="col-4">
             <div class="card pt-4">
                 <div class="card-body">
                     <div class="d-flex align-items-center ps-1">
@@ -45,7 +51,8 @@
                             {% csrf_token %}
                             <div class="form-check form-check-inline float-right mr-0">
                                 {% if user.is_authenticated %}
-                                <label class="form-check-label" for="id-save-info">Save as default delivery address</label>
+                                <label class="form-check-label" for="id-save-info">Save as default delivery
+                                    address</label>
                                 <input class="form-check-input ml-2 mr-0" type="checkbox" id="id-save-info"
                                     name="save-info" checked>
                                 {% else %}
@@ -77,7 +84,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-4">
             <div class="card">
                 <div class="card-body d-flex flex-column align-items-center">
                     <h2 id="cart-subtotal" class="card-title fs-5">Subtotal ({{ cart_items|length }}
@@ -85,11 +92,16 @@
                     </h2>
                     <fieldset class="p-3">
                         <legend class="fieldset-label text-black px-2 w-auto">Payment</legend>
-                        <!-- A Stripe card element will go here -->
-                        <div class="mb-3" id="card-element"></div>
-
-                        <!-- Used to display form errors -->
-                        <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                        <div id="payment-form">
+                            <div id="card-element">
+                                <!--Stripe.js injects the Card Element-->
+                            </div>
+                            <p id="card-error" role="alert"></p>
+                            <p class="result-message hidden">
+                                Payment succeeded, see the result in your
+                                <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+                            </p>
+                        </div>
                     </fieldset>
                     <p class="small text-danger my-0">
                         <span class="icon">
@@ -106,7 +118,8 @@
                             <span class="font-weight-bold">Adjust Cart</span>
                         </a>
                         <button id="submit-button" class="btn btn-gamebox" type="submit">
-                            <span class="font-weight-bold">Complete Order</span>
+                            <div class="spinner hidden" id="spinner"></div>
+                            <span id="button-text font-weight-bold">Pay Now</span>
                             <span class="icon">
                                 <i class="fas fa-lock"></i>
                             </span>
@@ -117,4 +130,44 @@
         </div>
     </form>
 </div>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+<script>
+    const stripe = Stripe('{{ stripe_public_key }}');
+    const options = {
+        // Fully customizable with appearance API.
+        appearance: {
+            theme: 'stripe'
+        },
+    };
+
+    // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 3
+    const elements = stripe.elements(options);
+
+    var style = {
+        base: {
+            color: "#32325d",
+            fontFamily: 'Arial, sans-serif',
+            fontSmoothing: "antialiased",
+            fontSize: "16px",
+            "::placeholder": {
+                color: "#32325d"
+            },
+            border: "1px solid #000"
+        },
+        invalid: {
+            fontFamily: 'Arial, sans-serif',
+            color: "#fa755a",
+            iconColor: "#fa755a"
+        }
+    };
+
+    // Create and mount the Payment Element
+    const cardElement = elements.create('card', {
+        style: style
+    });
+    cardElement.mount('#card-element');
+</script>
 {% endblock %}

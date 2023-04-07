@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django_user_agents',
     'crispy_forms',
     'crispy_bootstrap5',
+    'stripe',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
