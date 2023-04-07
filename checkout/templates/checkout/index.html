@@ -13,33 +13,108 @@
 
 {% block content %}
 <div class="container my-5">
-    <div class="row">
-        <div class="col-7 offset-1">
+    <form action="{% url 'checkout' %}" id="address-form" method="POST"  class="row">
+        <div class="col-4">
+            <div class="card pt-4">
+                <h2 class="text-center ui-font">your order</h2>
+                <table id="cart-items" class="table-responsive mb-1">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td><img class="cart-image" src="{{ MEDIA_URL }}{{ item.item|use_media:'COVER.src' }}"
+                                    alt="{{ item.item|use_media:'COVER.descr' }}"></td>
+                            <td>{{ item.item.name }}</td>
+                            <td class="text-muted small"><em>{{ item.quantity }} @ £{{ item.item.final_price }}</em></td>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-5">
             <div class="card pt-4">
                 <div class="card-body">
-                    <div class="checkout-address d-flex align-items-center ps-1">
-                        <span class="col-1 fs-5">1</span>
-                        <h3 class="card-title m-0">Address</h2>
-                        <form action="{% url 'checkout' %}" id="address-form" method="POST">
+                    <div class="d-flex align-items-center ps-1">
+                        <div class="col d-flex flex-column">
                             {% csrf_token %}
+                            <div class="form-check form-check-inline float-right mr-0">
+                                {% if user.is_authenticated %}
+                                <label class="form-check-label" for="id-save-info">Save as default delivery address</label>
+                                <input class="form-check-input ml-2 mr-0" type="checkbox" id="id-save-info"
+                                    name="save-info" checked>
+                                {% else %}
+                                <div class="text-center">
+                                    <a class="text-info" href="{% url 'account_signup' %}">Create an account</a>
+                                    <span>or</span>
+                                    <a class="text-info" href="{% url 'account_login' %}">login</a> to save this
+                                    <span></span>information</span>
+                                </div>
+                                {% endif %}
+                            </div>
                             <fieldset>
-                                <legend class="fieldset">
-                                    {{ form.full_name|crispy }}
-                                </legend>
+                                <legend class="fieldset-label px-2 w-auto">Details</legend>
+                                {{ order_form.full_name|as_crispy_field }}
+                                {{ order_form.email|as_crispy_field }}
+                                {{ order_form.phone_number|as_crispy_field }}
                             </fieldset>
-                        </form>
+                            <fieldset>
+                                <legend class="fieldset-label px-2 w-auto">Delivery Address</legend>
+                                {{ order_form.street_address1|as_crispy_field }}
+                                {{ order_form.street_address2|as_crispy_field }}
+                                {{ order_form.town_or_city|as_crispy_field }}
+                                {{ order_form.postcode|as_crispy_field }}
+                                {{ order_form.county|as_crispy_field }}
+                                {{ order_form.country|as_crispy_field }}
+                            </fieldset>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-3">
             <div class="card">
-                <div class="card-body d-flex flex-column">
-                    <h2 id="cart-subtotal" class="card-title fs-5">Subtotal ({{ cart_items|length }} {% if care_items|length == 1 %} item{% else %} items{% endif %}): £<strong>{{ total }}</strong></h2>
-                    <a role="button" href="{% url 'checkout' %}" class="btn btn-gamebox my-2">Proceed to Checkout</a>
+                <div class="card-body d-flex flex-column align-items-center">
+                    <h2 id="cart-subtotal" class="card-title fs-5">Subtotal ({{ cart_items|length }}
+                        {% if care_items|length == 1 %} item{% else %} items{% endif %}): £<strong>{{ total }}</strong>
+                    </h2>
+                    <fieldset class="p-3">
+                        <legend class="fieldset-label text-black px-2 w-auto">Payment</legend>
+                        <!-- A Stripe card element will go here -->
+                        <div class="mb-3" id="card-element"></div>
+
+                        <!-- Used to display form errors -->
+                        <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                    </fieldset>
+                    <p class="small text-danger my-0">
+                        <span class="icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </span>
+                        <span>Your card will be charged
+                            <strong>£{{ total|floatformat:2 }}</strong></span>
+                    </p>
+                    <div class="btn-group d-flex text-right">
+                        <a type="button" href="{% url 'cart' %}" class="btn btn-outline-gamebox">
+                            <span class="icon">
+                                <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="font-weight-bold">Adjust Cart</span>
+                        </a>
+                        <button id="submit-button" class="btn btn-gamebox" type="submit">
+                            <span class="font-weight-bold">Complete Order</span>
+                            <span class="icon">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 {% endblock %}
