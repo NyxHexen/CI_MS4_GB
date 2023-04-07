@@ -1,9 +1,9 @@
 from decimal import Decimal
 from django.shortcuts import get_object_or_404
-from .utils import *
-from .models import Cart
 
 from games.models import Game, DLC
+from .utils import *
+from .models import Cart
 
 
 def cart_contents(request):
@@ -29,12 +29,13 @@ def cart_contents(request):
         cart = Cart.objects.get_or_create(user=request.user)
         if bool(cart[0].cartitems.all()):
             for item in cart[0].cartitems.all():
+                model = Game if item.game else DLC
                 cart_items.append({
-                    'item': item.game,    
+                    'item': item.game if model is Game else item.dlc,    
                     'quantity': item.quantity,
-                    'item_id': item.game.id if item.game.model_name() == 'game' else item.dlc.id
+                    'item_id': item.game.id if model is Game else item.dlc.id
                 })
-                total += item.game.final_price if item.game.model_name() == 'game' else item.dlc.final_price
+                total += item.game.final_price * item.quantity if model is Game else item.dlc.final_price * item.quantity
                 item_count += 1
         
 
