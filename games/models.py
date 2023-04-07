@@ -1,8 +1,12 @@
 from django.db import models
 from django.utils.text import slugify
+from django.db.models import Count, Avg
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
+
+from math import sqrt
 
 import os
 
@@ -142,10 +146,13 @@ class RatingSet(CustomBaseModel):
         return self.game.name
     
     def user_rating_calc(self):
-        user_ratings = UserRating.objects.all().values('value')
-        for rating in user_ratings:
-            print(rating)
+        user_ratings = UserRating.objects.filter(rating_set__game=self.game).values_list('value', flat=True)
+        num_ratings = len(user_ratings)
+        avg_rating = sum(user_ratings) / num_ratings if user_ratings else 0
+        avg_all = RatingSet.objects.filter(game=self.game).aggregate(Avg('userrating__value'))['userrating__value__avg'] or 0
+        bayesian_avg = (avg_all * num_ratings + avg_rating) / (num_ratings + 1)
 
+        return round(bayesian_avg * 2) / 2
 
 class EsrbRating(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
@@ -177,6 +184,9 @@ class UserRating(CustomBaseModel):
 
     class Meta:
         unique_together = ('user', 'rating_set')  # each user can only rate a game once in a rating set
+    
+    def __str__(self):
+        return f"{self.rating_set.game} - {self.user.username}"
 
     
 class Platform(CustomBaseModel):

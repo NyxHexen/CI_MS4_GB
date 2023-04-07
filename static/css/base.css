@@ -568,7 +568,9 @@ svg * {
     position: absolute;
     left: 0;
     bottom: -6px;
+    font-size: 1rem;
     padding: 0 1rem;
+    margin: 1rem 0;
 }
 
 .game-price,
