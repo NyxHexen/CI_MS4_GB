@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.contrib.auth import get_user_model
+
 import os
 
 # Create your models here.
@@ -138,6 +140,11 @@ class RatingSet(CustomBaseModel):
 
     def __str__(self) -> str:
         return self.game.name
+    
+    def user_rating_calc(self):
+        user_ratings = UserRating.objects.all().values('value')
+        for rating in user_ratings:
+            print(rating)
 
 
 class EsrbRating(CustomBaseModel):
@@ -155,6 +162,21 @@ class PegiRating(CustomBaseModel):
 
     def __str__(self) -> str:
         return self.name
+
+
+class UserRating(CustomBaseModel):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    rating_set = models.ForeignKey('RatingSet', on_delete=models.CASCADE)
+    value = models.IntegerField(choices=[
+    (1, 'Dislike'),
+    (2, 'Meh'),
+    (3, 'Neutral'),
+    (4, 'Like'),
+    (5, 'Love')
+])
+
+    class Meta:
+        unique_together = ('user', 'rating_set')  # each user can only rate a game once in a rating set
 
     
 class Platform(CustomBaseModel):
