@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'games',
     'promo',
     'cart',
+    'checkout',
 
     # Other
     'storages',
