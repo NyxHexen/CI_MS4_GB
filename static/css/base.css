@@ -504,6 +504,10 @@ svg * {
     padding: 0;
 }
 
+.game-back--front [class*='-box'] p {
+    margin: 0;
+}
+
 .game-back--front [class*='-box'] p:not(.game-title) {
     font-size: .85rem;
     line-height: 1.2;
@@ -573,6 +577,10 @@ svg * {
     margin: 1rem 0;
 }
 
+.game-title-back {
+    font-size: 1rem;
+}
+
 .game-price,
 .promo-discount {
     font-size: .9rem;
@@ -601,17 +609,23 @@ svg * {
     padding: calc(0.4rem - 2px);
 }
 
-.game-platforms {
-    min-height: 28px;
-    margin-left: .25rem;
+.game .rating-stars > * {
+    padding: 0;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
 }
 
-.game-platforms img {
-    border-radius: 0;
-    height: fit-content;
-    width: 24px;
-    margin: 0 .25rem .1rem 0;
-    filter: invert(0%) sepia(26%) saturate(2976%) hue-rotate(73deg) brightness(88%) contrast(87%);
+.game .rating-stars i {
+    margin: 0 1px 1px 0;
+}
+
+.game .rating-stars:last-child {
+    line-height: 1.6;
+}
+
+.game .rating-stars .active {
+    text-shadow: 0 0 5px yellow, 0 0 10px yellow;
 }
 
 .game .add-cart {
