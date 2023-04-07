@@ -81,11 +81,11 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'cart.contexts.cart_contents'
             ],
-        },
-        'builtins': [
+            'builtins': [
             'crispy_forms.templatetags.crispy_forms_tags',
             'crispy_forms.templatetags.crispy_forms_field',
-        ]
+            ],
+        },
     },
 ]
 
