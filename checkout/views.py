@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
 
-from cart.utils import sign_and_set_cart, get_and_unsign_cart
+from cart.utils import get_and_unsign_cart
 from cart.models import Cart
 from .forms import OrderForm
 
@@ -10,7 +10,7 @@ from .forms import OrderForm
 def checkout(request):
     if not request.user.is_authenticated:
         cart = get_and_unsign_cart(request)
-        if cart[0].length == 0:
+        if len(cart) == 0:
             messages.error(request, "Your cart appears to be barren at present!")
             return redirect(reverse('cart'))
 
@@ -24,5 +24,6 @@ def checkout(request):
     order_form = OrderForm()
 
     context = {
+        'order_form': order_form
     }
     return render(request, 'checkout/index.html', context)
