@@ -58,7 +58,7 @@
         <div class="col-3">
             <div class="card">
                 <div class="card-body d-flex flex-column">
-                    <h2 class="card-title fs-5">Subtotal ({{ cart_items|length }} {% if care_items|length == 1 %} item{% else %} items{% endif %}): <strong>£{{ total }}</strong></h2>
+                    <h2 id="cart-subtotal" class="card-title fs-5">Subtotal ({{ cart_items|length }} {% if care_items|length == 1 %} item{% else %} items{% endif %}): £<strong>{{ total }}</strong></h2>
                     <button role="button" class="btn btn-gamebox my-2">Proceed to Checkout</button>
                 </div>
             </div>
@@ -126,7 +126,10 @@
             .then(data => {
                 let table = document.querySelector('#cart-items');
                 let tableParent = table.parentNode
+                let subtotalHeader = document.querySelector('#cart-subtotal strong')
+                subtotalHeader.innerText = Number((subtotalHeader.innerText - row.children[3].innerText).toFixed(2))
                 row.remove();
+                // Bootstrap Tooltips break when deleting rows, so we have to remove them manually.
                 let strayTooltips = document.querySelectorAll("[id^='tooltip']")
                 strayTooltips.forEach(tip => {
                     tip.remove()

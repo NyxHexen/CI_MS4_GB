@@ -583,6 +583,7 @@ svg * {
 
 .game-price,
 .promo-discount {
+    pointer-events: none;
     font-size: .9rem;
     font-weight: bolder;
     padding: 0.1rem 0.4rem 0;
