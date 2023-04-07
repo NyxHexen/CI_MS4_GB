@@ -13,7 +13,7 @@ class Cart(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cartitems')
     game = models.ForeignKey(Game, null=True, blank=True, on_delete=models.CASCADE)
     dlc = models.ForeignKey(DLC, null=True, blank=True, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
