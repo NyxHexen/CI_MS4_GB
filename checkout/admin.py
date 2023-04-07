@@ -23,7 +23,6 @@ class OrderAdmin(admin.ModelAdmin):
     'county',
     'date',
     'order_total',
-    'grand_total',
     )
 
     list_display = ('order_number', 'date', 'full_name', 'order_total',)
