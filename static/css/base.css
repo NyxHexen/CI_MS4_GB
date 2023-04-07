@@ -1098,12 +1098,12 @@ a.socialaccount_provider.google {
     --shadow-color: 0deg 0% 42%;
 }
 
-[data-bs-theme="light"] .game:hover .game-cover--front {
+[data-bs-theme="light"] .game.flip .game-cover--front {
     --shadow-color: 0deg 0% 42% !important;
     transition: all .4s linear;
 }
 
-[data-bs-theme="light"] .game:hover .game-back--reverse {
+[data-bs-theme="light"] .game.flip .game-back--reverse {
     --shadow-color: 76deg 100% 22% !important;
     transition: all .4s linear;
 }

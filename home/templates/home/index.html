@@ -283,6 +283,7 @@
 {% endblock %}
 
 {% block postloadjs %}
+{{ block.super }}
 <script>
   const carouselContainer = document.querySelector('.carousel-container');
   const gamesCarousel = document.querySelector('#games-carousel');
