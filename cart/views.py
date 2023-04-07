@@ -3,7 +3,6 @@ from django.http import JsonResponse
 
 from games.models import Game, DLC
 from .models import Cart
-from ci_ms4_gamebox.utils import get_or_none
 from .utils import sign_and_set_cart, get_and_unsign_cart
 
 import json
