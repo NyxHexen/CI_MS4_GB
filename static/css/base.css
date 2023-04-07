@@ -498,6 +498,21 @@ svg * {
     transform: rotateY(180deg) translateZ(40px);
 }
 
+.game-back--front [class*='-box'] h3 {
+    font-size: .75rem;
+    margin: 0;
+    padding: 0;
+}
+
+.game-back--front [class*='-box'] p:not(.game-title) {
+    font-size: .85rem;
+    line-height: 1.2;
+}
+
+.game-back--front hr {
+    margin: 0;
+}
+
 .game-back--reverse {
     position: absolute;
     top: 20%;
