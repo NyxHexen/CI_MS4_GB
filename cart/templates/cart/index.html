@@ -59,7 +59,7 @@
             <div class="card">
                 <div class="card-body d-flex flex-column">
                     <h2 id="cart-subtotal" class="card-title fs-5">Subtotal ({{ cart_items|length }} {% if care_items|length == 1 %} item{% else %} items{% endif %}): £<strong>{{ total }}</strong></h2>
-                    <button role="button" class="btn btn-gamebox my-2">Proceed to Checkout</button>
+                    <a role="button" href="{% url 'checkout' %}" class="btn btn-gamebox my-2">Proceed to Checkout</a>
                 </div>
             </div>
         </div>
