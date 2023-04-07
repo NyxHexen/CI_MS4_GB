@@ -11,4 +11,3 @@ class CartAdmin(admin.ModelAdmin):
     inlines = (CartItemsInline,)
 
 admin.site.register(Cart, CartAdmin)
-admin.site.register(CartItem)
