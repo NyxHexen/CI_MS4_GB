@@ -31,10 +31,12 @@ class DLCAdmin(admin.ModelAdmin):
                     'release_date', 'base_price', 'is_featured', 'carousel',
                     'in_promo', 'promo_percentage_with_suffix',
                     'final_price_with_prefix')
-    filter_horizontal = ['developers', 'publishers', 'tags','media',]
-    fields = ('id', 'name', 'release_date', 'slug', 'developers', 'publishers',
-            'tags', 'media', 'is_featured', 'carousel', 'in_promo', 'promo',
-            'promo_percentage_with_suffix', 'final_price_with_prefix',)
+    filter_horizontal = ['developers', 'publishers', 'platforms', 'tags',
+                         'genres','media', 'features',]
+    fields = ('id', 'required_game', 'name', 'slug', 'release_date', 'platforms', 'developers', 'publishers',
+              'genres', 'tags', 'features', 'media', 'is_featured', 'carousel', 'base_price',
+              'in_promo', 'promo', 'promo_percentage_with_suffix',
+              'final_price_with_prefix',)
 
 
 class RatingSetAdmin(admin.ModelAdmin):
