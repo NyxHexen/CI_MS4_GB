@@ -48,16 +48,16 @@ def cart_add(request, model_name, game_id):
 
 def cart_remove(request):
         data = json.loads(request.body.decode('utf-8'))
+        game = Game.objects.get(id=data['game_id']) if data['model_name'] == 'game' else DLC.objects.get(id=data.game_id)
         if not request.user.is_authenticated:
-            game = Game.objects.filter(id=data['game_id']) if data['model_name'] == 'game' else DLC.objects.filter(id=data.game_id)
-            # quantity = int(request.POST.get('quantity'))
-
-        cart = get_and_unsign_cart(request)
-
-        if data['action'] == 'remove':
-             del cart[data['game_id']]
-        elif data['action'] == 'update':
-             pass
-
-        sign_and_set_cart(request, cart)
+            cart = get_and_unsign_cart(request)
+            del cart[data['game_id']]
+            sign_and_set_cart(request, cart)
+        else:
+            cart = Cart.objects.get_or_create(user=request.user)
+            cart_items = cart[0].cartitems.all()
+            if game.model_name() == 'game':
+                cart_items.get(game=game).delete()
+            else:
+                cart_items.get(dlc=game).delete()
         return JsonResponse({'success': True})
