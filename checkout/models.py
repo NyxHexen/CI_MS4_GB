@@ -1,6 +1,5 @@
 from django.db import models
 from django.db.models import Sum
-from django.conf import settings
 import uuid
 
 from games.models import Game, DLC
@@ -47,3 +46,7 @@ class OrderLineItem(models.Model):
     dlc = models.ForeignKey(DLC, null=True, blank=True, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=6, decimal_places=2)
+
+    def save(self, *args, **kwargs):
+        self.price = self.game.final_price * self.quantity if self.game is not None else self.dlc.final_price * self.quantity
+        return super().save(*args, **kwargs)
