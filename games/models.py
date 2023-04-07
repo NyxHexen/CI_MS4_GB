@@ -25,12 +25,16 @@ class CustomBaseModel(models.Model):
     def __init__(self, *args, **kwargs):
         if "slug" in self.__dict__ and self.slug is None:
             self.slug = slugify(self.name)
+        if "final_price" in self.__dict__ and self.final_price == 0:
+            self.final_price = self.base_price
         super().__init__(*args, **kwargs)
         
 
     def save(self, *args, **kwargs):
         if "slug" in self.__dict__ and self.slug is None:
             self.slug = slugify(self.name)
+        if "final_price" in self.__dict__ and self.final_price == 0 and self.promo is None:
+            self.final_price = self.base_price
         super().save(*args, **kwargs)
 
 
@@ -77,17 +81,19 @@ class DLC(CustomBaseModel):
         verbose_name_plural = 'DLCs'
 
     required_game = models.ForeignKey('Game', default=None, on_delete=models.CASCADE)
-    name = models.CharField(max_length=254, unique=True, null=True)
+    name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
+    genres = models.ManyToManyField('Genre')
     publishers = models.ManyToManyField('Publisher')
     developers = models.ManyToManyField('Developer')
     release_date = models.DateField(null=True)
     description = models.TextField(null=True)
+    platforms = models.ManyToManyField('Platform')
     tags = models.ManyToManyField('Tag')
-    media = models.ManyToManyField('Media')
     features = models.ManyToManyField('Feature')
-    is_featured = models.BooleanField(default=False, null=True)
-    carousel = models.BooleanField(default=False, null=True)
+    media = models.ManyToManyField('Media')
+    is_featured = models.BooleanField(default=False, null=True, blank=True)
+    carousel = models.BooleanField(default=False, null=True, blank=True)
     base_price = models.DecimalField(max_digits=6, decimal_places=2)
     in_promo = models.BooleanField(default=False, null=True, blank=True)
     promo = models.ForeignKey('promo.Promo', null=True, blank=True, on_delete=models.SET_NULL)
