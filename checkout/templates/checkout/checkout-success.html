@@ -125,7 +125,7 @@
                     </div>
                 </div>
                 <div
-                    class="game-back--reverse d-flex {% if game.in_promo and game.promo.active is True%} justify-content-end {% else %} justify-content-between {% endif %} align-items-end">
+                    class="game-back--reverse d-flex justify-content-end align-items-end">
                     {% if game.in_promo and game.promo.active is True%}
                     <div class="promo-discount">
                         -{{ game.promo_percentage }}%
