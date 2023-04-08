@@ -39,6 +39,9 @@ class Order(models.Model):
             self.order_number = self._generate_order_number()
         super().save(*args, **kwargs)
         
+    def __str__(self):
+        return self.order_number
+
 
 class OrderLineItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='lineitems')
@@ -50,3 +53,6 @@ class OrderLineItem(models.Model):
     def save(self, *args, **kwargs):
         self.price = self.game.final_price * self.quantity if self.game is not None else self.dlc.final_price * self.quantity
         return super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.order.order_number[:6]

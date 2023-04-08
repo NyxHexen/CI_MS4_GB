@@ -32,7 +32,6 @@ def checkout(request):
         cart = Cart.objects.get_or_create(user=request.user)[0]
         if cart.cartitems.count() == 0:
             messages.error(request, "Your cart appears to be barren at present!")
-            print("Empty!")
             return redirect(reverse('cart'))
     
     order_form = OrderForm()
@@ -71,8 +70,25 @@ def checkout(request):
                         ))
                         order.delete()
                         return redirect(reverse('view_cart'))
-                else:
-                    print("Logged in! Log out to test log-out!")
+            else:
+                try:
+                    cart = Cart.objects.get(user=request.user)
+                    for i in cart.cartitems.all():
+                        order_line_item = OrderLineItem(
+                                order = order,
+                                game = i.game or None,
+                                dlc = i.dlc or None,
+                                quantity = i.quantity,
+                            )
+                        order_line_item.save()
+                except ObjectDoesNotExist:
+                    messages.error(request, (
+                        'Whoops! Your cart has gone missing. '
+                        'Better give us a call!'
+                    ))
+                    order.delete()
+                    return redirect(reverse('view_cart'))
+                    
             request.session['save_info'] = 'save-info' in request.POST
             return redirect(reverse('checkout_success', args=[order.order_number]))
         else:
@@ -102,7 +118,7 @@ def checkout_success(request, order_number):
     else:
         try:
             cart = Cart.objects.get(user=request.user)
-            cart[0].delete()
+            cart.delete()
         except Exception as e:
             messages.info(request, 'Woops! Our server had an accident \
                            while trying to delete your old cart. Not to worry! Your order \
