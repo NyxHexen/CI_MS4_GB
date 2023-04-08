@@ -41,15 +41,15 @@
                 </div>
                 <div class="col-3 offset-md-3 card-body">
                     <select id="games_sort" class="form-select" aria-label="Default select example">
-                        <option selected disabled>Sort By</option>
-                        <option value="price_desc">Price (from highest)</option>
-                        <option value="price_asc">Price (from lowest)</option>
-                        <option value="discount_desc">Discount (from highest)</option>
-                        <option value="title_asc">Title (A to Z)</option>
-                        <option value="title_desc">Title (Z to A)</option>
-                        <option value="date_desc">Release Date (newest first)</option>
-                        <option value="date_asc">Release Date (oldest first)</option>
-                        <option value="rating_desc">Rating (from highest)</option>
+                        <option disabled {% if not filter_dict %}selected{% endif %}>Sort By</option>
+                        <option value="price_desc" {% if "price_desc" in filter_dict %}selected{% endif %}>Price (from highest)</option>
+                        <option value="price_asc" {% if "price_asc" in filter_dict %}selected{% endif %}>Price (from lowest)</option>
+                        <option value="discount_desc" {% if "discount_desc" in filter_dict %}selected{% endif %}>Discount (from highest)</option>
+                        <option value="title_asc" {% if "title_asc" in filter_dict %}selected{% endif %}>Title (A to Z)</option>
+                        <option value="title_desc" {% if "title_desc" in filter_dict %}selected{% endif %}>Title (Z to A)</option>
+                        <option value="date_desc" {% if "date_desc" in filter_dict %}selected{% endif %}>Release Date (newest first)</option>
+                        <option value="date_asc" {% if "date_asc" in filter_dict %}selected{% endif %}>Release Date (oldest first)</option>
+                        <option value="rating_desc" {% if "rating_desc" in filter_dict %}selected{% endif %}>Rating (from highest)</option>
                     </select>
                 </div>
             </div>
