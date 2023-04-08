@@ -19,6 +19,7 @@
 {% block content %}
 <div class="container my-5">
     <form action="{% url 'checkout' %}" id="payment-form" method="POST" class="row">
+        {% csrf_token %}
         <div class="col-4">
             <div class="card pt-4">
                 <h2 class="text-center ui-font">your order</h2>
@@ -48,7 +49,6 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center ps-1">
                         <div class="col d-flex flex-column">
-                            {% csrf_token %}
                             <div class="form-check form-check-inline float-right mr-0">
                                 {% if user.is_authenticated %}
                                 <label class="form-check-label" for="id-save-info">Save as default delivery
@@ -112,7 +112,7 @@
                             <strong>£{{ total|floatformat:2 }}</strong></span>
                     </p>
                     <div class="btn-group d-flex text-right mb-2">
-                        <a type="button" href="{% url 'cart' %}" class="btn btn-outline-gamebox">
+                        <a id="adjust-cart" type="button" href="{% url 'cart' %}" class="btn btn-outline-gamebox">
                             <span class="icon">
                                 <i class="fas fa-chevron-left"></i>
                             </span>
@@ -120,10 +120,7 @@
                         </a>
                         <button id="submit-button" class="btn btn-gamebox" type="submit">
                             <div class="spinner hidden" id="spinner"></div>
-                            <span id="button-text font-weight-bold">Pay Now</span>
-                            <span class="icon">
-                                <i class="fas fa-lock"></i>
-                            </span>
+                            <span id="button-text">Pay Now <i class="fas fa-lock"></i></span>
                         </button>
                     </div>
                 </div>
@@ -136,6 +133,7 @@
 {% block postloadjs %}
 {{ block.super }}
 <script>
+    let form = document.getElementById('payment-form');
     const stripe = Stripe('{{ stripe_public_key }}');
     const options = {
         // Fully customizable with appearance API.
@@ -184,6 +182,68 @@
         } else {
             errorDiv.textContent = '';
         }
-    })
+    });
+
+    (async () => {
+        const csrftoken = document.cookie.match(/csrftoken=([\w-]+)/)[1];
+        const response = await fetch("{% url 'create_payment' %}", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            credentials: 'include',
+        });
+        const {
+            client_secret: clientSecret
+        } = await response.json();
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            setLoading(true);
+            // If the client secret was rendered server-side as a data-secret attribute
+            // on the <form> element, you can retrieve it here by calling `form.dataset.secret`
+            stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: cardElement,
+                }
+            }).then(function (result) {
+                if (result.error) {
+                    let errorDiv = document.getElementById('card-errors');
+
+                    let html = `
+                    <span class="icon" role="alert">
+                        <i class="fas fa-times"></i>
+                    </span>
+                    <span>${result.error.message}</span>
+                    `;
+                    errorDiv.innerHTML = html
+                    errorDiv.style.color = 'rgb(255, 0, 0)';
+                    setLoading(false);
+
+                } else {
+                    if (result.paymentIntent.status === 'succeeded') {
+                        form.submit()
+                    }
+                }
+            });
+        });
+
+    })();
+
+    function setLoading(isLoading) {
+        if (isLoading) {
+            // Disable the button and show a spinner
+            document.querySelector("#submit-button").disabled = true;
+            document.querySelector("#spinner").classList.remove("hidden");
+            document.querySelector("#button-text").classList.add("hidden");
+            document.querySelector("#adjust-cart").classList.add("disabled");
+        } else {
+            document.querySelector("#submit-button").disabled = false;
+            document.querySelector("#spinner").classList.add("hidden");
+            document.querySelector("#button-text").classList.remove("hidden");
+            document.querySelector("#adjust-cart").classList.remove("disabled");
+        }
+    }
 </script>
 {% endblock %}

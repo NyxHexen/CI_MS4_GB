@@ -3,6 +3,7 @@ from django.views.decorators.http import require_POST
 from django.urls import reverse
 from django.contrib import messages
 from django.http import JsonResponse
+from django.conf import settings
 
 from cart.utils import get_and_unsign_cart
 from cart.models import Cart
@@ -42,15 +43,14 @@ def create_payment(request):
     current_cart = cart_contents(request)
     amount = current_cart['total']
     stripe_amount = round(amount * 100)
-    currency = 'gbp'
 
     stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
 
     intent = stripe.PaymentIntent.create(
         amount=stripe_amount,
-        currency=currency,
+        currency=settings.STRIPE_CURRENCY,
         automatic_payment_methods={
             'enabled': True
         }
     )
-    return JsonResponse({'data': intent.client_secret})
+    return JsonResponse({'client_secret': intent.client_secret})
