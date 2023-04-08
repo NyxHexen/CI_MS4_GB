@@ -94,19 +94,23 @@
                         <legend class="fieldset-label text-black px-2 w-auto">Payment</legend>
                         <div id="payment-form">
                             <div id="card-element">
-                                <!--Stripe.js injects the Card Element-->
+                                <div id="link-authentication-element">
+                                    <!--Stripe.js injects the Link Authentication Element-->
+                                </div>
+                                <div id="payment-element">
+                                    <!--Stripe.js injects the Payment Element-->
+                                </div>
+                                <div id="payment-message" class="hidden"></div>
                             </div>
-                            <p id="card-error" role="alert"></p>
-                        </div>
                     </fieldset>
-                    <p class="small text-danger my-0">
+                    <p class="small text-danger mt-2">
                         <span class="icon">
                             <i class="fas fa-exclamation-circle"></i>
                         </span>
                         <span>Your card will be charged
                             <strong>£{{ total|floatformat:2 }}</strong></span>
                     </p>
-                    <div class="btn-group d-flex text-right">
+                    <div class="btn-group d-flex text-right mb-2">
                         <a type="button" href="{% url 'cart' %}" class="btn btn-outline-gamebox">
                             <span class="icon">
                                 <i class="fas fa-chevron-left"></i>
