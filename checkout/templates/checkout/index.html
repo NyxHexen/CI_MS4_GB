@@ -65,13 +65,13 @@
                                 {% endif %}
                             </div>
                             <fieldset>
-                                <legend class="fieldset-label px-2 w-auto">Details</legend>
+                                <legend class="fieldset-label px-1 w-auto">Your Details</legend>
                                 {{ order_form.full_name|as_crispy_field }}
                                 {{ order_form.email|as_crispy_field }}
                                 {{ order_form.phone_number|as_crispy_field }}
                             </fieldset>
                             <fieldset>
-                                <legend class="fieldset-label px-2 w-auto">Delivery Address</legend>
+                                <legend class="fieldset-label px-1 w-auto">Delivery Address</legend>
                                 {{ order_form.street_address1|as_crispy_field }}
                                 {{ order_form.street_address2|as_crispy_field }}
                                 {{ order_form.town_or_city|as_crispy_field }}
@@ -90,17 +90,13 @@
                     <h2 id="cart-subtotal" class="card-title fs-5">Subtotal ({{ cart_items|length }}
                         {% if care_items|length == 1 %} item{% else %} items{% endif %}): £<strong>{{ total }}</strong>
                     </h2>
-                    <fieldset class="p-3">
+                    <fieldset class="px-3 py-1">
                         <legend class="fieldset-label text-black px-2 w-auto">Payment</legend>
                         <div id="payment-form">
                             <div id="card-element">
                                 <!--Stripe.js injects the Card Element-->
                             </div>
                             <p id="card-error" role="alert"></p>
-                            <p class="result-message hidden">
-                                Payment succeeded, see the result in your
-                                <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
-                            </p>
                         </div>
                     </fieldset>
                     <p class="small text-danger my-0">

@@ -1219,6 +1219,14 @@ a.socialaccount_provider.google {
     padding: 0 !important;
 }
 
+/* Checkout */
+#card-element {
+    min-width: 370px;
+    padding: .5rem .75rem;
+    border: 1px solid #1f1f1f;
+    border-radius: 5px;
+}
+
 /* Animations/Keyframes */
 
 @keyframes game-cover-front-flip {
