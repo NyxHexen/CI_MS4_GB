@@ -3,9 +3,8 @@
 {% load tags %}
 {% load cart_tags %}
 
-{% block extra_js %}
+{% block extra_css %}
 {{ block.super }}
-<script src="{% static 'js/checkout.js' %}"></script>
 {% endblock %}
 
 {% block page_header %}
@@ -17,6 +16,20 @@
 {% endblock %}
 
 {% block content %}
+<div id="loading-overlay" class="d-none flex-column align-items-center justify-content-center">
+    <div class="overlay-text d-flex">
+        <h2 class="ui-font me-1">loading</h2><span class="me-1">.</span><span class="me-1">.</span><span class="me-1">.</span>
+    </div>
+    <div class="overlay-title">
+        <span class="letter ui-font l-0 me-1 fun-letter">G</span>
+        <span class="letter ui-font l-1 me-1 fun-letter">a</span>
+        <span class="letter ui-font l-2 me-1 fun-letter">m</span>
+        <span class="letter ui-font l-3 me-1 fun-letter">e</span>
+        <span class="letter ui-font l-4 me-1 fun-letter">b</span>
+        <span class="letter ui-font l-5 me-1 fun-letter">o</span>
+        <span class="letter ui-font l-6 me-1 fun-letter">X</span>
+    </div>
+</div>
 <div class="container my-5">
     <form action="{% url 'checkout' %}" id="payment-form" method="POST" class="row">
         {% csrf_token %}
@@ -240,11 +253,15 @@
             document.querySelector("#spinner").classList.remove("hidden");
             document.querySelector("#button-text").classList.add("hidden");
             document.querySelector("#adjust-cart").classList.add("disabled");
+            document.querySelector("#loading-overlay").classList.remove("d-none");
+            document.querySelector("#loading-overlay").classList.add("d-flex")
         } else {
             document.querySelector("#submit-button").disabled = false;
             document.querySelector("#spinner").classList.add("hidden");
             document.querySelector("#button-text").classList.remove("hidden");
             document.querySelector("#adjust-cart").classList.remove("disabled");
+            document.querySelector("#loading-overlay").classList.remove("d-flex");
+            document.querySelector("#loading-overlay").classList.add("d-none");
         }
     }
 </script>

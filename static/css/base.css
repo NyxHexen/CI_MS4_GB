@@ -1317,6 +1317,123 @@ a.socialaccount_provider.google {
     animation: loading 2s infinite ease;
 }
 
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    min-height: 100%;
+    min-width: 100%;
+    background-color: rgb(var(--lm-bg-color));
+    z-index: 1000;
+}
+
+.overlay-text * {
+    font-size: 2rem;
+    transform-origin: bottom;
+}
+
+.overlay-text *:nth-child(2) {
+    animation: loading-text .75s ease-in-out infinite alternate both;
+}
+
+.overlay-text *:nth-child(3) {
+    animation: loading-text .75s ease-in-out .25s infinite alternate both;
+}
+
+.overlay-text *:nth-child(4) {
+    animation: loading-text .75s ease-in-out .5s infinite alternate both;
+}
+
+@keyframes loading-text {
+    0% {
+        transform: scale(1.5);
+    }
+    50% {
+        transform: scale(1);
+    }
+}
+
+.letter {
+    position: relative;
+    font-size: 4rem;
+    text-shadow: 
+        0 0 2px #6f2dbd,
+        0 0 7px #6f2dbd,
+        0 0 11px #6f2dbd,
+        0 0 15px #6f2dbd,
+        0 0 17px #6f2dbd,
+        0 0 31px #6f2dbd;
+    color: #ece1ff;
+    
+    animation: flicker 6s ease-in-out 8.15s infinite alternate both;
+}
+
+.letter::after {
+    content: '';
+    position:absolute;
+    background-color: #b777ff;
+    top: 75%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: blur(15px);
+}
+
+.l-0 {
+    animation: flicker 10s ease-in-out 7.75s infinite alternate both;
+}
+
+.l-0::after {
+    transform: perspective(4.5rem) rotateX(70deg) rotateZ(15deg);
+}
+
+.l-1 {
+    animation: flicker 10s ease-in-out 2.75s infinite alternate both;
+}
+
+.l-1::after {
+    transform: perspective(4.5rem) rotateX(70deg) rotateZ(10deg);
+}
+
+.l-2 {
+    animation: flicker 10s ease-in-out 7.41s infinite alternate both;
+}
+
+.l-2::after {
+    transform: perspective(4.5rem) rotateX(70deg) rotateZ(5deg);
+}
+
+.l-3 {
+    animation: flicker 10s ease-in-out 8.94s infinite alternate both;
+}
+
+.l-3::after {
+    transform: perspective(4.5rem) rotateX(70deg) rotateZ(0deg);
+}
+
+.l-4 {
+    animation: flicker 10s ease-in-out 4.47s infinite alternate both;
+}
+
+.l-4::after {
+    transform: perspective(4.5rem) rotateX(70deg) rotateZ(-5deg);
+}
+
+.l-5 {
+    animation: flicker 10s ease-in-out 6.10s infinite alternate both;
+}
+
+.l-5::after {
+    transform: perspective(4.5rem) rotateX(70deg) rotateZ(-10deg);
+}
+
+.l-6 {
+    animation: flicker 10s ease-in-out 3.81s infinite alternate both;
+}
+
+.l-6::after {
+    transform: perspective(4.5rem) rotateX(70deg) rotateZ(-15deg);
+}
+
 /* Payment Success Page */
 .suggested-games {
     --shadow-color: 0deg 0% 0%;
@@ -1427,6 +1544,15 @@ footer {
     100% {
         -webkit-transform: rotateY(-180deg) translateY(-20%) translateZ(-39px);
         transform: rotateY(-180deg) translateY(-20%) translateZ(-39px);
+    }
+}
+
+@keyframes flicker {
+    0%, 2%, 35%, 37%, 39%, 41%, 100% {
+        opacity: 1;
+    }
+    1%, 3%, 34%, 36%, 38%, 40% {
+        opacity: 0;
     }
 }
 
