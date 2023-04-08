@@ -115,15 +115,15 @@ def sort_by(sort_value, *args):
         case "discount_desc":
             sorted_args.sort(key=lambda x: x.promo_percentage, reverse=True)
         case "title_asc":
-            sorted_args.sort(key=lambda x: x.name, reverse=True)
-        case "title_desc":
             sorted_args.sort(key=lambda x: x.name)
+        case "title_desc":
+            sorted_args.sort(key=lambda x: x.name, reverse=True)
         case "date_desc":
             sorted_args.sort(key=lambda x: x.release_date)
         case "date_asc":
             sorted_args.sort(key=lambda x: x.release_date, reverse=True)
         case "rating_desc":
-            sorted_args.sort(key=lambda x: x.rating, reverse=True)
+            sorted_args.sort(key=lambda x: x.ratingset.user_rating_calc(), reverse=True)
         case _:
             pass
     return sorted_args

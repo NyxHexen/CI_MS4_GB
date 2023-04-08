@@ -140,21 +140,26 @@ class Developer(CustomBaseModel):
 
 
 class RatingSet(CustomBaseModel):
-    game = models.OneToOneField('Game', on_delete=models.CASCADE)
+    game = models.OneToOneField('Game', on_delete=models.CASCADE, null=True, blank=True)
+    dlc = models.OneToOneField('DLC', on_delete=models.CASCADE, null=True, blank=True)
     esrb_rating = models.ForeignKey('EsrbRating', null=True, on_delete=models.SET_NULL)
     pegi_rating = models.ForeignKey('PegiRating', null=True, on_delete=models.SET_NULL)
 
-
     def __str__(self) -> str:
-        return self.game.name
+        if self.game is None:
+            return self.dlc.name
+        else:
+            return self.game.name
     
     def user_rating_calc(self):
         user_ratings = UserRating.objects.filter(rating_set__game=self.game).values_list('value', flat=True)
         num_ratings = len(user_ratings)
         avg_rating = sum(user_ratings) / num_ratings if user_ratings else 0
-        avg_all = RatingSet.objects.filter(game=self.game).aggregate(Avg('userrating__value'))['userrating__value__avg'] or 0
+        if self.game is None:
+            avg_all = RatingSet.objects.filter(dlc=self.game).aggregate(Avg('userrating__value'))['userrating__value__avg'] or 0
+        else:
+            avg_all = RatingSet.objects.filter(game=self.game).aggregate(Avg('userrating__value'))['userrating__value__avg'] or 0
         bayesian_avg = (avg_all * num_ratings + avg_rating) / (num_ratings + 1)
-
         return round(bayesian_avg * 2) / 2
 
 class EsrbRating(CustomBaseModel):
