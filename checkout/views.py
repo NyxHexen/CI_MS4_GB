@@ -17,6 +17,7 @@ from .forms import OrderForm
 
 import os
 import stripe
+import random
 
 
 # Create your views here.
@@ -99,11 +100,25 @@ def checkout_success(request, order_number):
             cart = get_and_unsign_cart(request)
             del request.session['cart']
     else:
-        cart = Cart.objects.get_or_create(user=request.user)
-        cart[0].delete()
+        try:
+            cart = Cart.objects.get(user=request.user)
+            cart[0].delete()
+        except Exception as e:
+            messages.info(request, 'Woops! Our server had an accident \
+                           while trying to delete your old cart. Not to worry! Your order \
+                          has been processed either way.')
+
+    games = Game.objects.all()
+    dlcs = DLC.objects.all()
+
+    purchased_games = [i.game or i.dlc for i in order.lineitems.all()]
+    unowned_games = [j for j in games if j not in purchased_games] + [j for j in dlcs if j not in purchased_games]
+    samples_num = 5 if len(unowned_games) > 5 else len(unowned_games)
+    suggested_games = random.sample(unowned_games, samples_num)
 
     context = {
         'order': order,
+        'suggested_games': suggested_games
     }
 
     return render(request, 'checkout/checkout-success.html', context)

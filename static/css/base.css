@@ -40,6 +40,23 @@
     --bs-btn-disabled-border-color: #6f2dbd;
 }
 
+[data-bs-theme="light"] .btn-gamebox-alt {
+    --bs-btn-color: #000;
+    --bs-btn-bg: #9f0;
+    --bs-btn-border-color: #9f0;
+    --bs-btn-hover-color: #000;
+    --bs-btn-hover-bg: #9f0;
+    --bs-btn-hover-border-color: #9f0;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #000;
+    --bs-btn-active-bg: #9f0;
+    --bs-btn-active-border-color: transparent;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #000;
+    --bs-btn-disabled-bg: #9f0;
+    --bs-btn-disabled-border-color: #9f0;
+}
+
 [data-bs-theme="light"] .btn-gamebox:hover {
     /* --bs-btn-color: #fff; */
     --bs-btn-bg: #6f2dbd;
@@ -171,16 +188,17 @@
 }
 
 footer,
-.container__shadow {
+.container__shadow,
+.suggested-games {
     --shadow-elevation-high:
-        0px 0px 0px hsl(var(--shadow-color) / 1),
+        0px -0.1px 0.1px hsl(var(--shadow-color) / 1),
         0px -0.1px 0.1px -0.7px hsl(var(--shadow-color) / 0.89),
-        0px -0.2px 0.2px -1.4px hsl(var(--shadow-color) / 0.76),
-        0px -0.6px 0.5px -2.1px hsl(var(--shadow-color) / 0.63),
-        0.1px -1.3px 1px -2.9px hsl(var(--shadow-color) / 0.51),
-        0.2px -2.5px 1.9px -3.6px hsl(var(--shadow-color) / 0.38),
-        0.3px -4.3px 3.2px -4.3px hsl(var(--shadow-color) / 0.25),
-        0.5px -6.9px 5.2px -5px hsl(var(--shadow-color) / 0.13);
+        0px -0.3px 0.2px -1.4px hsl(var(--shadow-color) / 0.76),
+        0px -0.9px 0.7px -2.1px hsl(var(--shadow-color) / 0.63),
+        -0.1px -2.1px 1.6px -2.9px hsl(var(--shadow-color) / 0.51),
+        -0.1px -4px 3px -3.6px hsl(var(--shadow-color) / 0.38),
+        -0.2px -6.9px 5.2px -4.3px hsl(var(--shadow-color) / 0.25),
+        -0.3px -10.9px 8.2px -5px hsl(var(--shadow-color) / 0.13);
     box-shadow: var(--shadow-elevation-high);
 }
 
@@ -1299,35 +1317,69 @@ a.socialaccount_provider.google {
     animation: loading 2s infinite ease;
 }
 
+/* Payment Success Page */
+.suggested-games {
+    --shadow-color: 0deg 0% 0%;
+}
+
+.success-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 60vh;
+    height: 100%;
+    min-width: 100%;
+    background: #6f2dbd;
+    background: radial-gradient(circle, rgba(111, 45, 189, 1) 0%, rgba(57, 24, 97, 1) 100%);
+    z-index: -1;
+}
+
+.success-container .card {
+    background: transparent;
+    color: white;
+    border: none;
+}
+
+.success-container .text-muted {
+    color: #9f0 !important;
+}
+
+footer {
+    background-color: rgb(var(--lm-bg-color));
+}
+
 /* Animations/Keyframes */
 
 @-webkit-keyframes loading {
     0% {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+
     100% {
-      -webkit-transform: rotate(360deg);
-      transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
-  @keyframes loading {
+}
+
+@keyframes loading {
     0% {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+
     100% {
-      -webkit-transform: rotate(360deg);
-      transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
-  
-  @media only screen and (max-width: 600px) {
+}
+
+@media only screen and (max-width: 600px) {
     form {
-      width: 80vw;
-      min-width: initial;
+        width: 80vw;
+        min-width: initial;
     }
-  }
+}
 
 @keyframes game-cover-front-flip {
     0% {

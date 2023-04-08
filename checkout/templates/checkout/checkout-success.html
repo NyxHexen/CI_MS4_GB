@@ -1,5 +1,143 @@
 {% extends "base.html" %}
 {% load static %}
+{% load tags %}
 
 {% block content %}
+<div class="container my-5 success-container">
+    <div class="success-background">
+    </div>
+    <div class="row justify-content-center">
+        <div class="col col-lg-8">
+            <div class="card order-success mb-4 align-items-center">
+                <div class="card-body p-4">
+                    <div class="icons display-1 d-flex justify-content-center mb-3"><i
+                            class="fa-solid fa-dragon me-4"></i><i class="fa-regular fa-heart me-4"></i><i
+                            class="fa-solid fa-hat-wizard me-4"></i></div>
+                    <h2 class="card-title text-center">Thank You for Your Order from GameBOX<br>Get Ready to Level Up!
+                    </h2>
+                    <h3 class="text-center fs-5 text-muted">Order Number: {{ order.order_number }}</h3>
+                    <p class="my-1 text-center">An e-mail has been forwarded to your registered e-mail address with
+                        confirmation for
+                        your order.</p>
+                    <p class="my-1 text-center">To view your order, please click here: <a
+                            href="{% url 'checkout' %}">Checkout</a>
+                    </p>
+                </div>
+                <a href="{% url 'games' %}" class="btn btn-gamebox-alt mb-2">BACK TO BROWSE</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="suggested-games text-bg-light pt-2 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col pt-4">
+                <h4 class="text-center fs-2">LOVE YOUR NEW GAME?</h4>
+                <p class="text-center w-100">Explore our other fantastic titles and keep the fun going!</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            {% for game in suggested_games %}
+            <div
+                class="game col-6 col-md-3 col-lg-2 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
+                <div class="game-cover--front">
+                    <div class="game-cover-image">
+                        {% if game|use_media:'COVER.src' is not None %}
+                        <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
+                            alt="{{ game|use_media:'COVER.descr' }}">
+                        {% else %}
+                        <img src="{{ MEDIA_URL }}noimage.jpg" alt="This game does not yet have a cover image!">
+                        {% endif %}
+                    </div>
+                    <p class="game-title">{{ game.name }}</p>
+                </div>
+                <div class="game-cover--reverse d-flex justify-content-between align-items-end">
+                    <button type="button" aria-label="Add to cart" class="add-cart btn"><span>Add to
+                        </span><i class="fa-solid fa-cart-plus"></i></button>
+                </div>
+                <div class="game-back--front d-flex flex-column justify-content-around">
+                    <h2 class="game-title-back text-center">{{ game.name }}</h2>
+                    <div class="genres-box m-1">
+                        <h3 class="">Genre</h3>
+                        <hr>
+                        <p>{% for genre in game.genres.all %}{{ genre.name }}{% if not forloop.last %},
+                            {% endif %}{% endfor %}</p>
+                    </div>
+                    <div class="tags-box m-1">
+                        <h3>Tags</h3>
+                        <hr>
+                        <p>{% for tag in game.tags.all %}{{ tag.name }}{% if not forloop.last %},
+                            {% endif %}{% endfor %}</p>
+                    </div>
+                    <div class="features-box m-1">
+                        <h3>Features</h3>
+                        <hr>
+                        <p>{% for feature in game.features.all %}{{ feature.name }}{% if not forloop.last %},
+                            {% endif %}{% endfor %}</p>
+                    </div>
+                    <div class="rating-stars d-flex justify-content-center">
+                        <span class="star d-flex justify-content-center align-items-center">
+                            {% if game.ratingset.user_rating_calc > 0 and game.ratingset.user_rating_calc <= 0.5 %}
+                            <i class="fa-solid fa-star-half-stroke active"></i>
+                            {% elif game.ratingset.user_rating_calc > 0.5 %}
+                            <i class="fa-solid fa-star active"></i>
+                            {% else %}
+                            <i class="fa-regular fa-star"></i>
+                            {% endif %}
+                        </span>
+                        <span class="star d-flex justify-content-center align-items-center">
+                            {% if game.ratingset.user_rating_calc > 1 and game.ratingset.user_rating_calc <= 1.5 %}
+                            <i class="fa-solid fa-star-half-stroke active"></i>
+                            {% elif game.ratingset.user_rating_calc > 1.5 %}
+                            <i class="fa-solid fa-star active"></i>
+                            {% else %}
+                            <i class="fa-regular fa-star"></i>
+                            {% endif %}
+                        </span>
+                        <span class="star d-flex justify-content-center align-items-center">
+                            {% if game.ratingset.user_rating_calc > 2 and game.ratingset.user_rating_calc <= 2.5 %}
+                            <i class="fa-solid fa-star-half-stroke active"></i>
+                            {% elif game.ratingset.user_rating_calc > 2.5 %}
+                            <i class="fa-solid fa-star active"></i>
+                            {% else %}
+                            <i class="fa-regular fa-star"></i>
+                            {% endif %}
+                        </span>
+                        <span class="star d-flex justify-content-center align-items-center">
+                            {% if game.ratingset.user_rating_calc > 3 and game.ratingset.user_rating_calc <= 3.5 %}
+                            <i class="fa-solid fa-star-half-stroke active"></i>
+                            {% elif game.ratingset.user_rating_calc > 3.5 %}
+                            <i class="fa-solid fa-star active"></i>
+                            {% else %}
+                            <i class="fa-regular fa-star"></i>
+                            {% endif %}
+                        </span>
+                        <span class="star d-flex justify-content-center align-items-center">
+                            {% if game.ratingset.user_rating_calc > 4 and game.ratingset.user_rating_calc <= 4.5 %}
+                            <i class="fa-solid fa-star-half-stroke active"></i>
+                            {% elif game.ratingset.user_rating_calc > 4.5 %}
+                            <i class="fa-solid fa-star active"></i>
+                            {% else %}
+                            <i class="fa-regular fa-star"></i>
+                            {% endif %}
+                        </span>
+                        <span class="ms-1">{{ game.ratingset.user_rating_calc }}</span>
+                    </div>
+                </div>
+                <div
+                    class="game-back--reverse d-flex {% if game.in_promo and game.promo.active is True%} justify-content-end {% else %} justify-content-between {% endif %} align-items-end">
+                    {% if game.in_promo and game.promo.active is True%}
+                    <div class="promo-discount">
+                        -{{ game.promo_percentage }}%
+                    </div>
+                    {% endif %}
+                    <div class="game-price">£
+                        {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}
