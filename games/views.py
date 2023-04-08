@@ -57,7 +57,7 @@ def games(request):
             filter_dict.update({f'sort_by': f'{request.GET.get("sort_by")}'})
 
         filtered_results = sort_by(request.GET.get("sort_by"), filtered_games, filtered_dlcs)
-        paginator = Paginator(filtered_results, 4)
+        paginator = Paginator(filtered_results, 20)
     else:
         if "sort_by" in request.GET:
             filter_dict.update({f'sort_by': f'{request.GET.get("sort_by")}'})
