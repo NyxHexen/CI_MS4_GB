@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.db.models import Max
 from games.models import Game, DLC
 from promo.models import Promo
-import datetime as dt
 
 import random
 
