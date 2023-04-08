@@ -3,14 +3,11 @@ from django.views.decorators.http import require_POST
 from django.urls import reverse
 from django.contrib import messages
 from django.http import JsonResponse
-from django.db.models import Sum
 
-from ci_ms4_gamebox.utils import get_or_none
 from cart.utils import get_and_unsign_cart
 from cart.models import Cart
-from games.models import Game, DLC
+from cart.contexts import cart_contents
 from .forms import OrderForm
-from decimal import Decimal
 
 import os
 import stripe
@@ -39,22 +36,18 @@ def checkout(request):
     }
     return render(request, 'checkout/index.html', context)
 
+
 @require_POST
 def create_payment(request):
-    amount = int()
-    if not request.user.is_authenticated:
-        cart = get_and_unsign_cart(request)
-        for key, value in cart.items():
-            model = Game if value['model'] == 'game' else DLC
-            game = get_or_none(model, id=key)
-            amount += Decimal(game.final_price)
-        amount = amount * 100
+    current_cart = cart_contents(request)
+    amount = current_cart['total']
+    stripe_amount = round(amount * 100)
     currency = 'gbp'
 
     stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
 
     intent = stripe.PaymentIntent.create(
-        amount=amount.to_integral(),
+        amount=stripe_amount,
         currency=currency,
         automatic_payment_methods={
             'enabled': True
