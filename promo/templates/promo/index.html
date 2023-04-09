@@ -9,7 +9,7 @@
 {% block content %}
 <div class="promo-header">
     <img class=""
-        src="{{ MEDIA_URL }}57567bbbba12a6c39ddee8eadda55d81de760a3de25b68fac5418efc04013bfb_hero_2560x423.webp" alt="">
+        src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}" alt="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.descr' }}">
     <div class="promo-info w-100 px-5 py-2">
         <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }}</h1>
         <p class="d-md-none short-description card-text">{{ promo.short_description }}</p>
