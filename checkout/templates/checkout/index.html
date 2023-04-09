@@ -150,7 +150,6 @@
     let form = document.getElementById('payment-form');
     const stripe = Stripe('{{ stripe_public_key }}');
     const options = {
-        // Fully customizable with appearance API.
         appearance: {
             theme: 'stripe'
         },
@@ -178,6 +177,7 @@
 
     // Create and mount the Payment Element
     const cardElement = elements.create('card', {
+        hidePostalCode: true,
         style: style
     });
     cardElement.mount('#card-element');
@@ -232,7 +232,6 @@
                     throw new Error('Network response was not ok')
                 }
             }).then(data => {
-                console.log("HELLO")
                 stripe.confirmCardPayment(clientSecret, {
                     payment_method: {
                         card: cardElement,
@@ -244,6 +243,7 @@
                                 line1: form.street_address1.value.trim(),
                                 line2: form.street_address2.value.trim(),
                                 city: form.town_or_city.value.trim(),
+                                postal_code: form.postcode.value.trim(),
                                 country: form.country.value.trim(),
                                 state: form.county.value.trim()
                             },
