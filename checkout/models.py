@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Sum
+from django.contrib.auth.models import User
 import uuid
 
 from django_countries.fields import CountryField
@@ -10,6 +11,7 @@ from games.models import Game, DLC
 # Create your models here.
 
 class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
     order_number = models.CharField(max_length=32, null=False, editable=False)
     full_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
