@@ -9,5 +9,6 @@ class CartItemsInline(admin.TabularInline):
 
 class CartAdmin(admin.ModelAdmin):
     inlines = (CartItemsInline,)
+    list_display = ('user', 'created_date', 'updated_date', 'total_in_cart',)
 
 admin.site.register(Cart, CartAdmin)

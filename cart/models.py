@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from django.db.models import Sum
 
 from games.models import Game, DLC
 
@@ -11,6 +12,14 @@ class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username
+    
+    def total_in_cart(self):
+        return round(self.cartitems.aggregate(Sum('price'))['price__sum'], 2)
+
+    total_in_cart.short_description = "Cart Total"
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cartitems')
