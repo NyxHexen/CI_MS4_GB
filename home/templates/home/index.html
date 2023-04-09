@@ -101,7 +101,7 @@
   <hr>
   <div class="games row justify-content-center mt-3">
     {% for game in is_featured %}
-    <div class="game col-12 col-md-4 col-lg-4 col-xl-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
+    <div class="game col-8 offset-1 col-sm-6 col-md-4 col-lg-4 col-xl-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
       <div class="game-cover--front">
         <div class="game-cover-image">
           {% if game|use_media:'COVER.src' is not None %}
