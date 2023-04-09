@@ -345,6 +345,7 @@ svg * {
 }
 
 .carousel-container {
+    position: relative;
     --shadow-color: 0deg 0% 25%;
     background-color: hsl(0, 0%, 100%);
     padding: 8.5rem 0;
@@ -376,6 +377,7 @@ svg * {
 }
 
 #games-carousel .carousel-control-next:hover {
+    z-index: 2;
     background: hsla(267, 62%, 46%, 1);
     background: linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
     background: -moz-linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
@@ -384,6 +386,7 @@ svg * {
 }
 
 #games-carousel .carousel-control-prev:hover {
+    z-index: 2;
     background: hsla(267, 62%, 46%, 1);
     background: linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
     background: -moz-linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
@@ -399,6 +402,7 @@ svg * {
     background: -moz-linear-gradient(180deg, rgba(136, 136, 136, 0) 0%, rgba(112, 45, 189, 1) 45%);
     background: -webkit-linear-gradient(180deg, rgba(136, 136, 136, 0) 0%, rgba(112, 45, 189, 1) 45%);
     background: linear-gradient(180deg, rgba(136, 136, 136, 0) 0%, rgba(112, 45, 189, 1) 45%);
+    z-index: 1;
 }
 
 #games-carousel img {
@@ -1624,6 +1628,11 @@ footer {
 @media (max-width: 992px) {
     .game>* {
         --game-height: 206px;
+    }
+ 
+    .carousel-container {
+        padding: 4.25rem 0;
+        margin-top: 0;
     }
 }
 

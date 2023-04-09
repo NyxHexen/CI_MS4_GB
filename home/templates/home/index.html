@@ -303,13 +303,13 @@
     bottom: document.getElementById('bottom-side'),
   };
 
-  svgObject.setAttribute('height', Math.floor(carouselContainer.offsetHeight) - 5);
+  svgObject.setAttribute('height', Math.floor(carouselContainer.offsetHeight));
 
   // Polygons - sides of box
 
   // Height of polygons for top and bottom
   const ySideWidth = Math.floor((carouselContainer.offsetHeight - gamesCarousel.offsetHeight) / 2 - (gamesCarousel
-    .offsetHeight * 0.05));
+    .offsetHeight * 0.025));
 
   // Width of polygons for left and right
   const xSideHeight = Math.floor((carouselContainer.offsetWidth - gamesCarousel.offsetWidth) / 2 - (gamesCarousel
