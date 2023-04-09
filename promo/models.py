@@ -15,9 +15,11 @@ class Promo(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, null=True, blank=True)
     start_date = models.DateTimeField(null=True, default=default_datetime())
-    end_date = models.DateTimeField(null=True, default=default_datetime() + timedelta(days=1))
-    apply_to_game = models.ManyToManyField('games.Game', related_name='mtm', blank=True)
-    apply_to_dlc = models.ManyToManyField('games.DLC', related_name='mtm', blank=True)
+    end_date = models.DateTimeField(
+        null=True, default=default_datetime() + timedelta(days=1)
+    )
+    apply_to_game = models.ManyToManyField("games.Game", related_name="mtm", blank=True)
+    apply_to_dlc = models.ManyToManyField("games.DLC", related_name="mtm", blank=True)
     landing_page = models.BooleanField(default=False)
     media = models.ForeignKey(Media, null=True, blank=True, on_delete=models.SET_NULL)
     url = models.URLField(max_length=1024, null=True, blank=True)
@@ -28,12 +30,15 @@ class Promo(CustomBaseModel):
 
     def __str__(self) -> str:
         return self.name
-    
+
     def clean(self):
         # Check if end date is before start date
         if self.start_date and self.end_date and self.start_date > self.end_date:
-            raise ValidationError('End date cannot be before start date.', code='invalid', params={'end_date': 'End date'})
-        
+            raise ValidationError(
+                "End date cannot be before start date.",
+                code="invalid",
+                params={"end_date": "End date"},
+            )
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -44,7 +49,13 @@ class Promo(CustomBaseModel):
                 for game in queryset:
                     game.in_promo = True
                     game.promo = self
-                    game.final_price = Decimal(round(game.base_price * (1 + (Decimal(game.promo_percentage) / 100 * -1 )), 2))
+                    game.final_price = Decimal(
+                        round(
+                            game.base_price
+                            * (1 + (Decimal(game.promo_percentage) / 100 * -1)),
+                            2,
+                        )
+                    )
                     game.save()
         elif not self.active and self.id is not None:
             for queryset in [promo.apply_to_game.all(), promo.apply_to_dlc.all()]:
@@ -56,12 +67,11 @@ class Promo(CustomBaseModel):
                     game.save()
         else:
             pass
-    
+
     def delete(self, using=None, keep_parents=False):
         remove_discount(self)
-        return super().delete(using=using, 
-                              keep_parents=keep_parents)   
-    
+        return super().delete(using=using, keep_parents=keep_parents)
+
     pre_add = None
     post_add = None
     pre_remove = None
@@ -113,7 +123,9 @@ def promo_price_apply(instance, *args, **kwargs):
     if promo is not None:
         current = promo.active
         updated = instance.active
-        apply_discount(instance) if current < updated else remove_discount(instance) if current > updated else None
+        apply_discount(instance) if current < updated else remove_discount(
+            instance
+        ) if current > updated else None
 
 
 # Applies the discount to all associated games/DLCs when a Promo becomes active.
@@ -121,8 +133,15 @@ def promo_price_apply(instance, *args, **kwargs):
 def apply_discount(instance):
     for queryset in [instance.apply_to_game.all(), instance.apply_to_dlc.all()]:
         for item in queryset:
-            final_price = Decimal(round(item.base_price * (1 + (Decimal(item.promo_percentage) / 100 * -1 )), 2))
-            queryset.filter(id=item.id).update(final_price=final_price, promo=instance, in_promo=True)
+            final_price = Decimal(
+                round(
+                    item.base_price * (1 + (Decimal(item.promo_percentage) / 100 * -1)),
+                    2,
+                )
+            )
+            queryset.filter(id=item.id).update(
+                final_price=final_price, promo=instance, in_promo=True
+            )
 
 
 # Removes the discount from all associated games/DLCs when a Promo becomes offline.
@@ -131,7 +150,9 @@ def remove_discount(instance):
     for queryset in [instance.apply_to_game.all(), instance.apply_to_dlc.all()]:
         for item in queryset:
             final_price = item.base_price
-            queryset.filter(id=item.id).update(final_price=final_price, promo_percentage=0, in_promo=False, promo=None)
+            queryset.filter(id=item.id).update(
+                final_price=final_price, promo_percentage=0, in_promo=False, promo=None
+            )
 
 
 @receiver(m2m_changed, sender=Promo.apply_to_game.through)
@@ -145,10 +166,10 @@ def dlc_change(instance, *args, **kwargs):
 
 
 def check_dupe(instance, game):
-        """ If the game passed in is already in another Promo - remove it from this Promo """
-        game_dupes = Promo.objects.filter(apply_to_game__id=game.id).exclude(id=instance.id)
-        if len(game_dupes) > 0:
-            if game.model_name() == 'game':
-                instance.apply_to_game.remove(game)
-            else:
-                instance.apply_to_dlc.remove(game)
+    """If the game passed in is already in another Promo - remove it from this Promo"""
+    game_dupes = Promo.objects.filter(apply_to_game__id=game.id).exclude(id=instance.id)
+    if len(game_dupes) > 0:
+        if game.model_name() == "game":
+            instance.apply_to_game.remove(game)
+        else:
+            instance.apply_to_dlc.remove(game)
