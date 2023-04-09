@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 from django.urls import reverse
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
+from decimal import Decimal
 
 from cart.utils import get_and_unsign_cart
 from cart.models import Cart
@@ -18,6 +19,7 @@ from .forms import OrderForm
 import os
 import stripe
 import random
+import json
 
 
 # Create your views here.
@@ -141,7 +143,7 @@ def checkout_success(request, order_number):
     
 
 @require_POST
-def create_payment(request):
+def create_stripe_intent(request):
     current_cart = cart_contents(request)
     amount = current_cart['total']
     stripe_amount = round(amount * 100)
@@ -156,3 +158,29 @@ def create_payment(request):
         }
     )
     return JsonResponse({'client_secret': intent.client_secret})
+
+@require_POST
+def modify_stripe_intent(request):
+    cart = {
+        'line_items': [],
+        'cart_total': float(),
+        }
+    for item in cart_contents(request)['cart_items']:
+        cart['line_items'].append({
+            'item': item['item'].name,
+            'item_id': item['item_id'],
+            'quantity': item['quantity'],
+        })
+        cart['cart_total'] += float(item['item'].final_price)
+    try:
+        pid = json.loads(request.body)['client_secret'].split('_secret')[0]
+        stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
+        stripe.PaymentIntent.modify(pid, metadata={
+            'username': request.user,
+            'save_info': json.loads(request.body)['save_info'],
+            'cart': json.dumps(cart),
+        })
+        return HttpResponse(status=200)
+    except Exception as e:
+        messages.error(request, "We're unable to process your payment at this time. Please try again later, and if the issue persists, please contact customer support for assistance.")
+        return HttpResponse(content=e, status=400)

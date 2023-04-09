@@ -18,7 +18,8 @@
 {% block content %}
 <div id="loading-overlay" class="d-none flex-column align-items-center justify-content-center">
     <div class="overlay-text d-flex">
-        <h2 class="ui-font me-1">loading</h2><span class="me-1">.</span><span class="me-1">.</span><span class="me-1">.</span>
+        <h2 class="ui-font me-1">loading</h2><span class="me-1">.</span><span class="me-1">.</span><span
+            class="me-1">.</span>
     </div>
     <div class="overlay-title">
         <span class="letter ui-font l-0 me-1 fun-letter">G</span>
@@ -199,51 +200,79 @@
 
     (async () => {
         const csrftoken = document.cookie.match(/csrftoken=([\w-]+)/)[1];
-        const response = await fetch("{% url 'create_payment' %}", {
+        const createIntent = await fetch("{% url 'create_stripe_intent' %}", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken,
             },
-            credentials: 'include',
         });
         const {
             client_secret: clientSecret
-        } = await response.json();
+        } = await createIntent.json();
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             setLoading(true);
             // If the client secret was rendered server-side as a data-secret attribute
             // on the <form> element, you can retrieve it here by calling `form.dataset.secret`
-            stripe.confirmCardPayment(clientSecret, {
-                payment_method: {
-                    card: cardElement,
+            let saveInfo = Boolean(document.querySelector('#id-save-info'))
+            const updateIntent = fetch("{% url 'modify_stripe_intent' %}", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({
+                    'client_secret': clientSecret,
+                    'save_info': saveInfo,
+                }),
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok')
                 }
-            }).then(function (result) {
-                if (result.error) {
-                    let errorDiv = document.getElementById('card-errors');
+            }).then(data => {
+                console.log("HELLO")
+                stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: cardElement,
+                        billing_details: {
+                            name: form.full_name.value.trim(),
+                            phone: form.phone_number.value.trim(),
+                            email: form.email.value.trim(),
+                            address: {
+                                line1: form.street_address1.value.trim(),
+                                line2: form.street_address2.value.trim(),
+                                city: form.town_or_city.value.trim(),
+                                country: form.country.value.trim(),
+                                state: form.county.value.trim()
+                            },
+                        }
+                    }
+                }).then(function (result) {
+                    if (result.error) {
+                        let errorDiv = document.getElementById('card-errors');
 
-                    let html = `
+                        let html = `
                     <span class="icon" role="alert">
                         <i class="fas fa-times"></i>
                     </span>
                     <span>${result.error.message}</span>
                     `;
-                    errorDiv.innerHTML = html
-                    errorDiv.style.color = 'rgb(255, 0, 0)';
-                    setLoading(false);
+                        errorDiv.innerHTML = html
+                        errorDiv.style.color = 'rgb(255, 0, 0)';
+                        setLoading(false);
 
-                } else {
-                    if (result.paymentIntent.status === 'succeeded') {
-                        form.submit()
+                    } else {
+                        if (result.paymentIntent.status === 'succeeded') {
+                            form.submit()
+                        }
                     }
-                }
+                });
             }).catch(error => {
-                console.error('There was an error:', error);
+                location.reload();
             });
-        });
-
+        })
     })();
 
     function setLoading(isLoading) {
