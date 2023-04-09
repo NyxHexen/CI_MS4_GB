@@ -38,104 +38,109 @@
         </div>
         <div class="row justify-content-center">
             {% for game in suggested_games %}
-            <div
-                class="game col-6 col-md-3 col-lg-2 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
+            <div class="game col-12 col-md-4 col-lg-4 col-xl-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
                 <div class="game-cover--front">
-                    <div class="game-cover-image">
-                        {% if game|use_media:'COVER.src' is not None %}
-                        <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
-                            alt="{{ game|use_media:'COVER.descr' }}">
-                        {% else %}
-                        <img src="{{ MEDIA_URL }}noimage.jpg" alt="This game does not yet have a cover image!">
-                        {% endif %}
-                    </div>
-                    <p class="game-title">{{ game.name }}</p>
+                  <div class="game-cover-image">
+                    {% if game|use_media:'COVER.src' is not None %}
+                    <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}">
+                    {% else %}
+                    <img src="{{ MEDIA_URL }}noimage.jpg" alt="This game does not yet have a cover image!">
+                    {% endif %}
+                  </div>
+                  <p class="game-title">{{ game.name }}</p>
                 </div>
                 <div class="game-cover--reverse d-flex justify-content-between align-items-end">
-                    <button type="button" aria-label="Add to cart" class="add-cart btn"><span>Add to
-                        </span><i class="fa-solid fa-cart-plus"></i></button>
+                    <form action="{% url 'cart_add' game.model_name game.id %}" id="cart_add" method="POST"
+                        class="w-100 d-flex flex-row">
+                        {% csrf_token %}
+                        <label for="quantity" class="visually-hidden form-label">Quantity</label>
+                        <input class="form-control" type="number" name="quantity" id="id_qty_{{ game.id }}" value="1" min="1" max="99" data-game-id="{{ game.id }}">
+                        <button type="submit" aria-label="Add to cart" class="add-cart btn ms-2"><span>Add to </span><i
+                                class="fa-solid fa-cart-plus"></i></button>
+                        <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
+                    </form>
                 </div>
                 <div class="game-back--front d-flex flex-column justify-content-around">
-                    <h2 class="game-title-back text-center">{{ game.name }}</h2>
-                    <div class="genres-box m-1">
-                        <h3 class="">Genre</h3>
-                        <hr>
-                        <p>{% for genre in game.genres.all %}{{ genre.name }}{% if not forloop.last %},
-                            {% endif %}{% endfor %}</p>
-                    </div>
-                    <div class="tags-box m-1">
-                        <h3>Tags</h3>
-                        <hr>
-                        <p>{% for tag in game.tags.all %}{{ tag.name }}{% if not forloop.last %},
-                            {% endif %}{% endfor %}</p>
-                    </div>
-                    <div class="features-box m-1">
-                        <h3>Features</h3>
-                        <hr>
-                        <p>{% for feature in game.features.all %}{{ feature.name }}{% if not forloop.last %},
-                            {% endif %}{% endfor %}</p>
-                    </div>
-                    <div class="rating-stars d-flex justify-content-center">
-                        <span class="star d-flex justify-content-center align-items-center">
-                            {% if game.ratingset.user_rating_calc > 0 and game.ratingset.user_rating_calc <= 0.5 %}
-                            <i class="fa-solid fa-star-half-stroke active"></i>
-                            {% elif game.ratingset.user_rating_calc > 0.5 %}
-                            <i class="fa-solid fa-star active"></i>
-                            {% else %}
-                            <i class="fa-regular fa-star"></i>
-                            {% endif %}
-                        </span>
-                        <span class="star d-flex justify-content-center align-items-center">
-                            {% if game.ratingset.user_rating_calc > 1 and game.ratingset.user_rating_calc <= 1.5 %}
-                            <i class="fa-solid fa-star-half-stroke active"></i>
-                            {% elif game.ratingset.user_rating_calc > 1.5 %}
-                            <i class="fa-solid fa-star active"></i>
-                            {% else %}
-                            <i class="fa-regular fa-star"></i>
-                            {% endif %}
-                        </span>
-                        <span class="star d-flex justify-content-center align-items-center">
-                            {% if game.ratingset.user_rating_calc > 2 and game.ratingset.user_rating_calc <= 2.5 %}
-                            <i class="fa-solid fa-star-half-stroke active"></i>
-                            {% elif game.ratingset.user_rating_calc > 2.5 %}
-                            <i class="fa-solid fa-star active"></i>
-                            {% else %}
-                            <i class="fa-regular fa-star"></i>
-                            {% endif %}
-                        </span>
-                        <span class="star d-flex justify-content-center align-items-center">
-                            {% if game.ratingset.user_rating_calc > 3 and game.ratingset.user_rating_calc <= 3.5 %}
-                            <i class="fa-solid fa-star-half-stroke active"></i>
-                            {% elif game.ratingset.user_rating_calc > 3.5 %}
-                            <i class="fa-solid fa-star active"></i>
-                            {% else %}
-                            <i class="fa-regular fa-star"></i>
-                            {% endif %}
-                        </span>
-                        <span class="star d-flex justify-content-center align-items-center">
-                            {% if game.ratingset.user_rating_calc > 4 and game.ratingset.user_rating_calc <= 4.5 %}
-                            <i class="fa-solid fa-star-half-stroke active"></i>
-                            {% elif game.ratingset.user_rating_calc > 4.5 %}
-                            <i class="fa-solid fa-star active"></i>
-                            {% else %}
-                            <i class="fa-regular fa-star"></i>
-                            {% endif %}
-                        </span>
-                        <span class="ms-1">{{ game.ratingset.user_rating_calc }}</span>
-                    </div>
+                  <h2 class="game-title-back text-center">{{ game.name }}</h2>
+                  <div class="genres-box m-1">
+                    <h3 class="">Genre</h3>
+                    <hr>
+                    <p>{% for genre in game.genres.all %}{{ genre.name }}{% if not forloop.last %},
+                      {% endif %}{% endfor %}</p>
+                  </div>
+                  <div class="tags-box m-1">
+                    <h3>Tags</h3>
+                    <hr>
+                    <p>{% for tag in game.tags.all %}{{ tag.name }}{% if not forloop.last %},
+                      {% endif %}{% endfor %}</p>
+                  </div>
+                  <div class="features-box m-1">
+                    <h3>Features</h3>
+                    <hr>
+                    <p>{% for feature in game.features.all %}{{ feature.name }}{% if not forloop.last %},
+                      {% endif %}{% endfor %}</p>
+                  </div>
+                  <div class="rating-stars d-flex justify-content-center">
+                    <span class="star d-flex justify-content-center align-items-center">
+                      {% if game.ratingset.user_rating_calc > 0 and game.ratingset.user_rating_calc <= 0.5 %}
+                      <i class="fa-solid fa-star-half-stroke active"></i>
+                      {% elif game.ratingset.user_rating_calc > 0.5 %}
+                      <i class="fa-solid fa-star active"></i>
+                      {% else %}
+                      <i class="fa-regular fa-star"></i>
+                      {% endif %}
+                    </span>
+                    <span class="star d-flex justify-content-center align-items-center">
+                      {% if game.ratingset.user_rating_calc > 1 and game.ratingset.user_rating_calc <= 1.5 %}
+                      <i class="fa-solid fa-star-half-stroke active"></i>
+                      {% elif game.ratingset.user_rating_calc > 1.5 %}
+                      <i class="fa-solid fa-star active"></i>
+                      {% else %}
+                      <i class="fa-regular fa-star"></i>
+                      {% endif %}
+                    </span>
+                    <span class="star d-flex justify-content-center align-items-center">
+                      {% if game.ratingset.user_rating_calc > 2 and game.ratingset.user_rating_calc <= 2.5 %}
+                      <i class="fa-solid fa-star-half-stroke active"></i>
+                      {% elif game.ratingset.user_rating_calc > 2.5 %}
+                      <i class="fa-solid fa-star active"></i>
+                      {% else %}
+                      <i class="fa-regular fa-star"></i>
+                      {% endif %}
+                    </span>
+                    <span class="star d-flex justify-content-center align-items-center">
+                      {% if game.ratingset.user_rating_calc > 3 and game.ratingset.user_rating_calc <= 3.5 %}
+                      <i class="fa-solid fa-star-half-stroke active"></i>
+                      {% elif game.ratingset.user_rating_calc > 3.5 %}
+                      <i class="fa-solid fa-star active"></i>
+                      {% else %}
+                      <i class="fa-regular fa-star"></i>
+                      {% endif %}
+                    </span>
+                    <span class="star d-flex justify-content-center align-items-center">
+                      {% if game.ratingset.user_rating_calc > 4 and game.ratingset.user_rating_calc <= 4.5 %}
+                      <i class="fa-solid fa-star-half-stroke active"></i>
+                      {% elif game.ratingset.user_rating_calc > 4.5 %}
+                      <i class="fa-solid fa-star active"></i>
+                      {% else %}
+                      <i class="fa-regular fa-star"></i>
+                      {% endif %}
+                    </span>
+                    <span class="ms-1">{{ game.ratingset.user_rating_calc }}</span>
+                  </div>
                 </div>
                 <div
-                    class="game-back--reverse d-flex justify-content-end align-items-end">
-                    {% if game.in_promo and game.promo.active is True%}
-                    <div class="promo-discount">
-                        -{{ game.promo_percentage }}%
-                    </div>
-                    {% endif %}
-                    <div class="game-price">£
-                        {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
-                    </div>
+                  class="game-back--reverse d-flex justify-content-end align-items-end">
+                  {% if game.in_promo and game.promo.active is True%}
+                  <div class="promo-discount">
+                    -{{ game.promo_percentage }}%
+                  </div>
+                  {% endif %}
+                  <div class="game-price">£
+                    {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
+                  </div>
                 </div>
-            </div>
+              </div>
             {% endfor %}
         </div>
     </div>

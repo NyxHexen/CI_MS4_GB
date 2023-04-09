@@ -101,7 +101,7 @@
   <hr>
   <div class="games row justify-content-center mt-3">
     {% for game in is_featured %}
-    <div class="game col-6 col-md-3 col-lg-2 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
+    <div class="game col-12 col-md-4 col-lg-4 col-xl-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
       <div class="game-cover--front">
         <div class="game-cover-image">
           {% if game|use_media:'COVER.src' is not None %}
@@ -113,8 +113,15 @@
         <p class="game-title">{{ game.name }}</p>
       </div>
       <div class="game-cover--reverse d-flex justify-content-between align-items-end">
-        <button type="button" aria-label="Add to cart" class="add-cart btn"><span>Add to
-          </span><i class="fa-solid fa-cart-plus"></i></button>
+          <form action="{% url 'cart_add' game.model_name game.id %}" id="cart_add" method="POST"
+              class="w-100 d-flex flex-row">
+              {% csrf_token %}
+              <label for="quantity" class="visually-hidden form-label">Quantity</label>
+              <input class="form-control" type="number" name="quantity" id="id_qty_{{ game.id }}" value="1" min="1" max="99" data-game-id="{{ game.id }}">
+              <button type="submit" aria-label="Add to cart" class="add-cart btn ms-2"><span>Add to </span><i
+                      class="fa-solid fa-cart-plus"></i></button>
+              <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
+          </form>
       </div>
       <div class="game-back--front d-flex flex-column justify-content-around">
         <h2 class="game-title-back text-center">{{ game.name }}</h2>

@@ -312,6 +312,18 @@ h1 {
     font-family: var(--ui-font);
 }
 
+.form-control::-webkit-outer-spin-button,
+.form-control::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.form-control[type=number] {
+    appearance: none;
+    -moz-appearance: textfield;
+}
+
 /* Carousel */
 svg {
     position: absolute;
@@ -787,13 +799,6 @@ svg * {
     --shadow-color: 0deg 0% 25%;
 }
 
-#games-list .form-control::-webkit-outer-spin-button,
-#games-list .form-control::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    appearance: none;
-    margin: 0;
-}
-
 #game-filter-form [type=reset] {
     background-color: rgb(133, 133, 133);
     border: 1px solid rgb(133, 133, 133);
@@ -808,12 +813,7 @@ svg * {
     border-radius: var(--bs-card-border-radius);
 }
 
-#games-list .form-control[type=number]:not(#item_quantity) {
-    appearance: none;
-    -moz-appearance: textfield;
-}
-
-#games-list [id*="id_qty_"] {
+[id*="id_qty_"] {
     width: 2.25rem;
 }
 
@@ -906,8 +906,8 @@ input:active {
 }
 
 .promo-header img {
+    width: 100%;
     height: 100%;
-    min-width: 100%;
     object-fit: cover;
 }
 
