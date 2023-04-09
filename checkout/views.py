@@ -6,7 +6,6 @@ from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from decimal import Decimal
 
 from cart.utils import get_and_unsign_cart
 from cart.models import Cart
@@ -57,7 +56,7 @@ def checkout(request):
             if not request.user.is_authenticated:
                 for item_id, item_data in cart.items():
                     try:
-                        game = Game.objects.get(id=item_id)
+                        game = Game.objects.get(id=item_id) if item_data['model'] == 'game' else DLC.objects.get(id=item_id)
                         order_line_item = OrderLineItem(
                             order=order,
                             game=game if item_data['model'] == 'game' else None,
