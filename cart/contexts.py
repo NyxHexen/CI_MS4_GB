@@ -37,12 +37,28 @@ def cart_contents(request):
                 })
                 total += item.game.final_price * item.quantity if model is Game else item.dlc.final_price * item.quantity
                 item_count += 1
-        
+    
+            
+    list_cart = {
+        "line_items": [],
+        "cart_total": float(),
+    }
+
+    for item in cart_items:
+        list_cart["line_items"].append(
+            {
+                "item": item["item"].name,
+                "item_id": item["item_id"],
+                "quantity": item["quantity"],
+            }
+        )
+        list_cart["cart_total"] += float(item["item"].final_price)
 
     context = {
         "cart_items": cart_items,
         "total" : total,
         "item_count" : item_count,
+        "list_cart": list_cart,
     }
 
     return context

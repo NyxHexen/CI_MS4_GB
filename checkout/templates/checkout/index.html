@@ -117,6 +117,8 @@
                                 </div>
                                 <div id="payment-message" class="hidden"></div>
                             </div>
+                            <input type="hidden" name="client_secret" id="clientSecret" value="None">
+                            <input type="hidden" name="original_cart" id="originalCart" value="{{ list_cart }}">
                     </fieldset>
                     <p class="small text-danger mt-2">
                         <span class="icon">
@@ -214,6 +216,9 @@
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             setLoading(true);
+
+            let secretInput = document.querySelector("#clientSecret")
+            secretInput.value = clientSecret
             // If the client secret was rendered server-side as a data-secret attribute
             // on the <form> element, you can retrieve it here by calling `form.dataset.secret`
             let saveInfo = Boolean(document.querySelector('#id-save-info'))

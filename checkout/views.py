@@ -6,6 +6,7 @@ from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
+from django.core import serializers
 
 from cart.utils import get_and_unsign_cart
 from cart.models import Cart
@@ -52,7 +53,10 @@ def checkout(request):
 
         order_form = OrderForm(form_data)
         if order_form.is_valid():
-            order = order_form.save()
+            order = order_form.save(commit=False)
+            order.stripe_pid = request.POST.get('client_secret').split('_secret')[0]
+            order.original_cart = json.dumps(cart_contents(request)['list_cart'])
+            order.save()
             if not request.user.is_authenticated:
                 for item_id, item_data in cart.items():
                     try:
@@ -177,28 +181,15 @@ def create_stripe_intent(request):
 
 @require_POST
 def modify_stripe_intent(request):
-    cart = {
-        "line_items": [],
-        "cart_total": float(),
-    }
-    for item in cart_contents(request)["cart_items"]:
-        cart["line_items"].append(
-            {
-                "item": item["item"].name,
-                "item_id": item["item_id"],
-                "quantity": item["quantity"],
-            }
-        )
-        cart["cart_total"] += float(item["item"].final_price)
     try:
         pid = json.loads(request.body)["client_secret"].split("_secret")[0]
         stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
         stripe.PaymentIntent.modify(
             pid,
             metadata={
-                "username": request.user,
+                "username": request.user.id,
                 "save_info": json.loads(request.body)["save_info"],
-                "cart": json.dumps(cart),
+                "cart": json.dumps(cart_contents(request)["list_cart"]),
             },
         )
         return HttpResponse(status=200)
