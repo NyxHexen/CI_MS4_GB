@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models import Sum
 import uuid
 
+from django_countries.fields import CountryField
+
 from games.models import Game, DLC
 
 
@@ -12,7 +14,7 @@ class Order(models.Model):
     full_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
     phone_number = models.CharField(max_length=20)
-    country = models.CharField(max_length=40)
+    country = CountryField(blank_label='Country*')
     postcode = models.CharField(max_length=20, null=True, blank=True)
     town_or_city = models.CharField(max_length=40)
     street_address1 = models.CharField(max_length=80)
