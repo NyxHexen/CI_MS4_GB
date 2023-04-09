@@ -415,7 +415,7 @@ svg * {
     width: 100%;
     left: 0;
     padding-bottom: 2.5rem;
-    z-index: 9;
+    z-index: 1;
 }
 
 #games-carousel .carousel-caption h3 {
@@ -441,6 +441,7 @@ svg * {
 
 #games-carousel form {
     width: fit-content !important;
+    z-index: 9;
 }
 
 @media (max-width: 576px) {
