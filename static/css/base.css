@@ -91,6 +91,10 @@
     --bs-gradient: none;
 }
 
+.card-body {
+    max-width: 100vw;
+}
+
 .form-check-input:checked {
     background-color: #6f2dbd;
     border-color: #6f2dbd;
@@ -529,8 +533,8 @@ svg * {
 
 .game-back--front {
     position: absolute;
-    top: 20%;
-    transform: rotateY(180deg) translateZ(40px);
+    top: 0;
+    transform: rotateY(180deg) translateZ(40px) translateY(20%);
 }
 
 .game-back--front [class*='-box'] h3 {
@@ -554,10 +558,10 @@ svg * {
 
 .game-back--reverse {
     position: absolute;
-    top: 20%;
+    top: 0;
     height: 100%;
     transform-style: preserve-3d;
-    transform: translateZ(-39px);
+    transform: translateZ(-39px) translateY(20%);
 }
 
 [class*='game-cover-']:not([class*='image'], .game-cover--front),
@@ -1532,25 +1536,25 @@ footer {
 
 @keyframes game-back-front-flip {
     0% {
-        -webkit-transform: rotateY(180deg) translateY(0) translateZ(40px);
-        transform: rotateY(180deg) translateY(0) translateZ(40px);
+        -webkit-transform: rotateY(180deg) translateY(20%) translateZ(40px);
+        transform: rotateY(180deg) translateY(20%) translateZ(40px);
     }
 
     100% {
-        -webkit-transform: rotateY(0deg) translateY(-20%) translateZ(40px);
-        transform: rotateY(0deg) translateY(-20%) translateZ(40px);
+        -webkit-transform: rotateY(0deg) translateY(0) translateZ(40px);
+        transform: rotateY(0deg) translateY(0) translateZ(40px);
     }
 }
 
 @keyframes game-back-reverse-flip {
     0% {
-        -webkit-transform: rotateY(0deg) translateY(0) translateZ(-39px);
-        transform: rotateY(0deg) translateY(0) translateZ(-39px);
+        -webkit-transform: rotateY(0deg) translateY(20%) translateZ(-39px);
+        transform: rotateY(0deg) translateY(20%) translateZ(-39px);
     }
 
     100% {
-        -webkit-transform: rotateY(-180deg) translateY(-20%) translateZ(-39px);
-        transform: rotateY(-180deg) translateY(-20%) translateZ(-39px);
+        -webkit-transform: rotateY(-180deg) translateY(0) translateZ(-39px);
+        transform: rotateY(-180deg) translateY(0) translateZ(-39px);
     }
 }
 

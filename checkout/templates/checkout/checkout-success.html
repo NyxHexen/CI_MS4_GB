@@ -38,7 +38,7 @@
         </div>
         <div class="row justify-content-center">
             {% for game in suggested_games %}
-            <div class="game col-12 col-md-4 col-lg-4 col-xl-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
+            <div class="game col-6 col-md-4 col-lg-3 col-xl-2 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
                 <div class="game-cover--front">
                   <div class="game-cover-image">
                     {% if game|use_media:'COVER.src' is not None %}
@@ -61,7 +61,9 @@
                     </form>
                 </div>
                 <div class="game-back--front d-flex flex-column justify-content-around">
+                  {% if not request.user_agent.is_mobile %}
                   <h2 class="game-title-back text-center">{{ game.name }}</h2>
+                  {% endif %}
                   <div class="genres-box m-1">
                     <h3 class="">Genre</h3>
                     <hr>
