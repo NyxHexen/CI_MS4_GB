@@ -17,7 +17,10 @@ class Cart(models.Model):
         return self.user.username
     
     def total_in_cart(self):
-        return round(self.cartitems.aggregate(Sum('price'))['price__sum'], 2)
+        if self.cartitems.count() > 0:
+            return round(self.cartitems.aggregate(Sum('price'))['price__sum'], 2)
+        else:
+            return 0.00
 
     total_in_cart.short_description = "Cart Total"
 
