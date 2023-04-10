@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib import messages
 
 from games.models import Game, DLC
 from .models import Cart
@@ -40,6 +41,8 @@ def cart_add(request, model_name, game_id):
                 cart[0].cartitems.create(game=game, quantity=quantity, price=game.final_price)
             else:
                 cart[0].cartitems.create(dlc=game, quantity=quantity, price=game.final_price)
+        
+    messages.success(request, f'{ game.name } x{ quantity } has been added to your cart!')
 
     redirect_url = request.POST.get('redirect_url')
     return redirect(redirect_url)

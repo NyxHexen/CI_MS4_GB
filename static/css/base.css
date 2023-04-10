@@ -136,6 +136,19 @@
     box-shadow: 0 0 0 0.25rem #6f2dbd40;
 }
 
+
+.form-control::-webkit-outer-spin-button,
+.form-control::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.form-control[type=number] {
+    appearance: none;
+    -moz-appearance: textfield;
+}
+
 .carousel-control-next,
 .carousel-control-prev {
     z-index: 2;
@@ -344,16 +357,21 @@ h1 {
     font-family: var(--ui-font);
 }
 
-.form-control::-webkit-outer-spin-button,
-.form-control::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    appearance: none;
-    margin: 0;
+.gamebox-success {
+    background-color: rgb(127, 211, 0);
+    color: black;
 }
 
-.form-control[type=number] {
-    appearance: none;
-    -moz-appearance: textfield;
+.gamebox-info {
+    background-color:#6f2dbd;
+    color: white;
+}
+
+.message-container {
+    position: fixed;
+    top: 0;
+    right: 15px;
+    z-index: 9999;
 }
 
 /* Carousel */

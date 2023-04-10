@@ -64,10 +64,12 @@
                 <div class="collapse navbar-collapse justify-content-end">
                     <ul class="navbar-nav align-items-center">
                         {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="cart-nav nav-link" href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping fs-5"></i></a></li>
+                        <li class="nav-item"><a class="cart-nav nav-link" href="{% url 'cart' %}"><i
+                                    class="fa-solid fa-cart-shopping fs-5"></i></a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">sign out</a></li>
                         {% else %}
-                        <li class="nav-item"><a class="cart-nav nav-link" href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping fs-5"></i></a></li>
+                        <li class="nav-item"><a class="cart-nav nav-link" href="{% url 'cart' %}"><i
+                                    class="fa-solid fa-cart-shopping fs-5"></i></a></li>
                         <li class="nav-item btn"><a class="nav-link" href="{% url 'account_signup' %}">sign up</a></li>
                         <li class="nav-item align-self-center"><a class="nav-link" href="{% url 'account_login' %}">sign
                                 in</a></li>
@@ -96,7 +98,8 @@
                         <li class="nav-item"><a class="cart-nav nav-link" href="{% url 'cart' %}">Shopping Cart</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">Sign Out</a></li>
                         {% else %}
-                        <li class="nav-item"><a class="cart-nav nav-link" href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping fs-5"></i></a></li>
+                        <li class="nav-item"><a class="cart-nav nav-link" href="{% url 'cart' %}"><i
+                                    class="fa-solid fa-cart-shopping fs-5"></i></a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Sign In</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
                         {% endif %}
@@ -108,7 +111,21 @@
     </header>
 
     {% if messages %}
-    <div class="message-container"></div>
+    <div class="message-container">
+        {% for message in messages %}
+            {% with message.level as level %}
+                {% if level == 40 %}
+                    {% include 'includes/toasts/toast-error.html'%}
+                {% elif level == 30 %}
+                    {% include 'includes/toasts/toast-warning.html'%}
+                {% elif level == 25 %}
+                    {% include 'includes/toasts/toast-success.html'%}
+                {% else %}
+                    {% include 'includes/toasts/toast-info.html'%}
+                {% endif %}
+            {% endwith %}
+        {% endfor %}
+    </div>
     {% endif %}
 
     {% block page_header %}
@@ -155,13 +172,16 @@
             </div>
         </div>
     </footer>
-
-
     {% block postloadjs %}
     <script src="{% static 'js/games.js' %}"></script>
+    <script type="text/javascript">
+        const toastElList = document.querySelectorAll('.toast')
+        toastElList.forEach(toast => {
+            const new_toast = new bootstrap.Toast(toast)
+            new_toast.show()
+        })
+    </script>
     {% endblock %}
-
-
 </body>
 
 </html>
