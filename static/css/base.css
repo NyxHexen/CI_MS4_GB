@@ -136,6 +136,11 @@
     box-shadow: 0 0 0 0.25rem #6f2dbd40;
 }
 
+.carousel-control-next,
+.carousel-control-prev {
+    z-index: 0;
+}
+
 /* Allauth Forms */
 
 [id*="allauth__"] [id*="div_"]:not(.form-check) {
@@ -219,7 +224,8 @@ footer,
 #games-carousel,
 .countdown img,
 #games-filter,
-[id*='allauth__'] {
+[id*='allauth__'],
+.container__background .card {
     --lg-stacked-shadow:
         0px 0.5px 0.4px hsl(var(--shadow-color) / 0.67),
         0px 0.6px 0.5px -0.6px hsl(var(--shadow-color) / 0.61),
@@ -235,7 +241,8 @@ footer,
 }
 
 .carousel-container,
-.deals {
+.deals,
+.container__background {
     --inset-stacked-shadow:
         inset 0px -0.1px 0.1px hsl(var(--shadow-color) / 0.54),
         inset 0px -0.3px 0.3px -0.4px hsl(var(--shadow-color) / 0.52),
@@ -389,7 +396,6 @@ svg * {
 }
 
 #games-carousel .carousel-control-next:hover {
-    z-index: 2;
     background: hsla(267, 62%, 46%, 1);
     background: linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
     background: -moz-linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
@@ -398,7 +404,6 @@ svg * {
 }
 
 #games-carousel .carousel-control-prev:hover {
-    z-index: 2;
     background: hsla(267, 62%, 46%, 1);
     background: linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
     background: -moz-linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
@@ -858,16 +863,20 @@ svg * {
     padding: .5rem;
 }
 
-#pagination>*:first-child {
+#pagination>*:first-child,
+#promo-table-pagination>*:first-child {
     border-radius: 5px 0 0 5px;
 }
 
-#pagination>*:last-child {
+#pagination>*:last-child,
+#promo-table-pagination>*:last-child {
     border-radius: 0 5px 5px 0;
 }
 
 #pagination>*:first-child:hover,
-#pagination>*:last-child:hover {
+#pagination>*:last-child:hover,
+#promo-table-pagination>*:first-child:hover,
+#promo-table-pagination>*:last-child:hover {
     transform: scale(1.1);
     color: #6f2dbd;
     border: 1px solid #6f2dbd;
@@ -884,7 +893,8 @@ input:active {
     transition: all .2s ease-in;
 }
 
-#pagination *:not(input) {
+#pagination *:not(input),
+#promo-table-pagination *:not(input) {
     background-color: transparent;
     border: 1px solid transparent;
 }
@@ -893,7 +903,12 @@ input:active {
     width: 20%;
 }
 
-#pagination input {
+#promo-table-pagination div {
+    width: 30%;
+}
+
+#pagination input,
+#promo-table-pagination input {
     border-radius: 0;
 }
 
@@ -996,6 +1011,14 @@ input:active {
 
 #promo-carousel .carousel-control-next {
     right: -15%;
+}
+
+.container__background {
+    --shadow-color: 0deg 0% 20%;
+}
+
+.container__background .card {
+    --shadow-color: 0deg 0% 20%;
 }
 
 /* Footer */
@@ -1386,6 +1409,7 @@ select option[value=""] {
     0% {
         transform: scale(1.5);
     }
+
     50% {
         transform: scale(1);
     }
@@ -1394,7 +1418,7 @@ select option[value=""] {
 .letter {
     position: relative;
     font-size: 4rem;
-    text-shadow: 
+    text-shadow:
         0 0 2px #6f2dbd,
         0 0 7px #6f2dbd,
         0 0 11px #6f2dbd,
@@ -1402,13 +1426,13 @@ select option[value=""] {
         0 0 17px #6f2dbd,
         0 0 31px #6f2dbd;
     color: #ece1ff;
-    
+
     animation: flicker 6s ease-in-out 8.15s infinite alternate both;
 }
 
 .letter::after {
     content: '';
-    position:absolute;
+    position: absolute;
     background-color: #b777ff;
     top: 75%;
     left: 0;
@@ -1580,10 +1604,23 @@ footer {
 }
 
 @keyframes flicker {
-    0%, 2%, 35%, 37%, 39%, 41%, 100% {
+
+    0%,
+    2%,
+    35%,
+    37%,
+    39%,
+    41%,
+    100% {
         opacity: 1;
     }
-    1%, 3%, 34%, 36%, 38%, 40% {
+
+    1%,
+    3%,
+    34%,
+    36%,
+    38%,
+    40% {
         opacity: 0;
     }
 }
@@ -1595,9 +1632,25 @@ footer {
     }
 }
 
+@media (min-width: 450px) {
+    #promo-table-pagination div {
+        width: 25%;
+    }
+}
+
 @media (min-width: 500px) {
     #pagination div {
         width: 15%;
+    }
+}
+
+@media (min-width: 768px) {
+    .d-md-cell {
+        display: table-cell !important;
+    }
+
+    #promo-table-pagination div {
+        width: 12%;
     }
 }
 
@@ -1643,11 +1696,13 @@ footer {
         flex: 0 0 auto;
         width: 68.19%;
     }
-}
 
-@media (min-width: 992px) {
     #pagination div {
         width: 15%;
+    }
+
+    #promo-table-pagination div {
+        width: 18%;
     }
 }
 
@@ -1655,7 +1710,7 @@ footer {
     .game>* {
         --game-height: 206px;
     }
- 
+
     .carousel-container {
         padding: 4.25rem 0;
         margin-top: 0;
@@ -1663,7 +1718,8 @@ footer {
 }
 
 @media (min-width: 1200px) {
-    #pagination div {
+    #pagination div,
+    #promo-table-pagination div {
         width: 10%;
     }
 }
@@ -1701,7 +1757,8 @@ footer {
         min-width: 225px;
     }
 
-    #pagination div {
-        width: 9%;
+    #pagination div,
+    #promo-table-pagination div {
+        width: 7%;
     }
 }
