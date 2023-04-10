@@ -80,7 +80,10 @@
             <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
           </form>
           {% elif item.model_name == 'promo' %}
-          <a href="{% url 'promo' item.id %}" class="browse fs-5 btn btn-lg btn-gamebox py-3 px-4 float-end">Browse</a>
+          <div class="promo-details d-flex align-items-center justify-content-end">
+          <p class="fs-6 m-0">Up to<br> <span class="fs-5">-{{ item.promo_percentage }}%!</span></p>
+          <a href="{% url 'promo' item.id %}" class="browse fs-5 btn btn-lg btn-gamebox-alt py-3 px-4 ms-3 ms-md-none float-end">Browse</a>
+        </div>
           {% endif %}
         </div>
       </div>
