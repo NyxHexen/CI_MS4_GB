@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import QueryDict
-from django.template.defaultfilters import urlencode
 from django.core.paginator import Paginator, EmptyPage
 from urllib.parse import urlencode
 from games.models import Game, Genre, Tag, Platform, Feature, DLC
@@ -126,9 +125,9 @@ def games(request):
 
     if "filter" in request.GET or "sort_by" in request.GET:
         context["filter_dict"] = urlencode(filter_dict)
-        return render(request, "games/index.html", context)
-    else:
-        return render(request, "games/index.html", context)
+    
+    return render(request, "games/index.html", context)
+
 
 
 def sort_by(sort_value, *args):
