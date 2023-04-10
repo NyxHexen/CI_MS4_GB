@@ -1014,11 +1014,13 @@ input:active {
 }
 
 .container__background {
-    --shadow-color: 0deg 0% 20%;
+    --shadow-color: 85deg 100% 14%;
+    background: rgb(153,255,0);
+    background: radial-gradient(circle, rgba(153,255,0,1) 0%, rgba(84,142,0,1) 100%);
 }
 
 .container__background .card {
-    --shadow-color: 0deg 0% 20%;
+    --shadow-color: 85deg 100% 20%;
 }
 
 /* Footer */
