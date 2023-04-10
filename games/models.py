@@ -5,6 +5,8 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
 
+from django_countries.fields import CountryField
+
 import os
 
 # Create your models here.
@@ -125,7 +127,6 @@ class DLC(CustomBaseModel):
 class Genre(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
-    game_list = models.Field
 
     def __str__(self) -> str:
         return self.name
@@ -134,6 +135,11 @@ class Genre(CustomBaseModel):
 class Publisher(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
+    description = models.CharField(max_length=500, default='')
+    official_site = models.URLField('Official Website')
+    logo = models.ImageField(null=True)
+    established = models.DateField(auto_now_add=True)
+    country = CountryField(blank_label='Country')
 
     def __str__(self) -> str:
         return self.name
@@ -142,6 +148,11 @@ class Publisher(CustomBaseModel):
 class Developer(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
+    description = models.CharField(max_length=500, default='')
+    official_site = models.URLField('Official Website')
+    logo = models.ImageField(null=True)
+    established = models.DateField(auto_now_add=True)
+    country = CountryField(blank_label='Country')
 
     def __str__(self) -> str:
         return self.name
@@ -222,6 +233,11 @@ class Platform(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
     icon = models.ImageField(null=True, blank=True)
+    description = models.CharField(max_length=500, default='')
+    official_site = models.URLField('Official Website')
+    logo = models.ImageField(null=True)
+    established = models.DateField(auto_now_add=True)
+    country = CountryField(blank_label='Country')
 
     def __str__(self) -> str:
         return self.name
