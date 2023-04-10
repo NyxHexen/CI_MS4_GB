@@ -15,7 +15,7 @@ class UserProfile(models.Model):
     default_street_address2 = models.CharField(max_length=20, null=True, blank=True)
     default_town_or_city = models.CharField(max_length=20, null=True, blank=True)
     default_postcode = models.CharField(max_length=20, null=True, blank=True)
-    default_country = CountryField(blank_label='Country*')
+    default_country = CountryField(blank_label='Country')
     default_county = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):

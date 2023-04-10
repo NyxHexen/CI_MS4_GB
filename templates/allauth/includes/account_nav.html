@@ -8,7 +8,7 @@
     <ul class="nav flex-column">
         <li class="pt-2"><span class="text-muted">GENERAL</span></li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa-regular fa-user me-2"></i></i>{% trans 'PROFILE' %}</a>
+          <a class="nav-link" href="{% url 'profile' %}"><i class="fa-regular fa-user me-2"></i></i>{% trans 'PROFILE' %}</a>
         </li>
         <li class="pt-2"><span class="text-muted">SECURITY</span></li>
         <li class="nav-item">
@@ -23,7 +23,7 @@
         </li>
         <li class="pt-2"><span class="text-muted">BILLING ADDRESS</span></li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa-solid fa-location-dot me-2"></i>{% trans "MANAGE DEFAULT ADDRESS" %}</a>
+          <a class="nav-link" href="{% url 'billing_address' %}"><i class="fa-solid fa-location-dot me-2"></i>{% trans "MANAGE DEFAULT ADDRESS" %}</a>
         </li>
       </ul>
 </div>
