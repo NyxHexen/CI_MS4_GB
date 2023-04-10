@@ -1667,7 +1667,7 @@ footer {
 
 @media (min-width: 768px) and (max-width: 1200px) {
     .container {
-        max-width: 800px;
+        max-width: 900px;
     }
 
     .col-lg-2plus {
@@ -1677,11 +1677,6 @@ footer {
     /* Custom Bootstraps */
     .col-3plus {
         width: 31%;
-    }
-
-    .col-8plus {
-        flex: 0 0 auto;
-        width: 68.19%;
     }
 
     /* Footer */
@@ -1768,7 +1763,10 @@ footer {
         min-width: 225px;
     }
 
-    #pagination div,
+    #pagination div{
+        width: 9%;
+    }
+
     #promo-table-pagination div {
         width: 7%;
     }
