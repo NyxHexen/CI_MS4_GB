@@ -1050,6 +1050,11 @@ footer p {
 
 /* Accounts/Allauth/Crispy */
 
+#myprofile label,
+.myprofile-slabel {
+    min-width: 30%;
+}
+
 [id*='allauth__'] {
     --shadow-color: 0deg 0% 40%;
 }
