@@ -791,6 +791,14 @@ svg * {
     background-color: #9f0;
 }
 
+.countdown:nth-child(odd) a:hover {
+    color: #c77dff;
+}
+
+.countdown:nth-child(even) a:hover {
+    color: #9f0;
+}
+
 .content-overlay {
     position: absolute;
     top: 0;
