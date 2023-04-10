@@ -138,7 +138,7 @@
 
 .carousel-control-next,
 .carousel-control-prev {
-    z-index: 0;
+    z-index: 2;
 }
 
 /* Allauth Forms */
