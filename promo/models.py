@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max
 from django.db.models.signals import m2m_changed, pre_save
 from datetime import timedelta
 from django.core.exceptions import ValidationError
@@ -114,6 +115,23 @@ class Promo(CustomBaseModel):
         return len(self.apply_to_game.all()) + len(self.apply_to_dlc.all())
 
     total_in_promo.short_description = "Games In Promo"
+
+    def promo_percentage(self):
+        promo_games = (
+            self.apply_to_game.all()
+            .aggregate(Max("promo_percentage"))
+            .get("promo_percentage__max", 0)
+        )
+        promo_dlc = (
+            self.apply_to_dlc.all()
+            .aggregate(Max("promo_percentage"))
+            .get("promo_percentage__max", 0)
+        )
+        highest_promo_percentage = max(
+            promo_games if promo_games is not None else 0,
+            promo_dlc if promo_dlc is not None else 0,
+        )
+        return highest_promo_percentage
 
 
 # Controls actions that occur when a Promo becomes active/offline.

@@ -18,23 +18,6 @@ def index(request):
 
     dotd = list(Promo.objects.filter(active=True, landing_page=True))
 
-    for promo in dotd:
-        promo_games = (
-            promo.apply_to_game.all()
-            .aggregate(Max("promo_percentage"))
-            .get("promo_percentage__max", 0)
-        )
-        promo_dlc = (
-            promo.apply_to_dlc.all()
-            .aggregate(Max("promo_percentage"))
-            .get("promo_percentage__max", 0)
-        )
-        highest_promo_percentage = max(
-            promo_games if promo_games is not None else 0,
-            promo_dlc if promo_dlc is not None else 0,
-        )
-        promo.promo_percentage = highest_promo_percentage
-
     if len(dotd) < 4:
         dotd_topup = list(
             Game.objects.filter(

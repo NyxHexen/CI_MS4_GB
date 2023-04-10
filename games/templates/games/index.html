@@ -64,7 +64,7 @@
             <div class="games row">
                 {% for game in page %}
                 <div
-                    class="game flip col-6 col-md-3 col-lg-4 col-xl-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
+                    class="game col-6 col-md-3 col-lg-4 col-xl-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
                     <div class="game-cover--front">
                         <div class="game-cover-image">
                             {% if game|use_media:'COVER.src' is not None %}
