@@ -32,9 +32,9 @@
     </div>
 </div>
 <div class="container my-5">
-    <form action="{% url 'checkout' %}" id="payment-form" method="POST" class="row">
+    <form action="{% url 'checkout' %}" id="payment-form" method="POST" class="row ">
         {% csrf_token %}
-        <div class="col-4">
+        <div class="col col-xl-4 order-2 mb-2 mb-xl-none">
             <div class="card pt-4">
                 <h2 class="text-center ui-font">your order</h2>
                 <table id="cart-items" class="table-responsive mb-1">
@@ -58,7 +58,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col col-xl-4 order-1 mb-2 mb-xl-none">
             <div class="card pt-4">
                 <div class="card-body">
                     <div class="d-flex align-items-center ps-1">
@@ -98,13 +98,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col col-xl-4 order-3 mb-2 mb-xl-none">
             <div class="card">
                 <div class="card-body d-flex flex-column align-items-center">
                     <h2 id="cart-subtotal" class="card-title fs-5">Subtotal ({{ cart_items|length }}
                         {% if care_items|length == 1 %} item{% else %} items{% endif %}): £<strong>{{ total }}</strong>
                     </h2>
-                    <fieldset class="px-3 py-1">
+                    <fieldset class="w-100">
                         <legend class="fieldset-label text-black px-2 w-auto">Payment</legend>
                         <div id="payment-form">
                             <div id="card-errors"></div>

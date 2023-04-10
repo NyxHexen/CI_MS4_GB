@@ -1280,11 +1280,20 @@ a.socialaccount_provider.google {
     width: 0;
     z-index: 1;
     border-style: solid;
-    border-width: 0 0 20px 20px;
     border-color: transparent transparent #ffffff transparent;
-    top: 50%;
-    left: -20px;
-    margin-top: -10px;
+    border-width: 0 10px 30px;
+    top: -30px;
+    left: 50%;
+    margin-left: -10px;
+}
+
+@media (min-width: 768px) {
+    .empty-cart .bubble:after {
+        border-width: 0 0 20px 20px;
+        top: 50%;
+        left: -9px;
+        margin-top: -10px;
+    }
 }
 
 #cart-items th:nth-child(1n+2),
@@ -1326,10 +1335,12 @@ a.socialaccount_provider.google {
 
 /* Checkout */
 #card-element {
-    min-width: 370px;
-    padding: .5rem .75rem;
-    border: 1px solid #555555;
-    border-radius: 5px;
+    border-radius: 4px;
+    padding: 12px;
+    border: 1px solid rgba(80, 80, 80, 0.568);
+    height: 44px;
+    width: 100%;
+    background: white;
 }
 
 #payment-form .hidden {
