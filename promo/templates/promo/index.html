@@ -1,15 +1,8 @@
-{% extends "base.html" %}
-{% load static %}
-{% load promo_tags %}
-{% load tags %}
-
-{% block page_header %}
-{% endblock %}
-
+{% extends "base.html" %} {% load static %} {% load promo_tags %} {% load tags %} {% block page_header %} {% endblock %}
 {% block content %}
 <div class="promo-header">
-    <img class=""
-        src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}" alt="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.descr' }}">
+    <img class="" src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}"
+        alt="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.descr' }}" />
     <div class="promo-info w-100 px-5 py-2">
         <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }}</h1>
         <p class="d-md-none short-description card-text">{{ promo.short_description }}</p>
@@ -21,23 +14,20 @@
         <div class="row justify-content-center">
             <div class="col-10">
                 <h2 class="mt-4">Get 'em while you can</h2>
-                <hr>
+                <hr />
                 <div id="promo-carousel-inner" class="carousel slide" data-bs-ride="true">
                     <div class="carousel-indicators">
-                        {% for slide in promo.apply_to_game.all|slide_split:request %}
-                        {% if forloop.first %}
+                        {% for slide in game_list|slide_split:request %} {% if forloop.first %}
                         <button type="button" data-bs-target="#promo-carousel-inner" data-bs-slide-to="0" class="active"
                             aria-current="true" aria-label="Slide {{ forloop.counter}}"></button>
                         {% else %}
                         <button type="button" data-bs-target="#promo-carousel-inner"
                             data-bs-slide-to="{{ forloop.counter|add:'-1' }}" aria-current="false"
                             aria-label="Slide {{ forloop.counter}}"></button>
-                        {% endif %}
-                        {% endfor %}
+                        {% endif %} {% endfor %}
                     </div>
                     <div class="carousel-inner">
-                        {% for slide in promo.apply_to_game.all|slide_split:request %}
-                        {% if forloop.first %}
+                        {% for slide in game_list|slide_split:request %} {% if forloop.first %}
                         <div class="carousel-item active">
                             {% else %}
                             <div class="carousel-item">
@@ -46,12 +36,22 @@
                                     {% for game in slide %}
                                     <div class="card-holder col col-md-4 col-lg-3">
                                         <div class="card d-flex mx-1">
-                                            <a href="#" class="card-body p-0">
+                                            <a href="#" class="card-img-top">
                                                 <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" class=""
-                                                    alt="{{ game|use_media:'LANDING.descr' }}">
+                                                    alt="{{ game|use_media:'LANDING.descr' }}" />
                                             </a>
-                                            <div class="card-body">
+                                            <span class="card-title ps-2 pt-1">
                                                 {{ game.name }}
+                                            </span>
+                                            <div class="card-body d-flex align-items-center justify-content-end p-1">
+                                                {% if game.in_promo and game.promo.active is True%}
+                                                <div class="promo-discount me-2">
+                                                    -{{ game.promo_percentage }}%
+                                                </div>
+                                                {% endif %}
+                                                <div class="game-price">£
+                                                    {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -76,7 +76,99 @@
         </div>
     </div>
 </div>
+<div id="promo-table" class="container__background py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="card col-12 col-lg-8">
+                <div class="card-body">
+                    <h2 class="mt-2">Hottest Offers</h2>
+                    <hr class="mb-2" />
+                    <div class="my-1 d-flex flex-column flex-lg-row justify-content-end align-items-center">
+                        <div id="promo-table-pagination" class="col-6 card-body d-flex align-items-center">
+                            {% if filter_dict %}
+                            <a class="btn {% if not page.has_previous %}disabled{% endif %}"
+                                href="{% if page.has_previous %}?{{ filter_dict }}&page={{ page.previous_page_number }}{% else %}#{% endif %}"
+                                aria-label="Previous Page">
+                                {% else %}
+                                <a class="btn {% if not page.has_previous %}disabled{% endif %}"
+                                    href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}#{% endif %}"
+                                    aria-label="Previous">
+                                    {% endif %}
+                                    <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span>
+                                </a>
+                                <div class="col-2">
+                                    <label for="page-input" class="visually-hidden form-label">Page Number</label>
+                                    <input type="number" class="form-control text-center" id="page-input"
+                                        placeholder="{{ page.number }}">
+                                </div>
+                                <span class="px-2 py-1">of</span>
+                                <span class="px-2 py-1">{{ page.paginator.num_pages }}</span>
+                                {% if filter_dict %}
+                                <a class="btn {% if not page.has_next %}disabled{% endif %}"
+                                    href="{% if page.has_next %}?{{ filter_dict }}&page={{ page.next_page_number }}{% else %}#{% endif %}"
+                                    aria-label="Next Page">
+                                    {% else %}
+                                    <a class="btn {% if not page.has_next %}disabled{% endif %}"
+                                        href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
+                                        aria-label="Next Page">
+                                        {% endif %}
+                                        <span aria-hidden="true">
+                                            <i class="fa-solid fa-chevron-right"></i>
+                                        </span>
+                                    </a>
+                        </div>
+                        <div class="game-list-sort">
+                            <span>Sort by: </span>
+                            <a href="{% url 'promo' promo.id %}{% if not 'title_asc' in filter_dict %}?sort_by=title_asc{% else %}{% endif %}"
+                                class="btn btn-gamebox{% if 'title_asc' in filter_dict %}-alt{% endif%} p-0 px-1 mx-1">Name</a>
+                            <a href="{% url 'promo' promo.id %}{% if not 'discount_desc' in filter_dict %}?sort_by=discount_desc{% else %}{% endif %}"
+                                class="btn btn-gamebox{% if 'discount_desc' in filter_dict %}-alt{% endif%} p-0 px-1 mx-1">Discount</a>
+                            <a href="{% url 'promo' promo.id %}{% if not 'price_desc' in filter_dict %}?sort_by=price_desc{% else %}{% endif %}"
+                                class="btn btn-gamebox{% if 'price_desc' in filter_dict %}-alt{% endif%} p-0 px-1 mx-1">Price</a>
+                        </div>
+                    </div>
+                    <table class="table mt-3 table-hover mb-1 w-100 align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Discount</th>
+                                <th scope="col">Now</th>
+                                <th scope="col" class="d-none d-md-cell">Was</th>
+                            </tr>
+                        </thead>
+                        <div>
+                            <tbody>
+                                {% for game in page %}
+                                <tr data-href="{{ game.id }}">
+                                    <td><img class="cart-image" src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
+                                            alt="{{ game|use_media:'COVER.descr' }}" /></td>
+                                    <td>{{ game.name }}</td>
+                                    <td><span class="promo-discount fs-6">-{{ game.promo_percentage }}%</span></td>
+                                    <td>£{{ game.final_price }}</td>
+                                    <td class="d-none d-md-cell"><s>£{{ game.final_price }}</s></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </div>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</div>
+{% endblock %}
 
+{% block postloadjs %}
+<script>
+    let rows = document.querySelectorAll('tr')
+    console.log(rows);
+    rows.forEach(row => {
+        if (row.hasAttribute('data-href')) {
+            row.addEventListener('click', e => {
+                window.location.href = `/games/${row.dataset.href}`
+            })
+        }
+    })
+</script>
 {% endblock %}
