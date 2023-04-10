@@ -693,6 +693,10 @@ svg * {
     padding: calc(0.4rem - 2px);
 }
 
+.game-info {
+    overflow-y: auto;
+}
+
 .game .rating-stars>* {
     padding: 0;
     border-radius: 50%;
