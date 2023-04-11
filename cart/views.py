@@ -33,7 +33,7 @@ def cart_add(request, model_name, game_id):
         cart = Cart.objects.get_or_create(user=request.user)
         cart_items = cart[0].cartitems.all()
         if game in [i.game or i.dlc for i in cart_items]:
-                item = cart_items.get(game=game)
+                item = cart_items.get(game=game) if model_name == 'game' else cart_items.get(dlc=game)
                 item.quantity += quantity
                 item.save()
         else: 

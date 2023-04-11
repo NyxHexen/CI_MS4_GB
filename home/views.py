@@ -9,12 +9,13 @@ import random
 def index(request):
     """A view to return the index page"""
     carousel = list(Game.objects.filter(carousel=True))
-    carousel += list(Promo.objects.filter(carousel=True))
     carousel += list(DLC.objects.filter(carousel=True))
 
-    is_featured = list(Game.objects.filter(is_featured=True))
+    is_featured = carousel
     if len(is_featured) > 4:
         is_featured = random.sample(is_featured, 5)
+
+    carousel += list(Promo.objects.filter(carousel=True))
 
     dotd = list(Promo.objects.filter(active=True, landing_page=True))
 
