@@ -3,7 +3,8 @@ from django.http import QueryDict
 from django.core.paginator import Paginator, EmptyPage
 from urllib.parse import urlencode
 
-from games.models import Game, Genre, Tag, Platform, Feature, DLC
+from games.models import (Game, Genre,
+                          Tag, Platform, Feature, DLC)
 from .utils import sort_by
 
 from decimal import Decimal
@@ -129,3 +130,14 @@ def games(request):
         context["filter_dict"] = urlencode(filter_dict)
     
     return render(request, "games/index.html", context)
+
+
+def game(request, model_name, game_id):
+    game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
+    media = game.media.exclude(name__icontains='COVER')
+
+    context = {
+        'game': game,
+        'media': media
+    }
+    return render(request, "games/game.html", context)

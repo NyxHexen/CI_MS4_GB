@@ -981,7 +981,8 @@ input:active {
 }
 
 /* Promo */
-.promo-header {
+.promo-header,
+.game-header {
     position: relative;
     margin-top: -6.6rem;
     height: 45vh;
@@ -989,7 +990,8 @@ input:active {
 }
 
 @media (max-width: 400px) {
-    .promo-header {
+    .promo-header,
+    .game-header {
         height: 55vh;
     }
 }
@@ -1005,7 +1007,8 @@ input:active {
     width: 100%;
 }
 
-.promo-header img {
+.promo-header img,
+.game-header img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -1273,6 +1276,21 @@ a.socialaccount_provider.google {
 
 [data-bs-theme="light"] .game-back--reverse {
     background-color: #6f2dbd;
+}
+
+/* Game Detail */
+
+.game-detail-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    transform: translateY(-50%);
+}
+
+.game-detail-cover img {
+    width: 100%;
+    border-radius: 5px;
 }
 
 /* Deals */

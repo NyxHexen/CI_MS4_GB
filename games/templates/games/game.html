@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags %}
+{% load cart_tags %}
+
+{% block page_header %}
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="game-header w-100">
+    <img class="" src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" class="w-100"
+        alt="{{ game|use_media:'LANDING.descr' }}" />
+</div>
+<div class="container__shadow position-relative">
+    <div class="container">
+        <div class="game-detail-info row">
+            <div class="game-detail-cover col-6 col-sm-4 col-md-3 col-xl-2">
+                <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}" />
+            </div>
+            <div class="col offset-6 offset-sm-4 offset-md-3 offset-xl-2 pt-3">
+                <div class="game-genre-list">
+                    <span><strong> Genre: </strong></span>
+                    {% for genre in game.genres.all %}
+                    {% if forloop.last %}
+                    <a href="#">{{ genre }}</a>
+                    {% else %}
+                    <a href="#">{{ genre }}</a>,
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="game-platform-list">
+                    <span><strong> Platforms: </strong></span>
+                    {% for platform in game.platforms.all %}
+                    {% if forloop.last %}
+                    <a href="#">{{ platform }}</a>
+                    {% else %}
+                    <a href="#">{{ platform }}</a>,
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="game-description mt-3">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et semper dui, non ultricies
+                        velit. In viverra metus imperdiet, blandit purus vel, vestibulum erat. Nunc tempus elit ligula,
+                        luctus condimentum orci finibus non. Aliquam enim neque, consectetur et dapibus non, egestas
+                        eget metus. In suscipit, diam ut sollicitudin eleifend, nisl lorem tincidunt ex, vitae tempus
+                        sapien odio luctus justo. Donec eleifend finibus nisl, id ullamcorper turpis semper ac. Sed
+                        ultrices pulvinar sapien, a rhoncus dolor ornare a. Nam a lacinia turpis.
+
+                        Quisque sodales felis ligula, sit amet auctor nisi feugiat sit amet. Pellentesque venenatis
+                        eleifend ligula, vitae convallis ex facilisis id. Maecenas eu enim finibus, vehicula justo sed,
+                        commodo massa. Maecenas vestibulum enim at lacus vehicula, non vulputate magna mattis. Vivamus
+                        in faucibus lacus. Nullam sed molestie justo. Nunc lacinia efficitur risus, et sagittis nisi
+                        varius eget. Vivamus et rhoncus lacus. Donec dignissim, mauris eget efficitur tincidunt, lorem
+                        turpis condimentum.</p>
+                </div>
+            </div>
+            <div class="col-3 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <span class="h4">How would you rate this game?</span><br>
+                        <span>Stars Placeholder</span><br>
+
+                        <div class="rating-breakdown">
+                            <span class="h4">Rating Breakdown</span>
+                            <span>Graph Placeholder</span><br>
+                            <span>Total ratings: {{ game.ratingset.all }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container__color text-bg-warning position-relative my-3">
+    <div class="container">
+        <div class="game-detail-media row">
+            <div class="col my-3">
+                <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="row d-flex w-100">
+                                {% for item in media %}
+                                {% if forloop.last and not media|length|divisibleby:2 %}
+                                {% elif forloop.counter|divisibleby:2 %}
+                                <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-50 px-1"
+                                    alt="{{ item.description }}">
+                            </div>
+                        </div>
+                        {% if forloop.counter != media|length|add:"-1" and not media|length|divisibleby:2 %}
+                        <div class="carousel-item">
+                            <div class="row d-flex w-100">
+                        {% endif %}
+                                {% else %}
+                                <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-50 px-1"
+                                    alt="{{ item.description }}">
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
