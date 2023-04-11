@@ -2,7 +2,7 @@
 {% block content %}
 <div class="promo-header">
     <img class="" src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}"
-        alt="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.descr' }}" />
+        alt="{{ promo|use_media:'LANDING.descr' }}" />
     <div class="promo-info w-100 px-5 py-2">
         <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }}</h1>
         <p class="d-md-none short-description card-text">{{ promo.short_description }}</p>
@@ -27,7 +27,8 @@
                         {% endif %} {% endfor %}
                     </div>
                     <div class="carousel-inner">
-                        {% for slide in game_list|slide_split:request %} {% if forloop.first %}
+                        {% for slide in game_list|slide_split:request %} 
+                        {% if forloop.first %}
                         <div class="carousel-item active">
                             {% else %}
                             <div class="carousel-item">
