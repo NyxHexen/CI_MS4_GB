@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.http import QueryDict
 from django.core.paginator import Paginator, EmptyPage
 from urllib.parse import urlencode
+
 from games.models import Game, Genre, Tag, Platform, Feature, DLC
+from .utils import sort_by
 
 from decimal import Decimal
 from datetime import datetime
@@ -127,32 +129,3 @@ def games(request):
         context["filter_dict"] = urlencode(filter_dict)
     
     return render(request, "games/index.html", context)
-
-
-
-def sort_by(sort_value, *args):
-    # Convert each argument to a list
-    sorted_args = [list(arg) for arg in args]
-    # Flatten the list of lists into a single list
-    sorted_args = [item for sublist in sorted_args for item in sublist]
-    # Sort the list based on the value of sort_value
-    match sort_value:
-        case "price_desc":
-            sorted_args.sort(key=lambda x: x.final_price)
-        case "price_asc":
-            sorted_args.sort(key=lambda x: x.final_price, reverse=True)
-        case "discount_desc":
-            sorted_args.sort(key=lambda x: x.promo_percentage, reverse=True)
-        case "title_asc":
-            sorted_args.sort(key=lambda x: x.name)
-        case "title_desc":
-            sorted_args.sort(key=lambda x: x.name, reverse=True)
-        case "date_desc":
-            sorted_args.sort(key=lambda x: x.release_date)
-        case "date_asc":
-            sorted_args.sort(key=lambda x: x.release_date, reverse=True)
-        case "rating_desc":
-            sorted_args.sort(key=lambda x: x.ratingset.user_rating_calc(), reverse=True)
-        case _:
-            pass
-    return sorted_args
