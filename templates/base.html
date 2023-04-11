@@ -43,12 +43,12 @@
             <div class="container-fluid">
                 <a class="navbar-brand ps-1 px-sm-2 py-0" href="{% url 'home' %}">Game<span>boX</span></a>
                 <button class="btn btn-gamebox navbar-toggler float-end" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                    data-bs-target="#mobile-menu" aria-controls="mobile-menu">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item  d-flex align-items-center">
+                        <li class="nav-item d-flex align-items-center">
                             <a class="nav-link {% if request.path == '/games/' %}active{% endif %}" aria-current="page"
                                 href="{% url 'games' %}">browse</a>
                         </li>
@@ -77,35 +77,48 @@
                     </ul>
                 </div>
             </div>
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
-                aria-labelledby="offcanvasExampleLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="mobile-menu" aria-labelledby="mobile-menu-header">
+                <div class="offcanvas-header text-bg-light rounded">
+                    <h5 class="offcanvas-title fs-2" id="mobile-menu-header">Menu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body">
-                    <ul class="d-flex d-md-none flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'games' %}">browse</a>
+                <div class="offcanvas-body card mx-5 mt-5 m-lg-auto p-0 p-lg-auto">
+                    <ul class="d-flex d-md-none flex-column list-group list-group-flush fs-3 text-center">
+                        <li class="list-group-item {% if request.path == '/games/' %}active{% endif %}">
+                            <a class="nav-link" aria-current="page" href="{% url 'games' %}">browse</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="list-group-item {% if request.path == '/about/' %}active{% endif %}">
                             <a class="nav-link" href="#">About</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="list-group-item {% if request.path == '/support/' %}active{% endif %}">
                             <a class="nav-link" href="#">support</a>
                         </li>
+                    </ul>
+                </div>
+                <div class="offcanvas-body card mx-5 mt-3 m-lg-auto p-0 p-lg-auto">
+                    <ul class="d-flex d-md-none flex-column list-group list-group-flush fs-3 text-center">
                         {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="cart-nav nav-link" href="{% url 'cart' %}">Shopping Cart</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">Sign Out</a></li>
+                        <li class="list-group-item {% if request.path == '/cart/' %}active{% endif %}">
+                            <a class="cart-nav nav-link" href="{% url 'cart' %}">shopping
+                                cart</a></li>
+                        <li class="list-group-item">
+                            <a class="nav-link" href="{% url 'account_logout' %}">sign out</a>
+                        </li>
                         {% else %}
-                        <li class="nav-item"><a class="cart-nav nav-link" href="{% url 'cart' %}"><i
-                                    class="fa-solid fa-cart-shopping fs-5"></i></a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Sign In</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
+                        <li class="list-group-item {% if request.path == '/cart/' %}active{% endif %}">
+                            <a class="cart-nav nav-link" href="{% url 'cart' %}"><i
+                                    class="fa-solid fa-cart-shopping"></i></a></li>
+                        <li class="list-group-item {% if request.path == '/accounts/login/' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'account_login' %}">sign in</a>
+                        </li>
+                        <li class="list-group-item {% if request.path == '/accounts/signup/' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'account_signup' %}">sign up</a>
+                        </li>
                         {% endif %}
                         </li>
                     </ul>
                 </div>
+            </div>
             </div>
         </nav>
     </header>
@@ -113,17 +126,17 @@
     {% if messages %}
     <div class="message-container">
         {% for message in messages %}
-            {% with message.level as level %}
-                {% if level == 40 %}
-                    {% include 'includes/toasts/toast-error.html'%}
-                {% elif level == 30 %}
-                    {% include 'includes/toasts/toast-warning.html'%}
-                {% elif level == 25 %}
-                    {% include 'includes/toasts/toast-success.html'%}
-                {% else %}
-                    {% include 'includes/toasts/toast-info.html'%}
-                {% endif %}
-            {% endwith %}
+        {% with message.level as level %}
+        {% if level == 40 %}
+        {% include 'includes/toasts/toast-error.html'%}
+        {% elif level == 30 %}
+        {% include 'includes/toasts/toast-warning.html'%}
+        {% elif level == 25 %}
+        {% include 'includes/toasts/toast-success.html'%}
+        {% else %}
+        {% include 'includes/toasts/toast-info.html'%}
+        {% endif %}
+        {% endwith %}
         {% endfor %}
     </div>
     {% endif %}

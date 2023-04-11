@@ -11,6 +11,34 @@
 }
 
 /* Bootstrap Overrides */
+.offcanvas {
+    background-color: transparent;
+}
+
+.offcanvas:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #000000ab;
+    backdrop-filter: blur(25px);
+    z-index: -1;    
+}
+
+.offcanvas ul {
+    list-style: none;
+}
+
+.offcanvas-header {
+    z-index: 2;
+}
+
+.offcanvas-body {
+    flex-grow: 0;
+}
+
 [data-bs-theme="light"] .nav-link,
 [data-bs-theme="light"] .navbar-nav {
     --bs-nav-link-hover-color: #6f2dbd;
@@ -203,7 +231,8 @@
 }
 
 /* Shadows */
-.navbar {
+.navbar,
+.offcanvas-header  {
     --lg-stacked-shadow:
         0px 0.5px 0.4px hsl(var(--shadow-color) / 0.67),
         0px 0.6px 0.5px -0.6px hsl(var(--shadow-color) / 0.61),
@@ -347,6 +376,7 @@ nav * {
 
 .nav-link.active {
     font-size: calc(100% + .2rem);
+    color: #6f2dbd !important;
 }
 
 h1 {
@@ -1103,8 +1133,10 @@ footer p {
     text-shadow: 0 0 6px #9f0;
 }
 
-[data-bs-theme="light"] .nav-link.active {
-    color: #6f2dbd;
+[data-bs-theme="light"] .list-group-item.active  {
+    color: #ffffff;
+    background-color: #6f2dbd;
+    border-color: transparent;
 }
 
 /* Accounts/Allauth/Crispy */
@@ -1724,6 +1756,10 @@ footer {
 }
 
 @media (min-width: 992px) {
+    .offcanvas {
+        display: none;
+    }
+
     .col-lg-2plus {
         flex: 0 0 auto;
         width: 21%;
