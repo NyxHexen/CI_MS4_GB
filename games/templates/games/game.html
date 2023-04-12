@@ -65,7 +65,8 @@
                             <span class="fs-6 text-center">&nbsp;</span>
                         </div>
                     </div>
-                    <p class="text-muted text-center mb-1"><small>Based on {{ game.ratingset.userrating_set.all|length }} member ratings</small></p>
+                    <p class="text-muted text-center mb-1"><small>Based on
+                            {{ game.ratingset.userrating_set.all|length }} member ratings</small></p>
                     <div class="card-body d-flex flex-column py-0">
                         <h4 class="h6 cart-title">How would you rate this game?</h4>
                         <div class="stars-container d-flex justify-content-center fs-4 mt-1">
@@ -86,7 +87,7 @@
                             </a>
                         </div>
                         <div class="stars-message-container align-self-center">
-                            <span class="stars-message">Very Good</span>
+                            <span class="stars-message">&nbsp;</span>
                         </div>
                     </div>
                     <div class="card-body pt-0">
@@ -245,65 +246,64 @@
 {% block postloadjs %}
 {{ block.super }}
 <script>
+    const ratingLevels = {
+        0: ["", "Neutral"],
+        1: ["tomato", "Awful"],
+        2: ["orange", "Bad"],
+        3: ["dodgerblue", "Average"],
+        4: ["mediumseagreen", "Good"],
+        5: ["slateblue", "Very Good"]
+    }
+
     let gameRating = document.querySelectorAll('.game-detail-rating span')
     let ratingScore = gameRating[0]
     let ratingScoreFloat = gameRating[0].innerHTML
     let ratingMessage = gameRating[1]
-    if (ratingScoreFloat == 0) {
+    if (ratingScoreFloat >= 0 && ratingScoreFloat < 1) {
         ratingMessage.innerText = "Neutral";
-    } else if (ratingScoreFloat > 0 && ratingScoreFloat < 1){
-        ratingScore.style.color = "tomato"
-        ratingMessage.innerText = "Awful";
-        ratingMessage.style.color = "tomato"
-        ratingScore.parentElement.parentElement.style.borderColor = "tomato"
-    } else if (ratingScoreFloat > 1 && ratingScoreFloat < 2) {
-        ratingScore.style.color = "orange"
-        ratingMessage.innerText = "Bad";
-        ratingMessage.style.color = "orange"
-        ratingScore.parentElement.parentElement.style.borderColor = "orange"
-    } else if (ratingScoreFloat > 2 && ratingScoreFloat < 3) {
-        ratingScore.style.color = "dodgerblue"
-        ratingMessage.innerText = "Average";
-        ratingMessage.style.color = "dodgerblue"
-        ratingScore.parentElement.parentElement.style.borderColor = "dodgerblue"
-    } else if (ratingScoreFloat > 3 && ratingScoreFloat < 4) {
-        ratingScore.style.color = "mediumseagreen"
-        ratingMessage.innerText = "Good";
-        ratingMessage.style.color = "mediumseagreen"
-        ratingScore.parentElement.parentElement.style.borderColor = "mediumseagreen"
-    } else if (ratingScoreFloat > 4 && ratingScoreFloat < 5) {
-        ratingScore.style.color = "green"
-        ratingMessage.innerText = "Very Good";
-        ratingMessage.style.color = "green"
-        ratingScore.parentElement.parentElement.style.borderColor = "green"
+    } else if (ratingScoreFloat >= 1 && ratingScoreFloat < 2) {
+        ratingScore.style.color = ratingLevels[1][0];
+        ratingMessage.innerText = ratingLevels[1][1];
+        ratingMessage.style.color = ratingLevels[1][0]
+        ratingScore.parentElement.parentElement.style.borderColor = ratingLevels[1][0]
+    } else if (ratingScoreFloat >= 2 && ratingScoreFloat < 3) {
+        ratingScore.style.color = ratingLevels[2][0];
+        ratingMessage.innerText = ratingLevels[2][1];
+        ratingMessage.style.color = ratingLevels[2][0]
+        ratingScore.parentElement.parentElement.style.borderColor = ratingLevels[2][0]
+    } else if (ratingScoreFloat >= 3 && ratingScoreFloat < 4) {
+        ratingScore.style.color = ratingLevels[3][0];
+        ratingMessage.innerText = ratingLevels[3][1];
+        ratingMessage.style.color = ratingLevels[3][0]
+        ratingScore.parentElement.parentElement.style.borderColor = ratingLevels[3][0]
+    } else if (ratingScoreFloat >= 4 && ratingScoreFloat < 5) {
+        ratingScore.style.color = ratingLevels[4][0];
+        ratingMessage.innerText = ratingLevels[4][1];
+        ratingMessage.style.color = ratingLevels[4][0]
+        ratingScore.parentElement.parentElement.style.borderColor = ratingLevels[4][0]
     } else if (ratingScoreFloat == 5) {
-        ratingScore.style.color = "slateblue"
-        ratingMessage.innerText = "Superb";
-        ratingMessage.style.color = "slateblue"
-        ratingScore.parentElement.parentElement.style.borderColor = "slateblue"
+        ratingScore.style.color = ratingLevels[5][0];
+        ratingMessage.innerText = ratingLevels[5][1];
+        ratingMessage.style.color = ratingLevels[5][0]
+        ratingScore.parentElement.parentElement.style.borderColor = ratingLevels[5][0]
     }
-</script>
-<script>
+
     let ratingStars = document.querySelectorAll('.star')
-    const ratingColors = {
-            1: "tomato",
-            2: "orange",
-            3: "dodgerblue",
-            4: "mediumseagreen",
-            5: "slateblue"
-        }
+    let starsMessage = document.querySelector('.stars-message')
 
     ratingStars.forEach(star => {
         const starNumber = star.dataset.id
         const sliceStars = Object.entries(ratingStars).slice(0, starNumber)
         star.addEventListener('mouseover', e => {
             sliceStars.forEach(slice => {
-                slice[1].style.color = ratingColors[starNumber];
+                slice[1].style.color = ratingLevels[starNumber][0];
+                starsMessage.innerText = ratingLevels[starNumber][1];
             })
         })
         star.addEventListener('mouseout', e => {
             sliceStars.forEach(slice => {
                 slice[1].style.color = '#1f1f1f';
+                starsMessage.innerText = "\u00A0"
             })
         })
     })
