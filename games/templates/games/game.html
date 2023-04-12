@@ -13,50 +13,48 @@
 
 {% block content %}
 <div class="game-header w-100">
-    <img class="" src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" class="w-100"
-        alt="{{ game|use_media:'LANDING.descr' }}" />
+    <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" class="w-100"
+        alt="{{ game|use_media:'LANDING.descr' }}"/>
+    <div class="container__blur position-absolute">
+        <div class="container game-detail-title d-flex flex-column justify-content-end">
+            <div class="row">
+                <div class="col offset-6 offset-sm-4 offset-md-3 offset-xl-2 pt-3">
+                    <h2 class="display-3">{{ game.name }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="container__shadow position-relative">
     <div class="container">
         <div class="game-detail-info row">
             <div class="game-detail-cover col-6 col-sm-4 col-md-3 col-xl-2">
                 <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}" />
+                <button role="button" class="btn btn-gamebox w-100 mt-2">Add to cart</button>
             </div>
             <div class="col offset-6 offset-sm-4 offset-md-3 offset-xl-2 pt-3">
-                <div class="game-genre-list">
+                <div class="game-genre-list mb-2">
                     <span><strong> Genre: </strong></span>
                     {% for genre in game.genres.all %}
                     {% if forloop.last %}
-                    <a href="#">{{ genre }}</a>
+                    <a href="#" class="genre-link">{{ genre }}</a>
                     {% else %}
-                    <a href="#">{{ genre }}</a>,
+                    <a href="#" class="genre-link">{{ genre }}</a>,
                     {% endif %}
                     {% endfor %}
                 </div>
-                <div class="game-platform-list">
+                <div class="game-platform-list mb-2">
                     <span><strong> Platforms: </strong></span>
                     {% for platform in game.platforms.all %}
                     {% if forloop.last %}
-                    <a href="#">{{ platform }}</a>
+                    <a href="#" class="platform-link">{{ platform }}</a>
                     {% else %}
-                    <a href="#">{{ platform }}</a>,
+                    <a href="#" class="platform-link">{{ platform }}</a>,
                     {% endif %}
                     {% endfor %}
                 </div>
                 <div class="game-description mt-3">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et semper dui, non ultricies
-                        velit. In viverra metus imperdiet, blandit purus vel, vestibulum erat. Nunc tempus elit ligula,
-                        luctus condimentum orci finibus non. Aliquam enim neque, consectetur et dapibus non, egestas
-                        eget metus. In suscipit, diam ut sollicitudin eleifend, nisl lorem tincidunt ex, vitae tempus
-                        sapien odio luctus justo. Donec eleifend finibus nisl, id ullamcorper turpis semper ac. Sed
-                        ultrices pulvinar sapien, a rhoncus dolor ornare a. Nam a lacinia turpis.
-
-                        Quisque sodales felis ligula, sit amet auctor nisi feugiat sit amet. Pellentesque venenatis
-                        eleifend ligula, vitae convallis ex facilisis id. Maecenas eu enim finibus, vehicula justo sed,
-                        commodo massa. Maecenas vestibulum enim at lacus vehicula, non vulputate magna mattis. Vivamus
-                        in faucibus lacus. Nullam sed molestie justo. Nunc lacinia efficitur risus, et sagittis nisi
-                        varius eget. Vivamus et rhoncus lacus. Donec dignissim, mauris eget efficitur tincidunt, lorem
-                        turpis condimentum.</p>
+                    <p>{{ game.description }}</p>
                 </div>
             </div>
             <div class="col-3 mt-3">
@@ -64,9 +62,8 @@
                     <div class="card-body">
                         <span class="h4">How would you rate this game?</span><br>
                         <span>Stars Placeholder</span><br>
-
-                        <div class="rating-breakdown">
-                            <span class="h4">Rating Breakdown</span>
+                        <div class="rating-breakdown mt-3">
+                            <span class="h4">Rating Breakdown</span><br>
                             <span>Graph Placeholder</span><br>
                             <span>Total ratings: {{ game.ratingset.all }}</span>
                         </div>
@@ -85,7 +82,7 @@
                         <div class="carousel-item active">
                             <div class="row d-flex w-100">
                                 {% for item in media %}
-                                {% if forloop.last and not media|length|divisibleby:2 %}
+                                {% if forloop.last and not media|length|divisibleby:2 and not forloop.first %}
                                 {% elif forloop.counter|divisibleby:2 %}
                                 <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-50 px-1"
                                     alt="{{ item.description }}">
@@ -94,7 +91,7 @@
                         {% if forloop.counter != media|length|add:"-1" and not media|length|divisibleby:2 %}
                         <div class="carousel-item">
                             <div class="row d-flex w-100">
-                        {% endif %}
+                                {% endif %}
                                 {% else %}
                                 <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-50 px-1"
                                     alt="{{ item.description }}">
@@ -118,4 +115,100 @@
         </div>
     </div>
 </div>
-{% endblock %}
+<div class="container mb-5">
+    <div class="row">
+        <div class="col offset-6 offset-sm-4 offset-md-3 offset-xl-2 pt-3">
+            <div class="col">
+                <h2 class="ui-font header-decoration">storyline</h2>
+                <p>{{ game.storyline }}</p>
+            </div>
+            <div class="col mt-4">
+                {% if game.model_name == 'game' %}
+                <h2 class="ui-font header-decoration">related content</h2>
+                <div class="col-3 d-flex mt-3">
+                    {% for dlc in game.dlc_set.all %}
+                    <a href="{% url 'game' dlc.model_name dlc.id %}" class="col dlc position-relative mx-1">
+                        <span class="h5 position-absolute text-center">{{ dlc }}</span>
+                        <img class="img-fluid w-100" src="{{ MEDIA_URL }}{{ dlc|use_media:'COVER.src'}}"
+                            alt="{{ dlc|use_media:'COVER.descr'}}">
+                    </a>
+                    {% endfor %}
+                    {% else %}
+                    <h2 class="ui-font header-decoration">required Game</h2>
+                    <div class="col-3 d-flex mt-3">
+                        <a href="{% url 'game' game.required_game.model_name game.required_game.id %}"
+                            class="col dlc position-relative mx-1">
+                            <span class="h5 position-absolute text-center">{{ game.required_game.name }}</span>
+                            <img class="img-fluid w-100"
+                                src="{{ MEDIA_URL }}{{ game.required_game|use_media:'COVER.src'}}"
+                                alt="{{ dlc|use_media:'COVER.descr'}}">
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <h2 class="ui-font h4">information</h2>
+                <div class="dev-list d-flex flex-column my-1 ps-4">
+                    <span><strong> Developers: </strong></span>
+                    <div class="dev-list-inner">
+                        {% for developer in game.developers.all %}
+                        {% if forloop.last %}
+                        <a href="#" class="developer-link">{{ developer }}</a>
+                        {% else %}
+                        <a href="#" class="developer-link">{{ developer }}</a>,
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="publisher-list d-flex flex-column my-1 ps-4">
+                    <span><strong> Publishers: </strong></span>
+                    <div class="publisher-list-inner">
+                        {% for publisher in game.publishers.all %}
+                        {% if forloop.last %}
+                        <a href="#" class="publisher-link">{{ publisher }}</a>
+                        {% else %}
+                        <a href="#" class="publisher-link">{{ publisher }}</a>,
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="tag-list d-flex flex-column my-1 ps-4">
+                    <span><strong> Tags: </strong></span>
+                    <div class="tag-list-inner">
+                        {% for tag in game.tags.all %}
+                        {% if forloop.last %}
+                        <a href="#" class="tag-link">{{ tag }}</a>
+                        {% else %}
+                        <a href="#" class="tag-link">{{ tag }}</a>,
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="feature-list d-flex flex-column my-1 ps-4">
+                    <span><strong> Feature: </strong></span>
+                    <div class="feature-list-inner">
+                        {% for feature in game.features.all %}
+                        {% if forloop.last %}
+                        <a href="#" class="feature-link">{{ feature }}</a>
+                        {% else %}
+                        <a href="#" class="feature-link">{{ feature }}</a>,
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <h2 class="ui-font h4 mt-3">age rating</h2>
+                <div class="ratings-list d-flex flex-column ps-4">
+                    <div class="ratings-list-inner d-flex align-items-center">
+                        <img class="img-fluid mx-1" src="{{ MEDIA_URL }}{{ game.ratingset.esrb_rating.image }}"
+                            alt="{{ game.ratingset.esrb_rating }}"
+                            title="ESRB Rating: {{ game.ratingset.esrb_rating }}">
+                        <img class="img-fluid mx-1" src="{{ MEDIA_URL }}{{ game.ratingset.pegi_rating.image }}"
+                            alt="{{ game.ratingset.pegi_rating }}"
+                            title="PEGI Rating: {{ game.ratingset.pegi_rating }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
