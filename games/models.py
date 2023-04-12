@@ -45,6 +45,8 @@ class CustomBaseModel(models.Model):
 class Game(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
+    description = models.TextField(default='', max_length=1024)
+    storyline = models.TextField(default='', max_length=1024)
     genres = models.ManyToManyField("Genre")
     publishers = models.ManyToManyField("Publisher")
     developers = models.ManyToManyField("Developer")
@@ -88,6 +90,8 @@ class DLC(CustomBaseModel):
     required_game = models.ForeignKey("Game", default=None, on_delete=models.CASCADE)
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
+    description = models.TextField(default='', max_length=1024)
+    storyline = models.TextField(default='', max_length=1024)
     genres = models.ManyToManyField("Genre")
     publishers = models.ManyToManyField("Publisher")
     developers = models.ManyToManyField("Developer")
@@ -106,6 +110,7 @@ class DLC(CustomBaseModel):
     )
     promo_percentage = models.PositiveIntegerField(default=0, null=True, blank=True)
     final_price = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+
 
     def __str__(self) -> str:
         return self.name
