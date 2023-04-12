@@ -69,21 +69,21 @@
                     <div class="card-body d-flex flex-column py-0">
                         <h4 class="h6 cart-title">How would you rate this game?</h4>
                         <div class="stars-container d-flex justify-content-center fs-4 mt-1">
-                            <span class="star star-1">
+                            <a href="#" class="star star-1" data-id="1">
                                 <i class="fa-solid fa-star"></i>
-                            </span>
-                            <span class="star star-2">
+                            </a>
+                            <a href="#" class="star star-2" data-id="2">
                                 <i class="fa-solid fa-star"></i>
-                            </span>
-                            <span class="star star-3">
+                            </a>
+                            <a href="#" class="star star-3" data-id="3">
                                 <i class="fa-solid fa-star"></i>
-                            </span>
-                            <span class="star star-4">
+                            </a>
+                            <a href="#" class="star star-4" data-id="4">
                                 <i class="fa-solid fa-star"></i>
-                            </span>
-                            <span class="star star-5">
+                            </a>
+                            <a href="#" class="star star-5" data-id="5">
                                 <i class="fa-solid fa-star"></i>
-                            </span>
+                            </a>
                         </div>
                         <div class="stars-message-container align-self-center">
                             <span class="stars-message">Very Good</span>
@@ -282,5 +282,30 @@
         ratingMessage.style.color = "slateblue"
         ratingScore.parentElement.parentElement.style.borderColor = "slateblue"
     }
+</script>
+<script>
+    let ratingStars = document.querySelectorAll('.star')
+    const ratingColors = {
+            1: "tomato",
+            2: "orange",
+            3: "dodgerblue",
+            4: "mediumseagreen",
+            5: "slateblue"
+        }
+
+    ratingStars.forEach(star => {
+        const starNumber = star.dataset.id
+        const sliceStars = Object.entries(ratingStars).slice(0, starNumber)
+        star.addEventListener('mouseover', e => {
+            sliceStars.forEach(slice => {
+                slice[1].style.color = ratingColors[starNumber];
+            })
+        })
+        star.addEventListener('mouseout', e => {
+            sliceStars.forEach(slice => {
+                slice[1].style.color = '#1f1f1f';
+            })
+        })
+    })
 </script>
 {% endblock %}

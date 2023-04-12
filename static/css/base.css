@@ -1354,6 +1354,11 @@ a.socialaccount_provider.google {
     border: 3px solid green;
 }
 
+.star,
+.star:hover {
+    color: #1f1f1f;
+}
+
 /* Deals */
 
 [data-bs-theme="light"] .deals {
