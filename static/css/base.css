@@ -1345,6 +1345,15 @@ a.socialaccount_provider.google {
     border-bottom: 3px solid #6f2dbd;
 }
 
+.game-detail-rating {
+    top: -75%;
+    left: 25%;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    border: 3px solid green;
+}
+
 /* Deals */
 
 [data-bs-theme="light"] .deals {

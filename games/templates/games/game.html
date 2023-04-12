@@ -14,7 +14,7 @@
 {% block content %}
 <div class="game-header w-100">
     <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" class="w-100"
-        alt="{{ game|use_media:'LANDING.descr' }}"/>
+        alt="{{ game|use_media:'LANDING.descr' }}" />
     <div class="container__blur position-absolute">
         <div class="container game-detail-title d-flex flex-column justify-content-end">
             <div class="row">
@@ -57,15 +57,43 @@
                     <p>{{ game.description }}</p>
                 </div>
             </div>
-            <div class="col-3 mt-3">
+            <div class="col-3 mt-3 position-relative">
                 <div class="card">
-                    <div class="card-body">
-                        <span class="h4">How would you rate this game?</span><br>
-                        <span>Stars Placeholder</span><br>
-                        <div class="rating-breakdown mt-3">
-                            <span class="h4">Rating Breakdown</span><br>
+                    <div class="card-body game-detail-rating p-3 m-3 mb-0 align-self-center">
+                        <div class="d-flex d-flex flex-column justify-content-center align-items-center">
+                            <span class="card-title m-0 fs-1">{{ game.ratingset.user_rating_calc }}</span>
+                            <span class="fs-6 text-center">&nbsp;</span>
+                        </div>
+                    </div>
+                    <p class="text-muted text-center mb-1"><small>Based on {{ game.ratingset.userrating_set.all|length }} member ratings</small></p>
+                    <div class="card-body d-flex flex-column py-0">
+                        <h4 class="h6 cart-title">How would you rate this game?</h4>
+                        <div class="stars-container d-flex justify-content-center fs-4 mt-1">
+                            <span class="star star-1">
+                                <i class="fa-solid fa-star"></i>
+                            </span>
+                            <span class="star star-2">
+                                <i class="fa-solid fa-star"></i>
+                            </span>
+                            <span class="star star-3">
+                                <i class="fa-solid fa-star"></i>
+                            </span>
+                            <span class="star star-4">
+                                <i class="fa-solid fa-star"></i>
+                            </span>
+                            <span class="star star-5">
+                                <i class="fa-solid fa-star"></i>
+                            </span>
+                        </div>
+                        <div class="stars-message-container align-self-center">
+                            <span class="stars-message">Very Good</span>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="rating-breakdown">
+                            <h4 class="h6 card-title">Rating Breakdown</h4>
                             <span>Graph Placeholder</span><br>
-                            <span>Total ratings: {{ game.ratingset.all }}</span>
+                            <span>Total ratings: {{ game.ratingset.user_rating.all|length }}</span>
                         </div>
                     </div>
                 </div>
@@ -211,4 +239,48 @@
             </div>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+<script>
+    let gameRating = document.querySelectorAll('.game-detail-rating span')
+    let ratingScore = gameRating[0]
+    let ratingScoreFloat = gameRating[0].innerHTML
+    let ratingMessage = gameRating[1]
+    if (ratingScoreFloat == 0) {
+        ratingMessage.innerText = "Neutral";
+    } else if (ratingScoreFloat > 0 && ratingScoreFloat < 1){
+        ratingScore.style.color = "tomato"
+        ratingMessage.innerText = "Awful";
+        ratingMessage.style.color = "tomato"
+        ratingScore.parentElement.parentElement.style.borderColor = "tomato"
+    } else if (ratingScoreFloat > 1 && ratingScoreFloat < 2) {
+        ratingScore.style.color = "orange"
+        ratingMessage.innerText = "Bad";
+        ratingMessage.style.color = "orange"
+        ratingScore.parentElement.parentElement.style.borderColor = "orange"
+    } else if (ratingScoreFloat > 2 && ratingScoreFloat < 3) {
+        ratingScore.style.color = "dodgerblue"
+        ratingMessage.innerText = "Average";
+        ratingMessage.style.color = "dodgerblue"
+        ratingScore.parentElement.parentElement.style.borderColor = "dodgerblue"
+    } else if (ratingScoreFloat > 3 && ratingScoreFloat < 4) {
+        ratingScore.style.color = "mediumseagreen"
+        ratingMessage.innerText = "Good";
+        ratingMessage.style.color = "mediumseagreen"
+        ratingScore.parentElement.parentElement.style.borderColor = "mediumseagreen"
+    } else if (ratingScoreFloat > 4 && ratingScoreFloat < 5) {
+        ratingScore.style.color = "green"
+        ratingMessage.innerText = "Very Good";
+        ratingMessage.style.color = "green"
+        ratingScore.parentElement.parentElement.style.borderColor = "green"
+    } else if (ratingScoreFloat == 5) {
+        ratingScore.style.color = "slateblue"
+        ratingMessage.innerText = "Superb";
+        ratingMessage.style.color = "slateblue"
+        ratingScore.parentElement.parentElement.style.borderColor = "slateblue"
+    }
+</script>
+{% endblock %}
