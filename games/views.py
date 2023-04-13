@@ -1,15 +1,21 @@
 from django.shortcuts import render
-from django.http import QueryDict
+from django.http import QueryDict, JsonResponse
 from django.core.paginator import Paginator, EmptyPage
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 from urllib.parse import urlencode
 
 from ci_ms4_gamebox.utils import get_or_none
 from games.models import (Game, Genre,
-                          Tag, Platform, Feature, DLC)
+                          Tag, Platform, Feature, DLC,
+                          UserRating)
 from .utils import sort_by
 
 from decimal import Decimal
 from datetime import datetime
+
+import json
 
 
 def games(request):
@@ -137,7 +143,6 @@ def game(request, model_name, game_id):
     game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
     media = game.media.exclude(name__icontains='COVER')
     user_rating = get_or_none(game.ratingset.userrating_set, user=request.user)
-    print(bool(user_rating))
 
     context = {
         'game': game,
@@ -145,3 +150,13 @@ def game(request, model_name, game_id):
         'user_rating': user_rating.value,
     }
     return render(request, "games/game.html", context)
+
+@csrf_exempt
+@login_required
+@require_POST
+def set_game_rating(request, model_name, game_id):
+    game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
+    user_rating = game.ratingset.userrating_set.get(user=request.user)
+    user_rating.value = json.loads(request.body)["rating"]
+    user_rating.save()
+    return JsonResponse({'new_game_rating': game.ratingset.user_rating_calc()})
