@@ -68,7 +68,13 @@
                     <p class="text-muted text-center mb-1"><small>Based on
                             {{ game.ratingset.userrating_set.all|length }} member ratings</small></p>
                     <div class="card-body d-flex flex-column py-0">
-                        <h4 class="h6 cart-title">How would you rate this game?</h4>
+                        <h4 class="h6 cart-title mb-0">
+                            {% if user_rating %}
+                            You have rated this game:
+                            {% else %}
+                            How would you rate this game?
+                            {% endif %}
+                        </h4>
                         <div class="stars-container d-flex justify-content-center fs-4 mt-1">
                             <a href="#" class="star star-1" data-id="1">
                                 <i class="fa-solid fa-star"></i>
@@ -246,7 +252,7 @@
 {% block postloadjs %}
 {{ block.super }}
 <script>
-    const ratingLevels = {
+    const RATING_LEVELS = {
         0: ["", "Neutral"],
         1: ["tomato", "Awful"],
         2: ["orange", "Bad"],
@@ -255,37 +261,27 @@
         5: ["slateblue", "Very Good"]
     }
 
-    let gameRating = document.querySelectorAll('.game-detail-rating span')
-    let ratingScore = gameRating[0]
-    let ratingScoreFloat = gameRating[0].innerHTML
-    let ratingMessage = gameRating[1]
+    const DEFAULT_COLOR = "#1f1f1f";
+    const NBSP = "\u00A0";
+
+    const gameRating = document.querySelectorAll('.game-detail-rating span');
+    const ratingScore = gameRating[0];
+    const ratingScoreFloat = parseFloat(gameRating[0].innerHTML);
+    const ratingMessage = gameRating[1];
+    const userRatingFloat = parseFloat("{{ user_rating }}");
+
     if (ratingScoreFloat >= 0 && ratingScoreFloat < 1) {
         ratingMessage.innerText = "Neutral";
-    } else if (ratingScoreFloat >= 1 && ratingScoreFloat < 2) {
-        ratingScore.style.color = ratingLevels[1][0];
-        ratingMessage.innerText = ratingLevels[1][1];
-        ratingMessage.style.color = ratingLevels[1][0]
-        ratingScore.parentElement.parentElement.style.borderColor = ratingLevels[1][0]
-    } else if (ratingScoreFloat >= 2 && ratingScoreFloat < 3) {
-        ratingScore.style.color = ratingLevels[2][0];
-        ratingMessage.innerText = ratingLevels[2][1];
-        ratingMessage.style.color = ratingLevels[2][0]
-        ratingScore.parentElement.parentElement.style.borderColor = ratingLevels[2][0]
-    } else if (ratingScoreFloat >= 3 && ratingScoreFloat < 4) {
-        ratingScore.style.color = ratingLevels[3][0];
-        ratingMessage.innerText = ratingLevels[3][1];
-        ratingMessage.style.color = ratingLevels[3][0]
-        ratingScore.parentElement.parentElement.style.borderColor = ratingLevels[3][0]
-    } else if (ratingScoreFloat >= 4 && ratingScoreFloat < 5) {
-        ratingScore.style.color = ratingLevels[4][0];
-        ratingMessage.innerText = ratingLevels[4][1];
-        ratingMessage.style.color = ratingLevels[4][0]
-        ratingScore.parentElement.parentElement.style.borderColor = ratingLevels[4][0]
-    } else if (ratingScoreFloat == 5) {
-        ratingScore.style.color = ratingLevels[5][0];
-        ratingMessage.innerText = ratingLevels[5][1];
-        ratingMessage.style.color = ratingLevels[5][0]
-        ratingScore.parentElement.parentElement.style.borderColor = ratingLevels[5][0]
+    } else {
+        for (let i = 1; i <= 5; i++) {
+            if (ratingScoreFloat >= i && ratingScoreFloat < i + 1) {
+                ratingScore.style.color = RATING_LEVELS[i][0];
+                ratingMessage.innerText = RATING_LEVELS[i][1];
+                ratingMessage.style.color = RATING_LEVELS[i][0];
+                ratingScore.parentElement.parentElement.style.borderColor = RATING_LEVELS[i][0];
+                break;
+            }
+        }
     }
 
     let ratingStars = document.querySelectorAll('.star')
@@ -302,8 +298,8 @@
         })
         star.addEventListener('mouseout', e => {
             sliceStars.forEach(slice => {
-                slice[1].style.color = '#1f1f1f';
-                starsMessage.innerText = "\u00A0"
+                slice[1].style.color = DEFAULT_COLOR;
+                starsMessage.innerText = NBSP;
             })
         })
     })

@@ -3,6 +3,7 @@ from django.http import QueryDict
 from django.core.paginator import Paginator, EmptyPage
 from urllib.parse import urlencode
 
+from ci_ms4_gamebox.utils import get_or_none
 from games.models import (Game, Genre,
                           Tag, Platform, Feature, DLC)
 from .utils import sort_by
@@ -135,9 +136,12 @@ def games(request):
 def game(request, model_name, game_id):
     game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
     media = game.media.exclude(name__icontains='COVER')
+    user_rating = get_or_none(game.ratingset.userrating_set, user=request.user)
+    print(bool(user_rating))
 
     context = {
         'game': game,
-        'media': media
+        'media': media,
+        'user_rating': user_rating,
     }
     return render(request, "games/game.html", context)
