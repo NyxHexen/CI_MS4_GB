@@ -287,8 +287,7 @@
 
     const ratingStars = document.querySelectorAll('.star')
     const starsMessage = document.querySelector('.stars-message')
-    const userRatingFloat = parseFloat("{{ user_rating }}");
-    console.log("{{ user_rating }}")
+    let userRatingFloat = parseFloat("{{ user_rating }}");
 
     function setUserRating() {
         if (userRatingFloat) {
@@ -325,9 +324,48 @@
             })
             setUserRating();
         })
+        star.addEventListener('click', e => {
+            postRating(star)
+        })
     })
 
     setUserRating();
     setGameRating();
+
+    const errorToast = `{% include 'includes/toasts/toast-error.html'%}`
+    const successToast = `{% include 'includes/toasts/toast-success.html'%}`
+
+    async function postRating(star) {
+        const postRating = await fetch("{% url 'set_game_rating' game.model_name game.id %}", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: {
+                game: window.location.full_path,
+                rating: star.dataset.id,
+            }
+        });
+
+        if (!postRating.ok) {
+            let newToastNode = document.createElement('div')
+            let messageDiv = document.querySelector('.message-container')
+            messageDiv.insertBefore(newToastNode, messageDiv.firstChild)
+            newToastNode.outerHTML = errorToast
+            messageDiv.children[0].children[0].children[0].innerHTML = "\
+            System malfunction! Please try again later.\
+            "
+        } else {
+            const response = await postRating.json();
+            userRatingFloat = star.dataset.id;
+            setUserRating();
+        }
+
+        const toastElList = document.querySelectorAll('.toast')
+        toastElList.forEach(toast => {
+            const new_toast = new bootstrap.Toast(toast)
+            new_toast.show()
+        })
+    }
 </script>
 {% endblock %}
