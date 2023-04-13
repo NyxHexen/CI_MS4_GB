@@ -31,9 +31,10 @@
                     <tbody>
                         {% for item in cart_items %}
                         <tr>
-                            <td><img class="cart-image" src="{{ MEDIA_URL }}{{ item.item|use_media:'COVER.src' }}"
-                                    alt="{{ item.item|use_media:'COVER.descr' }}"></td>
-                            <td>{{ item.item.name }}</td>
+                            <td><a href="{% url 'game' item.item.model_name item.item.id %}"><img class="cart-image"
+                                        src="{{ MEDIA_URL }}{{ item.item|use_media:'COVER.src' }}"
+                                        alt="{{ item.item|use_media:'COVER.descr' }}"></a></td>
+                            <td><a href="{% url 'game' item.item.model_name item.item.id %}">{{ item.item.name }}</a></td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.item.final_price|multiply:item.quantity }}</td>
                             <td class="remove-item"><button role="button" data-id="{{ item.item.id }}"
@@ -47,7 +48,8 @@
             </div>
         </div>
         {% else %}
-        <div class="empty-cart col-12 col-xl-7 offset-xl-1 d-flex flex-column flex-md-row align-items-center py-2 order-1 order-md-0">
+        <div
+            class="empty-cart col-12 col-xl-7 offset-xl-1 d-flex flex-column flex-md-row align-items-center py-2 order-1 order-md-0">
             <img src="{{ MEDIA_URL }}customer-profile-glados-portal-game.webp" alt="">
             <div class="bubble pt-2 pb-1 px-3 mt-3 ms-md-4 d-flex flex-column align-items-center">
                 <h2 class="fs-2">It's not often I encounter an empty cart in this facility. I'm almost impressed by your
@@ -57,27 +59,38 @@
         </div>
         {% endif %}
         <div class="col col-md-5 col-xl-3 mt-3 mt-md-0 order-3 order-md-0"">
-            <div class="card">
-                <div class="card-body d-flex flex-column">
-                    <h2 id="cart-subtotal" class="card-title fs-5">Subtotal ({{ cart_items|length }} {% if care_items|length == 1 %} item{% else %} items{% endif %}): £<strong>{{ total }}</strong></h2>
-                    <a role="button" href="{% url 'checkout' %}" class="btn btn-gamebox my-2">Proceed to Checkout</a>
-                </div>
+            <div class=" card">
+            <div class="card-body d-flex flex-column">
+                <h2 id="cart-subtotal" class="card-title fs-5">Subtotal ({{ cart_items|length }}
+                    {% if care_items|length == 1 %} item{% else %} items{% endif %}): £<strong>{{ total }}</strong></h2>
+                <a role="button" href="{% url 'checkout' %}" class="btn btn-gamebox my-2">Proceed to Checkout</a>
             </div>
         </div>
-        {% if not cart_items %}
-        <div class="col-12 col-xl-7 offset-xl-1 mt-2 order-2 order-md-0">
-            <small>
-                Just like the witty character who inspired it, this message is meant to be humorous. No judgment here!
-                We do however encourage you to keep exploring our selection of games! &#59;&#41;
-            </small>
-        </div>
-        {% endif %}
     </div>
+    {% if not cart_items %}
+    <div class="col-12 col-xl-7 offset-xl-1 mt-2 order-2 order-md-0">
+        <small>
+            Just like the witty character who inspired it, this message is meant to be humorous. No judgment here!
+            We do however encourage you to keep exploring our selection of games! &#59;&#41;
+        </small>
+    </div>
+    {% endif %}
+</div>
 </div>
 {% endblock %}
 
 {% block postloadjs %}
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+{{ block.super }}
+<script>
+    let rows = document.querySelectorAll('tr')
+    rows.forEach(row => {
+        if (row.hasAttribute('data-href')) {
+            row.addEventListener('click', e => {
+                window.location.href = row.dataset.href
+            })
+        }
+    })
+</script>
 <script>
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))

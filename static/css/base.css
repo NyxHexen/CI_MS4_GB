@@ -86,7 +86,6 @@
 }
 
 [data-bs-theme="light"] .btn-gamebox:hover {
-    /* --bs-btn-color: #fff; */
     --bs-btn-bg: #6f2dbd;
     --bs-btn-border-color: #6f2dbd;
     --bs-btn-hover-color: #6f2dbd;
@@ -379,6 +378,11 @@ nav * {
     color: #6f2dbd !important;
 }
 
+a {
+    text-decoration: none;
+    color: #6f2dbd;
+}
+
 h1 {
     font-family: var(--ui-font);
 }
@@ -566,6 +570,11 @@ svg * {
     --game-height: 250px;
     height: var(--game-height);
     transform-style: preserve-3d;
+}
+
+.game a {
+    text-decoration: none;
+    color: black;
 }
 
 .game.flip .game-cover--front {
@@ -1304,13 +1313,6 @@ a.socialaccount_provider.google {
     width: 100%;
     max-width: 200px;
     border-radius: 5px;
-}
-
-.genre-link,
-.platform-link,
-[class*="inner"] a {
-    text-decoration: none;
-    color: #6f2dbd;
 }
 
 .ratings-list-inner * {

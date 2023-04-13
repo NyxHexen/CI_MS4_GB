@@ -37,7 +37,7 @@
                                     {% for game in slide %}
                                     <div class="card-holder col col-md-4 col-lg-3 pt-1 pb-3 px-0">
                                         <div class="card d-flex mx-1">
-                                            <a href="#" class="card-img-top">
+                                            <a href="{% url 'game' game.model_name game.id %}" class="card-img-top">
                                                 <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" class=""
                                                     alt="{{ game|use_media:'LANDING.descr' }}" />
                                             </a>
@@ -141,7 +141,7 @@
                         <div>
                             <tbody>
                                 {% for game in page %}
-                                <tr data-href="{{ game.id }}">
+                                <tr data-href="{% url 'game' game.model_name game.id %}">
                                     <td><img class="cart-image" src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
                                             alt="{{ game|use_media:'COVER.descr' }}" /></td>
                                     <td>{{ game.name }}</td>
@@ -161,13 +161,13 @@
 {% endblock %}
 
 {% block postloadjs %}
+{{ block.super }}
 <script>
     let rows = document.querySelectorAll('tr')
-    console.log(rows);
     rows.forEach(row => {
         if (row.hasAttribute('data-href')) {
             row.addEventListener('click', e => {
-                window.location.href = `/games/${row.dataset.href}`
+                window.location.href = row.dataset.href
             })
         }
     })
