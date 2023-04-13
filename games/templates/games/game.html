@@ -30,7 +30,16 @@
         <div class="game-detail-info row">
             <div class="game-detail-cover col-6 col-sm-4 col-md-3 col-xl-2">
                 <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}" />
-                <button role="button" class="btn btn-gamebox w-100 mt-2">Add to cart</button>
+                <form action="{% url 'cart_add' game.model_name game.id %}" id="cart_add" method="POST"
+                    class="w-100 d-flex flex-row mt-2">
+                    {% csrf_token %}
+                    <label for="quantity" class="visually-hidden form-label">Quantity</label>
+                    <input class="form-control" type="number" name="quantity" id="id_qty_{{ game.id }}" value="1"
+                        min="1" max="99" data-game-id="{{ game.id }}">
+                    <button type="submit" aria-label="Add to cart" class="add-cart btn btn-gamebox ms-2 py-0 w-100"><span
+                            class="d-none d-md-inline">Add to </span><i class="fa-solid fa-cart-plus"></i></button>
+                    <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
+                </form>
             </div>
             <div class="col offset-6 offset-sm-4 offset-md-3 offset-xl-2 pt-3">
                 <div class="game-genre-list mb-2">
@@ -343,12 +352,12 @@
             },
             body: JSON.stringify({
                 'rating': star.dataset.id,
-                })
+            })
         });
 
         let newToastNode = document.createElement('div')
-            let messageDiv = document.querySelector('.message-container')
-            messageDiv.insertBefore(newToastNode, messageDiv.firstChild)
+        let messageDiv = document.querySelector('.message-container')
+        messageDiv.insertBefore(newToastNode, messageDiv.firstChild)
 
         if (!postRating.ok) {
             newToastNode.outerHTML = errorToast
