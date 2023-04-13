@@ -142,6 +142,6 @@ def game(request, model_name, game_id):
     context = {
         'game': game,
         'media': media,
-        'user_rating': user_rating,
+        'user_rating': user_rating.value,
     }
     return render(request, "games/game.html", context)

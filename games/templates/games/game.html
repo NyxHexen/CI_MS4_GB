@@ -268,32 +268,54 @@
     const ratingScore = gameRating[0];
     const ratingScoreFloat = parseFloat(gameRating[0].innerHTML);
     const ratingMessage = gameRating[1];
-    const userRatingFloat = parseFloat("{{ user_rating }}");
 
-    if (ratingScoreFloat >= 0 && ratingScoreFloat < 1) {
-        ratingMessage.innerText = "Neutral";
-    } else {
-        for (let i = 1; i <= 5; i++) {
-            if (ratingScoreFloat >= i && ratingScoreFloat < i + 1) {
-                ratingScore.style.color = RATING_LEVELS[i][0];
-                ratingMessage.innerText = RATING_LEVELS[i][1];
-                ratingMessage.style.color = RATING_LEVELS[i][0];
-                ratingScore.parentElement.parentElement.style.borderColor = RATING_LEVELS[i][0];
-                break;
+    function setGameRating() {
+        if (ratingScoreFloat >= 0 && ratingScoreFloat < 1) {
+            ratingMessage.innerText = "Neutral";
+        } else {
+            for (let i = 1; i <= 5; i++) {
+                if (ratingScoreFloat >= i && ratingScoreFloat < i + 1) {
+                    ratingScore.style.color = RATING_LEVELS[i][0];
+                    ratingMessage.innerText = RATING_LEVELS[i][1];
+                    ratingMessage.style.color = RATING_LEVELS[i][0];
+                    ratingScore.parentElement.parentElement.style.borderColor = RATING_LEVELS[i][0];
+                    break;
+                }
             }
         }
     }
 
-    let ratingStars = document.querySelectorAll('.star')
-    let starsMessage = document.querySelector('.stars-message')
+    const ratingStars = document.querySelectorAll('.star')
+    const starsMessage = document.querySelector('.stars-message')
+    const userRatingFloat = parseFloat("{{ user_rating }}");
+    console.log("{{ user_rating }}")
+
+    function setUserRating() {
+        if (userRatingFloat) {
+            for (let i = 1; i <= 5; i++) {
+                if (userRatingFloat >= i && userRatingFloat < i + 1) {
+                    const stars = Object.entries(ratingStars).slice(0, i)
+                    stars.forEach(star => {
+                        star[1].style.color = RATING_LEVELS[i][0];
+                        starsMessage.innerText = RATING_LEVELS[i][1];
+                    })
+                    break;
+                }
+            }
+        }
+    }
 
     ratingStars.forEach(star => {
         const starNumber = star.dataset.id
         const sliceStars = Object.entries(ratingStars).slice(0, starNumber)
+        const darkStars = Object.entries(ratingStars).slice(starNumber)
         star.addEventListener('mouseover', e => {
             sliceStars.forEach(slice => {
-                slice[1].style.color = ratingLevels[starNumber][0];
-                starsMessage.innerText = ratingLevels[starNumber][1];
+                slice[1].style.color = RATING_LEVELS[starNumber][0];
+                starsMessage.innerText = RATING_LEVELS[starNumber][1];
+            })
+            darkStars.forEach(star => {
+                star[1].style.color = DEFAULT_COLOR;
             })
         })
         star.addEventListener('mouseout', e => {
@@ -301,7 +323,11 @@
                 slice[1].style.color = DEFAULT_COLOR;
                 starsMessage.innerText = NBSP;
             })
+            setUserRating();
         })
     })
+
+    setUserRating();
+    setGameRating();
 </script>
 {% endblock %}
