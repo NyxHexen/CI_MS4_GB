@@ -221,7 +221,7 @@ class UserRating(CustomBaseModel):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     rating_set = models.ForeignKey("RatingSet", on_delete=models.CASCADE)
     value = models.IntegerField(
-        choices=[(1, "Dislike"), (2, "Meh"), (3, "Neutral"), (4, "Like"), (5, "Love")]
+        choices=[(1, "1 - Awful"), (2, "2 - Bad"), (3, "3 - Average"), (4, "4 - Good"), (5, "5 - Very Good")]
     )
 
     class Meta:
