@@ -266,8 +266,8 @@
 
     const gameRating = document.querySelectorAll('.game-detail-rating span');
     const ratingScore = gameRating[0];
-    const ratingScoreFloat = parseFloat(gameRating[0].innerHTML);
     const ratingMessage = gameRating[1];
+    let ratingScoreFloat = parseFloat(gameRating[0].innerHTML);
 
     function setGameRating() {
         if (ratingScoreFloat >= 0 && ratingScoreFloat < 1) {
@@ -341,16 +341,16 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: {
-                game: window.location.full_path,
-                rating: star.dataset.id,
-            }
+            body: JSON.stringify({
+                'rating': star.dataset.id,
+                })
         });
 
-        if (!postRating.ok) {
-            let newToastNode = document.createElement('div')
+        let newToastNode = document.createElement('div')
             let messageDiv = document.querySelector('.message-container')
             messageDiv.insertBefore(newToastNode, messageDiv.firstChild)
+
+        if (!postRating.ok) {
             newToastNode.outerHTML = errorToast
             messageDiv.children[0].children[0].children[0].innerHTML = "\
             System malfunction! Please try again later.\
@@ -358,7 +358,14 @@
         } else {
             const response = await postRating.json();
             userRatingFloat = star.dataset.id;
+            ratingScoreFloat = response['new_game_rating'];
+            gameRating[0].innerHTML = response['new_game_rating']
             setUserRating();
+            setGameRating();
+            newToastNode.outerHTML = successToast
+            messageDiv.children[0].children[0].children[0].innerHTML = "\
+            Thank you! Game rated. Happy gaming!\
+            "
         }
 
         const toastElList = document.querySelectorAll('.toast')
