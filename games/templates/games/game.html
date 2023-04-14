@@ -36,8 +36,9 @@
                     <label for="quantity" class="visually-hidden form-label">Quantity</label>
                     <input class="form-control" type="number" name="quantity" id="id_qty_{{ game.id }}" value="1"
                         min="1" max="99" data-game-id="{{ game.id }}">
-                    <button type="submit" aria-label="Add to cart" class="add-cart btn btn-gamebox ms-2 py-0 w-100"><span
-                            class="d-none d-md-inline">Add to </span><i class="fa-solid fa-cart-plus"></i></button>
+                    <button type="submit" aria-label="Add to cart"
+                        class="add-cart btn btn-gamebox ms-2 py-0 w-100"><span class="d-none d-md-inline">Add to
+                        </span><i class="fa-solid fa-cart-plus"></i></button>
                     <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
                 </form>
             </div>
@@ -128,17 +129,37 @@
                                 {% for item in media %}
                                 {% if forloop.last and not media|length|divisibleby:2 and not forloop.first %}
                                 {% elif forloop.counter|divisibleby:2 %}
-                                <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-50 px-1"
-                                    alt="{{ item.description }}">
+                                <div class="col-6 carousel-image px-1 position-relative">
+                                    <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-100"
+                                        alt="{{ item.description }}">
+                                    {% if item.media_type == 'video' %}
+                                    <button type="button" data-href="{{ item.url }}" data-title="{{ item.name }}"
+                                        class="btn btn-primary position-absolute player-trigger"
+                                        data-bs-toggle="modal" data-bs-target="#gameMediaPlayer">
+                                        <i class="fa-regular fa-circle-play display-1"></i>
+                                        <span class="visually-hidden">Play Video</span>
+                                    </button>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                        {% if forloop.counter != media|length|add:"-1" and not media|length|divisibleby:2 %}
+                        {% if not forloop.counter == media|length|add:"-1" and not media|length|divisibleby:2 or media|length|divisibleby:2 and not forloop.last %}
                         <div class="carousel-item">
                             <div class="row d-flex w-100">
-                                {% endif %}
+                        {% endif %}
                                 {% else %}
-                                <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-50 px-1"
-                                    alt="{{ item.description }}">
+                                <div class="col-6 carousel-image px-1 position-relative">
+                                    <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-100"
+                                        alt="{{ item.description }}">
+                                    {% if item.media_type == 'video' %}
+                                    <button type="button" data-href="{{ item.url }}"
+                                        class="btn btn-primary position-absolute player-trigger"
+                                        data-bs-toggle="modal" data-bs-target="#gameMediaPlayer">
+                                        <i class="fa-regular fa-circle-play display-1"></i>
+                                        <span class="visually-hidden">Play Video</span>
+                                    </button>
+                                    {% endif %}
+                                </div>
                                 {% endif %}
                                 {% endfor %}
                             </div>
@@ -256,10 +277,38 @@
         </div>
     </div>
 </div>
+{% include 'games/includes/video_player.html' %}
+
 {% endblock %}
 
 {% block postloadjs %}
 {{ block.super }}
+<script>
+    let modal = document.querySelector('#gameMediaPlayer')
+    let videoPlayer = document.getElementById('video-player')
+    let videoPlayerTrigger = document.querySelectorAll('.player-trigger')
+    let playerWidth = window.innerWidth
+    let playerHeight = window.innerHeight
+
+    videoPlayer.width = Math.ceil(playerWidth * .8)
+    videoPlayer.height = Math.ceil(playerHeight * .8)
+
+    videoPlayerTrigger.forEach(button => {
+        let src = button.dataset.href
+        let title = button.dataset.title
+        button.addEventListener('click', e => {
+            videoPlayer.setAttribute("src", src)
+            modal.querySelector('#gameMediaPlayerLabel').innerText = title
+        })
+    })
+
+    modal.addEventListener('hide.bs.modal', e => {
+        let src = videoPlayer.getAttribute("src")
+        videoPlayer.setAttribute("src", "")
+        setTimeout(500)
+        videoPlayer.setAttribute("src", src)
+    })
+</script>
 <script>
     const RATING_LEVELS = {
         0: ["", "Neutral"],

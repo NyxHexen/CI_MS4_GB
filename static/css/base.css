@@ -11,6 +11,15 @@
 }
 
 /* Bootstrap Overrides */
+.modal {
+    --bs-modal-width: fit-content;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+}
+
 .offcanvas {
     background-color: transparent;
 }
@@ -1323,6 +1332,31 @@ a.socialaccount_provider.google {
     width: 100%;
     max-width: 200px;
     border-radius: 5px;
+}
+
+.game-detail-media .carousel-item .row {
+    margin: 0;
+}
+
+.game-detail-media img {
+    object-fit: cover;
+    height: 100%;
+}
+
+.game-detail-media .player-trigger {
+    top: 0;
+    left: 0.25rem;
+    bottom: 0;
+    right: 0.25rem;
+    background-color: transparent;
+    backdrop-filter: brightness(75%);
+    border: 0;
+    border-radius: 0;
+}
+
+.game-detail-media .player-trigger:hover {
+    background-color: transparent;
+    backdrop-filter: brightness(50%)
 }
 
 .ratings-list-inner * {

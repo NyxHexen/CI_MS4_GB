@@ -11,7 +11,8 @@ def use_media(set, media_use):
             media = set.media
         else:
             media = set.media.filter(media_use=img_type).first()
-        
+            print(set.media.filter(media_use=img_type))
+            
         if img_attr == 'src':
             return media.file.name
         elif img_attr == 'descr':
