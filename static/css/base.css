@@ -181,6 +181,11 @@
     z-index: 2;
 }
 
+.text-bg-gamebox-alt {
+    color: #000!important;
+    background-color: #9f0 !important;
+}
+
 /* Allauth Forms */
 
 [id*="allauth__"] [id*="div_"]:not(.form-check) {
@@ -283,7 +288,8 @@ footer,
 
 .carousel-container,
 .deals,
-.container__background {
+.container__background,
+.container__color {
     --inset-stacked-shadow:
         inset 0px -0.1px 0.1px hsl(var(--shadow-color) / 0.54),
         inset 0px -0.3px 0.3px -0.4px hsl(var(--shadow-color) / 0.52),
@@ -1293,6 +1299,10 @@ a.socialaccount_provider.google {
     height: 100%;
     width: 100%;
     backdrop-filter: blur(5px);
+}
+
+.container__color {
+    --shadow-color: 84deg 100% 29%;
 }
 
 .game-detail-title {
