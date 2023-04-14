@@ -10,16 +10,17 @@ import re
 class PromoAdminModel(admin.ModelAdmin):
     def save_model(self, request, *args, **kwargs):
         if request.method == "POST":
+            print("TEST", request.POST)
             for key, value in request.POST.items():
-                if re.match(r"promo_percentage-\d+\b", key):
-                    pk = int(key.split("-")[-1])
+                if re.match(r"gamedata-\d+_[a-zA-Z0-9_]+", key):
+                    # Value is sent as promo_percentage-(game_id)_(model_name)
+                    # To help tell them apart as both DB start from 1
+                    pk = int(key.split("-")[-1].split("_")[0])
+                    model = key.split("-")[-1].split("_")[-1]
                     try:
                         game_set = set()
-                        game = get_or_none(Game, id=pk)
-                        dlc = get_or_none(DLC, id=pk)
-                        if dlc is not None:
-                            game_set.add(dlc)
-                        elif (game is not None):
+                        game = get_or_none(Game, id=pk) if model == "game" else get_or_none(DLC, id=pk)
+                        if game is not None:
                             game_set.add(game)
                     except Exception as e:
                         messages.error(request, f'{e}')

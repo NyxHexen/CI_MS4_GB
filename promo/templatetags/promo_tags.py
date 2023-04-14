@@ -7,14 +7,11 @@ register = template.Library()
 @register.filter
 def promo_games(name):
     try:
-        promo = Promo.objects.filter(name=name)
-        games = promo[0].apply_to_game.all().values('id', 'name', 'slug',
-                                                         'base_price', 'promo_percentage',
-                                                         'final_price')
-        dlc = promo[0].apply_to_dlc.all().values('id', 'name', 'slug',
-                                                         'base_price', 'promo_percentage',
-                                                         'final_price')
-        return games.union(dlc)
+        promo = Promo.objects.get(name=name)
+        game_lists = [list(qset) for qset in [promo.apply_to_game.all(), promo.apply_to_dlc.all()]]
+        # Flatten the list of lists into a single list
+        game_list = [item for sublist in game_lists for item in sublist]
+        return game_list
     except Exception as e:
         return None
 
