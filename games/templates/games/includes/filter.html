@@ -1,5 +1,6 @@
-<div id="games-filter" class="d-none d-lg-block col-3plus card px-0">
-    <form action="{% url 'games' %}" class="d-flex flex-column pt-3" id="game-filter-form">
+<div id="games-filter" class="col col-sm-6 col-md-4 col-3plus card px-0">
+    <button id="filter-close" type="button" class="d-lg-none btn btn-light px-2 py-1 align-self-end"><i class="fa-solid fa-xmark"></i><span class="visually-hidden">Filter</span></button>
+    <form action="{% url 'games' %}" class="d-flex flex-column pt-lg-3" id="game-filter-form">
         <input type="hidden" name="filter" value="true">
         <div class="btn-group mb-3 px-3" role="group" aria-label="Filter submit and reset buttons">
             <button class="btn btn-secondary" type="reset" id="filter_reset">Reset</button>

@@ -11,7 +11,11 @@
         {% include './includes/filter.html' %}
         <div id="games-list" class="col-8plus">
             <div id="games-header" class="row card mb-2 d-flex flex-row">
-                <div id="pagination" class="col-6 card-body d-flex align-items-center">
+                <div class="col-12 col-md-auto col-lg-12 d-flex align-items-center justify-content-end">
+                    <button id="filter-open" type="button" class="col-11 col-sm-auto d-lg-none btn btn-gamebox mx-auto mx-sm-0"><i
+                            class="fa-solid fa-filter"></i> Filter</button>
+                </div>
+                <div id="pagination" class="col-6 col-md-3 col-lg-6 card-body d-flex align-items-center">
                     {% if filter_dict %}
                     <a class="btn {% if not page.has_previous %}disabled{% endif %}"
                         href="{% if page.has_previous %}?filter=true&{{ filter_dict }}&page={{ page.previous_page_number }}{% else %}#{% endif %}"
@@ -89,7 +93,8 @@
                             <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
                         </form>
                     </div>
-                    <a href="{% url 'game' game.model_name game.id %}" class="game-back--front d-flex flex-column justify-content-around">
+                    <a href="{% url 'game' game.model_name game.id %}"
+                        class="game-back--front d-flex flex-column justify-content-around">
                         {% if not request.user_agent.is_mobile %}
                         <h2 class="game-title-back text-center">{{ game.name }}</h2>
                         {% endif %}
@@ -210,6 +215,18 @@
 
 {% block postloadjs %}
 {{ block.super }}
+
+<script>
+    let gamesFilter = document.getElementById('games-filter')
+    let filterOpenBtn = document.getElementById('filter-open')
+    let filterCloseBtn = document.getElementById('filter-close')
+    filterOpenBtn.addEventListener('click', e => {
+        gamesFilter.classList.add('show')
+    })
+    filterCloseBtn.addEventListener('click', e => {
+        gamesFilter.classList.remove('show')
+    })
+</script>
 
 <script>
     let priceSlider = document.getElementById('price-slider');

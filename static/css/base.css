@@ -1914,9 +1914,23 @@ footer {
     }
 }
 
-@media (max-width: 992px) {
+@media (max-width: 991px) {
     .game>* {
         --game-height: 206px;
+    }
+    
+    #games-filter {
+        display: none;
+        position: fixed;
+        inset: 0;
+        margin: .5rem;
+        overflow-y: auto;
+        z-index: 1000;
+        max-width: calc(100vw - 1rem);
+    }
+
+    #games-filter.show {
+        display: flex !important;
     }
 
     .carousel-container {
