@@ -90,6 +90,7 @@
     --bs-btn-disabled-color: #000;
     --bs-btn-disabled-bg: #9f0;
     --bs-btn-disabled-border-color: #9f0;
+    font-weight: 500;
 }
 
 [data-bs-theme="light"] .btn-gamebox:hover {
@@ -464,7 +465,18 @@ svg * {
     width: calc(100% + 6px);
     background-color: hsl(0, 0%, 0%);
     filter: blur(5px);
-    z-index: 0;
+    z-index: -1;
+}
+
+.carousel-caption form::before {
+    position: absolute;
+    content: '';
+    inset: -3px;
+    height: calc(100% + 6px);
+    width: calc(100% + 6px);
+    background-color: hsla(0, 0%, 0%, 0.445);
+    filter: blur(5px);
+    z-index: -1;
 }
 
 #games-carousel,
@@ -473,7 +485,20 @@ svg * {
     border-radius: 4px;
 }
 
-#games-carousel .carousel-control-next:hover {
+#games-carousel .carousel-control-next,
+#games-carousel .carousel-control-prev {
+    bottom: 20%;
+    padding-top: 10%;
+}
+
+#games-carousel .hover-bg {
+    position: absolute;
+    z-index: 0;
+    height: 100%;
+    opacity: 1;
+}
+
+#games-carousel .carousel-control-next:hover ~ .carousel-control-next.hover-bg {
     background: hsla(267, 62%, 46%, 1);
     background: linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
     background: -moz-linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
@@ -481,7 +506,7 @@ svg * {
     filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#6F2DBD", endColorstr="#FFFFFF", GradientType=1);
 }
 
-#games-carousel .carousel-control-prev:hover {
+#games-carousel .carousel-control-prev:hover ~ .carousel-control-prev.hover-bg {
     background: hsla(267, 62%, 46%, 1);
     background: linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
     background: -moz-linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
@@ -536,7 +561,6 @@ svg * {
 
 #games-carousel form {
     width: fit-content !important;
-    z-index: 9;
 }
 
 @media (max-width: 576px) {

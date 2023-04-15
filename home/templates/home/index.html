@@ -67,31 +67,42 @@
           {% endif %}
           ">
           <img src="{{ MEDIA_URL }}{{ item|use_media:'LANDING.src' }}" class="d-block"
-                    alt="{{ item|use_media:'LANDING.descr' }}">
+            alt="{{ item|use_media:'LANDING.descr' }}">
         </a>
-        <div class="carousel-caption px-5 d-flex justify-content-between align-items-end">
-          <div class="item-info pe-2">
+        <div class="carousel-caption px-5 py-4 d-flex flex-column justify-content-between align-items-end">
+          <div class="col-12 item-info w-100">
             <h3 class="text-start display-6">{{ item.name }}</h3>
             {% if item.model_name == 'promo' %}
             <p class="text-start">{{ item.short_description }}</p>
             {% endif %}
           </div>
           {% if item.model_name == 'game' or item.model_name == 'dlc' %}
-          <form action="{% url 'cart_add' item.model_name item.id %}" method="POST" class="d-flex flex-row">
+          <form action="{% url 'cart_add' item.model_name item.id %}" method="POST" class="d-flex text-bg-light rounded position-relative">
             {% csrf_token %}
+            <div class="me-2 d-flex align-items-center justify-content-evenly text-black">
+              {% if item.in_promo and item.promo.active is True%}
+              <span class="promo-discount fs-5 ms-2">
+                -{{ item.promo_percentage }}%
+              </span>
+              {% endif %}
+              <div class="d-flex flex-column justify-content-end text-end ms-2">
+                <span class="fs-4">£{{item.final_price}}</span>
+              </div>
+            </div>
             <label for="quantity" class="visually-hidden form-label">Quantity</label>
             <input class="form-control" type="hidden" name="quantity" id="id_qty_{{ game.id }}" value="1" min="1"
               max="99" data-game-id="{{ game.id }}">
             <button type="submit" aria-label="Add to cart"
-              class="add-to-cart fs-5 btn btn-lg py-3 px-4 float-end"><span>Add to </span><i
+              class="add-to-cart fs-5 btn btn-lg py-3 px-4 float-end"><span class="d-none d-sm-inline">Add to </span><i
                 class="fa-solid fa-cart-plus"></i></button>
             <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
           </form>
           {% elif item.model_name == 'promo' %}
-          <div class="promo-details d-flex align-items-center justify-content-end">
-          <p class="fs-6 m-0">Up to<br> <span class="fs-5">-{{ item.promo_percentage }}%!</span></p>
-          <a href="{% url 'promo' item.id %}" class="browse fs-5 btn btn-lg btn-gamebox-alt py-3 px-4 ms-3 ms-md-none float-end">Browse</a>
-        </div>
+          <div class="promo-details d-flex align-items-center justify-content-end text-bg-light rounded">
+            <p class="fs-6 m-0 mx-3">Up to<br><span class="fs-5">-{{ item.promo_percentage }}%!</span></p>
+            <a href="{% url 'promo' item.id %}"
+              class="browse fs-5 btn btn-lg btn-gamebox-alt py-3 px-4 ms-md-none float-end">Browse</a>
+          </div>
           {% endif %}
         </div>
       </div>
@@ -101,10 +112,12 @@
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
+    <span class="carousel-control-prev hover-bg"></span>
     <button class="carousel-control-next" type="button" data-bs-target="#games-carousel" data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
+    <span class="carousel-control-next hover-bg"></span>
   </div>
 </section>
 <section class="container mt-4 mb-5">
@@ -136,85 +149,86 @@
           <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
         </form>
       </div>
-      <a href="{% url 'game' game.model_name game.id %}" class="game-back--front d-flex flex-column justify-content-around">
+      <a href="{% url 'game' game.model_name game.id %}"
+        class="game-back--front d-flex flex-column justify-content-around">
         {% if not request.user_agent.is_mobile %}
         <h2 class="game-title-back text-center">{{ game.name }}</h2>
         {% endif %}
         <div class="game-info">
-            <div class="genres-box m-1">
-                <h3 class="">Genre</h3>
-                <hr>
-                <p>{% for genre in game.genres.all %}{{ genre.name }}{% if not forloop.last %},
-                    {% endif %}{% endfor %}</p>
-            </div>
-            <div class="tags-box m-1">
-                <h3>Tags</h3>
-                <hr>
-                <p>{% for tag in game.tags.all %}{{ tag.name }}{% if not forloop.last %},
-                    {% endif %}{% endfor %}</p>
-            </div>
-            <div class="features-box m-1">
-                <h3>Features</h3>
-                <hr>
-                <p>{% for feature in game.features.all %}{{ feature.name }}{% if not forloop.last %},
-                    {% endif %}{% endfor %}</p>
-            </div>
+          <div class="genres-box m-1">
+            <h3 class="">Genre</h3>
+            <hr>
+            <p>{% for genre in game.genres.all %}{{ genre.name }}{% if not forloop.last %},
+              {% endif %}{% endfor %}</p>
+          </div>
+          <div class="tags-box m-1">
+            <h3>Tags</h3>
+            <hr>
+            <p>{% for tag in game.tags.all %}{{ tag.name }}{% if not forloop.last %},
+              {% endif %}{% endfor %}</p>
+          </div>
+          <div class="features-box m-1">
+            <h3>Features</h3>
+            <hr>
+            <p>{% for feature in game.features.all %}{{ feature.name }}{% if not forloop.last %},
+              {% endif %}{% endfor %}</p>
+          </div>
         </div>
         <div class="rating-stars d-flex justify-content-center">
-            {% if request.user_agent.is_mobile %}
-            <span class="star d-flex justify-content-center align-items-center">
-                <i class="fa-solid fa-star active"></i>
-            </span>
+          {% if request.user_agent.is_mobile %}
+          <span class="star d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-star active"></i>
+          </span>
+          {% else %}
+          <span class="star d-flex justify-content-center align-items-center">
+            {% if game.ratingset.user_rating_calc > 0 and game.ratingset.user_rating_calc <= 0.5 %}
+            <i class="fa-solid fa-star-half-stroke active"></i>
+            {% elif game.ratingset.user_rating_calc > 0.5 %}
+            <i class="fa-solid fa-star active"></i>
             {% else %}
-            <span class="star d-flex justify-content-center align-items-center">
-                {% if game.ratingset.user_rating_calc > 0 and game.ratingset.user_rating_calc <= 0.5 %}
-                <i class="fa-solid fa-star-half-stroke active"></i>
-                {% elif game.ratingset.user_rating_calc > 0.5 %}
-                <i class="fa-solid fa-star active"></i>
-                {% else %}
-                <i class="fa-regular fa-star"></i>
-                {% endif %}
-            </span>
-            <span class="star d-flex justify-content-center align-items-center">
-                {% if game.ratingset.user_rating_calc > 1 and game.ratingset.user_rating_calc <= 1.5 %}
-                <i class="fa-solid fa-star-half-stroke active"></i>
-                {% elif game.ratingset.user_rating_calc > 1.5 %}
-                <i class="fa-solid fa-star active"></i>
-                {% else %}
-                <i class="fa-regular fa-star"></i>
-                {% endif %}
-            </span>
-            <span class="star d-flex justify-content-center align-items-center">
-                {% if game.ratingset.user_rating_calc > 2 and game.ratingset.user_rating_calc <= 2.5 %}
-                <i class="fa-solid fa-star-half-stroke active"></i>
-                {% elif game.ratingset.user_rating_calc > 2.5 %}
-                <i class="fa-solid fa-star active"></i>
-                {% else %}
-                <i class="fa-regular fa-star"></i>
-                {% endif %}
-            </span>
-            <span class="star d-flex justify-content-center align-items-center">
-                {% if game.ratingset.user_rating_calc > 3 and game.ratingset.user_rating_calc <= 3.5 %}
-                <i class="fa-solid fa-star-half-stroke active"></i>
-                {% elif game.ratingset.user_rating_calc > 3.5 %}
-                <i class="fa-solid fa-star active"></i>
-                {% else %}
-                <i class="fa-regular fa-star"></i>
-                {% endif %}
-            </span>
-            <span class="star d-flex justify-content-center align-items-center">
-                {% if game.ratingset.user_rating_calc > 4 and game.ratingset.user_rating_calc <= 4.5 %}
-                <i class="fa-solid fa-star-half-stroke active"></i>
-                {% elif game.ratingset.user_rating_calc > 4.5 %}
-                <i class="fa-solid fa-star active"></i>
-                {% else %}
-                <i class="fa-regular fa-star"></i>
-                {% endif %}
-            </span>
+            <i class="fa-regular fa-star"></i>
             {% endif %}
-            <span class="ms-1">{{ game.ratingset.user_rating_calc }}</span>
+          </span>
+          <span class="star d-flex justify-content-center align-items-center">
+            {% if game.ratingset.user_rating_calc > 1 and game.ratingset.user_rating_calc <= 1.5 %}
+            <i class="fa-solid fa-star-half-stroke active"></i>
+            {% elif game.ratingset.user_rating_calc > 1.5 %}
+            <i class="fa-solid fa-star active"></i>
+            {% else %}
+            <i class="fa-regular fa-star"></i>
+            {% endif %}
+          </span>
+          <span class="star d-flex justify-content-center align-items-center">
+            {% if game.ratingset.user_rating_calc > 2 and game.ratingset.user_rating_calc <= 2.5 %}
+            <i class="fa-solid fa-star-half-stroke active"></i>
+            {% elif game.ratingset.user_rating_calc > 2.5 %}
+            <i class="fa-solid fa-star active"></i>
+            {% else %}
+            <i class="fa-regular fa-star"></i>
+            {% endif %}
+          </span>
+          <span class="star d-flex justify-content-center align-items-center">
+            {% if game.ratingset.user_rating_calc > 3 and game.ratingset.user_rating_calc <= 3.5 %}
+            <i class="fa-solid fa-star-half-stroke active"></i>
+            {% elif game.ratingset.user_rating_calc > 3.5 %}
+            <i class="fa-solid fa-star active"></i>
+            {% else %}
+            <i class="fa-regular fa-star"></i>
+            {% endif %}
+          </span>
+          <span class="star d-flex justify-content-center align-items-center">
+            {% if game.ratingset.user_rating_calc > 4 and game.ratingset.user_rating_calc <= 4.5 %}
+            <i class="fa-solid fa-star-half-stroke active"></i>
+            {% elif game.ratingset.user_rating_calc > 4.5 %}
+            <i class="fa-solid fa-star active"></i>
+            {% else %}
+            <i class="fa-regular fa-star"></i>
+            {% endif %}
+          </span>
+          {% endif %}
+          <span class="ms-1">{{ game.ratingset.user_rating_calc }}</span>
         </div>
-    </a>
+      </a>
       <div class="game-back--reverse d-flex justify-content-end align-items-end">
         {% if game.in_promo and game.promo.active is True%}
         <div class="promo-discount">
@@ -237,8 +251,9 @@
       {% if  dotd|length != 0 %}
       {% for deal in dotd %}
       <div class="countdown col-7 col-xs-6 col-md-4 col-lg-3">
-        <a {% if deal.model_name == 'game' or deal.model_name == 'dlc' %} href="{% url 'game' deal.model_name deal.id %}" {% else %}
-          href="{% url 'promo' deal.id %}" {% endif %} class="content-overlay d-flex flex-column">
+        <a {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
+          href="{% url 'game' deal.model_name deal.id %}" {% else %} href="{% url 'promo' deal.id %}" {% endif %}
+          class="content-overlay d-flex flex-column">
           <div class="content-overlay__name-wrapper d-flex flex-column justify-content-center align-items-center">
             <h3 class="px-3 text-center">{{ deal.name }} {% if deal.model_name == 'dlc' %}<span
                 class="badge bg-warning text-black fs-6">DLC</span>{% endif %}</h3>
