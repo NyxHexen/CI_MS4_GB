@@ -417,7 +417,7 @@ h1 {
 .message-container {
     position: fixed;
     top: 0;
-    right: 15px;
+    right: 0;
     z-index: 9999;
 }
 

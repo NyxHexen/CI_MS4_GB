@@ -39,7 +39,7 @@
 
 <body>
     <header>
-        <nav class="container navbar navbar-expand-lg mx-auto px-2 py-1 mt-md-1 mt-lg-5">
+        <nav class="container navbar navbar-expand-lg mx-auto px-2 py-1 mt-lg-5">
             <div class="container-fluid">
                 <a class="navbar-brand ps-1 px-sm-2 py-0" href="{% url 'home' %}">Game<span>boX</span></a>
                 <button class="btn btn-gamebox navbar-toggler float-end" type="button" data-bs-toggle="offcanvas"
@@ -134,7 +134,7 @@
         </nav>
     </header>
 
-    <div class="message-container">
+    <div class="message-container me-md-2 mt-md-2">
         {% for message in messages %}
         {% with message.level as level %}
         {% if level == 40 %}
