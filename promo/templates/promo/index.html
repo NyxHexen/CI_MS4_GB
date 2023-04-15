@@ -1,12 +1,30 @@
-{% extends "base.html" %} {% load static %} {% load promo_tags %} {% load tags %} {% block page_header %} {% endblock %}
+{% extends "base.html" %} 
+{% load static %} 
+{% load crispy_forms_tags %}
+{% load promo_tags %} 
+{% load tags %} 
+
+{% block page_header %} 
+{% endblock %}
+
 {% block content %}
 <div class="promo-header">
+    {% if request.path == '/promo/add/' %}
+    <img class="" src="{{ MEDIA_URL }}{{ promo.media.file.name }}"
+    alt="{{ promo.media.description }}" />
+    {% else %}
     <img class="" src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}"
         alt="{{ promo|use_media:'LANDING.descr' }}" />
-    <div class="promo-info w-100 px-5 py-2">
-        <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }}</h1>
+    {% endif %}
+    <div class="promo-info w-100 px-5 py-2 d-flex flex-column align-items-center justify-content-center">
+        <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }} </h1>
         <p class="d-md-none short-description card-text">{{ promo.short_description }}</p>
         <p class="d-none d-md-block long-description card-text">{{ promo.long_description }}</p>
+        {% if request.path == '/promo/add/' %}
+        <button role="button" class="btn btn-gamebox-alt" data-bs-toggle="modal" data-bs-target="#promoAdd">
+            Edit Promo Details
+        </button>
+        {% endif %}
     </div>
 </div>
 <div id="promo-carousel" class="container__shadow position-relative">
@@ -45,13 +63,11 @@
                                                 {{ game.name }}
                                             </span>
                                             <div class="card-body d-flex align-items-center justify-content-end p-1">
-                                                {% if game.in_promo and game.promo.active is True%}
                                                 <div class="promo-discount me-2">
                                                     -{{ game.promo_percentage }}%
                                                 </div>
-                                                {% endif %}
                                                 <div class="game-price">£
-                                                    {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
+                                                    {{ game.final_price }}
                                                 </div>
                                             </div>
                                         </div>
@@ -158,6 +174,9 @@
         </div>
     </div>
 </div>
+{% if request.path == '/promo/add/' %}
+{% include 'promo/includes/promo_crud.html' %}
+{% endif %}
 {% endblock %}
 
 {% block postloadjs %}
