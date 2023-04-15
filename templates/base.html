@@ -77,13 +77,13 @@
                     </ul>
                 </div>
             </div>
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="mobile-menu" aria-labelledby="mobile-menu-header">
+            <div class="offcanvas offcanvas-start px-sm-5" tabindex="-1" id="mobile-menu" aria-labelledby="mobile-menu-header">
                 <div class="offcanvas-header text-bg-light rounded">
                     <h5 class="offcanvas-title fs-2" id="mobile-menu-header">Menu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body card mx-5 mt-5 m-lg-auto p-0 p-lg-auto">
-                    <ul class="d-flex d-md-none flex-column list-group list-group-flush fs-3 text-center">
+                <div class="col-auto col-sm-6 mx-sm-auto mx-3 offcanvas-body card mt-5 m-lg-auto p-0 p-lg-auto">
+                    <ul class="d-flex d-lg-none flex-column list-group list-group-flush fs-3 text-center">
                         <li class="list-group-item {% if request.path == '/games/' %}active{% endif %}">
                             <a class="nav-link" aria-current="page" href="{% url 'games' %}">browse</a>
                         </li>
@@ -95,12 +95,14 @@
                         </li>
                     </ul>
                 </div>
-                <div class="offcanvas-body card mx-5 mt-3 m-lg-auto p-0 p-lg-auto">
-                    <ul class="d-flex d-md-none flex-column list-group list-group-flush fs-3 text-center">
+                <div class="col-auto col-sm-6 mx-sm-auto mx-3 offcanvas-body card mt-5 m-lg-auto p-0 p-lg-auto">
+                    <ul class="d-flex d-lg-none flex-column list-group list-group-flush fs-3 text-center">
                         {% if user.is_authenticated %}
                         <li class="list-group-item {% if request.path == '/cart/' %}active{% endif %}">
                             <a class="cart-nav nav-link" href="{% url 'cart' %}">shopping
                                 cart</a></li>
+                        <li class="list-group-item {% if request.path == '/myprofile/' %}active{% endif %}">
+                            <a class="cart-nav nav-link" href="{% url 'profile' %}">my profile</a></li>
                         <li class="list-group-item">
                             <a class="nav-link" href="{% url 'account_logout' %}">sign out</a>
                         </li>

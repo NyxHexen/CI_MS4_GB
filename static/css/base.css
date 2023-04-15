@@ -21,19 +21,17 @@
 }
 
 .offcanvas {
+    --bs-offcanvas-width: 100vw;
     background-color: transparent;
 }
 
-.offcanvas:before {
-    position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: #000000ab;
-    backdrop-filter: blur(25px);
-    z-index: -1;    
+.offcanvas-backdrop {
+    background-color: #0009;
+    backdrop-filter: blur(5px);
+}
+
+.offcanvas-backdrop.show {
+    opacity: 1;
 }
 
 .offcanvas ul {
