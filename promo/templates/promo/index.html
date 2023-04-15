@@ -147,7 +147,7 @@
                                     <td>{{ game.name }}</td>
                                     <td><span class="promo-discount fs-6">-{{ game.promo_percentage }}%</span></td>
                                     <td>£{{ game.final_price }}</td>
-                                    <td class="d-none d-md-cell"><s>£{{ game.final_price }}</s></td>
+                                    <td class="d-none d-md-cell"><s>£{{ game.base_price }}</s></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
