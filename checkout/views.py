@@ -37,20 +37,21 @@ def checkout(request):
             messages.error(request, "Your cart appears to be barren at present!")
             return redirect(reverse("cart"))
 
-    billing_addr = get_or_none(UserProfile, user=request.user)
-    if billing_addr is not None:
-        form_data = {
-            "full_name": f'{billing_addr.user.first_name} {billing_addr.user.last_name}',
-            "email": billing_addr.user.email,
-            "phone_number": billing_addr.default_phone_number,
-            "country": billing_addr.default_country,
-            "postcode": billing_addr.default_postcode,
-            "town_or_city": billing_addr.default_town_or_city,
-            "street_address1": billing_addr.default_street_address1,
-            "street_address2": billing_addr.default_street_address2,
-            "county": billing_addr.default_county,
-        }
-        order_form = OrderForm(form_data)
+    if request.user.is_authenticated:
+        billing_addr = get_or_none(UserProfile, user=request.user)
+        if billing_addr is not None:
+            form_data = {
+                "full_name": f'{billing_addr.user.first_name} {billing_addr.user.last_name}',
+                "email": billing_addr.user.email,
+                "phone_number": billing_addr.default_phone_number,
+                "country": billing_addr.default_country,
+                "postcode": billing_addr.default_postcode,
+                "town_or_city": billing_addr.default_town_or_city,
+                "street_address1": billing_addr.default_street_address1,
+                "street_address2": billing_addr.default_street_address2,
+                "county": billing_addr.default_county,
+            }
+            order_form = OrderForm(form_data)
     else: 
         order_form = OrderForm()
 
