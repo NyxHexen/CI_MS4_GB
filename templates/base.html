@@ -64,15 +64,24 @@
                 <div class="collapse navbar-collapse justify-content-end">
                     <ul class="navbar-nav align-items-center">
                         {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="cart-nav nav-link" href="{% url 'cart' %}"><i
-                                    class="fa-solid fa-cart-shopping fs-5"></i></a></li>
+                        <li class="nav-item">
+                            <a class="cart-nav nav-link {% if request.path == '/cart/' %}active{% endif %}" href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping fs-5"></i></a></li>
+                        <li class="nav-item">
+                            <a class="cart-nav nav-link {% if request.path == '/myprofile/' %}active{% endif %}" href="{% url 'profile' %}">my profile</a>
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">sign out</a></li>
                         {% else %}
-                        <li class="nav-item"><a class="cart-nav nav-link" href="{% url 'cart' %}"><i
-                                    class="fa-solid fa-cart-shopping fs-5"></i></a></li>
-                        <li class="nav-item btn"><a class="nav-link" href="{% url 'account_signup' %}">sign up</a></li>
-                        <li class="nav-item align-self-center"><a class="nav-link" href="{% url 'account_login' %}">sign
-                                in</a></li>
+                        <li class="nav-item">
+                            <a class="cart-nav nav-link" href="{% url 'cart' %}">
+                                <i class="fa-solid fa-cart-shopping fs-5"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/accounts/signup/' %}active{% endif %}" href="{% url 'account_signup' %}">sign up</a>
+                        </li>
+                        <li class="nav-item align-self-center">
+                            <a class="nav-link {% if request.path == '/accounts/login/' %}active{% endif %}" href="{% url 'account_login' %}">sign in</a>
+                            </li>
                         {% endif %}
                     </ul>
                 </div>
