@@ -7,10 +7,12 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 
+from ci_ms4_gamebox.utils import get_or_none
 from cart.utils import get_and_unsign_cart
 from cart.models import Cart
 from cart.contexts import cart_contents
 from games.models import Game, DLC
+from profiles.models import UserProfile
 
 from .models import Order, OrderLineItem
 from .forms import OrderForm
@@ -35,7 +37,22 @@ def checkout(request):
             messages.error(request, "Your cart appears to be barren at present!")
             return redirect(reverse("cart"))
 
-    order_form = OrderForm()
+    billing_addr = get_or_none(UserProfile, user=request.user)
+    if billing_addr is not None:
+        form_data = {
+            "full_name": f'{billing_addr.user.first_name} {billing_addr.user.last_name}',
+            "email": billing_addr.user.email,
+            "phone_number": billing_addr.default_phone_number,
+            "country": billing_addr.default_country,
+            "postcode": billing_addr.default_postcode,
+            "town_or_city": billing_addr.default_town_or_city,
+            "street_address1": billing_addr.default_street_address1,
+            "street_address2": billing_addr.default_street_address2,
+            "county": billing_addr.default_county,
+        }
+        order_form = OrderForm(form_data)
+    else: 
+        order_form = OrderForm()
 
     if request.method == "POST":
         form_data = {
@@ -49,8 +66,8 @@ def checkout(request):
             "street_address2": request.POST["street_address2"],
             "county": request.POST["county"],
         }
-
         order_form = OrderForm(form_data)
+
         if order_form.is_valid():
             order = order_form.save(commit=False)
             order.stripe_pid = request.POST.get('client_secret').split('_secret')[0]
