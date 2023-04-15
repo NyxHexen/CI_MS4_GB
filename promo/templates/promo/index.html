@@ -166,6 +166,7 @@
     let rows = document.querySelectorAll('tr')
     rows.forEach(row => {
         if (row.hasAttribute('data-href')) {
+            row.style.cursor = 'pointer';
             row.addEventListener('click', e => {
                 window.location.href = row.dataset.href
             })
