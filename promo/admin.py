@@ -10,7 +10,6 @@ import re
 class PromoAdminModel(admin.ModelAdmin):
     def save_model(self, request, *args, **kwargs):
         if request.method == "POST":
-            print("TEST", request.POST)
             for key, value in request.POST.items():
                 if re.match(r"gamedata-\d+_[a-zA-Z0-9_]+", key):
                     # Value is sent as promo_percentage-(game_id)_(model_name)

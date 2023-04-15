@@ -35,7 +35,6 @@ class StripeWH_Handler:
         cart = json.loads(intent.metadata.cart)
         save_info = intent.metadata.save_info
         username = intent.metadata.username
-        print(username)
 
         stripe_charge = stripe.Charge.retrieve(intent.latest_charge)
 
