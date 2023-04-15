@@ -13,7 +13,7 @@
         <div class="col-4">
             <div id="allauth__email_confirm" class="card my-5">
                 <div class="card-body d-flex flex-column align-items-center">
-                    <h1>{% trans "Confirm E-mail Address" %}</h1>
+                    <h1 class="text-center">{% trans "confirm e-mail Address" %}</h1>
 
                     {% if confirmation %}
 
@@ -25,7 +25,7 @@
 
                     <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
                         {% csrf_token %}
-                        <button type="submit">{% trans 'Confirm' %}</button>
+                        <button class="btn btn-gamebox" type="submit">{% trans 'Confirm' %}</button>
                     </form>
 
                     {% else %}
