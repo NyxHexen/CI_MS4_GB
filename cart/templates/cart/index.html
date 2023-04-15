@@ -34,7 +34,8 @@
                             <td><a href="{% url 'game' item.item.model_name item.item.id %}"><img class="cart-image"
                                         src="{{ MEDIA_URL }}{{ item.item|use_media:'COVER.src' }}"
                                         alt="{{ item.item|use_media:'COVER.descr' }}"></a></td>
-                            <td><a href="{% url 'game' item.item.model_name item.item.id %}">{{ item.item.name }}</a></td>
+                            <td><a href="{% url 'game' item.item.model_name item.item.id %}">{{ item.item.name }}</a>
+                            </td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.item.final_price|multiply:item.quantity }}</td>
                             <td class="remove-item"><button role="button" data-id="{{ item.item.id }}"
@@ -92,6 +93,8 @@
     })
 </script>
 <script>
+    const errorToast = `{% include 'includes/toasts/toast-error.html'%}`
+    const successToast = `{% include 'includes/toasts/toast-success.html'%}`
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
@@ -122,6 +125,10 @@
 
         const url = "{% url 'cart_remove' %}";
 
+        let newToastNode = document.createElement('div')
+        let messageDiv = document.querySelector('.message-container')
+        messageDiv.insertBefore(newToastNode, messageDiv.firstChild)
+
         fetch('/cart/_remove/', {
                 method: 'POST',
                 headers: {
@@ -133,7 +140,9 @@
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    newToastNode.outerHTML = errorToast
+                    messageDiv.children[0].children[0].children[0].innerHTML = "\
+                    System malfunction! Please try again later."
                 }
                 return response.json();
             })
@@ -141,13 +150,26 @@
                 let table = document.querySelector('#cart-items');
                 let tableParent = table.parentNode
                 let subtotalHeader = document.querySelector('#cart-subtotal strong')
-                subtotalHeader.innerText = Number((subtotalHeader.innerText - row.children[3].innerText).toFixed(2))
+                let gameName = row.children[1].children[0].innerHTML
+
+                subtotalHeader.innerText = (parseFloat(subtotalHeader.innerText) - parseFloat(row.children[3].innerText))
+                    .toFixed(2)
                 row.remove();
+
                 // Bootstrap Tooltips break when deleting rows, so we have to remove them manually.
                 let strayTooltips = document.querySelectorAll("[id^='tooltip']")
                 strayTooltips.forEach(tip => {
                     tip.remove()
                 })
+
+                newToastNode.outerHTML = successToast
+                messageDiv.children[0].children[0].children[0].innerHTML = `\
+                    ${gameName} has been removed from your cart!`
+
+                const toastElList = document.querySelectorAll('.toast')
+                const new_toast = new bootstrap.Toast(toastElList[0])
+                new_toast.show()
+
                 if (table.querySelectorAll('tbody tr').length == 0) {
                     table.remove()
                     tableParent.innerHTML = `
