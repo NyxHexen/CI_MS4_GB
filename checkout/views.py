@@ -55,20 +55,29 @@ def checkout(request):
         order_form = OrderForm()
 
     if request.method == "POST":
-        form_data = {
-            "full_name": request.POST["full_name"],
-            "email": request.POST["email"],
-            "phone_number": request.POST["phone_number"],
-            "country": request.POST["country"],
-            "postcode": request.POST["postcode"],
-            "town_or_city": request.POST["town_or_city"],
-            "street_address1": request.POST["street_address1"],
-            "street_address2": request.POST["street_address2"],
-            "county": request.POST["county"],
-        }
-        order_form = OrderForm(form_data)
+        if billing_addr is not None:
+            form_data = {
+                "full_name": request.POST["full_name"],
+                "email": request.POST["email"],
+                "phone_number": request.POST["phone_number"],
+                "country": request.POST["country"],
+                "postcode": request.POST["postcode"],
+                "town_or_city": request.POST["town_or_city"],
+                "street_address1": request.POST["street_address1"],
+                "street_address2": request.POST["street_address2"],
+                "county": request.POST["county"],
+            }
+            order_form = OrderForm(form_data)
 
         if order_form.is_valid():
+            if request.user.is_authenticated and "save-info" in request.POST:
+                for data in order_form.cleaned_data:
+                    if hasattr(billing_addr, "default_" + data):
+                        match = getattr(billing_addr, "default_" + data)
+                        if data != match:
+                            setattr(billing_addr, "default_" + data, order_form.cleaned_data[data])
+                            billing_addr.save()
+            
             order = order_form.save(commit=False)
             order.stripe_pid = request.POST.get('client_secret').split('_secret')[0]
             order.original_cart = json.dumps(cart_contents(request)['list_cart'])
