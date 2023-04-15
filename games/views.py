@@ -1,15 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import QueryDict, JsonResponse
+from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from urllib.parse import urlencode
+from django.contrib import messages
 
 from ci_ms4_gamebox.utils import get_or_none
 from games.models import (Game, Genre,
-                          Tag, Platform, Feature, DLC,
-                          UserRating)
+                          Tag, Platform, Feature, DLC)
 from .utils import sort_by
 
 from decimal import Decimal
@@ -142,23 +143,28 @@ def games(request):
 def game(request, model_name, game_id):
     game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
     media = game.media.exclude(name__icontains='COVER')
-    user_rating = get_or_none(game.ratingset.userrating_set, user=request.user)
     rating_count = game.ratingset.userrating_set.exclude(value=0).count
 
     context = {
         'game': game,
         'media': media,
-        'user_rating': user_rating.value if user_rating is not None else None,
         'rating_count': rating_count,
     }
+
+    if request.user.is_authenticated:
+        user_rating = get_or_none(game.ratingset.userrating_set, user=request.user)
+        context['user_rating'] = user_rating.value if user_rating is not None else None
     return render(request, "games/game.html", context)
 
 @csrf_exempt
 @login_required
 @require_POST
 def set_game_rating(request, model_name, game_id):
-    game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
-    user_rating = game.ratingset.userrating_set.get_or_create(user=request.user)
-    user_rating[0].value = json.loads(request.body)["rating"]
-    user_rating[0].save()
-    return JsonResponse({'new_game_rating': game.ratingset.user_rating_calc()})
+    if request.user.is_authenticated:
+        game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
+        user_rating = game.ratingset.userrating_set.get_or_create(user=request.user)
+        user_rating[0].value = json.loads(request.body)["rating"]
+        user_rating[0].save()
+        return JsonResponse({'new_game_rating': game.ratingset.user_rating_calc(), 'error': ''})
+    else:
+        return JsonResponse({'error': 'guest'})

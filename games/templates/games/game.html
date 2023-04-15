@@ -334,6 +334,7 @@
 
     const DEFAULT_COLOR = "#1f1f1f";
     const NBSP = "\u00A0";
+    const AUTH = "{{ user.is_authenticated }}"
 
     const gameRating = document.querySelectorAll('.game-detail-rating span');
     const ratingScore = gameRating[0];
@@ -396,7 +397,19 @@
             setUserRating();
         })
         star.addEventListener('click', e => {
-            postRating(star)
+            if (AUTH != 'False') {
+                postRating(star)
+            } else {
+                let newToastNode = document.createElement('div')
+                let messageDiv = document.querySelector('.message-container')
+                messageDiv.insertBefore(newToastNode, messageDiv.firstChild)
+                newToastNode.outerHTML = errorToast
+                messageDiv.children[0].children[0].children[0].innerHTML = "\
+                    You must be logged in to rate this game!"
+                const toastElList = document.querySelectorAll('.toast')
+                const new_toast = new bootstrap.Toast(toastElList[0])
+                new_toast.show()
+            }
         })
     })
 
@@ -440,10 +453,8 @@
         }
 
         const toastElList = document.querySelectorAll('.toast')
-        toastElList.forEach(toast => {
-            const new_toast = new bootstrap.Toast(toast)
-            new_toast.show()
-        })
+        const new_toast = new bootstrap.Toast(toastElList[0])
+        new_toast.show()
     }
 </script>
 {% endblock %}
