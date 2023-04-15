@@ -41,6 +41,19 @@
                         </span><i class="fa-solid fa-cart-plus"></i></button>
                     <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
                 </form>
+                <div class="w-100 mt-2 d-flex align-items-center justify-content-evenly">
+                    {% if game.in_promo and game.promo.active is True%}
+                    <span class="promo-discount fs-5">
+                        -{{ game.promo_percentage }}%
+                    </span>
+                    {% endif %}
+                    <div class="d-flex flex-column justify-content-end text-end">
+                        {% if game.in_promo and game.promo.active is True%}
+                        <span class="fs-5 text-muted"><s>£{{ game.base_price }}</s></span>
+                        {% endif %}
+                        <span class="fs-4">£{{game.final_price}}</span>
+                    </div>
+                </div>
             </div>
             <div class="col offset-6 offset-sm-4 offset-md-3 offset-xl-2 pt-3">
                 <div class="game-genre-list mb-2">
@@ -134,8 +147,8 @@
                                         alt="{{ item.description }}">
                                     {% if item.media_type == 'video' %}
                                     <button type="button" data-href="{{ item.url }}" data-title="{{ item.name }}"
-                                        class="btn btn-primary position-absolute player-trigger"
-                                        data-bs-toggle="modal" data-bs-target="#gameMediaPlayer">
+                                        class="btn btn-primary position-absolute player-trigger" data-bs-toggle="modal"
+                                        data-bs-target="#gameMediaPlayer">
                                         <i class="fa-regular fa-circle-play display-1"></i>
                                         <span class="visually-hidden">Play Video</span>
                                     </button>
@@ -146,15 +159,15 @@
                         {% if not forloop.counter == media|length|add:"-1" and not media|length|divisibleby:2 or media|length|divisibleby:2 and not forloop.last %}
                         <div class="carousel-item">
                             <div class="row d-flex w-100">
-                        {% endif %}
+                                {% endif %}
                                 {% else %}
                                 <div class="col-6 carousel-image px-1 position-relative">
                                     <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-100"
                                         alt="{{ item.description }}">
                                     {% if item.media_type == 'video' %}
                                     <button type="button" data-href="{{ item.url }}"
-                                        class="btn btn-primary position-absolute player-trigger"
-                                        data-bs-toggle="modal" data-bs-target="#gameMediaPlayer">
+                                        class="btn btn-primary position-absolute player-trigger" data-bs-toggle="modal"
+                                        data-bs-target="#gameMediaPlayer">
                                         <i class="fa-regular fa-circle-play display-1"></i>
                                         <span class="visually-hidden">Play Video</span>
                                     </button>

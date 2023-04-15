@@ -1357,6 +1357,10 @@ a.socialaccount_provider.google {
     backdrop-filter: brightness(50%)
 }
 
+.game-detail-cover div:last-child .d-flex.flex-column span {
+    line-height: 1;
+}
+
 .ratings-list-inner * {
     width: 60px;
 }
