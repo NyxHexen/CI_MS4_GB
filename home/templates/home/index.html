@@ -282,7 +282,7 @@
             {% endif %}
           </div>
         </a>
-        <img src="{{ MEDIA_URL }}{{ deal|use_media:'COVER.src'}}" alt="{{ game|use_media:'COVER.descr' }}">
+        <img src="{{ MEDIA_URL }}{{ deal|use_media:'COVER.src'}}" alt="{{ deal|use_media:'COVER.descr' }}">
       </div>
       {% endfor %}
       {% else %}
