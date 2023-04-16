@@ -181,6 +181,12 @@
 
 {% block postloadjs %}
 {{ block.super }}
+<!-- Popperjs -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<!-- Tempus Dominus JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/js/tempus-dominus.min.js" crossorigin="anonymous"></script>
+<!-- Tempus Dominus Styles -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/css/tempus-dominus.min.css" crossorigin="anonymous">
 <script>
     let rows = document.querySelectorAll('tr')
     rows.forEach(row => {
@@ -191,5 +197,21 @@
             })
         }
     })
+</script>
+<script>
+    const startDateField = document.getElementById('id_start_date')
+    const endDateField = document.getElementById('id_end_date')
+    const pickerStart = new tempusDominus.TempusDominus(startDateField, {
+        localization: {
+            format: 'yyyy-MM-dd HH:mm:ss',
+            hourCycle: 'h23',
+        }
+    });
+    const pickerEnd = new tempusDominus.TempusDominus(endDateField, {
+        localization: {
+            format: 'yyyy-MM-dd HH:mm:ss',
+            hourCycle: 'h23',
+        }
+    });
 </script>
 {% endblock %}
