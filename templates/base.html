@@ -59,15 +59,31 @@
                             <a class="nav-link {% if request.path == '/support/' %}active{% endif %}"
                                 href="#">support</a>
                         </li>
+                        <li class="nav-item d-flex align-items-center ms-lg-2">
+                            <div class="btn-group">
+                                <a role="button" href="{% url 'admin:index' %}" class="btn btn-sm btn-dark">admin</a>
+                                <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item content-font" href="{% url 'promo_add' %}">Add New Promo</a></li>
+                                    <li><a class="dropdown-item content-font" href="#">Add New Game (?)</a></li>
+                                    <li><a class="dropdown-item content-font" href="#">Add New DLC (?)</a></li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 <div class="collapse navbar-collapse justify-content-end">
                     <ul class="navbar-nav align-items-center">
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="cart-nav nav-link {% if request.path == '/cart/' %}active{% endif %}" href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping fs-5"></i></a></li>
+                            <a class="cart-nav nav-link {% if request.path == '/cart/' %}active{% endif %}"
+                                href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping fs-5"></i></a></li>
                         <li class="nav-item">
-                            <a class="cart-nav nav-link {% if request.path == '/myprofile/' %}active{% endif %}" href="{% url 'profile' %}">my profile</a>
+                            <a class="cart-nav nav-link {% if request.path == '/myprofile/' %}active{% endif %}"
+                                href="{% url 'profile' %}">my profile</a>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">sign out</a></li>
                         {% else %}
@@ -77,16 +93,19 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/accounts/signup/' %}active{% endif %}" href="{% url 'account_signup' %}">sign up</a>
+                            <a class="nav-link {% if request.path == '/accounts/signup/' %}active{% endif %}"
+                                href="{% url 'account_signup' %}">sign up</a>
                         </li>
                         <li class="nav-item align-self-center">
-                            <a class="nav-link {% if request.path == '/accounts/login/' %}active{% endif %}" href="{% url 'account_login' %}">sign in</a>
-                            </li>
+                            <a class="nav-link {% if request.path == '/accounts/login/' %}active{% endif %}"
+                                href="{% url 'account_login' %}">sign in</a>
+                        </li>
                         {% endif %}
                     </ul>
                 </div>
             </div>
-            <div class="offcanvas offcanvas-start px-sm-5" tabindex="-1" id="mobile-menu" aria-labelledby="mobile-menu-header">
+            <div class="offcanvas offcanvas-start px-sm-5" tabindex="-1" id="mobile-menu"
+                aria-labelledby="mobile-menu-header">
                 <div class="offcanvas-header text-bg-light rounded">
                     <h5 class="offcanvas-title fs-2" id="mobile-menu-header">Menu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

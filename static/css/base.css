@@ -414,6 +414,10 @@ h1 {
     font-family: var(--ui-font);
 }
 
+.content-font {
+    font-family: var(--content-font)
+}
+
 .gamebox-success {
     background-color: rgb(127, 211, 0);
     color: black;
@@ -1173,10 +1177,6 @@ footer p {
 
 [data-bs-theme="light"] nav::after {
     background-color: rgba(var(--lm-text-color), .95);
-}
-
-[data-bs-theme="light"] nav * {
-    color: var(--lm-text-color);
 }
 
 [data-bs-theme="light"] .navbar {
