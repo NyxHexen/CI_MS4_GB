@@ -85,9 +85,10 @@ def games(request):
                 )
 
                 filtered_games = (
-                    value(games, filter_param) if len(games) > 0 else list()
+                    value(filtered_games, filter_param) if len(games) > 0 else list()
                 )
-                filtered_dlcs = value(dlcs, filter_param) if len(dlcs) > 0 else list()
+                filtered_dlcs = value(filtered_dlcs, filter_param) if len(dlcs) > 0 else list()
+                print(filtered_games)
 
         if "sort_by" in request.GET:
             filter_dict.update({f"sort_by": f'{request.GET.get("sort_by")}'})

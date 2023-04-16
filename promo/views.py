@@ -6,6 +6,7 @@ from django.http import QueryDict
 from django.core.paginator import Paginator, EmptyPage
 from urllib.parse import urlencode
 
+from ci_ms4_gamebox.utils import get_or_none
 from games.views import sort_by
 from games.models import Media
 from .forms import PromoForm
@@ -70,21 +71,23 @@ def promo_add(request):
         post_copy = request.POST.copy()
         form = PromoForm(post_copy)
         submit_option = request.POST.get('submit_option')
+        media = request.POST.get('media') or None
         if form.is_valid():
             apply_to_game_list = post_copy.getlist('apply_to_game', {})
+            apply_to_dlc_list = post_copy.getlist('apply_to_dlc', {})
             if submit_option == 'preview':
                 dummy_promo = {
                         'id': 1000,
-                        'active': request.POST.get('active'),
-                        'name': request.POST.get('name'),
-                        'short_description': request.POST.get('short_description'),
-                        'long_description': request.POST.get('long_description'),
-                        'media': Media.objects.get(id=request.POST['media']),
+                        'active': request.POST.get('active') or None,
+                        'name': request.POST.get('name') or None,
+                        'short_description': request.POST.get('short_description') or None,
+                        'long_description': request.POST.get('long_description') or None,
+                        'media': get_or_none(Media, id=media),
                     }
                 
                 for id in request.POST.getlist('apply_to_game'):
                     game = Game.objects.get(id=id)
-                    discount = request.POST.get(f'game_discount-{id}') or game.promo_percentage                    
+                    discount = request.POST.get(f'game_discount-game_{id}') or game.promo_percentage                    
                     if not game.in_promo:
                         game.promo_percentage = discount
                         game.final_price = round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
@@ -96,19 +99,37 @@ def promo_add(request):
 
                 for id in request.POST.getlist('apply_to_dlc'):
                     game = DLC.objects.get(id=id)
+                    discount = request.POST.get(f'game_discount-dlc_{id}') or game.promo_percentage
                     if not game.in_promo:
                         game.promo_percentage = discount
                         game.final_price = round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
                         game_list.append(game)
                         real_game_list.append(game)
                     else:
-                        apply_to_game_list.remove(id)
-                post_copy.setlist('apply_to_game', apply_to_game_list)
+                        apply_to_dlc_list.remove(id)
+                post_copy.setlist('apply_to_dlc', apply_to_dlc_list)
 
                 for i in range(len(game_list), 8, 1):
                     game_list.append(dummy_game)
             elif submit_option == 'save':
-                pass
+                new_promo = form.save()
+                new_promo = Promo.objects.get(id=new_promo.id)
+                for id in post_copy.getlist('apply_to_game', {}):
+                    game = Game.objects.filter(id=id)
+                    game.update(
+                        in_promo=True, 
+                        promo=new_promo, 
+                        promo_percentage=post_copy.get(f'game_discount-game_{game[0].id}'))
+                    new_promo.apply_to_game.add(game[0])
+                for id in post_copy.getlist('apply_to_dlc', {}):
+                    dlc = DLC.objects.filter(id=id)
+                    dlc.update(
+                        in_promo=True, 
+                        promo=new_promo, 
+                        promo_percentage=post_copy.get(f'game_discount-dlc_{dlc[0].id}'))
+                    new_promo.apply_to_dlc.add(dlc[0])
+                new_promo.save()
+                return redirect(reverse('promo', kwargs={'promo_id': new_promo.id}))
     else:
         for i in range(len(game_list), 8, 1):
             game_list.append(dummy_game)

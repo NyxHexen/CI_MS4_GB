@@ -3,7 +3,7 @@
     <div class="modal fade" id="promoAdd" data-bs-backdrop="static" tabindex="-1" aria-labelledby="promoAddLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable">
-            <form class="modal-content" action="{% url 'promo_add' %}" method="POST">
+            <form class="modal-content" action="{% url 'promo_add' %}" method="POST" id="promo-form">
                 {% csrf_token %}
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="promoAddLabel">New Promo</h1>
@@ -29,7 +29,7 @@
                                 <tr>
                                     <td class="col text-center">{{ game.id }}</td>
                                     <td class="col">{{ game.name }}</td>
-                                    <td class="col-1 game-discount"><input type="number" name="game_discount-{{ game.id }}"
+                                    <td class="col-1 game-discount"><input type="number" name="game_discount-{{game.model_name}}_{{ game.id }}"
                                             class="form-control text-center" value="{{ game.promo_percentage }}"></td>
                                     <td class="col text-center game-base-price">{{ game.base_price }}</td>
                                     <td class="col text-center game-final-price">{{ game.final_price }}</th>
@@ -53,6 +53,9 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 <script type="text/javascript">
     $(".modal").draggable();
+    $("#promo-form").on('change', () => {
+        $("#promo_save").attr("disabled", true)
+    })
     $("#promo_save").on("click", e => {
         $("#submit_option").val("save");
     })

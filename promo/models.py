@@ -19,8 +19,8 @@ class Promo(CustomBaseModel):
     end_date = models.DateTimeField(
         null=True, default=default_datetime() + timedelta(days=1)
     )
-    apply_to_game = models.ManyToManyField("games.Game", related_name="mtm", blank=True)
-    apply_to_dlc = models.ManyToManyField("games.DLC", related_name="mtm", blank=True)
+    apply_to_game = models.ManyToManyField("games.Game", related_name="gameset", blank=True)
+    apply_to_dlc = models.ManyToManyField("games.DLC", related_name="dlcset", blank=True)
     landing_page = models.BooleanField(default=False)
     media = models.ForeignKey(Media, null=True, blank=True, on_delete=models.SET_NULL)
     url = models.URLField(max_length=1024, null=True, blank=True)
