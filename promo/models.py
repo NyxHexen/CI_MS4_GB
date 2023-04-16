@@ -1,24 +1,21 @@
 from django.db import models
 from django.db.models import Max
 from django.db.models.signals import m2m_changed, pre_save
-from datetime import timedelta
 from django.core.exceptions import ValidationError
 from django.dispatch import receiver
 from decimal import Decimal
 
 from games.models import CustomBaseModel, Media
 from ci_ms4_gamebox.utils import get_or_none
-from .utils import default_datetime
+from .utils import default_start_datetime, default_end_datetime
 
 
 class Promo(CustomBaseModel):
     active = models.BooleanField(default=False)
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, null=True, blank=True)
-    start_date = models.DateTimeField(null=True, default=default_datetime())
-    end_date = models.DateTimeField(
-        null=True, default=default_datetime() + timedelta(days=1)
-    )
+    start_date = models.DateTimeField(null=True, default=default_start_datetime)
+    end_date = models.DateTimeField(null=True, default=default_end_datetime)
     apply_to_game = models.ManyToManyField("games.Game", related_name="gameset", blank=True)
     apply_to_dlc = models.ManyToManyField("games.DLC", related_name="dlcset", blank=True)
     landing_page = models.BooleanField(default=False)
