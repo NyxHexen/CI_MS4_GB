@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600&family=Major+Mono+Display&display=swap');
 
-/* CSS VARS */
+/* ------------------------------------------------------------------------------------ CSS VARS */
 :root {
     --ui-font: "Major Mono Display", sans-serif;
     --content-font: "Jost", sans-serif;
@@ -10,7 +10,9 @@
     --dm-text-color: 255, 251, 252;
 }
 
-/* Bootstrap Overrides */
+/* ------------------------------------------------------------------------------------ BOOTSTRAP OVERRIDES */
+
+/* MODAL */
 .modal {
     --bs-modal-width: fit-content;
 }
@@ -23,6 +25,8 @@
 .modal-backdrop {
     --bs-backdrop-bg: transparent;
 }
+
+/* BURGER MENU */
 
 .offcanvas {
     --bs-offcanvas-width: 100vw;
@@ -50,89 +54,17 @@
     flex-grow: 0;
 }
 
-[data-bs-theme="light"] .nav-link,
-[data-bs-theme="light"] .navbar-nav {
+.nav-link,
+.navbar-nav {
     --bs-nav-link-hover-color: #6f2dbd;
     --bs-nav-link-padding-y: .25rem;
-}
-
-[data-bs-theme="dark"] .nav-link:hover,
-[data-bs-theme="dark"] .navbar-nav {
-    --bs-nav-link-hover-color: #9f0;
-    --bs-nav-link-padding-y: 0rem;
-}
-
-[data-bs-theme="light"] .btn-gamebox {
-    --bs-btn-color: #fff;
-    --bs-btn-bg: #6f2dbd;
-    --bs-btn-border-color: #6f2dbd;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #6f2dbd;
-    --bs-btn-hover-border-color: #6f2dbd;
-    --bs-btn-focus-shadow-rgb: 49, 132, 253;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #6f2dbd;
-    --bs-btn-active-border-color: #6f2dbd;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #6f2dbd;
-    --bs-btn-disabled-border-color: #6f2dbd;
-}
-
-[data-bs-theme="light"] .btn-gamebox-alt {
-    --bs-btn-color: #000;
-    --bs-btn-bg: #9f0;
-    --bs-btn-border-color: #9f0;
-    --bs-btn-hover-color: #000;
-    --bs-btn-hover-bg: #9f0;
-    --bs-btn-hover-border-color: #9f0;
-    --bs-btn-focus-shadow-rgb: 49, 132, 253;
-    --bs-btn-active-color: #000;
-    --bs-btn-active-bg: #9f0;
-    --bs-btn-active-border-color: transparent;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #000;
-    --bs-btn-disabled-bg: #9f0;
-    --bs-btn-disabled-border-color: #9f0;
-    font-weight: 500;
-}
-
-[data-bs-theme="light"] .btn-gamebox:hover {
-    --bs-btn-bg: #6f2dbd;
-    --bs-btn-border-color: #6f2dbd;
-    --bs-btn-hover-color: #6f2dbd;
-    --bs-btn-hover-bg: #fff;
-    --bs-btn-hover-border-color: #6f2dbd;
-    --bs-btn-focus-shadow-rgb: 49, 132, 253;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #6f2dbd;
-    --bs-btn-active-border-color: #6f2dbd;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #6f2dbd;
-    --bs-btn-disabled-border-color: #6f2dbd;
-}
-
-[data-bs-theme="light"] .btn-outline-gamebox {
-    --bs-btn-color: #6f2dbd;
-    --bs-btn-border-color: #6f2dbd;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #6f2dbd;
-    --bs-btn-hover-border-color: #6f2dbd;
-    --bs-btn-focus-shadow-rgb: 220, 53, 69;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #6f2dbd;
-    --bs-btn-active-border-color: #6f2dbd;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #6f2dbd;
-    --bs-btn-disabled-bg: transparent;
-    --bs-btn-disabled-border-color: #6f2dbd;
-    --bs-gradient: none;
 }
 
 .card-body {
     max-width: 100vw;
 }
+
+/* FORMS/FORM CONTROLS */
 
 .form-check-input:checked {
     background-color: #6f2dbd;
@@ -151,20 +83,6 @@
     box-shadow: 0 0 4px #6f2dbd;
     border-color: #6f2dbd;
     transition: all .2s ease-in;
-}
-
-.accordion-item {
-    border: none;
-    box-shadow: none;
-}
-
-.accordion-button:focus {
-    border-color: #6f2dbd;
-    box-shadow: none;
-}
-
-.accordion-button:not(.collapsed)::after {
-    background-image: var(--bs-accordion-btn-icon);
 }
 
 .form-control:focus {
@@ -188,17 +106,113 @@
     -moz-appearance: textfield;
 }
 
+/* ACCORDION */
+
+.accordion-item {
+    border: none;
+    box-shadow: none;
+}
+
+.accordion-button:focus {
+    border-color: #6f2dbd;
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: var(--bs-accordion-btn-icon);
+}
+
+/* CAROUSEL */
+
 .carousel-control-next,
 .carousel-control-prev {
     z-index: 2;
 }
 
+/* MISC */
+
+.list-group-item.active {
+    color: #ffffff;
+    background-color: #6f2dbd;
+    border-color: transparent;
+}
+
+/* ------------------------------------------------------------------------------------ CUSTOM BOOTSTRAP */
+
+.btn-gamebox {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #6f2dbd;
+    --bs-btn-border-color: #6f2dbd;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #6f2dbd;
+    --bs-btn-hover-border-color: #6f2dbd;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #6f2dbd;
+    --bs-btn-active-border-color: #6f2dbd;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #6f2dbd;
+    --bs-btn-disabled-border-color: #6f2dbd;
+}
+
+.btn-gamebox-alt {
+    --bs-btn-color: #000;
+    --bs-btn-bg: #9f0;
+    --bs-btn-border-color: #9f0;
+    --bs-btn-hover-color: #000;
+    --bs-btn-hover-bg: #9f0;
+    --bs-btn-hover-border-color: #9f0;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #000;
+    --bs-btn-active-bg: #9f0;
+    --bs-btn-active-border-color: transparent;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #000;
+    --bs-btn-disabled-bg: #9f0;
+    --bs-btn-disabled-border-color: #9f0;
+    font-weight: 500;
+}
+
+.btn-gamebox:hover {
+    --bs-btn-bg: #6f2dbd;
+    --bs-btn-border-color: #6f2dbd;
+    --bs-btn-hover-color: #6f2dbd;
+    --bs-btn-hover-bg: #fff;
+    --bs-btn-hover-border-color: #6f2dbd;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #6f2dbd;
+    --bs-btn-active-border-color: #6f2dbd;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #6f2dbd;
+    --bs-btn-disabled-border-color: #6f2dbd;
+}
+
+.btn-outline-gamebox {
+    --bs-btn-color: #6f2dbd;
+    --bs-btn-border-color: #6f2dbd;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #6f2dbd;
+    --bs-btn-hover-border-color: #6f2dbd;
+    --bs-btn-focus-shadow-rgb: 220, 53, 69;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #6f2dbd;
+    --bs-btn-active-border-color: #6f2dbd;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #6f2dbd;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #6f2dbd;
+    --bs-gradient: none;
+}
+
 .text-bg-gamebox-alt {
-    color: #000!important;
+    color: #000 !important;
     background-color: #9f0 !important;
 }
 
-/* Allauth Forms */
+/* ------------------------------------------------------------------------------------ Allauth Forms */
 
 [id*="allauth__"] [id*="div_"]:not(.form-check) {
     width: 100%;
@@ -212,7 +226,7 @@
     margin-right: 1rem;
 }
 
-/* noUIslider Overrides */
+/* ------------------------------------------------------------------------------------ noUIslider Overrides */
 .noUi-horizontal {
     height: 9px;
 }
@@ -246,9 +260,9 @@
     left: 7px;
 }
 
-/* Shadows */
+/* ------------------------------------------------------------------------------------ Shadows */
 .navbar,
-.offcanvas-header  {
+.offcanvas-header {
     --lg-stacked-shadow:
         0px 0.5px 0.4px hsl(var(--shadow-color) / 0.67),
         0px 0.6px 0.5px -0.6px hsl(var(--shadow-color) / 0.61),
@@ -345,21 +359,22 @@ footer,
 
 #promo-carousel .carousel-item .card {
     --shadow-elevation-high:
-    0px 0px 0px hsl(var(--shadow-color) / 0.76),
-    0px 0.2px 0.2px -0.5px hsl(var(--shadow-color) / 0.7),
-    0px 0.4px 0.4px -1.1px hsl(var(--shadow-color) / 0.63),
-    0px 0.8px 0.8px -1.6px hsl(var(--shadow-color) / 0.57),
-    -0.1px 1.5px 1.4px -2.1px hsl(var(--shadow-color) / 0.51),
-    -0.1px 2.5px 2.3px -2.7px hsl(var(--shadow-color) / 0.44),
-    -0.2px 4px 3.8px -3.2px hsl(var(--shadow-color) / 0.38),
-    -0.3px 6.1px 5.7px -3.7px hsl(var(--shadow-color) / 0.32);
+        0px 0px 0px hsl(var(--shadow-color) / 0.76),
+        0px 0.2px 0.2px -0.5px hsl(var(--shadow-color) / 0.7),
+        0px 0.4px 0.4px -1.1px hsl(var(--shadow-color) / 0.63),
+        0px 0.8px 0.8px -1.6px hsl(var(--shadow-color) / 0.57),
+        -0.1px 1.5px 1.4px -2.1px hsl(var(--shadow-color) / 0.51),
+        -0.1px 2.5px 2.3px -2.7px hsl(var(--shadow-color) / 0.44),
+        -0.2px 4px 3.8px -3.2px hsl(var(--shadow-color) / 0.38),
+        -0.3px 6.1px 5.7px -3.7px hsl(var(--shadow-color) / 0.32);
     box-shadow: var(--shadow-elevation-high);
 }
 
-/* ANY MODE */
+/* ------------------------------------------------------------------------------------ BASE */
 body {
     min-height: 100vh;
     font-family: var(--content-font);
+    background-color: rgb(var(--lm-bg-color));
 }
 
 body.modal-open {
@@ -367,20 +382,38 @@ body.modal-open {
     padding: 0 !important;
 }
 
+/* NAV BAR */
+
 nav {
+    background-color: rgba(255, 255, 255, 85%);
+    border: 1px solid #1f1f1f;
     position: relative;
     width: 90%;
     border-radius: 5px;
     z-index: 1000;
 }
 
+nav * {
+    font-family: var(--ui-font);
+}
+
+nav::after {
+    background-color: rgba(var(--lm-text-color), .95);
+}
+
+.navbar {
+    --shadow-color: 264deg 69% 23% !important;
+}
+
 .navbar-brand {
     font-size: 2rem;
     font-weight: bolder;
+    color: var(--lm-logo-color);
 }
 
 .navbar-brand:hover {
     transition: text-shadow 1s ease;
+    text-shadow: 0 0 6px #9f0;
 }
 
 .navbar-brand>span {
@@ -392,14 +425,13 @@ nav {
     font-weight: bold;
 }
 
-nav * {
-    font-family: var(--ui-font);
-}
 
 .nav-link.active {
     font-size: calc(100% + .2rem);
     color: #6f2dbd !important;
 }
+
+/* GENERAL */
 
 a {
     text-decoration: none;
@@ -409,6 +441,15 @@ a {
 h1 {
     font-family: var(--ui-font);
 }
+
+.message-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+/* CUSTOM */
 
 .ui-font {
     font-family: var(--ui-font);
@@ -424,18 +465,13 @@ h1 {
 }
 
 .gamebox-info {
-    background-color:#6f2dbd;
+    background-color: #6f2dbd;
     color: white;
 }
 
-.message-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 9999;
-}
+/* ------------------------------------------------------------------------------------ HOME PAGE CAROUSEL */
 
-/* Carousel */
+/* 3D BOX SVG */
 svg {
     position: absolute;
     inset: 0;
@@ -454,6 +490,8 @@ svg * {
 [id*='-side-blur'] {
     filter: blur(25px);
 }
+
+/* CAROUSEL */
 
 .carousel-container {
     position: relative;
@@ -479,6 +517,33 @@ svg * {
     background-color: hsl(0, 0%, 0%);
     filter: blur(5px);
     z-index: -1;
+}
+
+#games-carousel .carousel-item button.add-to-cart {
+    background-color: #9f0;
+}
+
+#games-carousel .carousel-item .browse {
+    position: relative;
+}
+
+
+#games-carousel .carousel-item .browse:hover {
+    background-color: transparent;
+    border: 1px solid hsl(268, 62%, 66%);
+    color: hsl(268, 62%, 66%);
+}
+
+#games-carousel .carousel-item .browse:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 1px solid #6f2dbd;
+    border-radius: 5px;
+    filter: blur(5px)
 }
 
 .carousel-caption form::before {
@@ -511,20 +576,18 @@ svg * {
     opacity: 1;
 }
 
-#games-carousel .carousel-control-next:hover ~ .carousel-control-next.hover-bg {
+#games-carousel .carousel-control-next:hover~.carousel-control-next.hover-bg {
     background: hsla(267, 62%, 46%, 1);
     background: linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
     background: -moz-linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
     background: -webkit-linear-gradient(180deg, hsla(267, 62%, 46%, 1) 0%, hsla(0, 0%, 100%, 0) 90%);
-    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#6F2DBD", endColorstr="#FFFFFF", GradientType=1);
 }
 
-#games-carousel .carousel-control-prev:hover ~ .carousel-control-prev.hover-bg {
+#games-carousel .carousel-control-prev:hover~.carousel-control-prev.hover-bg {
     background: hsla(267, 62%, 46%, 1);
     background: linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
     background: -moz-linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
     background: -webkit-linear-gradient(0deg, hsla(267, 62%, 46%, 1) 0%, rgba(255, 255, 255, 0) 100%);
-    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#6F2DBD", endColorstr="#FFFFFF", GradientType=1);
 }
 
 #games-carousel .overlay {
@@ -576,33 +639,7 @@ svg * {
     width: fit-content !important;
 }
 
-@media (max-width: 576px) {
-    #games-carousel .carousel-indicators {
-        bottom: -43px;
-    }
-
-    #games-carousel .carousel-item {
-        min-height: 35vh;
-    }
-
-    #games-carousel .carousel-item button,
-    #games-carousel .carousel-item a {
-        padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x) !important;
-        float: right;
-    }
-
-    #games-carousel .carousel-item .carousel-caption {
-        bottom: .5rem;
-        flex-direction: column;
-        padding: 0 .5rem !important;
-    }
-
-    #games-carousel .carousel-item .carousel-caption h3 {
-        max-width: 100%;
-    }
-}
-
-/* Game Container */
+/* ------------------------------------------------------------------------------------ GAME CARD CONTAINER */
 
 .game {
     position: relative;
@@ -617,6 +654,7 @@ svg * {
 }
 
 .game>* {
+    --shadow-color: 0deg 0% 42%;
     --game-height: 250px;
     height: var(--game-height);
     transform-style: preserve-3d;
@@ -628,6 +666,8 @@ svg * {
 }
 
 .game.flip .game-cover--front {
+    --shadow-color: 0deg 0% 42% !important;
+    transition: all .4s linear;
     -webkit-animation: game-cover-front-flip 0.4s 0.15s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
     animation: game-cover-front-flip 0.4s 0.15s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
 }
@@ -643,15 +683,21 @@ svg * {
 }
 
 .game.flip .game-back--reverse {
+    --shadow-color: 76deg 100% 22% !important;
+    transition: all .4s linear;
     -webkit-animation: game-back-reverse-flip 0.4s 0.15s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
     animation: game-back-reverse-flip 0.4s 0.15s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
 }
 
 .game-cover--front {
     transform: translateZ(40px);
+    --shadow-color: 264deg 69% 23% !important;
+    color: white;
+    background-color: #1f1f1f;
 }
 
 .game-cover--reverse {
+    background-color: #bfff00;
     position: absolute;
     top: 0;
     height: 100%;
@@ -660,6 +706,8 @@ svg * {
 }
 
 .game-back--front {
+    background-color: whitesmoke;
+    border: 1px solid #1f1f1f;
     position: absolute;
     top: 0;
     transform: rotateY(180deg) translateZ(40px) translateY(20%);
@@ -685,6 +733,7 @@ svg * {
 }
 
 .game-back--reverse {
+    background-color: #6f2dbd;
     position: absolute;
     top: 0;
     height: 100%;
@@ -705,6 +754,10 @@ svg * {
     background-repeat: no-repeat;
     background-size: cover;
     border: 1px solid #1f1f1f;
+}
+
+.sale .game-cover--front {
+    --shadow-color: 41deg 99% 22% !important;
 }
 
 .game-cover-image {
@@ -816,7 +869,7 @@ svg * {
     font-size: 1rem;
 }
 
-/* Deals of the Day Countdown*/
+/* ------------------------------------------------------------------------------------ DEALS OF THE DAY COUNTDOWN CARD */
 .countdown {
     --shadow-color: 0deg 0% 25%;
     position: relative;
@@ -943,7 +996,7 @@ svg * {
     width: 80%;
 }
 
-/* Browse/Games */
+/* ------------------------------------------------------------------------------------ BROWSE PAGE */
 #games-filter {
     --shadow-color: 0deg 0% 25%;
 }
@@ -1039,20 +1092,13 @@ input:active {
     border-radius: 0;
 }
 
-/* Promo */
+/* ------------------------------------------------------------------------------------ PROMO PAGE */
 .promo-header,
 .game-header {
     position: relative;
     margin-top: -6.6rem;
     height: 45vh;
     overflow: hidden;
-}
-
-@media (max-width: 400px) {
-    .promo-header,
-    .game-header {
-        height: 55vh;
-    }
 }
 
 .promo-info {
@@ -1088,6 +1134,8 @@ input:active {
     background-color: rgb(var(--lm-bg-color));
     z-index: 2;
 }
+
+/* ------------------------------------------------------------------------------------ PROMO CAROUSEL */
 
 #promo-carousel {
     position: relative;
@@ -1141,17 +1189,19 @@ input:active {
 
 .container__background {
     --shadow-color: 85deg 100% 14%;
-    background: rgb(153,255,0);
-    background: radial-gradient(circle, rgba(153,255,0,1) 0%, rgba(84,142,0,1) 100%);
+    background: rgb(153, 255, 0);
+    background: radial-gradient(circle, rgba(153, 255, 0, 1) 0%, rgba(84, 142, 0, 1) 100%);
 }
 
 .container__background .card {
     --shadow-color: 85deg 100% 20%;
 }
 
-/* Footer */
+/* ------------------------------------------------------------------------------------ Footer */
+
 footer {
     --shadow-color: 0deg 0% 35%;
+    background-color: rgb(var(--lm-bg-color));
 }
 
 footer form div {
@@ -1164,40 +1214,7 @@ footer p {
     text-align: center;
 }
 
-/* LIGHT MODE */
-
-[data-bs-theme="light"] body {
-    background-color: rgb(var(--lm-bg-color));
-}
-
-[data-bs-theme="light"] nav {
-    background-color: rgba(255, 255, 255, 85%);
-    border: 1px solid #1f1f1f;
-}
-
-[data-bs-theme="light"] nav::after {
-    background-color: rgba(var(--lm-text-color), .95);
-}
-
-[data-bs-theme="light"] .navbar {
-    --shadow-color: 264deg 69% 23% !important;
-}
-
-[data-bs-theme="light"] .navbar-brand {
-    color: var(--lm-logo-color);
-}
-
-[data-bs-theme="light"] .navbar-brand:hover {
-    text-shadow: 0 0 6px #9f0;
-}
-
-[data-bs-theme="light"] .list-group-item.active  {
-    color: #ffffff;
-    background-color: #6f2dbd;
-    border-color: transparent;
-}
-
-/* Accounts/Allauth/Crispy */
+/* ------------------------------------------------------------------------------------ Accounts/Allauth/Crispy */
 
 #myprofile label,
 .myprofile-slabel,
@@ -1265,75 +1282,7 @@ a.socialaccount_provider.google {
     color: #1f1f1f;
 }
 
-/* Carousel */
-
-#games-carousel .carousel-item button.add-to-cart {
-    background-color: #9f0;
-}
-
-#games-carousel .carousel-item .browse {
-    position: relative;
-}
-
-
-#games-carousel .carousel-item .browse:hover {
-    background-color: transparent;
-    border: 1px solid hsl(268, 62%, 66%);
-    color: hsl(268, 62%, 66%);
-}
-
-#games-carousel .carousel-item .browse:hover::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    border: 1px solid #6f2dbd;
-    border-radius: 5px;
-    filter: blur(5px)
-}
-
-/* Game Container */
-
-[data-bs-theme="light"] .game>* {
-    --shadow-color: 0deg 0% 42%;
-}
-
-[data-bs-theme="light"] .game.flip .game-cover--front {
-    --shadow-color: 0deg 0% 42% !important;
-    transition: all .4s linear;
-}
-
-[data-bs-theme="light"] .game.flip .game-back--reverse {
-    --shadow-color: 76deg 100% 22% !important;
-    transition: all .4s linear;
-}
-
-[data-bs-theme="light"] .game-cover--front {
-    --shadow-color: 264deg 69% 23% !important;
-    color: white;
-    background-color: #1f1f1f;
-}
-
-[data-bs-theme="light"] .sale .game-cover--front {
-    --shadow-color: 41deg 99% 22% !important;
-}
-
-[data-bs-theme="light"] .game-cover--reverse {
-    background-color: #bfff00;
-}
-
-[data-bs-theme="light"] .game-back--front {
-    background-color: whitesmoke;
-    border: 1px solid #1f1f1f;
-}
-
-[data-bs-theme="light"] .game-back--reverse {
-    background-color: #6f2dbd;
-}
-
-/* Game Detail */
+/* ------------------------------------------------------------------------------------ INDIV GAME PAGES */
 .container__blur {
     inset: 0;
     height: 100%;
@@ -1440,16 +1389,16 @@ a.socialaccount_provider.google {
     color: #1f1f1f;
 }
 
-/* Deals */
+/* ------------------------------------------------------------------------------------ Deals */
 
-[data-bs-theme="light"] .deals {
+.deals {
     --shadow-color: 0deg 0% 4%;
     background-color: #1f1f1f;
     color: white;
     margin: 0;
 }
 
-/* CART */
+/* ------------------------------------------------------------------------------------ CART PAGE */
 .cart-nav i {
     line-height: 1.2;
 }
@@ -1491,15 +1440,6 @@ a.socialaccount_provider.google {
     margin-left: -10px;
 }
 
-@media (min-width: 768px) {
-    .empty-cart .bubble:after {
-        border-width: 0 0 20px 20px;
-        top: 50%;
-        left: -9px;
-        margin-top: -10px;
-    }
-}
-
 #cart-items th:nth-child(1n+2),
 #cart-items td:nth-child(1n+3) {
     text-align: center;
@@ -1537,7 +1477,10 @@ a.socialaccount_provider.google {
     padding: 0 !important;
 }
 
-/* Checkout */
+/* ------------------------------------------------------------------------------------ CHECKOUT PAGE */
+
+/* Most are the Stripe default */
+
 #card-element {
     border-radius: 4px;
     padding: 12px;
@@ -1564,13 +1507,11 @@ select option[value=""] {
     text-align: center;
 }
 
-/* Buttons and links */
 #payment-form button:disabled {
     opacity: 0.5;
     cursor: default;
 }
 
-/* spinner/processing state, errors */
 #payment-form .spinner,
 #payment-form .spinner:before,
 #payment-form .spinner:after {
@@ -1623,6 +1564,8 @@ select option[value=""] {
     animation: loading 2s infinite ease;
 }
 
+/* ------------------------------------------ LOADING SCREEN / CHECKOUT */
+
 #loading-overlay {
     position: fixed;
     top: 0;
@@ -1647,16 +1590,6 @@ select option[value=""] {
 
 .overlay-text *:nth-child(4) {
     animation: loading-text .75s ease-in-out .5s infinite alternate both;
-}
-
-@keyframes loading-text {
-    0% {
-        transform: scale(1.5);
-    }
-
-    50% {
-        transform: scale(1);
-    }
 }
 
 .letter {
@@ -1741,7 +1674,7 @@ select option[value=""] {
     transform: perspective(4.5rem) rotateX(70deg) rotateZ(-15deg);
 }
 
-/* Payment Success Page */
+/* ------------------------------------------------------------------------------------ PAYMENT SUCCESS PAGE */
 .suggested-games {
     --shadow-color: 0deg 0% 0%;
 }
@@ -1768,11 +1701,18 @@ select option[value=""] {
     color: #9f0 !important;
 }
 
-footer {
-    background-color: rgb(var(--lm-bg-color));
+/* ------------------------------------------------------------------------------------ ANIMATIONS (KEYFRAMES) */
+
+@keyframes loading-text {
+    0% {
+        transform: scale(1.5);
+    }
+
+    50% {
+        transform: scale(1);
+    }
 }
 
-/* Animations/Keyframes */
 
 @-webkit-keyframes loading {
     0% {
@@ -1869,10 +1809,19 @@ footer {
     }
 }
 
-/* Media Queries */
+/* ------------------------------------------------------------------------------------ MEDIA QUERIES */
 @media (max-width: 350px) {
     #games-carousel {
         width: 90vw;
+    }
+}
+
+
+@media (max-width: 400px) {
+
+    .promo-header,
+    .game-header {
+        height: 55vh;
     }
 }
 
@@ -1888,6 +1837,32 @@ footer {
     }
 }
 
+@media (max-width: 576px) {
+    #games-carousel .carousel-indicators {
+        bottom: -43px;
+    }
+
+    #games-carousel .carousel-item {
+        min-height: 35vh;
+    }
+
+    #games-carousel .carousel-item button,
+    #games-carousel .carousel-item a {
+        padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x) !important;
+        float: right;
+    }
+
+    #games-carousel .carousel-item .carousel-caption {
+        bottom: .5rem;
+        flex-direction: column;
+        padding: 0 .5rem !important;
+    }
+
+    #games-carousel .carousel-item .carousel-caption h3 {
+        max-width: 100%;
+    }
+}
+
 @media (min-width: 768px) {
     .d-md-cell {
         display: table-cell !important;
@@ -1895,6 +1870,13 @@ footer {
 
     #promo-table-pagination div {
         width: 12%;
+    }
+
+    .empty-cart .bubble:after {
+        border-width: 0 0 20px 20px;
+        top: 50%;
+        left: -9px;
+        margin-top: -10px;
     }
 }
 
@@ -1920,40 +1902,11 @@ footer {
     }
 }
 
-@media (min-width: 992px) {
-    .offcanvas {
-        display: none;
-    }
-
-    .col-lg-2plus {
-        flex: 0 0 auto;
-        width: 21%;
-    }
-
-    /* Custom Bootstraps */
-    .col-3plus {
-        width: 20%;
-    }
-
-    .col-8plus {
-        flex: 0 0 auto;
-        width: 68.19%;
-    }
-
-    #pagination div {
-        width: 15%;
-    }
-
-    #promo-table-pagination div {
-        width: 18%;
-    }
-}
-
 @media (max-width: 991px) {
     .game>* {
         --game-height: 206px;
     }
-    
+
     #games-filter {
         display: none;
         position: fixed;
@@ -1974,7 +1927,36 @@ footer {
     }
 }
 
+@media (min-width: 992px) {
+    .offcanvas {
+        display: none;
+    }
+
+    .col-lg-2plus {
+        flex: 0 0 auto;
+        width: 21%;
+    }
+
+    .col-3plus {
+        width: 20%;
+    }
+
+    .col-8plus {
+        flex: 0 0 auto;
+        width: 68.19%;
+    }
+
+    #pagination div {
+        width: 15%;
+    }
+
+    #promo-table-pagination div {
+        width: 18%;
+    }
+}
+
 @media (min-width: 1200px) {
+
     #pagination div,
     #promo-table-pagination div {
         width: 10%;
@@ -2014,7 +1996,7 @@ footer {
         min-width: 225px;
     }
 
-    #pagination div{
+    #pagination div {
         width: 9%;
     }
 
