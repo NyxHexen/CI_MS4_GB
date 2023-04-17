@@ -25,7 +25,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
     </script>
-    </script>
     <script src="https://kit.fontawesome.com/f05b6615ad.js" crossorigin="anonymous"></script>
     <!-- Stripe -->
     <script src="https://js.stripe.com/v3/"></script>
@@ -67,9 +66,12 @@
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item content-font" href="{% url 'promo_add' %}">Add New Promo</a></li>
-                                    <li><a class="dropdown-item content-font" href="{% url 'game_add' 'game' %}">Add New Game</a></li>
-                                    <li><a class="dropdown-item content-font" href="{% url 'game_add' 'dlc' %}">Add New DLC</a></li>
+                                    <li><a class="dropdown-item content-font" href="{% url 'promo_add' %}">Add New
+                                            Promo</a></li>
+                                    <li><a class="dropdown-item content-font" href="{% url 'game_add' 'game' %}">Add New
+                                            Game</a></li>
+                                    <li><a class="dropdown-item content-font" href="{% url 'game_add' 'dlc' %}">Add New
+                                            DLC</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -145,10 +147,8 @@
                             <a class="nav-link" href="{% url 'account_signup' %}">sign up</a>
                         </li>
                         {% endif %}
-                        </li>
                     </ul>
                 </div>
-            </div>
             </div>
         </nav>
     </header>
@@ -213,9 +213,10 @@
             </div>
         </div>
     </footer>
+
     {% block postloadjs %}
     <script src="{% static 'js/games.js' %}"></script>
-    <script type="text/javascript">
+    <script>
         const toastElList = document.querySelectorAll('.toast')
         toastElList.forEach(toast => {
             const new_toast = new bootstrap.Toast(toast)

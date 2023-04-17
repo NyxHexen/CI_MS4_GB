@@ -43,7 +43,6 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-dark" id="promo_preview">Preview</button>
                     <button type="submit" class="btn btn-gamebox" id="promo_save">Save and Exit</button>
-                    <button type="submit" class="btn btn-gamebox" id="promo_cont">Save and Continue Editing</button>
                     <button type="submit" class="btn btn-gamebox-alt" id="promo_activate">Activate</button>
                 </div>
                 <input type="hidden" name="submit_option" id="submit_option" value="preview">
@@ -52,8 +51,8 @@
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-<script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+<script>
     $(".modal").draggable();
     $("#promo-form").on('change', () => {
         $("#promo_activate").attr("disabled", true)
