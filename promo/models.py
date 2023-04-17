@@ -26,8 +26,10 @@ class Promo(CustomBaseModel):
     short_description = models.TextField(max_length=512, null=True, blank=True)
     long_description = models.TextField(max_length=1024, null=True, blank=True)
 
+
     def __str__(self) -> str:
         return self.name
+
 
     def clean(self):
         # Check if end date is before start date
@@ -38,9 +40,12 @@ class Promo(CustomBaseModel):
                 params={"end_date": "End date"},
             )
 
+
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
         # Self contains no information about its fields, query the database instead.
+        if self.landing_page and self.media is None:
+            self.media = Media.objects.get(slug="no-image-landing")
+        super().save(*args, **kwargs)
         promo = Promo.objects.get(id=self.id)
         if self.active and self.id is not None:
             for queryset in [promo.apply_to_game.all(), promo.apply_to_dlc.all()]:
@@ -63,18 +68,17 @@ class Promo(CustomBaseModel):
                     game.promo_percentage = 0
                     game.final_price = game.base_price
                     game.save()
-        else:
-            pass
+
 
     def delete(self, using=None, keep_parents=False):
         remove_discount(self)
         return super().delete(using=using, keep_parents=keep_parents)
 
+
     pre_add = None
     post_add = None
     pre_remove = None
     post_remove = None
-
 
     # Manage status on adding/removing from M2M field.
     def _update_promo_items(self, **kwargs):
