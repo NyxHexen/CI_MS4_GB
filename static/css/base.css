@@ -1119,16 +1119,6 @@ input:active {
     object-fit: cover;
 }
 
-.promo-header a {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    color: white;
-    text-shadow: 0 0 10px #1f1f1f;
-    font-size: 5rem;
-    z-index: 30;
-}
-
 .container__shadow {
     --shadow-color: 0deg 0% 35%;
     background-color: rgb(var(--lm-bg-color));
