@@ -200,6 +200,11 @@
 </script>
 {% if request.path == '/promo/add/' %}
 <script>
+    let toggleButton = document.querySelector('.promo-info button')
+    window.onload = () => {
+        toggleButton.click()
+    }
+    
     const startDateField = document.getElementById('id_start_date')
     const endDateField = document.getElementById('id_end_date')
     const pickerStart = new tempusDominus.TempusDominus(startDateField, {
