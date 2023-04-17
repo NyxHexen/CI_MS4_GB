@@ -99,7 +99,7 @@
           </form>
           {% elif item.model_name == 'promo' %}
           <div class="promo-details d-flex align-items-center justify-content-end text-bg-light rounded">
-            <p class="fs-6 m-0 mx-3">Up to<br><span class="fs-5">-{{ item.promo_percentage }}%!</span></p>
+            <p class="fs-6 m-0 mx-3">Up to<br><span class="fs-5">-{{ item.max_promo_percentage }}%!</span></p>
             <a href="{% url 'promo' item.id %}"
               class="browse fs-5 btn btn-lg btn-gamebox-alt py-3 px-4 ms-md-none float-end">Browse</a>
           </div>
@@ -248,7 +248,7 @@
     <h2>Deals of The Day</h2>
     <hr>
     <div class="row justify-content-center mt-5">
-      {% if  dotd|length != 0 %}
+      {% if dotd|length != 0 %}
       {% for deal in dotd %}
       <div class="countdown col-7 col-xs-6 col-md-4 col-lg-3">
         <a {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
@@ -263,7 +263,7 @@
               {% if deal.model_name == 'promo' %}
               Up to <br>
               {% endif %}
-              <span class="display-2">-{{ deal.promo_percentage }}%</span>
+              <span class="display-2">-{{ deal.max_promo_percentage }}%</span>
             </p>
             {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
             <div class="btn-group d-flex align-items-center" role="group" aria-label="Deal prices">
