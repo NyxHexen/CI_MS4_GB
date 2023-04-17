@@ -1,6 +1,7 @@
 from django import forms
-from games.models import Game, DLC
+from django.db.models import Q
 
+from games.models import Game, DLC
 from .models import Promo
 
 
@@ -23,18 +24,6 @@ class PromoForm(forms.ModelForm):
             'long_description',
         )
 
-    apply_to_game = forms.ModelMultipleChoiceField(
-        queryset=Game.objects.filter(in_promo=False),
-        widget=forms.SelectMultiple,
-        required=False,
-    )
-
-    apply_to_dlc = forms.ModelMultipleChoiceField(
-        queryset=DLC.objects.filter(in_promo=False),
-        widget=forms.SelectMultiple,
-        required=False,
-    )
-
     def __init__(self, *args, **kwargs):
         """
         Add better placeholders
@@ -43,3 +32,15 @@ class PromoForm(forms.ModelForm):
 
         self.fields['apply_to_game'].label = 'Available Games'
         self.fields['apply_to_dlc'].label = 'Available DLCs'
+        
+        promo_instance = kwargs.get('instance', None)
+        if promo_instance:
+            try:
+                games = (promo_instance.apply_to_game.all()).union(Game.objects.filter(in_promo=False))
+                dlcs = (promo_instance.apply_to_dlc.all()).union(DLC.objects.filter(in_promo=False))
+                self.fields['apply_to_game'].queryset = games
+                self.fields['apply_to_dlc'].queryset = dlcs
+            except Exception:
+                pass
+
+
