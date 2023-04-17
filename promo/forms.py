@@ -26,7 +26,8 @@ class PromoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         """
-        Add better placeholders
+        Add better placeholders and ensure that only games shown are either in this Promo
+        or not in one at all.
         """
         super().__init__(*args, **kwargs)
 
@@ -36,8 +37,12 @@ class PromoForm(forms.ModelForm):
         promo_instance = kwargs.get('instance', None)
         if promo_instance:
             try:
-                games = (promo_instance.apply_to_game.all()).union(Game.objects.filter(in_promo=False))
-                dlcs = (promo_instance.apply_to_dlc.all()).union(DLC.objects.filter(in_promo=False))
+                games = (
+                    promo_instance.apply_to_game.all() + Game.objects.filter(in_promo=False)
+                )
+                dlcs = (
+                    promo_instance.apply_to_dlc.all() + DLC.objects.filter(in_promo=False)
+                )
                 self.fields['apply_to_game'].queryset = games
                 self.fields['apply_to_dlc'].queryset = dlcs
             except Exception:
