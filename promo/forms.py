@@ -1,10 +1,5 @@
 from django import forms
-from django.contrib.admin.widgets import FilteredSelectMultiple
 from games.models import Game, DLC
-
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Field
-from django.forms.widgets import SplitDateTimeWidget
 
 from .models import Promo
 
@@ -27,3 +22,24 @@ class PromoForm(forms.ModelForm):
             'short_description',
             'long_description',
         )
+
+    apply_to_game = forms.ModelMultipleChoiceField(
+        queryset=Game.objects.filter(in_promo=False),
+        widget=forms.SelectMultiple,
+        required=False,
+    )
+
+    apply_to_dlc = forms.ModelMultipleChoiceField(
+        queryset=DLC.objects.filter(in_promo=False),
+        widget=forms.SelectMultiple,
+        required=False,
+    )
+
+    def __init__(self, *args, **kwargs):
+        """
+        Add better placeholders
+        """
+        super().__init__(*args, **kwargs)
+
+        self.fields['apply_to_game'].label = 'Available Games'
+        self.fields['apply_to_dlc'].label = 'Available DLCs'
