@@ -1,17 +1,16 @@
-{% extends "base.html" %} 
-{% load static %} 
+{% extends "base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
-{% load promo_tags %} 
-{% load tags %} 
+{% load promo_tags %}
+{% load tags %}
 
-{% block page_header %} 
+{% block page_header %}
 {% endblock %}
 
 {% block content %}
 <div class="promo-header">
     {% if request.path == '/promo/add/' %}
-    <img class="" src="{{ MEDIA_URL }}{{ promo.media.file.name }}"
-    alt="{{ promo.media.description }}" />
+    <img class="" src="{{ MEDIA_URL }}{{ promo.media.file.name }}" alt="{{ promo.media.description }}" />
     {% else %}
     <img class="" src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}"
         alt="{{ promo|use_media:'LANDING.descr' }}" />
@@ -20,11 +19,34 @@
         <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }} </h1>
         <p class="d-md-none short-description card-text">{{ promo.short_description }}</p>
         <p class="d-none d-md-block long-description card-text">{{ promo.long_description }}</p>
-        {% if request.path == '/promo/add/' %}
-        <button role="button" class="btn btn-gamebox-alt" data-bs-toggle="modal" data-bs-target="#promoAdd">
-            Edit Promo Details
-        </button>
+        {% if user.is_staff %}
+        <div class="admin-btns text-bg-light rounded p-2">
+            {% if promo.active %}
+                <span class="text-success">Online</span>
+            {% else %}
+                <span class="text-danger">Offline</span>
+            {% endif %}
+            {% if '/edit/' in request.path %}
+                <button role="button" class="btn btn-gamebox-alt" data-bs-toggle="modal" data-bs-target="#promoEdit">
+                    Open Edit Form
+                </button>
+                <a class="btn btn-gamebox" href="{% url 'promo' promo.id %}">
+                    View Live Page
+                </a>
+            {% elif 'promo/add/' in request.path %}
+                <button role="button" class="btn btn-gamebox-alt" data-bs-toggle="modal" data-bs-target="#promoAdd">
+                    Edit Promo Details
+                </button>
+            {% else %}
+                <a class="btn btn-gamebox-alt" href="{% url 'promo_edit' promo.id %}">
+                    Edit Promo
+                </a>
+                <a class="btn btn-danger" href="{% url 'promo_edit' promo.id %}">
+                    Delete Promo
+                </a>
+            {% endif %}
         {% endif %}
+        </div>
     </div>
 </div>
 <div id="promo-carousel" class="container__shadow position-relative">
@@ -45,7 +67,7 @@
                         {% endif %} {% endfor %}
                     </div>
                     <div class="carousel-inner">
-                        {% for slide in game_list|slide_split:request %} 
+                        {% for slide in game_list|slide_split:request %}
                         {% if forloop.first %}
                         <div class="carousel-item active">
                             {% else %}
@@ -175,18 +197,25 @@
     </div>
 </div>
 {% if request.path == '/promo/add/' %}
-{% include 'promo/includes/promo_crud.html' %}
+{% include 'promo/includes/promo_add.html' %}
+{% endif %}
+{% if user.is_staff %}
+{% include 'promo/includes/promo_edit.html' %}
 {% endif %}
 {% endblock %}
 
 {% block postloadjs %}
 {{ block.super }}
 <!-- Popperjs -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous">
+</script>
 <!-- Tempus Dominus JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/js/tempus-dominus.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/js/tempus-dominus.min.js"
+    crossorigin="anonymous"></script>
 <!-- Tempus Dominus Styles -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/css/tempus-dominus.min.css" crossorigin="anonymous">
+<link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/css/tempus-dominus.min.css"
+    crossorigin="anonymous">
 <script>
     let rows = document.querySelectorAll('tr')
     rows.forEach(row => {
@@ -198,13 +227,13 @@
         }
     })
 </script>
-{% if request.path == '/promo/add/' %}
+{% if request.path == '/promo/add/' or "/edit/" in request.path %}
 <script>
     let toggleButton = document.querySelector('.promo-info button')
     window.onload = () => {
         toggleButton.click()
     }
-    
+
     const startDateField = document.getElementById('id_start_date')
     const endDateField = document.getElementById('id_end_date')
     const pickerStart = new tempusDominus.TempusDominus(startDateField, {
