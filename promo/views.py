@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from games.models import Game, DLC
 from promo.models import Promo
 from django.http import QueryDict
 from django.core.paginator import Paginator, EmptyPage
 from urllib.parse import urlencode
+from django.contrib import messages
 
 from ci_ms4_gamebox.utils import get_or_none
 from games.views import sort_by
@@ -15,7 +16,12 @@ from decimal import Decimal
 import random
 
 def promo(request, promo_id):
-    promo = Promo.objects.get(id=promo_id)
+    promo = get_object_or_404(Promo, id=promo_id)
+    if not promo.active and not request.user.is_staff:
+        messages.error(request, 'The Sale you are looking for is not currently available! Please try again later or \
+                       contact us for further information!')
+        return redirect("/")
+    
     # Convert each argument to a list
     game_lists = [list(qset) for qset in [promo.apply_to_game.all(), promo.apply_to_dlc.all()]]
     # Flatten the list of lists into a single list
@@ -49,6 +55,9 @@ def promo(request, promo_id):
 
 
 def promo_add(request):
+    if not request.user.is_staff:
+        messages.info(request, 'Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        return redirect("/")
     game_list = list()
     real_game_list = list()
 
@@ -76,60 +85,66 @@ def promo_add(request):
             apply_to_game_list = post_copy.getlist('apply_to_game', {})
             apply_to_dlc_list = post_copy.getlist('apply_to_dlc', {})
             if submit_option == 'preview':
-                dummy_promo = {
-                        'id': 1000,
-                        'active': request.POST.get('active') or None,
-                        'name': request.POST.get('name') or None,
-                        'short_description': request.POST.get('short_description') or None,
-                        'long_description': request.POST.get('long_description') or None,
-                        'media': get_or_none(Media, id=media),
-                    }
-                
-                for id in request.POST.getlist('apply_to_game'):
-                    game = Game.objects.get(id=id)
-                    discount = request.POST.get(f'game_discount-game_{id}') or game.promo_percentage                    
-                    if not game.in_promo:
-                        game.promo_percentage = discount
-                        game.final_price = round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
-                        game_list.append(game)
-                        real_game_list.append(game)
-                    else:
-                        apply_to_game_list.remove(id)
-                post_copy.setlist('apply_to_game', apply_to_game_list)
+                try:
+                    dummy_promo = {
+                            'id': 1000,
+                            'active': request.POST.get('active') or None,
+                            'name': request.POST.get('name') or None,
+                            'short_description': request.POST.get('short_description') or None,
+                            'long_description': request.POST.get('long_description') or None,
+                            'media': get_or_none(Media, id=media),
+                        }
+                    
+                    for id in request.POST.getlist('apply_to_game'):
+                        game = Game.objects.get(id=id)
+                        discount = request.POST.get(f'game_discount-game_{id}') or game.promo_percentage                    
+                        if not game.in_promo:
+                            game.promo_percentage = discount
+                            game.final_price = round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
+                            game_list.append(game)
+                            real_game_list.append(game)
+                        else:
+                            apply_to_game_list.remove(id)
+                    post_copy.setlist('apply_to_game', apply_to_game_list)
 
-                for id in request.POST.getlist('apply_to_dlc'):
-                    game = DLC.objects.get(id=id)
-                    discount = request.POST.get(f'game_discount-dlc_{id}') or game.promo_percentage
-                    if not game.in_promo:
-                        game.promo_percentage = discount
-                        game.final_price = round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
-                        game_list.append(game)
-                        real_game_list.append(game)
-                    else:
-                        apply_to_dlc_list.remove(id)
-                post_copy.setlist('apply_to_dlc', apply_to_dlc_list)
+                    for id in request.POST.getlist('apply_to_dlc'):
+                        game = DLC.objects.get(id=id)
+                        discount = request.POST.get(f'game_discount-dlc_{id}') or game.promo_percentage
+                        if not game.in_promo:
+                            game.promo_percentage = discount
+                            game.final_price = round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
+                            game_list.append(game)
+                            real_game_list.append(game)
+                        else:
+                            apply_to_dlc_list.remove(id)
+                    post_copy.setlist('apply_to_dlc', apply_to_dlc_list)
 
-                for i in range(len(game_list), 8, 1):
-                    game_list.append(dummy_game)
+                    for i in range(len(game_list), 8, 1):
+                        game_list.append(dummy_game)
+                except Exception as e:
+                    messages.error(request, f'{e}')
             elif submit_option == 'save':
-                new_promo = form.save()
-                new_promo = Promo.objects.get(id=new_promo.id)
-                for id in post_copy.getlist('apply_to_game', {}):
-                    game = Game.objects.filter(id=id)
-                    game.update(
-                        in_promo=True, 
-                        promo=new_promo, 
-                        promo_percentage=post_copy.get(f'game_discount-game_{game[0].id}'))
-                    new_promo.apply_to_game.add(game[0])
-                for id in post_copy.getlist('apply_to_dlc', {}):
-                    dlc = DLC.objects.filter(id=id)
-                    dlc.update(
-                        in_promo=True, 
-                        promo=new_promo, 
-                        promo_percentage=post_copy.get(f'game_discount-dlc_{dlc[0].id}'))
-                    new_promo.apply_to_dlc.add(dlc[0])
-                new_promo.save()
-                return redirect(reverse('promo', kwargs={'promo_id': new_promo.id}))
+                try:
+                    new_promo = form.save()
+                    new_promo = Promo.objects.get(id=new_promo.id)
+                    for id in post_copy.getlist('apply_to_game', {}):
+                        game = Game.objects.filter(id=id)
+                        game.update(
+                            in_promo=True, 
+                            promo=new_promo, 
+                            promo_percentage=post_copy.get(f'game_discount-game_{game[0].id}'))
+                        new_promo.apply_to_game.add(game[0])
+                    for id in post_copy.getlist('apply_to_dlc', {}):
+                        dlc = DLC.objects.filter(id=id)
+                        dlc.update(
+                            in_promo=True, 
+                            promo=new_promo, 
+                            promo_percentage=post_copy.get(f'game_discount-dlc_{dlc[0].id}'))
+                        new_promo.apply_to_dlc.add(dlc[0])
+                    new_promo.save()
+                    return redirect(reverse('promo', kwargs={'promo_id': new_promo.id}))
+                except Exception as e:
+                    messages.error(request, f'{e}')
     else:
         for i in range(len(game_list), 8, 1):
             game_list.append(dummy_game)
