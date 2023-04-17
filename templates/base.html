@@ -68,8 +68,8 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item content-font" href="{% url 'promo_add' %}">Add New Promo</a></li>
-                                    <li><a class="dropdown-item content-font" href="#">Add New Game (?)</a></li>
-                                    <li><a class="dropdown-item content-font" href="#">Add New DLC (?)</a></li>
+                                    <li><a class="dropdown-item content-font" href="{% url 'game_add' 'game' %}">Add New Game</a></li>
+                                    <li><a class="dropdown-item content-font" href="{% url 'game_add' 'dlc' %}">Add New DLC</a></li>
                                 </ul>
                             </div>
                         </li>
