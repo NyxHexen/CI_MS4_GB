@@ -5,24 +5,24 @@ from django.core.exceptions import ValidationError
 from django.dispatch import receiver
 from decimal import Decimal
 
-from games.models import CustomBaseModel, Media
+from games.models import CustomBaseModel, Media, DLC, Game
 from ci_ms4_gamebox.utils import get_or_none
 from .utils import default_start_datetime, default_end_datetime
 
 
 class Promo(CustomBaseModel):
-    active = models.BooleanField(default=False)
-    name = models.CharField(max_length=254, unique=True)
+    active = models.BooleanField('Active?', default=False)
+    name = models.CharField('Name', max_length=254, unique=True)
     slug = models.SlugField(max_length=254, null=True, blank=True)
-    start_date = models.DateTimeField(null=True, default=default_start_datetime)
-    end_date = models.DateTimeField(null=True, default=default_end_datetime)
-    apply_to_game = models.ManyToManyField("games.Game", related_name="gameset", blank=True)
-    apply_to_dlc = models.ManyToManyField("games.DLC", related_name="dlcset", blank=True)
-    landing_page = models.BooleanField(default=False)
+    start_date = models.DateTimeField('Start From', null=True, default=default_start_datetime)
+    end_date = models.DateTimeField('End On', null=True, default=default_end_datetime)
+    apply_to_game = models.ManyToManyField(Game, related_name="gameset", blank=True)
+    apply_to_dlc = models.ManyToManyField(DLC, related_name="dlcset", blank=True)
+    landing_page = models.BooleanField('Landing Page?', default=False)
     media = models.ForeignKey(Media, null=True, blank=True, on_delete=models.SET_NULL)
-    url = models.URLField(max_length=1024, null=True, blank=True)
-    is_featured = models.BooleanField(default=False, null=True, blank=True)
-    carousel = models.BooleanField(default=False, null=True, blank=True)
+    url = models.URLField('URL', max_length=1024, null=True, blank=True)
+    is_featured = models.BooleanField('Add to Featured List', default=False, null=True, blank=True)
+    carousel = models.BooleanField('Add to Home Carousel', default=False, null=True, blank=True)
     short_description = models.TextField(max_length=512, null=True, blank=True)
     long_description = models.TextField(max_length=1024, null=True, blank=True)
 
@@ -113,7 +113,7 @@ class Promo(CustomBaseModel):
 
     total_in_promo.short_description = "Games In Promo"
 
-    def promo_percentage(self):
+    def max_promo_percentage(self):
         promo_games = (
             self.apply_to_game.all()
             .aggregate(Max("promo_percentage"))
