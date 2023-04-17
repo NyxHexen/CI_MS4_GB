@@ -56,6 +56,16 @@
                 </div>
             </div>
             <div class="col offset-6 offset-sm-4 offset-md-3 offset-xl-2 pt-3">
+            {% if user.is_staff %}
+            <div class="admin-btns mb-2">
+                <a class="btn btn-gamebox-alt" href="{% url 'game_edit' game.model_name game.id %}">
+                    Edit Promo
+                </a>
+                <a class="btn btn-danger" href="#">
+                    Delete Promo
+                </a>
+            </div>
+            {% endif %}
                 <div class="game-genre-list mb-2">
                     <span><strong> Genre: </strong></span>
                     {% for genre in game.genres.all %}

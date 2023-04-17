@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import QueryDict, JsonResponse
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage
@@ -10,7 +10,8 @@ from django.contrib import messages
 
 from ci_ms4_gamebox.utils import get_or_none
 from games.models import (Game, Genre,
-                          Tag, Platform, Feature, DLC)
+                          Tag, Platform, Feature, DLC,
+                          RatingSet)
 from .utils import sort_by
 from .forms import GameForm, DLCForm, RatingForm
 
@@ -229,4 +230,49 @@ def game_add(request, model_name):
         'rating_form': rating_form,
         'model_name': model_name,
     }
-    return render(request, "games/game_add.html", context)
+    return render(request, "games/game_crud.html", context)
+
+
+def game_edit(request, model_name, game_id):
+    game = get_object_or_404(
+        Game, id=game_id
+        ) if model_name.__eq__('game') else get_object_or_404(
+        DLC, id=game_id
+        )
+    
+    rating_set = get_object_or_404(RatingSet, id=game.ratingset.id)
+    
+    game_form = GameForm(
+        instance=game
+        ) if model_name.__eq__('game') else DLCForm(
+        instance=game
+        )
+    
+    rating_form = RatingForm(instance=rating_set)
+
+    if request.method == "POST":
+        if model_name.__eq__('game'):
+            game_form = GameForm(request.POST, instance=game)
+        else:
+            game_form = DLCForm(request.POST, instance=game)
+
+        if game_form.is_valid():
+            game = game_form.save()
+            rating_form_data = {
+                'game': game if game.model_name() == 'game' else {},
+                'dlc': game if game.model_name() == 'dlc' else {},
+                'esrb_rating': request.POST.get('esrb_rating', {}),
+                'pegi_rating': request.POST.get('pegi_rating', {}),
+            }
+            rating_form = RatingForm(rating_form_data, instance=rating_set)
+            if rating_form.is_valid():
+                rating_form = rating_form.save()
+                return redirect(reverse('game', kwargs={'model_name': game.model_name(),'game_id': game.id}))
+
+    context = {
+        'model_name': model_name,
+        'game_id': game_id,
+        'game_form': game_form,
+        'rating_form': rating_form,
+    }
+    return render(request, "games/game_crud.html", context)
