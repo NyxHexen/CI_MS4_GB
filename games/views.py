@@ -12,6 +12,7 @@ from ci_ms4_gamebox.utils import get_or_none
 from games.models import (Game, Genre,
                           Tag, Platform, Feature, DLC)
 from .utils import sort_by
+from .forms import GameForm, DLCForm, RatingForm
 
 from decimal import Decimal
 from datetime import datetime
@@ -157,6 +158,7 @@ def game(request, model_name, game_id):
         context['user_rating'] = user_rating.value if user_rating is not None else None
     return render(request, "games/game.html", context)
 
+
 @csrf_exempt
 @login_required
 @require_POST
@@ -169,3 +171,62 @@ def set_game_rating(request, model_name, game_id):
         return JsonResponse({'new_game_rating': game.ratingset.user_rating_calc(), 'error': ''})
     else:
         return JsonResponse({'error': 'guest'})
+    
+
+def game_add(request, model_name):
+    if not request.user.is_staff:
+        messages.info(request, '\
+                      Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        return redirect("/")
+    
+    if model_name.__eq__('game'):
+        game_form = GameForm()
+    else:
+        game_form = DLCForm()
+        
+    rating_form = RatingForm()
+
+    if request.method == 'POST':
+        game_form_data = {
+            'required_game': request.POST.get('required_game', {}),
+            'name': request.POST.get('name', {}),
+            'description': request.POST.get('description', ""),
+            'storyline': request.POST.get('storyline', ""),
+            'genres': request.POST.getlist('genres', {}),
+            'publishers': request.POST.getlist('publishers', {}),
+            'developers': request.POST.getlist('developers', {}),
+            'release_date': request.POST.get('release_date', datetime.now()),
+            'description': request.POST.get('description', ""),
+            'platforms': request.POST.getlist('platforms', {}),
+            'tags': request.POST.getlist('tags', {}),
+            'features': request.POST.getlist('features', {}),
+            'media': request.POST.getlist('media', {}),
+            'is_featured': request.POST.get('is_featured', False),
+            'carousel': request.POST.get('carousel', False),
+            'base_price': request.POST.get('base_price', Decimal(0.00)),
+        }
+
+        if model_name.__eq__('game'):
+            game_form = GameForm(game_form_data)
+        else:
+            game_form = DLCForm(game_form_data)
+
+        if game_form.is_valid():
+            game = game_form.save()
+            rating_form_data = {
+                'game': game if game.model_name() == 'game' else {},
+                'dlc': game if game.model_name() == 'dlc' else {},
+                'esrb_rating': request.POST.get('esrb_rating', {}),
+                'pegi_rating': request.POST.get('pegi_rating', {}),
+            }
+            rating_form = RatingForm(rating_form_data)
+            if rating_form.is_valid():
+                rating_form = rating_form.save()
+                return redirect(reverse('game', kwargs={'model_name': game.model_name(),'game_id': game.id}))
+
+    context = {
+        'game_form': game_form,
+        'rating_form': rating_form,
+        'model_name': model_name,
+    }
+    return render(request, "games/game_add.html", context)

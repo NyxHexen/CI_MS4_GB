@@ -10,8 +10,6 @@ from django_countries.fields import CountryField
 import os
 
 # Create your models here.
-
-
 class CustomBaseModel(models.Model):
     """
     DRY!
