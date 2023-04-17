@@ -189,7 +189,7 @@ def promo_edit(request, promo_id):
     if request.method == "POST":
         f = PromoForm(request.POST, instance=promo)
         if f.is_valid():
-            if submit_option in ['save', 'cont', 'activate']:
+            if submit_option in ['save', 'activate']:
                 promo = f.save()
                 promo = Promo.objects.get(id=promo.id)
                 if f.has_changed():
@@ -199,7 +199,11 @@ def promo_edit(request, promo_id):
                                 setattr(
                                     promo,
                                     data,
-                                    pytz.utc.localize(dt.datetime.strptime(request.POST[data], "%Y-%m-%d %H:%M:%S"))
+                                    pytz.utc.localize(
+                                        dt.datetime.strptime(
+                                            request.POST[data], "%Y-%m-%d %H:%M:%S"
+                                            )
+                                        )
                                     )
                 for id in request.POST.getlist('apply_to_game', {}):
                     game = Game.objects.filter(id=id)
@@ -258,10 +262,8 @@ def promo_edit(request, promo_id):
             promo.apply_to_game.count().__ne__(0) or promo.apply_to_dlc.count().__ne__(0)
             ):
             promo.active = True
-            # promo.save()
+            promo.save()
             return redirect(reverse('promo', kwargs={'promo_id': promo_id}))
-        elif submit_option.__eq__('cont'):
-            return redirect(reverse('promo_edit', kwargs={'promo_id': promo_id}))
         elif submit_option.__eq__('save'):
             return redirect(reverse('promo', kwargs={'promo_id': promo_id}))
         
