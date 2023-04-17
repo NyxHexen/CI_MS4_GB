@@ -1310,7 +1310,7 @@ a.socialaccount_provider.google {
 
 .game-detail-media img {
     object-fit: cover;
-    height: 100%;
+    height: 350px;
 }
 
 .game-detail-media .player-trigger {
