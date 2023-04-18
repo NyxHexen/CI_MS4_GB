@@ -207,6 +207,19 @@
     --bs-gradient: none;
 }
 
+.text-small {
+    font-size: .9rem !important;
+}
+
+.text-gamebox {
+    color: #6f2dbd !important;
+}
+
+.text-bg-gamebox {
+    color: #fff !important;
+    background-color: #6f2dbd !important;
+}
+
 .text-bg-gamebox-alt {
     color: #000 !important;
     background-color: #9f0 !important;
