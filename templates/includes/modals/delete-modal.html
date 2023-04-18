@@ -11,6 +11,8 @@
                   game {{ game }}
                   {% elif promo %}
                   promo {{ promo }}
+                  {% elif 'media/' in request.path %}
+                  this media object
                   {% endif %}
                   ?
               </div>
@@ -22,8 +24,12 @@
                   </a>
                   {% elif promo %}
                   <a class="btn btn-danger" href="{% url 'promo_delete' promo.id %}">
-                    Delete Promo
-                </a>
+                      Delete Promo
+                  </a>
+                  {% elif 'media/' in request.path %}
+                  <a id="media-delete" href="#" class="btn btn-danger text-small me-1">
+                      Delete Media
+                  </a>
                   {% endif %}
               </div>
           </div>

@@ -1702,8 +1702,9 @@ select option[value=""] {
     --shadow-color: 0deg 0% 50%;
 }
 
-.media-edit-btn {
-    line-height: 1;
+.media-edit-btn,
+.media-del-btn {
+    line-height: 1.2;
     padding: .15rem .25rem;
     border-radius: 2px;
 }
