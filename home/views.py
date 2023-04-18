@@ -1,6 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+
 from games.models import Game, DLC
 from promo.models import Promo
+from .models import Media
+from .forms import MediaForm
 
 import random
 
@@ -34,3 +39,21 @@ def index(request):
 
     context = {"carousel": carousel, "is_featured": is_featured, "dotd": dotd}
     return render(request, "home/index.html", context)
+
+
+@login_required
+def media(request):
+    game_lists = [list(qset) for qset in [Game.objects.all(), DLC.objects.all()]]
+    game_list = [item for sublist in game_lists for item in sublist]
+    filtered_game_list = [i for i in game_list if i.media.all().count() != 0]
+
+    assigned_media_list = [
+        item.id for sublist in [i.media.all() for i in filtered_game_list] for item in sublist]
+    
+    unassigned_media = Media.objects.exclude(id__in=assigned_media_list)
+
+    context = {
+        'game_list': game_list,
+        'unassigned_media': unassigned_media,
+    }
+    return render(request, "media/media_list.html", context)

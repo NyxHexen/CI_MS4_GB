@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django_cleanup.apps.CleanupConfig', # Automatically invokes delete method on FileField
+    'django.contrib.humanize',
     'django_user_agents',
     'crispy_forms',
     'crispy_bootstrap5',
