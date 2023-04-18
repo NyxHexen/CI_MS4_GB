@@ -66,12 +66,16 @@
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <li><h6 class="dropdown-header content-font">Promotions</h6></li>
                                     <li><a class="dropdown-item content-font" href="{% url 'promo_add' %}">Add New
                                             Promo</a></li>
+                                    <li><h6 class="dropdown-header content-font">Games/DLCs</h6></li>
                                     <li><a class="dropdown-item content-font" href="{% url 'game_add' 'game' %}">Add New
                                             Game</a></li>
                                     <li><a class="dropdown-item content-font" href="{% url 'game_add' 'dlc' %}">Add New
                                             DLC</a></li>
+                                    <li><h6 class="dropdown-header content-font">Media</h6></li>
+                                    <li><a class="dropdown-item content-font" href="{% url 'media' %}">View All</a></li>
                                     <li><a class="dropdown-item content-font" href="{% url 'media_add' %}">Add New
                                             Media</a></li>
                                 </ul>
