@@ -4,6 +4,7 @@ from django.http import QueryDict
 from django.core.paginator import Paginator, EmptyPage
 from urllib.parse import urlencode
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from decimal import Decimal
 
 from ci_ms4_gamebox.utils import get_or_none
@@ -284,3 +285,14 @@ def promo_edit(request, promo_id):
         'page': page,
     }
     return render(request, 'promo/index.html', context)
+
+
+@login_required
+def promo_delete(request, promo_id):
+    try:
+        promo = Promo.objects.get(id=promo_id) 
+        promo.delete()
+        messages.success(request, f"{promo} has been deleted successfully!")
+    except Exception as e:
+        messages.error(request, "System Malfunction! Please try again later!")
+    return redirect(reverse('home'))

@@ -40,9 +40,9 @@
             <a class="btn btn-gamebox-alt" href="{% url 'promo_edit' promo.id %}">
                 Edit Promo
             </a>
-            <a class="btn btn-danger" href="{% url 'promo_edit' promo.id %}">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 Delete Promo
-            </a>
+              </button>
             {% endif %}
             {% endif %}
         </div>
@@ -193,11 +193,18 @@
         </div>
     </div>
 </div>
+
 {% if 'add' in request.path %}
-{% include 'promo/includes/promo_add.html' %}
+    {% include 'promo/includes/promo_add.html' %}
 {% elif 'edit' in request.path %}
-{% include 'promo/includes/promo_edit.html' %}
+    {% include 'promo/includes/promo_edit.html' %}
 {% endif %}
+
+{% if user.is_staff %}
+    {% include 'includes/modals/delete-modal.html' %}
+{% endif %}
+
+
 {% endblock %}
 
 {% block postloadjs %}
