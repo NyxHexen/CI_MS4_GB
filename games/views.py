@@ -174,6 +174,7 @@ def set_game_rating(request, model_name, game_id):
         return JsonResponse({'error': 'guest'})
     
 
+@login_required
 def game_add(request, model_name):
     if not request.user.is_staff:
         messages.info(request, '\
@@ -232,7 +233,7 @@ def game_add(request, model_name):
     }
     return render(request, "games/game_crud.html", context)
 
-
+@login_required
 def game_edit(request, model_name, game_id):
     game = get_object_or_404(
         Game, id=game_id
@@ -257,7 +258,10 @@ def game_edit(request, model_name, game_id):
             game_form = DLCForm(request.POST, instance=game)
 
         if game_form.is_valid():
-            game = game_form.save()
+            game = game_form.save(commit=False)
+            discount = game.promo_percentage
+            game.final_price = round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
+            game.save()
             rating_form_data = {
                 'game': game if game.model_name() == 'game' else {},
                 'dlc': game if game.model_name() == 'dlc' else {},
@@ -276,3 +280,17 @@ def game_edit(request, model_name, game_id):
         'rating_form': rating_form,
     }
     return render(request, "games/game_crud.html", context)
+
+@login_required
+def game_delete(request, model_name, game_id):
+    try:
+        game = (
+            Game.objects.get(id=game_id) 
+            if model_name == "game" else 
+            DLC. objects.get(id=game_id)
+            )
+        game.delete()
+        messages.success(request, f"{game} has been deleted successfully!")
+    except Exception as e:
+        messages.error(request, "System Malfunction! Please try again later!")
+    return redirect(reverse('games'))
