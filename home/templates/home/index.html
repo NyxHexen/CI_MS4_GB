@@ -121,7 +121,7 @@
   </div>
 </section>
 <section class="container mt-4 mb-5">
-  <h2>Featured Games</h2>
+  <h2 class="ps-3">Featured Games</h2>
   <hr>
   <div class="games row justify-content-center mt-3">
     {% for game in is_featured %}
@@ -243,9 +243,9 @@
     {% endfor %}
   </div>
 </section>
-<section class="deals pt-2 pb-5">
-  <div class="container my-4">
-    <h2>Deals of The Day</h2>
+<section class="deals pt-2 pb-0 pb-lg-5">
+  <div class="container mt-4">
+    <h2 class="ps-3">Deals of The Day</h2>
     <hr>
     <div class="row justify-content-center mt-5">
       {% if dotd|length != 0 %}
@@ -262,8 +262,10 @@
             <p class="deal-discount text-align-center fs-2">
               {% if deal.model_name == 'promo' %}
               Up to <br>
-              {% endif %}
               <span class="display-2">-{{ deal.max_promo_percentage }}%</span>
+              {% else %}
+              <span class="display-2">-{{ deal.promo_percentage }}%</span>
+              {% endif %}
             </p>
             {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
             <div class="btn-group d-flex align-items-center" role="group" aria-label="Deal prices">
