@@ -57,3 +57,18 @@ def media(request):
         'unassigned_media': unassigned_media,
     }
     return render(request, "media/media_list.html", context)
+
+
+@login_required
+def media_add(request):
+    form = MediaForm()
+
+    if request.method == "POST":
+        f = MediaForm(request.POST)
+        if f.is_valid():
+            media = f.save()
+            return redirect(reverse('home'))
+    context = {
+        'form': form, 
+    }
+    return render(request, "media/media_crud.html", context)
