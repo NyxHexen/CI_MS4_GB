@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from games.models import Game, DLC
@@ -66,9 +67,36 @@ def media_add(request):
     if request.method == "POST":
         f = MediaForm(request.POST)
         if f.is_valid():
-            media = f.save()
-            return redirect(reverse('home'))
+            try:
+                media = f.save()
+                messages.success(request, f"{ media } has been saved successfully!")
+                return redirect(reverse('home'))
+            except Exception as e:
+                messages.error(request, f'{e}')
     context = {
         'form': form, 
+    }
+    return render(request, "media/media_crud.html", context)
+
+
+@login_required
+def media_edit(request, media_id):
+    media = get_object_or_404(Media, id=media_id)
+    form = MediaForm(instance=media)
+
+    if request.method == "POST":
+        f = MediaForm(request.POST, instance=media)
+        if f.is_valid():
+            if f.has_changed():
+                try:
+                    media = f.save()
+                    messages.success(request, f"{ media } has been edited successfully!")
+                    return redirect(reverse('media'))
+                except Exception as e:
+                    messages.error(request, f'{e}')
+
+    context = {
+        'form': form,
+        'media': media,
     }
     return render(request, "media/media_crud.html", context)
