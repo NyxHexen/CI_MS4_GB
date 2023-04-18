@@ -18,7 +18,8 @@ def index(request):
 
     is_featured = carousel
     if len(is_featured) > 4:
-        is_featured = random.sample(is_featured, 5)
+        cards_num = 5 if request.user_agent.is_pc else 4
+        is_featured = random.sample(is_featured, cards_num)
 
     carousel += list(Promo.objects.filter(carousel=True))
 
