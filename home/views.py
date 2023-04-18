@@ -100,3 +100,14 @@ def media_edit(request, media_id):
         'media': media,
     }
     return render(request, "media/media_crud.html", context)
+
+
+@login_required
+def media_delete(request, media_id):
+    try:
+        media = Media.objects.get(id=media_id)
+        media.delete()
+        messages.success(request, f"{media} has been deleted successfully!")
+    except Exception as e:
+        messages.error(request, f"{e}")
+    return redirect(reverse('media'))
