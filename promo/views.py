@@ -9,7 +9,7 @@ from decimal import Decimal
 
 from ci_ms4_gamebox.utils import get_or_none
 from games.views import sort_by
-from games.models import Media
+from home.models import Media
 from games.models import Game, DLC
 from promo.models import Promo
 from .forms import PromoForm

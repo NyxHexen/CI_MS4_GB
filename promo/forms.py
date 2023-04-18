@@ -1,5 +1,4 @@
 from django import forms
-from django.db.models import Q
 
 from games.models import Game, DLC
 from .models import Promo

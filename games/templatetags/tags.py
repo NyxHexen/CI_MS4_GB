@@ -1,5 +1,5 @@
 from django import template
-from games.models import Media
+from home.models import Media
 
 register = template.Library()
 

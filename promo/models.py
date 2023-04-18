@@ -5,7 +5,8 @@ from django.core.exceptions import ValidationError
 from django.dispatch import receiver
 from decimal import Decimal
 
-from games.models import CustomBaseModel, Media, DLC, Game
+from games.models import CustomBaseModel, DLC, Game
+from home.models import Media
 from ci_ms4_gamebox.utils import get_or_none
 from .utils import default_start_datetime, default_end_datetime
 
