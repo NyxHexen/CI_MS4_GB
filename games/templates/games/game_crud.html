@@ -26,7 +26,7 @@
 <div class="container my-5">
     <div class="row">
             {% if 'add' in request.path %}
-        <div id="game-add" class="col-12 col-lg-8 offset-lg-2 card">
+        <div id="game-add" class="col-11 col-lg-8 offset-lg-2 card mx-auto">
             <form action="{% url 'game_add' model_name %}" method="post" class="row card-body justify-content-center">
             <h2 class="text-center ui-font">Add New {{ model_name }}</h2>
             {% elif 'edit' in request.path %}
@@ -54,7 +54,7 @@
                     {{ rating_form.pegi_rating|as_crispy_field }}
                 </fieldset>
                 <hr class="d-none d-md-block d-lg-none my-4">
-                <fieldset class="col-12 col-xl-4 d-md-flex flex-md-row d-lg-block justify-content-between"
+                <fieldset class="col-12 col-xl-4 d-md-flex flex-lg-column d-lg-block justify-content-between"
                     name="select">
                     <div class="d-flex flex-column align-items-start col col-md-2 col-lg-auto">
                         {{ game_form.is_featured|as_crispy_field }}

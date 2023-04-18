@@ -18,7 +18,7 @@
     <div class="container__blur position-absolute">
         <div class="container game-detail-title d-flex flex-column justify-content-end">
             <div class="row">
-                <div class="col offset-6 offset-sm-4 offset-md-3 offset-xl-2 pt-3">
+                <div class="col offset-md-3 offset-xl-2 pt-3">
                     <h2 class="display-3">{{ game.name }}</h2>
                 </div>
             </div>
@@ -27,8 +27,8 @@
 </div>
 <div class="container__shadow position-relative">
     <div class="container">
-        <div class="game-detail-info row">
-            <div class="game-detail-cover col-6 col-sm-4 col-md-3 col-xl-2">
+        <div class="game-detail-info row justify-content-center justify-content-md-start">
+            <div class="game-detail-cover col-8 col-sm-5 col-md-3 col-xl-2 my-3 d-flex flex-column align-items-center">
                 <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}" />
                 <form action="{% url 'cart_add' game.model_name game.id %}" id="cart_add" method="POST"
                     class="w-100 d-flex flex-row mt-2">
@@ -55,17 +55,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col offset-6 offset-sm-4 offset-md-3 offset-xl-2 pt-3">
-            {% if user.is_staff %}
-            <div class="admin-btns mb-2">
-                <a class="btn btn-gamebox-alt" href="{% url 'game_edit' game.model_name game.id %}">
-                    Edit Game
-                </a>
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                    Delete Game
-                  </button>
-            </div>
-            {% endif %}
+            <div class="col-12 col-md-8 offset-xl-2 col-xl-7 pt-3">
+                {% if user.is_staff %}
+                <div class="admin-btns mb-2 d-flex align-items-center justify-content-center">
+                    <a class="btn btn-gamebox-alt" href="{% url 'game_edit' game.model_name game.id %}">
+                        Edit Game
+                    </a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        Delete Game
+                    </button>
+                </div>
+                {% endif %}
                 <div class="game-genre-list mb-2">
                     <span><strong> Genre: </strong></span>
                     {% for genre in game.genres.all %}
@@ -90,10 +90,10 @@
                     <p>{{ game.description }}</p>
                 </div>
             </div>
-            <div class="col-3 mt-3 position-relative">
+            <div class="col-8 col-md-4 col-xl-3 mt-3 position-relative">
                 <div class="card">
                     <div class="card-body game-detail-rating p-3 m-3 mb-0 align-self-center">
-                        <div class="d-flex d-flex flex-column justify-content-center align-items-center">
+                        <div class="d-flex flex-column justify-content-center align-items-center">
                             <span class="card-title m-0 fs-1">{{ game.ratingset.user_rating_calc }}</span>
                             <span class="fs-6 text-center">&nbsp;</span>
                         </div>
@@ -110,7 +110,7 @@
                         </h4>
                         <div class="stars-container d-flex justify-content-center fs-4 mt-1">
                             <a href="#" class="star star-1" data-id="1">
-                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i> 
                             </a>
                             <a href="#" class="star star-2" data-id="2">
                                 <i class="fa-solid fa-star"></i>
@@ -198,25 +198,25 @@
 </div>
 <div class="container mb-5">
     <div class="row">
-        <div class="col offset-6 offset-sm-4 offset-md-3 offset-xl-2 pt-3">
+        <div class="col mt-4 col-sm-8 col-md-10 col-lg-8">
             <div class="col">
                 <h2 class="ui-font header-decoration">storyline</h2>
                 <p>{{ game.storyline }}</p>
             </div>
-            <div class="col mt-4">
-                {% if game.model_name == 'game' %}
-                <h2 class="ui-font header-decoration">related content</h2>
-                <div class="col-3 d-flex mt-3">
-                    {% for dlc in game.dlc_set.all %}
-                    <a href="{% url 'game' dlc.model_name dlc.id %}" class="col dlc position-relative mx-1">
-                        <span class="h5 position-absolute text-center">{{ dlc }}</span>
-                        <img class="img-fluid w-100" src="{{ MEDIA_URL }}{{ dlc|use_media:'COVER.src'}}"
-                            alt="{{ dlc|use_media:'COVER.descr'}}">
-                    </a>
+            <div class="col mt-4 col-sm-8 col-md-10 col-lg-8">
+                    {% if game.model_name == 'game' %}
+                    <h2 class="ui-font header-decoration">related content</h2>
+                    <div class="col-5 col-sm-4 col-md-3 col-lg-5 col-xl-3 d-flex mt-3 mx-auto mx-md-0">
+                        {% for dlc in game.dlc_set.all %}
+                        <a href="{% url 'game' dlc.model_name dlc.id %}" class="col dlc position-relative mx-1">
+                            <span class="h5 position-absolute text-center">{{ dlc }}</span>
+                            <img class="img-fluid w-100" src="{{ MEDIA_URL }}{{ dlc|use_media:'COVER.src'}}"
+                                alt="{{ dlc|use_media:'COVER.descr'}}">
+                        </a>
                     {% endfor %}
                     {% else %}
                     <h2 class="ui-font header-decoration">required Game</h2>
-                    <div class="col-3 d-flex mt-3">
+                    <div class="col-5 col-sm-4 col-md-3 col-xl-2 d-flex mt-3 mx-auto mx-md-0">
                         <a href="{% url 'game' game.required_game.model_name game.required_game.id %}"
                             class="col dlc position-relative mx-1">
                             <span class="h5 position-absolute text-center">{{ game.required_game.name }}</span>
@@ -228,7 +228,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-lg-4 col-lx-6 mt-4 mt-lg-0">
                 <h2 class="ui-font h4">information</h2>
                 <div class="dev-list d-flex flex-column my-1 ps-4">
                     <span><strong> Developers: </strong></span>
