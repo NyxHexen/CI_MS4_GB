@@ -990,12 +990,8 @@ svg * {
     font-weight: 400 !important;
 }
 
-.dotd-empty {
-    width: 50%;
-}
-
 .dotd-empty img {
-    width: 80%;
+    width: 100%;
 }
 
 /* ------------------------------------------------------------------------------------ BROWSE PAGE */
@@ -1291,11 +1287,28 @@ a.socialaccount_provider.google {
 }
 
 .game-detail-cover {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     z-index: 5;
-    transform: translateY(-50%);
+}
+
+@media (min-width: 768px) {
+    .game-detail-cover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 5;
+        transform: translateY(-110%);
+    }
+}
+
+@media (min-width: 1201px) {
+    .game-detail-cover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 5;
+        transform: translateY(-50%);
+    }
 }
 
 .game-detail-cover img {
@@ -1365,6 +1378,7 @@ a.socialaccount_provider.google {
     width: fit-content;
     padding-bottom: .25rem;
     border-bottom: 3px solid #6f2dbd;
+    white-space: nowrap;
 }
 
 .game-detail-rating {
@@ -1709,7 +1723,7 @@ select option[value=""] {
     border-radius: 2px;
 }
 
-h3 > .media-edit-btn {
+h3>.media-edit-btn {
     margin-bottom: 0.2rem;
 }
 
@@ -1838,7 +1852,7 @@ h3 > .media-edit-btn {
 
     .promo-header,
     .game-header {
-        height: 55vh;
+        height: 60vh;
     }
 }
 
@@ -1881,6 +1895,10 @@ h3 > .media-edit-btn {
 }
 
 @media (min-width: 768px) {
+    .dotd-empty {
+        width: 50%;
+    }
+
     .d-md-cell {
         display: table-cell !important;
     }
@@ -1900,6 +1918,11 @@ h3 > .media-edit-btn {
 @media (min-width: 768px) and (max-width: 1200px) {
     .container {
         max-width: 900px;
+    }
+
+    .promo-header,
+    .game-header {
+        height: 50vh;
     }
 
     .col-lg-2plus {
@@ -1990,8 +2013,8 @@ h3 > .media-edit-btn {
     }
 
     .deals .container {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
         padding-right: 0 !important;
         padding-left: 0 !important;
     }
@@ -2005,6 +2028,10 @@ h3 > .media-edit-btn {
         scrollbar-width: none;
         scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
+    }
+
+    .deals .row:has(.dotd-empty) {
+        justify-content: center !important;
     }
 }
 
