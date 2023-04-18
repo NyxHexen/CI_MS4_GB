@@ -70,9 +70,9 @@
                     <span><strong> Genre: </strong></span>
                     {% for genre in game.genres.all %}
                     {% if forloop.last %}
-                    <a href="#" class="genre-link">{{ genre }}</a>
+                    <a href="{% url 'games' %}?filter=True&genres_filter={{ genre }}" class="genre-link">{{ genre }}</a>
                     {% else %}
-                    <a href="#" class="genre-link">{{ genre }}</a>,
+                    <a href="{% url 'games' %}?filter=True&genres_filter={{ genre }}" class="genre-link">{{ genre }}</a>,
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -259,9 +259,9 @@
                     <div class="tag-list-inner">
                         {% for tag in game.tags.all %}
                         {% if forloop.last %}
-                        <a href="#" class="tag-link">{{ tag }}</a>
+                        <a href="{% url 'games' %}?filter=True&tag_filter={{ tag.slug }}" class="tag-link">{{ tag }}</a>
                         {% else %}
-                        <a href="#" class="tag-link">{{ tag }}</a>,
+                        <a href="{% url 'games' %}?filter=True&tag_filter={{ tag.slug }}" class="tag-link">{{ tag }}</a>,
                         {% endif %}
                         {% endfor %}
                     </div>
@@ -271,9 +271,9 @@
                     <div class="feature-list-inner">
                         {% for feature in game.features.all %}
                         {% if forloop.last %}
-                        <a href="#" class="feature-link">{{ feature }}</a>
+                        <a href="{% url 'games' %}?filter=True&feature_filter={{ feature.slug }}" class="feature-link">{{ feature }}</a>
                         {% else %}
-                        <a href="#" class="feature-link">{{ feature }}</a>,
+                        <a href="{% url 'games' %}?filter=True&feature_filter={{ feature.slug }}" class="feature-link">{{ feature }}</a>,
                         {% endif %}
                         {% endfor %}
                     </div>
