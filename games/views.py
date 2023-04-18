@@ -294,12 +294,3 @@ def game_delete(request, model_name, game_id):
     except Exception as e:
         messages.error(request, "System Malfunction! Please try again later!")
     return redirect(reverse('games'))
-
-
-@login_required
-def media_add(request):
-    
-    context = {
-
-    }
-    return render(request, "games/media_crud.html", context)
