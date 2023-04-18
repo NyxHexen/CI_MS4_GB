@@ -14,41 +14,41 @@
     {% else %}
     <img class="" src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}" alt="{{ promo|use_media:'LANDING.descr' }}">
     {% endif %}
-    <div class="promo-info w-100 px-5 py-2 d-flex flex-column align-items-center justify-content-center">
+    <div class="promo-info w-100 px-2 py-2 d-flex flex-column align-items-center justify-content-center">
         <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }} </h1>
         <p class="d-md-none short-description card-text">{{ promo.short_description }}</p>
         <p class="d-none d-md-block long-description card-text">{{ promo.long_description }}</p>
-        {% if user.is_staff %}
-        <div class="admin-btns text-bg-light rounded p-2">
-            {% if promo.active %}
-            <span class="text-success">Online</span>
-            {% else %}
-            <span class="text-danger">Offline</span>
-            {% endif %}
-            {% if '/edit/' in request.path %}
-            <button role="button" class="btn btn-gamebox-alt" data-bs-toggle="modal" data-bs-target="#promoEdit">
-                Open Edit Form
-            </button>
-            <a class="btn btn-gamebox" href="{% url 'promo' promo.id %}">
-                View Live Page
-            </a>
-            {% elif 'promo/add/' in request.path %}
-            <button role="button" class="btn btn-gamebox-alt" data-bs-toggle="modal" data-bs-target="#promoAdd">
-                Edit Promo Details
-            </button>
-            {% else %}
-            <a class="btn btn-gamebox-alt" href="{% url 'promo_edit' promo.id %}">
-                Edit Promo
-            </a>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                Delete Promo
-              </button>
-            {% endif %}
-            {% endif %}
-        </div>
     </div>
 </div>
 <div id="promo-carousel" class="container__shadow position-relative">
+    {% if user.is_staff %}
+    <div class="admin-btns text-bg-light rounded p-2 d-flex align-items-center justify-content-center">
+        {% if promo.active %}
+        <span class="text-success mx-1">Online</span>
+        {% else %}
+        <span class="text-danger mx-1">Offline</span>
+        {% endif %}
+        {% if '/edit/' in request.path %}
+        <button role="button" class="btn btn-sm btn-gamebox-alt mx-1" data-bs-toggle="modal" data-bs-target="#promoEdit">
+            Open Edit Form
+        </button>
+        <a class="btn btn-sm btn-gamebox mx-1" href="{% url 'promo' promo.id %}">
+            View Live Page
+        </a>
+        {% elif 'promo/add/' in request.path %}
+        <button role="button" class="btn btn-sm btn-gamebox-alt mx-1" data-bs-toggle="modal" data-bs-target="#promoAdd">
+            Edit Promo Details
+        </button>
+        {% else %}
+        <a class="btn btn-gamebox-alt btn-sm mx-1" href="{% url 'promo_edit' promo.id %}">
+            Edit Promo
+        </a>
+        <button type="button" class="btn btn-sm btn-danger mx-1" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            Delete Promo
+          </button>
+        {% endif %}
+    </div>
+    {% endif %}
     <div class="container mb-5">
         <div class="row justify-content-center">
             <div class="col-10">
@@ -117,12 +117,12 @@
 <div id="promo-table" class="container__background py-5">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="card col-12 col-lg-8">
-                <div class="card-body">
-                    <h2 class="mt-2">Hottest Offers</h2>
+            <div class="card col-12 col-md-10 col-lg-8 p-0 py-md-2">
+                <div class="card-body px-0 p-md-1">
+                    <h2 class="mt-2 ps-3 ps-md-auto">Hottest Offers</h2>
                     <hr class="mb-2">
                     <div class="my-1 d-flex flex-column flex-lg-row justify-content-end align-items-center">
-                        <div id="promo-table-pagination" class="col-6 card-body d-flex align-items-center">
+                        <div id="promo-table-pagination" class="col-6 card-body d-flex align-items-center justify-content-center">
                             {% if filter_dict %}
                             <a class="btn {% if not page.has_previous %}disabled{% endif %}"
                                 href="{% if page.has_previous %}?{{ filter_dict }}&page={{ page.previous_page_number }}{% else %}#{% endif %}"
