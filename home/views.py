@@ -46,6 +46,7 @@ def media(request):
     game_lists = [list(qset) for qset in [Game.objects.all(), DLC.objects.all()]]
     game_list = [item for sublist in game_lists for item in sublist]
     filtered_game_list = [i for i in game_list if i.media.all().count() != 0]
+    print(filtered_game_list)
 
     assigned_media_list = [
         item.id for sublist in [i.media.all() for i in filtered_game_list] for item in sublist]
@@ -53,7 +54,7 @@ def media(request):
     unassigned_media = Media.objects.exclude(id__in=assigned_media_list)
 
     context = {
-        'game_list': game_list,
+        'filtered_game_list': filtered_game_list,
         'unassigned_media': unassigned_media,
     }
     return render(request, "media/media_list.html", context)
