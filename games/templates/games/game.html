@@ -59,11 +59,11 @@
             {% if user.is_staff %}
             <div class="admin-btns mb-2">
                 <a class="btn btn-gamebox-alt" href="{% url 'game_edit' game.model_name game.id %}">
-                    Edit Promo
+                    Edit Game
                 </a>
-                <a class="btn btn-danger" href="#">
-                    Delete Promo
-                </a>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    Delete Game
+                  </button>
             </div>
             {% endif %}
                 <div class="game-genre-list mb-2">
@@ -294,6 +294,10 @@
     </div>
 </div>
 {% include 'games/includes/video_player.html' %}
+
+{% if user.is_staff %}
+    {% include 'includes/modals/delete-modal.html' %}
+{% endif %}
 
 {% endblock %}
 
