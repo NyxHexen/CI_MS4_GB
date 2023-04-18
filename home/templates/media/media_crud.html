@@ -16,11 +16,11 @@
     <div class="row">
             {% if 'add' in request.path %}
         <div id="media-add" class="col-12 col-lg-6 offset-lg-3 card">
-                <form action="{% url 'media_add' %}" method="post" class="row card-body">
+                <form action="{% url 'media_add' %}" method="post" class="row card-body" enctype='multipart/form-data'>
                 <h2 class="text-center ui-font">Add New Media</h2>
             {% elif 'edit' in request.path %}
         <div id="media-edit" class="col-12 col-lg-6 offset-lg-3 card">
-                <form action="{% url 'media_edit' media.id %}" method="post" class="row card-body">
+                <form action="{% url 'media_edit' media.id %}" method="post" class="row card-body" enctype='multipart/form-data'>
                 <h2 class="text-center ui-font">Edit Media</h2>
             {% endif %}
                     {% csrf_token %}

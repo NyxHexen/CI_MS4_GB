@@ -174,22 +174,6 @@
     font-weight: 500;
 }
 
-.btn-gamebox:hover {
-    --bs-btn-bg: #6f2dbd;
-    --bs-btn-border-color: #6f2dbd;
-    --bs-btn-hover-color: #6f2dbd;
-    --bs-btn-hover-bg: #fff;
-    --bs-btn-hover-border-color: #6f2dbd;
-    --bs-btn-focus-shadow-rgb: 49, 132, 253;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #6f2dbd;
-    --bs-btn-active-border-color: #6f2dbd;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #6f2dbd;
-    --bs-btn-disabled-border-color: #6f2dbd;
-}
-
 .btn-outline-gamebox {
     --bs-btn-color: #6f2dbd;
     --bs-btn-border-color: #6f2dbd;
@@ -279,7 +263,8 @@
 #game-add,
 #game-edit,
 #media-add,
-#media-edit {
+#media-edit,
+.media-display {
     --lg-stacked-shadow:
         0px 0.5px 0.4px hsl(var(--shadow-color) / 0.67),
         0px 0.6px 0.5px -0.6px hsl(var(--shadow-color) / 0.61),
@@ -1712,8 +1697,24 @@ select option[value=""] {
 #game-add,
 #game-edit,
 #media-add,
-#media-edit {
-    --shadow-color: 0deg 0% 25%;
+#media-edit,
+.media-display {
+    --shadow-color: 0deg 0% 50%;
+}
+
+.media-edit-btn {
+    line-height: 1;
+    padding: .15rem .25rem;
+    border-radius: 2px;
+}
+
+h3 > .media-edit-btn {
+    margin-bottom: 0.2rem;
+}
+
+.scroll-div {
+    overflow-y: auto;
+    max-height: 60vh
 }
 
 /* ------------------------------------------------------------------------------------ ANIMATIONS (KEYFRAMES) */
