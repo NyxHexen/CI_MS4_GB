@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags %}
+{% load cart_tags %}
+{% load humanize %}
+
+{% block page_header %}
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col text-bg-light rounded mx-md-2 pb-2">
+            <h2 class="p-3 m-0 text-center">Assigned Media</h2>
+            {% for game in game_list %}
+            <div class="d-flex">
+                <div class="col-3 py-3 px-2">
+                    <h3 class="h4 mb-0">{{ game.name }}</h3>
+                    <span class="text-muted">{{ game.slug }}</span>
+                </div>
+                <div class="accordion col my-2"
+                    id="mediaCards{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}">
+                    {% for media in game.media.all %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header"
+                            id="heading{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}">
+                            <button class="accordion-button collapsed text-bg-dark p-2" type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapse{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}"
+                                aria-expanded="false"
+                                aria-controls="collapse{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}">
+                                <h3 class="h6 m-0">{{ media.name }}</h3>
+                                <span class="text-muted ms-3"><small>{{ media.media_type|title }}</small></span>
+                            </button>
+                        </h2>
+                        <div id="collapse{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}"
+                            class="accordion-collapse collapse"
+                            aria-labelledby="heading{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}"
+                            data-bs-parent="#mediaCards{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}">
+                            <div class="accordion-body border py-1 px-3">
+                                <div class="d-flex flex-column">
+                                    <span class="text-small">Used As: <span
+                                            class="text-gamebox">{{ media.media_use }}</span></span>
+                                    <span class="text-small">
+                                        File:
+                                        {% if media.file is None or media.file.name|length == 0 %}
+                                        <span class="text-muted">None</span>
+                                        {% else %}
+                                        <a href="{{ MEDIA_ROOT }}{{ media.file.name }}">{{ media.file.name }}</a>
+                                        {% endif %}
+                                    </span>
+                                    <span class="text-small">
+                                        URL:
+                                        {% if media.url|length == 0 or media.url is None %}
+                                        <span class="text-muted">None</span>
+                                        {% else %}
+                                        <a href="{{ media.url }}">{{ media.url }}</a>
+                                        {% endif %}
+                                    </span>
+                                    <span class="text-small">Alt/Description: <span
+                                            class="border-1 rounded">{{ media.description }}</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% if not forloop.last %}
+            <hr class="my-1">
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-12 col-md-5 col-lg-5 pb-3 text-bg-light rounded mx-md-2">
+            <h2 class="pt-3 text-center">Unassigned Media</h2>
+            {% if unsigned_media|length != 0 %}
+            {% for media in unassigned_media %}
+            <div class="card m-1">
+                <div class="card-header d-flex justify-content-between text-bg-dark py-1 px-2">
+                    <h3 class="h6 m-0 mt-1">{{ media.name }}</h3>
+                    <span class="float-right text-muted"><small>{{ media.media_type|title }}</small></span>
+                </div>
+                <div class="card-body px-2 py-1">
+                    <div class="d-flex flex-column">
+                        <span class="text-small">Used As: <span class="text-gamebox">{{ media.media_use }}</span></span>
+                        <span class="text-small">
+                            File:
+                            {% if media.file is None or media.file.name|length == 0 %}
+                            <span class="text-muted">None</span>
+                            {% else %}
+                            <a href="{{ MEDIA_ROOT }}{{ media.file.name }}">{{ media.file.name }}</a>
+                            {% endif %}
+                        </span>
+                        <span class="text-small">
+                            URL:
+                            {% if media.url|length == 0 or media.url is None %}
+                            <span class="text-muted">None</span>
+                            {% else %}
+                            <a href="{{ media.url }}">{{ media.url }}</a>
+                            {% endif %}
+                        </span>
+                        <span class="text-small">Alt/Description: <span
+                                class="border-1 rounded">{{ media.description }}</span></span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="text-center my-5">Currently there are no unassigned media objects.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
