@@ -85,7 +85,7 @@ def media_edit(request, media_id):
     form = MediaForm(instance=media)
 
     if request.method == "POST":
-        f = MediaForm(request.POST, instance=media)
+        f = MediaForm(request.POST, request.FILES, instance=media)
         if f.is_valid():
             if f.has_changed():
                 try:
