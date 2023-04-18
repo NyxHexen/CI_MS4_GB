@@ -275,7 +275,11 @@
 
 /* ------------------------------------------------------------------------------------ Shadows */
 .navbar,
-.offcanvas-header {
+.offcanvas-header,
+#game-add,
+#game-edit,
+#media-add,
+#media-edit {
     --lg-stacked-shadow:
         0px 0.5px 0.4px hsl(var(--shadow-color) / 0.67),
         0px 0.6px 0.5px -0.6px hsl(var(--shadow-color) / 0.61),
@@ -1702,6 +1706,14 @@ select option[value=""] {
 
 .success-container .text-muted {
     color: #9f0 !important;
+}
+
+/* Game CRUD */
+#game-add,
+#game-edit,
+#media-add,
+#media-edit {
+    --shadow-color: 0deg 0% 25%;
 }
 
 /* ------------------------------------------------------------------------------------ ANIMATIONS (KEYFRAMES) */

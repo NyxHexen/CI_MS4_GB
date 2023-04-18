@@ -15,7 +15,7 @@
 {% block content %}
 <div class="container my-5">
     <div class="row">
-        <div class="col text-bg-light rounded mx-md-2 pb-2">
+        <div class="col text-bg-light rounded mx-md-2 pb-2 h-100">
             <h2 class="p-3 m-0 text-center ui-font">Assigned Media</h2>
             {% for game in filtered_game_list %}
             <div class="d-flex">
@@ -76,7 +76,7 @@
             {% endif %}
             {% endfor %}
         </div>
-        <div class="col-12 col-md-5 col-lg-5 pb-3 text-bg-light rounded mx-md-2">
+        <div class="col-12 col-md-5 col-lg-5 pb-3 text-bg-light rounded mx-md-2 h-100">
             <h2 class="pt-3 text-center ui-font">unassigned Media</h2>
             {% if unassigned_media|length != 0 %}
             {% for media in unassigned_media %}
