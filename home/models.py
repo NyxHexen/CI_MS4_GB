@@ -18,14 +18,22 @@ class CustomBaseModel(models.Model):
         return self._meta.model_name
 
     def __init__(self, *args, **kwargs):
-        if "slug" in self.__dict__ and self.slug is None:
+        if (
+            "slug" in self.__dict__
+            ) and (
+            self.slug is None or self.slug != slugify(self.name)
+            ):
             self.slug = slugify(self.name)
         if "final_price" in self.__dict__ and self.final_price == 0:
             self.final_price = self.base_price
         super().__init__(*args, **kwargs)
 
     def save(self, *args, **kwargs):
-        if "slug" in self.__dict__ and self.slug is None:
+        if (
+            "slug" in self.__dict__
+            ) and (
+            self.slug is None or self.slug != slugify(self.name)
+            ):
             self.slug = slugify(self.name)
         if (
             "final_price" in self.__dict__
@@ -70,12 +78,14 @@ def receiver(instance, *args, **kwargs):
         _, new_file_extension = os.path.splitext(instance.file._file.name)
         new_file_extension = new_file_extension.replace(".", "")
 
-    if instance.file.name is not None and len(instance.file.name) != 0:
+    if instance.file.name is not None and getattr(instance.file, 'name') not in [None, 0]:
         _, curr_file_extension = os.path.splitext(instance.file.name)
         curr_file_extension = curr_file_extension.replace(".", "")
 
+
+    print(instance.file.__dict__)
     if (
-        len(instance.file.name) != 0
+        getattr(instance.file, 'name') not in [None, 0]
         and instance.media_ext is not None
         and instance.file._file is None
     ):
@@ -88,10 +98,10 @@ def receiver(instance, *args, **kwargs):
         if instance.file and instance.file._file is not None:
             # , but there is a new file coming in.
             instance.media_ext = new_file_extension
-        elif len(instance.file.name) != 0:
+        elif getattr(instance.file, 'name') not in [None, 0]:
             # , but there's a file already.
             instance.media_ext = curr_file_extension
-    elif instance.media_ext is not None and len(instance.file.name) == 0:
+    elif instance.media_ext is not None and getattr(instance.file, 'name') in [None, 0]:
         # There is an extension but no file.
         instance.media_ext = None
     elif instance.media_ext is not None and instance.file._file is not None:
