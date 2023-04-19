@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags %}
+{% load cart_tags %}
+
+{% block page_header %}
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container pt-5 pb-3">
+    <div class="row">
+        <div class="col-10 offset-1">
+            <h2>{{ attr.name }}</h2>
+            <div class="col-4 my-3">
+                {% if attr.logo.name is not None %}
+                <img src="{{ MEDIA_URL }}{{ attr.logo.file }}" alt="The logo on {{ attr.name }}" class="d-block w-100">
+                {% endif %}
+            </div>
+            <p>{{ attr.description }}</p>
+            <div class="d-flex mt-3 align-items-center justify-content-evenly">
+                {{ attr.logo }}
+                <div class="d-flex flex-column me-3">
+                    <a href="{{ attr.official_site }}"><i class="fa-solid fa-up-right-from-square me-1"></i>Official Website</a>
+                </div>
+                <div class="d-flex flex-column me-3 align-items-center">
+                    <span>COUNTRY:</span>
+                    <span class="text-muted">{{ attr.country.name }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="promo-table" class="container__background py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="card col-12 col-md-10 col-lg-8 p-0 py-md-2">
+                <div class="card-body px-0 p-md-1">
+                    <div class="my-1 d-flex flex-column flex-lg-row justify-content-end align-items-center">
+                        <div id="promo-table-pagination"
+                            class="col-6 card-body d-flex align-items-center justify-content-center py-0">
+                            {% if filter_dict %}
+                            <a class="btn {% if not page.has_previous %}disabled{% endif %}"
+                                href="{% if page.has_previous %}?{{ filter_dict }}&page={{ page.previous_page_number }}{% else %}#{% endif %}"
+                                aria-label="Previous Page">
+                                {% else %}
+                                <a class="btn {% if not page.has_previous %}disabled{% endif %}"
+                                    href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}#{% endif %}"
+                                    aria-label="Previous">
+                                    {% endif %}
+                                    <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span>
+                                </a>
+                                <div class="col-2">
+                                    <label for="page-input" class="visually-hidden form-label">Page
+                                        Number</label>
+                                    <input type="number" class="form-control text-center" id="page-input"
+                                        placeholder="{{ page.number }}">
+                                </div>
+                                <span class="px-2 py-1">of</span>
+                                <span class="px-2 py-1">{{ page.paginator.num_pages }}</span>
+                                {% if filter_dict %}
+                                <a class="btn {% if not page.has_next %}disabled{% endif %}"
+                                    href="{% if page.has_next %}?{{ filter_dict }}&page={{ page.next_page_number }}{% else %}#{% endif %}"
+                                    aria-label="Next Page">
+                                    {% else %}
+                                    <a class="btn {% if not page.has_next %}disabled{% endif %}"
+                                        href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
+                                        aria-label="Next Page">
+                                        {% endif %}
+                                        <span aria-hidden="true">
+                                            <i class="fa-solid fa-chevron-right"></i>
+                                        </span>
+                                    </a>
+                        </div>
+                        <div class="game-list-sort">
+                            <span>Sort by: </span>
+                            <a href="{{ request.path }}{% if not 'title_asc' in filter_dict %}?sort_by=title_asc{% else %}{% endif %}"
+                                class="btn btn-gamebox{% if 'title_asc' in filter_dict %}-alt{% endif%} p-0 px-1 mx-1">Name</a>
+                            <a href="{{ request.path }}{% if not 'discount_desc' in filter_dict %}?sort_by=discount_desc{% else %}{% endif %}"
+                                class="btn btn-gamebox{% if 'discount_desc' in filter_dict %}-alt{% endif%} p-0 px-1 mx-1">Discount</a>
+                            <a href="{{ request.path }}{% if not 'price_desc' in filter_dict %}?sort_by=price_desc{% else %}{% endif %}"
+                                class="btn btn-gamebox{% if 'price_desc' in filter_dict %}-alt{% endif%} p-0 px-1 mx-1">Price</a>
+                        </div>
+                    </div>
+                    <table class="table table-hover mt-3 mb-1 w-100">
+                        <thead class="text-center">
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody class="align-middle">
+                            {% for game in page %}
+                            <tr data-href="{% url 'game' game.model_name game.id %}">
+                                <td>
+                                    <img class="cart-image" src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
+                                        alt="{{ game|use_media:'COVER.descr' }}">
+                                </td>
+                                <td>
+                                    {{ game.name }}
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <span class="promo-discount fs-6">
+                                            -{{ game.promo_percentage }}%
+                                        </span>
+                                        <div class="d-flex flex-column ms-3">
+                                            {% if game.in_promo %}
+                                            <s class="text-muted">£{{ game.base_price }}</s>
+                                            {% endif %}
+                                            £{{ game.final_price }}
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

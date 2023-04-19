@@ -70,9 +70,9 @@
                     <span><strong> Genre: </strong></span>
                     {% for genre in game.genres.all %}
                     {% if forloop.last %}
-                    <a href="{% url 'games' %}?filter=True&genres_filter={{ genre }}" class="genre-link">{{ genre }}</a>
+                    <a href="{% url 'games' %}?filter=true&genres_filter={{ genre.slug }}" class="genre-link">{{ genre }}</a>
                     {% else %}
-                    <a href="{% url 'games' %}?filter=True&genres_filter={{ genre }}" class="genre-link">{{ genre }}</a>,
+                    <a href="{% url 'games' %}?filter=true&genres_filter={{ genre.slug }}" class="genre-link">{{ genre }}</a>,
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -80,9 +80,9 @@
                     <span><strong> Platforms: </strong></span>
                     {% for platform in game.platforms.all %}
                     {% if forloop.last %}
-                    <a href="#" class="platform-link">{{ platform }}</a>
+                    <a href="{% url 'games' %}platforms/{{ platform.id }}" class="platform-link">{{ platform }}</a>
                     {% else %}
-                    <a href="#" class="platform-link">{{ platform }}</a>,
+                    <a href="{% url 'games' %}platforms/{{ platform.id }}" class="platform-link">{{ platform }}</a>,
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -235,9 +235,9 @@
                     <div class="dev-list-inner">
                         {% for developer in game.developers.all %}
                         {% if forloop.last %}
-                        <a href="#" class="developer-link">{{ developer }}</a>
+                        <a href="{% url 'games' %}developers/{{ developer.id }}" class="developer-link">{{ developer }}</a>
                         {% else %}
-                        <a href="#" class="developer-link">{{ developer }}</a>,
+                        <a href="{% url 'games' %}developers/{{ developer.id }}" class="developer-link">{{ developer }}</a>,
                         {% endif %}
                         {% endfor %}
                     </div>
@@ -247,9 +247,9 @@
                     <div class="publisher-list-inner">
                         {% for publisher in game.publishers.all %}
                         {% if forloop.last %}
-                        <a href="#" class="publisher-link">{{ publisher }}</a>
+                        <a href="{% url 'games' %}publishers/{{ publisher.id }}" class="publisher-link">{{ publisher }}</a>
                         {% else %}
-                        <a href="#" class="publisher-link">{{ publisher }}</a>,
+                        <a href="{% url 'games' %}publishers/{{ publisher.id }}" class="publisher-link">{{ publisher }}</a>,
                         {% endif %}
                         {% endfor %}
                     </div>
@@ -259,9 +259,9 @@
                     <div class="tag-list-inner">
                         {% for tag in game.tags.all %}
                         {% if forloop.last %}
-                        <a href="{% url 'games' %}?filter=True&tag_filter={{ tag.slug }}" class="tag-link">{{ tag }}</a>
+                        <a href="{% url 'games' %}?filter=true&tags_filter={{ tag.slug }}" class="tag-link">{{ tag }}</a>
                         {% else %}
-                        <a href="{% url 'games' %}?filter=True&tag_filter={{ tag.slug }}" class="tag-link">{{ tag }}</a>,
+                        <a href="{% url 'games' %}?filter=true&tags_filter={{ tag.slug }}" class="tag-link">{{ tag }}</a>,
                         {% endif %}
                         {% endfor %}
                     </div>
@@ -271,9 +271,9 @@
                     <div class="feature-list-inner">
                         {% for feature in game.features.all %}
                         {% if forloop.last %}
-                        <a href="{% url 'games' %}?filter=True&feature_filter={{ feature.slug }}" class="feature-link">{{ feature }}</a>
+                        <a href="{% url 'games' %}?filter=true&features_filter={{ feature.slug }}" class="feature-link">{{ feature }}</a>
                         {% else %}
-                        <a href="{% url 'games' %}?filter=True&feature_filter={{ feature.slug }}" class="feature-link">{{ feature }}</a>,
+                        <a href="{% url 'games' %}?filter=true&features_filter={{ feature.slug }}" class="feature-link">{{ feature }}</a>,
                         {% endif %}
                         {% endfor %}
                     </div>
