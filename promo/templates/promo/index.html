@@ -76,7 +76,7 @@
                                     {% for game in slide %}
                                     <div class="card-holder col col-md-4 col-lg-3 pt-1 pb-3 px-0">
                                         <div class="card d-flex mx-1">
-                                            <a href="{% url 'game' game.model_name game.id %}" class="card-img-top">
+                                            <a target="_blank" href="{% url 'game' game.model_name game.id %}" class="card-img-top">
                                                 <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" class=""
                                                     alt="{{ game|use_media:'LANDING.descr' }}">
                                             </a>

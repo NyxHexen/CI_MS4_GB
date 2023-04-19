@@ -31,10 +31,10 @@
                     <tbody>
                         {% for item in cart_items %}
                         <tr>
-                            <td><a href="{% url 'game' item.item.model_name item.item.id %}"><img class="cart-image"
+                            <td><a target="_blank" href="{% url 'game' item.item.model_name item.item.id %}"><img class="cart-image"
                                         src="{{ MEDIA_URL }}{{ item.item|use_media:'COVER.src' }}"
                                         alt="{{ item.item|use_media:'COVER.descr' }}"></a></td>
-                            <td><a href="{% url 'game' item.item.model_name item.item.id %}">{{ item.item.name }}</a>
+                            <td><a target="_blank" href="{% url 'game' item.item.model_name item.item.id %}">{{ item.item.name }}</a>
                             </td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.item.final_price|multiply:item.quantity }}</td>

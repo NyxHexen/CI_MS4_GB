@@ -93,7 +93,7 @@
                             <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
                         </form>
                     </div>
-                    <a href="{% url 'game' game.model_name game.id %}"
+                    <a target="_blank" href="{% url 'game' game.model_name game.id %}"
                         class="game-back--front d-flex flex-column justify-content-around">
                         {% if not request.user_agent.is_mobile %}
                         <h2 class="game-title-back text-center">{{ game.name }}</h2>

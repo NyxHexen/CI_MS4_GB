@@ -59,7 +59,7 @@
       {% for item in carousel %}
       <div class="carousel-item{% if forloop.first %} active{% endif %}">
         <div class="overlay d-block d-sm-none"></div>
-        <a href="
+        <a target="_blank"  href="
           {% if item.model_name == 'game' or item.model_name == 'dlc' %}
           {% url 'game' item.model_name item.id %}
           {% elif item.model_name == 'promo'%}
@@ -100,7 +100,7 @@
           {% elif item.model_name == 'promo' %}
           <div class="promo-details d-flex align-items-center justify-content-end text-bg-light rounded">
             <p class="fs-6 m-0 mx-3">Up to<br><span class="fs-5">-{{ item.max_promo_percentage }}%!</span></p>
-            <a href="{% url 'promo' item.id %}"
+            <a target="_blank" href="{% url 'promo' item.id %}"
               class="browse fs-5 btn btn-lg btn-gamebox-alt py-3 px-4 ms-md-none float-end">Browse</a>
           </div>
           {% endif %}
@@ -149,7 +149,7 @@
           <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
         </form>
       </div>
-      <a href="{% url 'game' game.model_name game.id %}"
+      <a target="_blank"  href="{% url 'game' game.model_name game.id %}"
         class="game-back--front d-flex flex-column justify-content-around">
         {% if not request.user_agent.is_mobile %}
         <h2 class="game-title-back text-center">{{ game.name }}</h2>
@@ -251,7 +251,7 @@
       {% if dotd|length != 0 %}
       {% for deal in dotd %}
       <div class="countdown col-7 col-xs-6 col-md-4 col-lg-3">
-        <a {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
+        <a target="_blank"  {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
           href="{% url 'game' deal.model_name deal.id %}" {% else %} href="{% url 'promo' deal.id %}" {% endif %}
           class="content-overlay d-flex flex-column">
           <div class="content-overlay__name-wrapper d-flex flex-column justify-content-center align-items-center">
