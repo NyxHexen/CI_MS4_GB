@@ -1192,14 +1192,19 @@ footer {
     background-color: rgb(var(--lm-bg-color));
 }
 
-footer form div {
-    padding: 0 0 .5rem;
+.social-links > * {
+    --bs-btn-line-height: 0;
+    padding: 5px; 
+    height: 100%;
+    max-width: calc(40px + 2 * 5);
 }
 
-footer h5,
-footer p {
-    margin: 0 5%;
-    text-align: center;
+.footer-nav ul:first-child {
+    border-right: 1px solid #757575;
+}
+
+.footer-nav a {
+    color: #585858;
 }
 
 /* ------------------------------------------------------------------------------------ Accounts/Allauth/Crispy */
