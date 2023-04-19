@@ -112,3 +112,7 @@ def media_delete(request, media_id):
     except Exception as e:
         messages.error(request, f"{e}")
     return redirect(reverse('media'))
+
+
+def about_page(request):
+    return render(request, 'home/about.html')
