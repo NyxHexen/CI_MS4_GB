@@ -106,7 +106,7 @@ class Genre(CustomBaseModel):
 class Publisher(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
-    description = models.CharField(max_length=500, default='')
+    description = models.TextField(max_length=500, default='')
     official_site = models.URLField('Official Website')
     logo = models.ImageField(null=True)
     established = models.DateField(auto_now_add=True)
@@ -119,7 +119,7 @@ class Publisher(CustomBaseModel):
 class Developer(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
-    description = models.CharField(max_length=500, default='')
+    description = models.TextField(max_length=500, default='')
     official_site = models.URLField('Official Website')
     logo = models.ImageField(null=True)
     established = models.DateField(auto_now_add=True)
@@ -204,7 +204,7 @@ class Platform(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
     icon = models.ImageField(null=True, blank=True)
-    description = models.CharField(max_length=500, default='')
+    description = models.TextField(max_length=500, default='')
     official_site = models.URLField('Official Website')
     logo = models.ImageField(null=True)
     established = models.DateField(auto_now_add=True)
