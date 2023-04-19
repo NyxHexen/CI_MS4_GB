@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags %}
+
+{% block page_header %}
+{% endblock %}
+
+{% block content %}
+<div id="about-us" class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-9">
+            <div class="card about-header">
+                <div class="card-header text-bg-light py-5 position-relative">
+                    <!-- https://wallpapercave.com/w/wp2940628 -->
+                    <img src="{{ MEDIA_URL }}wp2940628-wallpaper-1920-hd-games.jpg" alt=""
+                        class="position-absolute w-100">
+                    <div class="about-header-content py-1">
+                        <h1 class="ui-font text-center fw-600 w-100 text-light">GameboX</h1>
+                        <h2 class="content-font text-center w-100 text-light">Who are we? What do we do?</h2>
+                    </div>
+                </div>
+                <div class="card-body text-bg-light">
+                    <h3 class="fs-4 fw-400">Welcome to GAMEBOX, where gaming is serious business...and by serious, we
+                        mean seriously fun! So, who are we? Well, we sell video games. Duh. But also...
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center py-2 py-xl-3">
+        <div class="col-12 mt-2 col-xl-3 mt-xl-0">
+            <div class="card h-100">
+                <div class="card-header text-bg-gamebox text-light">
+                    <h3 class="m-0 text-center">Our Story</h3>
+                </div>
+                <div class="card-body">
+                    <p>Once upon a time, in a tiny basement apartment (with questionable lighting), a group of avid
+                        gamers came together to create GAMEBOX. Fueled by their
+                        passion
+                        for gaming, they embarked on a quest to bring the latest and greatest video games to fellow
+                        gamers
+                        around the world.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-2 col-xl-3 mt-xl-0">
+            <div class="card h-100">
+                <div class="card-header text-bg-gamebox-alt text-dark">
+                    <h3 class="m-0 text-center">Our Mission</h3>
+                </div>
+                <div class="card-body">
+                    <p>At GAMEBOX, our mission is simple: to level up your gaming experience. We're on a
+                        mission to provide the most epic games and the most immersive gameplay, all while delivering
+                        top-notch customer service. We want to make sure that every time you play a game from GAMEBOX,
+                        you're transported to another world, where your only concern is mastering your gaming skills.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-2 col-xl-3 mt-xl-0">
+            <div class="card h-100">
+                <div class="card-header text-bg-gamebox text-light">
+                    <h3 class="m-0 text-center">Our Values</h3>
+                </div>
+                <div class="card-body">
+                    <p>We're more than just a bunch of button mashers. At GAMEBOX, we believe in inclusivity
+                        and equality. We proudly support LGBTQI+ charities with a percentage of our profits, because we
+                        believe that gaming should be a safe and welcoming space for everyone. We're also committed to
+                        environmental sustainability, and we're constantly exploring ways to reduce our carbon footprint
+                        and promote eco-friendly practices.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col col-xl-9">
+            <div class="card">
+                <div class="card-body">
+                    <p class="fs-5 m-0">
+                        But enough about us, let's talk about you! As a GAMEBOX customer, you're not just a
+                        player, you're part of our gaming community. Your satisfaction is our top priority, and we're
+                        always here to assist you with any questions or concerns you may have.
+                    </p>
+                    <hr>
+                    <p class="fs-4 m-0 text-gamebox text-center">
+                        So, gear up, grab your
+                        controller, and let's embark on an epic gaming adventure together!
+                    </p>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
