@@ -9,11 +9,3 @@ def update_on_save(sender, instance, *args, **kwargs):
     Update order_total on lineitem update/create
     """
     instance.order.update_total()
-
-
-# @receiver(post_delete, sender=OrderLineItem)
-# def update_on_save(sender, instance, *args, **kwargs):
-#     """
-#     Update order_total on lineitem delete
-#     """
-#     instance.order.update_total()
