@@ -63,14 +63,16 @@ def billing_address(request):
     return render(request, 'profiles/default_address.html', context)
 
 @require_POST
-@login_required
 def newsletter_sub(request):
+    if not request.user.is_authenticated:
+        messages.error(request, "You must login to subscribe to our newsletter. Don't have \
+                       an account? Why not sign up!")
+        return redirect(reverse('account_login'))
     form = NewsletterForm(request.POST)
     email = request.POST.get('email')
     if form.is_valid():
         user = get_or_none(User, email=email)
         if user is not None and request.user == user:
-            print("Part 1")
             if request.user.userprofile.newsletter_sub:
                 messages.info(request, "You are already subscribed!\
                             If you are not receiving our emails, please reach out to us!")
@@ -82,6 +84,7 @@ def newsletter_sub(request):
         elif user is not None and request.user != user:
             messages.error(request, 'This e-mail address is already associated with another account.')
         elif user is None:
+            # https://stackoverflow.com/questions/2053258/how-do-i-output-html-in-a-message-in-the-new-django-messages-framework
             messages.info(request, "Newsletter can only be sent to your primary e-mail address.\
                           If you wish to change your primary address, click\
                           <a class=\"text-light\" href=\"{% url \'accounts:email\'%}\">here</a>.", extra_tags='safe')
