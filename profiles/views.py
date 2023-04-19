@@ -1,10 +1,15 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 
+from allauth.account.models import EmailAddress
+
+from ci_ms4_gamebox.utils import get_or_none
 from .models import UserProfile
-from .forms import BillingAddressForm
+from .forms import BillingAddressForm, NewsletterForm
 
 # Create your views here.
 @login_required
@@ -56,3 +61,30 @@ def billing_address(request):
         'form': form,
     }
     return render(request, 'profiles/default_address.html', context)
+
+@require_POST
+@login_required
+def newsletter_sub(request):
+    form = NewsletterForm(request.POST)
+    email = request.POST.get('email')
+    if form.is_valid():
+        user = get_or_none(User, email=email)
+        if user is not None and request.user == user:
+            print("Part 1")
+            if request.user.userprofile.newsletter_sub:
+                messages.info(request, "You are already subscribed!\
+                            If you are not receiving our emails, please reach out to us!")
+            else:
+                user.userprofile.newsletter_sub = True
+                user.userprofile.save()
+                messages.success(request, "Thank you for subscribing to our newsletter.\
+                                    Our welcome letter will be with you shortly!")
+        elif user is not None and request.user != user:
+            messages.error(request, 'This e-mail address is already associated with another account.')
+        elif user is None:
+            messages.info(request, "Newsletter can only be sent to your primary e-mail address.\
+                          If you wish to change your primary address, click\
+                          <a class=\"text-light\" href=\"{% url \'accounts:email\'%}\">here</a>.", extra_tags='safe')
+
+    redirect_url = request.POST.get('newsletter_redirect')
+    return redirect(redirect_url)
