@@ -1,14 +1,13 @@
 from django.db import models
 from django.db.models import Max
-from django.db.models.signals import m2m_changed, pre_save
 from django.core.exceptions import ValidationError
-from django.dispatch import receiver
 from decimal import Decimal
 
 from games.models import CustomBaseModel, DLC, Game
 from home.models import Media
 from ci_ms4_gamebox.utils import get_or_none
-from .utils import default_start_datetime, default_end_datetime
+from .utils import (default_start_datetime, default_end_datetime,
+                    remove_discount)
 
 
 class Promo(CustomBaseModel):
@@ -105,18 +104,14 @@ class Promo(CustomBaseModel):
                 self.post_add = self.post_add.union(set(self.apply_to_dlc.all()))
                 for i in self.post_add.difference(self.pre_add):
                     game = get_or_none(kwargs['model'], id=i.id)
-                    if check_dupe(self, game):
+                    if self.check_dupe(self, game):
                         break
                     game.in_promo = True if self.active else False
                     game.promo = self if self.active else None
                     game.save()
             case _:
                 return
-    
-    def total_in_promo(self):
-        return len(self.apply_to_game.all()) + len(self.apply_to_dlc.all())
-
-    total_in_promo.short_description = "Games In Promo"
+            
 
     def max_promo_percentage(self):
         promo_games = (
@@ -134,62 +129,20 @@ class Promo(CustomBaseModel):
             promo_dlc if promo_dlc is not None else 0,
         )
         return highest_promo_percentage
+    
+    
+    @staticmethod
+    def check_dupe(instance, game):
+        """If the game passed in is already in another Promo - remove it from this Promo"""
+        game_dupes = Promo.objects.filter(apply_to_game__id=game.id).exclude(id=instance.id)
+        if len(game_dupes) > 0:
+            if game.model_name() == "game":
+                instance.apply_to_game.remove(game)
+            else:
+                instance.apply_to_dlc.remove(game)
 
 
-# Controls actions that occur when a Promo becomes active/offline.
-@receiver(pre_save, sender=Promo)
-def promo_price_apply(instance, *args, **kwargs):
-    promo = get_or_none(Promo, id=instance.id)
-    if promo is not None:
-        current = promo.active
-        updated = instance.active
-        apply_discount(instance) if current < updated else remove_discount(
-            instance
-        ) if current > updated else None
+    def total_in_promo(self):
+        return len(self.apply_to_game.all()) + len(self.apply_to_dlc.all())
 
-
-# Applies the discount to all associated games/DLCs when a Promo becomes active.
-# It calculates the final price and sets the promo and in_promo fields for each game/DLC.
-def apply_discount(instance):
-    for queryset in [instance.apply_to_game.all(), instance.apply_to_dlc.all()]:
-        for item in queryset:
-            final_price = Decimal(
-                round(
-                    item.base_price * (1 + (Decimal(item.promo_percentage) / 100 * -1)),
-                    2,
-                )
-            )
-            queryset.filter(id=item.id).update(
-                final_price=final_price, promo=instance, in_promo=True
-            )
-
-
-# Removes the discount from all associated games/DLCs when a Promo becomes offline.
-# It sets the final price back to the base price and clears the promo and in_promo fields for each game/DLC.
-def remove_discount(instance):
-    for queryset in [instance.apply_to_game.all(), instance.apply_to_dlc.all()]:
-        for item in queryset:
-            final_price = item.base_price
-            queryset.filter(id=item.id).update(
-                final_price=final_price, promo_percentage=0, in_promo=False, promo=None
-            )
-
-
-@receiver(m2m_changed, sender=Promo.apply_to_game.through)
-def game_change(instance, *args, **kwargs):
-    instance._update_promo_items(**kwargs)
-
-
-@receiver(m2m_changed, sender=Promo.apply_to_dlc.through)
-def dlc_change(instance, *args, **kwargs):
-    instance._update_promo_items(**kwargs)
-
-
-def check_dupe(instance, game):
-    """If the game passed in is already in another Promo - remove it from this Promo"""
-    game_dupes = Promo.objects.filter(apply_to_game__id=game.id).exclude(id=instance.id)
-    if len(game_dupes) > 0:
-        if game.model_name() == "game":
-            instance.apply_to_game.remove(game)
-        else:
-            instance.apply_to_dlc.remove(game)
+    total_in_promo.short_description = "Games In Promo"
