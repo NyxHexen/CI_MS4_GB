@@ -293,3 +293,54 @@ def game_delete(request, model_name, game_id):
     except Exception as e:
         messages.error(request, "System Malfunction! Please try again later!")
     return redirect(reverse('games'))
+
+
+from .models import Publisher, Developer, Platform
+
+
+def game_attrs(request, attr_id):
+    game_attr = request.path.split('/')
+    game_attr = [i for i in game_attr if i != ''][1]
+
+    if game_attr == 'publishers':
+        model = Publisher
+        games = Game.objects.filter(publishers=attr_id)
+        dlcs = DLC.objects.filter(publishers=attr_id)
+    elif game_attr == 'developers':
+        model = Developer
+        games = Game.objects.filter(developers=attr_id)
+        dlcs = DLC.objects.filter(developers=attr_id)
+    elif game_attr == 'platforms':
+        model = Platform
+        games = Game.objects.filter(platforms=attr_id)
+        dlcs = DLC.objects.filter(platforms=attr_id)
+
+    attr = model.objects.get(id=attr_id)
+    game_lists = [list(qset) for qset in [games, dlcs]]
+    game_list = [item for sublist in game_lists for item in sublist]
+
+    filter_dict = QueryDict(mutable=True)
+
+    if "sort_by" in request.GET:
+        filter_dict.update({f"sort_by": f'{request.GET.get("sort_by")}'})
+        sorted_games = sort_by(request.GET.get("sort_by"), game_list)
+        paginator = Paginator(sorted_games, 2)
+    else:
+        paginator = Paginator(game_list, 2)
+
+    page_number = request.GET.get("page")
+
+    try:
+        page = paginator.get_page(page_number)
+    except EmptyPage:
+        page = paginator.get_page(paginator.num_pages)
+
+    context = {
+        'attr': attr,
+        'page': page,
+    }
+
+    if "sort_by" in request.GET:
+        context["filter_dict"] = urlencode(filter_dict)
+
+    return render(request, "games/game_attrs.html", context)
