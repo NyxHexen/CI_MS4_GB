@@ -1,12 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 from django_countries.fields import CountryField
 
-
-# Create your models here.
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -20,9 +16,3 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
-    
-
-@receiver(post_save, sender=User)
-def get_or_add(sender, instance, **kwargs):
-    """ If there is one, get it, if not create it """
-    return UserProfile.objects.get_or_create(user=instance)
