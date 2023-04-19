@@ -1780,6 +1780,26 @@ h3>.media-edit-btn {
     z-index: -1;
 }
 
+/* ------------------------------------------------------------------------------------ ABOUT PAGE */
+
+#support .carousel-indicators {
+    position: relative; 
+    margin: 0;
+}
+
+#support .faq-buttons {
+    width: initial;
+    height: initial;
+    text-indent: 0 !important;
+    background-color: transparent;
+    border: 0;
+    opacity: 1;
+}
+
+#support .carousel-item {
+    height: 465px;
+}
+
 /* ------------------------------------------------------------------------------------ ANIMATIONS (KEYFRAMES) */
 
 @keyframes loading-text {
