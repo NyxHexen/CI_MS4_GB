@@ -116,3 +116,6 @@ def media_delete(request, media_id):
 
 def about_page(request):
     return render(request, 'home/about.html')
+
+def support_page(request):
+    return render(request, 'home/support.html')
