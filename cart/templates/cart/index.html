@@ -106,22 +106,21 @@
         let gameId = btn.dataset.id
         let gameType = btn.dataset.game
         btn.addEventListener('click', function (event) {
-            removeCartItem('remove', gameId, gameType, btnParentRow);
+            removeCartItem(gameId, gameType, btnParentRow);
         })
         btn.addEventListener('keydown', function (event) {
             if (event.key === 'Enter' || event.key === ' ') {
-                removeCartItem('remove', gameId, gameType, btnParentRow);
+                removeCartItem(gameId, gameType, btnParentRow);
             }
         });
     })
 
-    function removeCartItem(action, gameId, model_name, row) {
+    function removeCartItem(gameId, model_name, row) {
         const csrftoken = document.cookie.match(/csrftoken=([\w-]+)/)[1];
 
         const data = {
             'game_id': gameId,
             'model_name': model_name,
-            'action': action,
         };
 
         const url = "{% url 'cart_remove' %}";
