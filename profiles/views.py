@@ -33,7 +33,12 @@ def myprofile(request):
 
 @login_required
 def billing_address(request):
-    profile = UserProfile.objects.get(user=request.user)
+    try:
+        profile = UserProfile.objects.get(user=request.user)
+    except Exception:
+        messages.error(request, "System Malfunction! Please try again later.")
+        return redirect('profile')
+    
     form = BillingAddressForm(instance=profile)
 
     if request.method == "POST":
@@ -52,8 +57,13 @@ def billing_address(request):
         if f.is_valid():
             if f.has_changed():
                 for data in f.changed_data:
-                    setattr(profile, data, form_data[data])
-                    profile.save()
+                    try:
+                        setattr(profile, data, form_data[data])
+                        profile.save()
+                    except Exception:
+                        messages.error(request, 'System Malfunction! \
+                                       Please try again later!')
+                        break
                 return redirect(reverse("billing_address"))
 
     context = {
