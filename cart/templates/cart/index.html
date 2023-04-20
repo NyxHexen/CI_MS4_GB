@@ -38,7 +38,7 @@
                             </td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.item.final_price|multiply:item.quantity }}</td>
-                            <td class="remove-item"><button role="button" data-id="{{ item.item.id }}"
+                            <td class="remove-item"><button type="button" data-id="{{ item.item.id }}"
                                     data-game="{{ item.item.model_name }}"
                                     class="remove-item__btn btn btn-sm btn-danger" data-bs-toggle="tooltip"
                                     data-bs-title="Remove Game"><i class="fa-solid fa-xmark"></i></button></td>
@@ -51,7 +51,7 @@
         {% else %}
         <div
             class="empty-cart col-12 col-xl-7 offset-xl-1 d-flex flex-column flex-md-row align-items-center py-2 order-1 order-md-0">
-            <img src="{{ MEDIA_URL }}customer-profile-glados-portal-game.webp" alt="">
+            <img src="{{ MEDIA_URL }}customer-profile-glados-portal-game.webp" alt="Artwork of the video game character GLaDOS">
             <div class="bubble pt-2 pb-1 px-3 mt-3 ms-md-4 d-flex flex-column align-items-center">
                 <h2 class="fs-2">It's not often I encounter an empty cart in this facility. I'm almost impressed by your
                     lack of items.</h2>
@@ -59,7 +59,7 @@
             </div>
         </div>
         {% endif %}
-        <div class="col col-md-5 col-xl-3 mt-3 mt-md-0 order-3 order-md-0"">
+        <div class="col col-md-5 col-xl-3 mt-3 mt-md-0 order-3 order-md-0">
             <div class="card">
             <div class="card-body d-flex flex-column">
                 <h2 id="cart-subtotal" class="card-title fs-5">Subtotal ({{ cart_items|length }}

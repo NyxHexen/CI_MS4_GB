@@ -89,7 +89,7 @@
                 <span class="fs-4">£{{item.final_price}}</span>
               </div>
             </div>
-            <label for="quantity" class="visually-hidden form-label">Quantity</label>
+            <label for="id_qty_{{ game.model_name }}_{{ game.id }}" class="visually-hidden form-label">Quantity</label>
             <input class="form-control" type="hidden" name="quantity" id="id_qty_{{ game.id }}" value="1" min="1"
               max="99" data-game-id="{{ game.id }}">
             <button type="submit" aria-label="Add to cart"
@@ -138,10 +138,10 @@
         <p class="game-title">{{ game.name }}</p>
       </div>
       <div class="game-cover--reverse d-flex justify-content-between align-items-end">
-        <form action="{% url 'cart_add' game.model_name game.id %}" id="cart_add" method="POST"
+        <form action="{% url 'cart_add' game.model_name game.id %}"  method="POST"
           class="w-100 d-flex flex-row">
           {% csrf_token %}
-          <label for="quantity" class="visually-hidden form-label">Quantity</label>
+          <label for="id_qty_{{ game.model_name }}_{{ game.id }}" class="visually-hidden form-label">Quantity</label>
           <input class="form-control" type="number" name="quantity" id="id_qty_{{ game.id }}" value="1" min="1" max="99"
             data-game-id="{{ game.id }}">
           <button type="submit" aria-label="Add to cart" class="add-cart btn ms-2 py-0"><span

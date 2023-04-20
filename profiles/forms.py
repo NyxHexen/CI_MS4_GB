@@ -36,9 +36,9 @@ class BillingAddressForm(forms.ModelForm):
 
 
 class NewsletterForm(forms.Form):
-    email = forms.EmailField(label='Email: *',max_length=320, required=True)
+    subscription_email = forms.EmailField(label='Email: *',max_length=320, required=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['email'].widget.attrs["placeholder"] = 'Email Address'
-        self.fields['email'].label = False
+        self.fields['subscription_email'].widget.attrs["placeholder"] = 'Email Address'
+        self.fields['subscription_email'].label = False

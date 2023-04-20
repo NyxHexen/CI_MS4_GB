@@ -106,19 +106,18 @@
                     </h2>
                     <fieldset class="w-100">
                         <legend class="fieldset-label text-black px-2 w-auto">Payment</legend>
-                        <div id="payment-form">
-                            <div id="card-errors"></div>
-                            <div id="card-element">
-                                <div id="link-authentication-element">
-                                    <!--Stripe.js injects the Link Authentication Element-->
-                                </div>
-                                <div id="payment-element">
-                                    <!--Stripe.js injects the Payment Element-->
-                                </div>
-                                <div id="payment-message" class="hidden"></div>
+                        <div id="card-errors"></div>
+                        <div id="card-element">
+                            <div id="link-authentication-element">
+                                <!--Stripe.js injects the Link Authentication Element-->
                             </div>
-                            <input type="hidden" name="client_secret" id="clientSecret" value="None">
-                            <input type="hidden" name="original_cart" id="originalCart" value="{{ list_cart }}">
+                            <div id="payment-element">
+                                <!--Stripe.js injects the Payment Element-->
+                            </div>
+                            <div id="payment-message" class="hidden"></div>
+                        </div>
+                        <input type="hidden" name="client_secret" id="clientSecret" value="None">
+                        <input type="hidden" name="original_cart" id="originalCart" value="{{ list_cart }}">
                     </fieldset>
                     <p class="small text-danger mt-2">
                         <span class="icon">
@@ -128,14 +127,14 @@
                             <strong>£{{ total|floatformat:2 }}</strong></span>
                     </p>
                     <div class="btn-group d-flex text-right mb-2">
-                        <a id="adjust-cart" type="button" href="{% url 'cart' %}" class="btn btn-outline-gamebox">
+                        <a id="adjust-cart" role="button" href="{% url 'cart' %}" class="btn btn-outline-gamebox">
                             <span class="icon">
                                 <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="font-weight-bold">Adjust Cart</span>
                         </a>
                         <button id="submit-button" class="btn btn-gamebox" type="submit">
-                            <div class="spinner hidden" id="spinner"></div>
+                            <span class="spinner hidden" id="spinner"></span>
                             <span id="button-text">Pay Now <i class="fas fa-lock"></i></span>
                         </button>
                     </div>

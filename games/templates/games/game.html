@@ -30,10 +30,10 @@
         <div class="game-detail-info row justify-content-center justify-content-md-start">
             <div class="game-detail-cover col-8 col-sm-5 col-md-3 col-xl-2 my-3 d-flex flex-column align-items-center">
                 <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}" />
-                <form action="{% url 'cart_add' game.model_name game.id %}" id="cart_add" method="POST"
+                <form action="{% url 'cart_add' game.model_name game.id %}"  method="POST"
                     class="w-100 d-flex flex-row mt-2">
                     {% csrf_token %}
-                    <label for="quantity" class="visually-hidden form-label">Quantity</label>
+                    <label for="id_qty_{{ game.model_name }}_{{ game.id }}" class="visually-hidden form-label">Quantity</label>
                     <input class="form-control" type="number" name="quantity" id="id_qty_{{ game.id }}" value="1"
                         min="1" max="99" data-game-id="{{ game.id }}">
                     <button type="submit" aria-label="Add to cart"
