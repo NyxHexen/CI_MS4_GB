@@ -28,13 +28,13 @@ def checkout(request):
     if not request.user.is_authenticated:
         cart = get_and_unsign_cart(request)
         if len(cart) == 0:
-            messages.error(request, "Your cart appears to be barren at present!")
+            messages.error(request, "You cannot checkout with an empty cart!")
             return redirect(reverse("cart"))
 
     else:
         cart = Cart.objects.get_or_create(user=request.user)[0]
         if cart.cartitems.count() == 0:
-            messages.error(request, "Your cart appears to be barren at present!")
+            messages.error(request, "You cannot checkout with an empty cart!")
             return redirect(reverse("cart"))
 
     if request.user.is_authenticated:
@@ -103,7 +103,8 @@ def checkout(request):
                             request,
                             (
                                 "Uh-oh. One of the products has gone missing. "
-                                "Better give us a call!"
+                                "Please try again later, and if the issue persists \
+                                don't hesitate to contact us!"
                             ),
                         )
                         order.delete()
@@ -123,7 +124,9 @@ def checkout(request):
                     messages.error(
                         request,
                         (
-                            "System Malfunction! Please try again later!"
+                            "Uh-oh. One of the products has gone missing. "
+                            "Please try again later, and if the issue persists \
+                            don't hesitate to contact us!"
                         ),
                     )
                     order.delete()
@@ -168,13 +171,17 @@ def checkout_success(request, order_number):
         except Exception as e:
             messages.info(
                 request,
-                "Woops! Our server had an accident \
-                           while trying to delete your old cart. Not to worry! Your order \
-                          has been processed either way.",
+                "Woops! Our server had an accident. \
+                Not to worry! Your order \
+                has been processed either way.",
             )
 
-    games = Game.objects.all()
-    dlcs = DLC.objects.all()
+    try:
+        games = Game.objects.all()
+        dlcs = DLC.objects.all()
+    except:
+        messages.error(request, "Some of our games have escaped! \
+                       Give us a minute and we'll bring them right back.")
 
     purchased_games = [i.game or i.dlc for i in order.lineitems.all()]
     unowned_games = [j for j in games if j not in purchased_games] + [
@@ -190,18 +197,27 @@ def checkout_success(request, order_number):
 
 @require_POST
 def create_stripe_intent(request):
-    current_cart = cart_contents(request)
-    amount = current_cart["total"]
-    stripe_amount = round(amount * 100)
+    try:
+        current_cart = cart_contents(request)
+        amount = current_cart["total"]
+        stripe_amount = round(amount * 100)
 
-    stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
+        stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
 
-    intent = stripe.PaymentIntent.create(
-        amount=stripe_amount,
-        currency=settings.STRIPE_CURRENCY,
-        automatic_payment_methods={"enabled": True},
-    )
-    return JsonResponse({"client_secret": intent.client_secret})
+        intent = stripe.PaymentIntent.create(
+            amount=stripe_amount,
+            currency=settings.STRIPE_CURRENCY,
+            automatic_payment_methods={"enabled": True},
+        )
+        return JsonResponse({"client_secret": intent.client_secret})
+    except Exception as e:
+        messages.error(
+            request,
+            "We're experiencing some technical difficulties with the card payment system. \
+            Please try again later, and if the issue persists, please contact customer \
+            support for assistance.",
+        )
+        return HttpResponse(content=e, status=400)
 
 
 @require_POST
@@ -221,6 +237,7 @@ def modify_stripe_intent(request):
     except Exception as e:
         messages.error(
             request,
-            "We're unable to process your payment at this time. Please try again later, and if the issue persists, please contact customer support for assistance.",
+            "We're unable to process your payment at this time. Please try again later, \
+            and if the issue persists, please contact customer support for assistance.",
         )
         return HttpResponse(content=e, status=400)
