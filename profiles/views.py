@@ -64,6 +64,7 @@ def billing_address(request):
                         messages.error(request, 'System Malfunction! \
                                        Please try again later!')
                         break
+                messages.success(request, "Your billing address has been updated!")
                 return redirect(reverse("billing_address"))
 
     context = {
