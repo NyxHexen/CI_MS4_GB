@@ -45,6 +45,10 @@ def index(request):
 
 @login_required
 def media(request):
+    if not request.user.is_staff:
+        messages.info(request, '\
+                      Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        return redirect("/")
     game_lists = [list(qset) for qset in [Game.objects.all(), DLC.objects.all()]]
     game_list = [item for sublist in game_lists for item in sublist]
     filtered_game_list = [i for i in game_list if i.media.all().count() != 0]
@@ -63,6 +67,11 @@ def media(request):
 
 @login_required
 def media_add(request):
+    if not request.user.is_staff:
+        messages.info(request, '\
+                      Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        return redirect("/")
+    
     form = MediaForm()
 
     if request.method == "POST":
@@ -82,6 +91,11 @@ def media_add(request):
 
 @login_required
 def media_edit(request, media_id):
+    if not request.user.is_staff:
+        messages.info(request, '\
+                      Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        return redirect("/")
+    
     media = get_object_or_404(Media, id=media_id)
     form = MediaForm(instance=media)
 
@@ -105,6 +119,10 @@ def media_edit(request, media_id):
 
 @login_required
 def media_delete(request, media_id):
+    if not request.user.is_staff:
+        messages.info(request, '\
+                      Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        return redirect("/")
     try:
         media = Media.objects.get(id=media_id)
         media.delete()
