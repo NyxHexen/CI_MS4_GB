@@ -17,7 +17,15 @@ def view_cart(request):
 
 
 def cart_add(request, model_name, game_id):
-    game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
+    redirect_url = request.POST.get('redirect_url')
+
+    try:
+        game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
+    except Exception:
+        messages.error(request, 'We couldn\'t add this game to your cart. \
+                       Please try again later!')
+        return redirect(redirect_url)
+         
     quantity = int(request.POST.get('quantity'))
 
     if not request.user.is_authenticated:
@@ -44,22 +52,26 @@ def cart_add(request, model_name, game_id):
         
     messages.success(request, f'{ game.name } x{ quantity } has been added to your cart!')
 
-    redirect_url = request.POST.get('redirect_url')
     return redirect(redirect_url)
 
 
 def cart_remove(request):
-        data = json.loads(request.body.decode('utf-8'))
-        game = Game.objects.get(id=data['game_id']) if data['model_name'] == 'game' else DLC.objects.get(id=data['game_id'])
-        if not request.user.is_authenticated:
-            cart = get_and_unsign_cart(request)
-            del cart[data['game_id']]
-            sign_and_set_cart(request, cart)
-        else:
-            cart = Cart.objects.get_or_create(user=request.user)
-            cart_items = cart[0].cartitems.all()
-            if game.model_name() == 'game':
-                cart_items.get(game=game).delete()
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            game = Game.objects.get(id=data['game_id']) if data['model_name'] == 'game' else DLC.objects.get(id=data['game_id'])
+            if not request.user.is_authenticated:
+                cart = get_and_unsign_cart(request)
+                del cart[data['game_id']]
+                sign_and_set_cart(request, cart)
             else:
-                cart_items.get(dlc=game).delete()
+                cart = Cart.objects.get_or_create(user=request.user)
+                cart_items = cart[0].cartitems.all()
+                if game.model_name() == 'game':
+                    cart_items.get(game=game).delete()
+                else:
+                    cart_items.get(dlc=game).delete()
+        except Exception:
+            messages.error(request, 'We couldn\'t remove this game from your cart. \
+                            Please try again later!')
+            return JsonResponse({'success': False})
         return JsonResponse({'success': True})
