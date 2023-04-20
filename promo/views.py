@@ -294,5 +294,5 @@ def promo_delete(request, promo_id):
         promo.delete()
         messages.success(request, f"{promo} has been deleted successfully!")
     except Exception as e:
-        messages.error(request, "System Malfunction! Please try again later!")
+        messages.error(request, f"{e}")
     return redirect(reverse('home'))

@@ -123,8 +123,7 @@ def checkout(request):
                     messages.error(
                         request,
                         (
-                            "Whoops! Your cart has gone missing. "
-                            "Better give us a call!"
+                            "System Malfunction! Please try again later!"
                         ),
                     )
                     order.delete()

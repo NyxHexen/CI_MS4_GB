@@ -26,8 +26,7 @@ def games(request):
         games = Game.objects.all()
         dlcs = DLC.objects.all()
     except Exception:
-        messages.error(request, "There appears to be an error with our server. \
-                       Please try again in a couple of minutes.")
+        messages.error(request, "System Malfunction! Please try again later!")
         return redirect("/")
 
     filter_dict = QueryDict(mutable=True)
@@ -124,9 +123,7 @@ def games(request):
         platforms = Platform.objects.all()
         features = Feature.objects.all()
     except Exception:
-        messages.error(request, "There appears to be an error with our server. \
-                       Please try again in a couple of minutes. If the issue persists, please \
-                       contact us!")
+        messages.error(request, "System Malfunction! Please try again later!")
         return redirect("/")
 
     context = {
@@ -309,7 +306,7 @@ def game_delete(request, model_name, game_id):
         game.delete()
         messages.success(request, f"{game} has been deleted successfully!")
     except Exception as e:
-        messages.error(request, f'e')
+        messages.error(request, f'{e}')
     return redirect(reverse('games'))
 
 
@@ -335,7 +332,7 @@ def game_attrs(request, attr_id):
             dlcs = DLC.objects.filter(platforms=attr_id)
 
         attr = model.objects.get(id=attr_id)
-        
+
     except Exception:
         messages.error(request, "System Malfunction! Please try again later!")
 
