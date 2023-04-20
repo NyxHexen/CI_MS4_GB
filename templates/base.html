@@ -59,6 +59,7 @@
                             <a class="nav-link {% if request.path == '/support/' %}active" aria-current="page"
                                 {% else %}" {% endif %} href="{% url 'support' %}">support</a>
                         </li>
+                        {% if user.is_staff %}
                         <li class="nav-item d-flex align-items-center ms-lg-2">
                             <div class="btn-group">
                                 <a role="button" href="{% url 'admin:index' %}" class="btn btn-sm btn-dark">admin</a>
@@ -88,6 +89,7 @@
                                 </ul>
                             </div>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="collapse navbar-collapse justify-content-end">
