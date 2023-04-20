@@ -4,12 +4,12 @@
 
 {% block content %}
 <div class="container my-5">
-    <div class="row align-items-center">
+    <div class="row align-items-start">
         {% include "../allauth/includes/account_nav.html" %}
-        <div id="myprofile" class="col col-sm-10 col-md-6 col-xl-4 offset-xl-1 my-5">
-            <form method="POST" action="{% url 'profile' %}" id="user_profile" class="card align-items-center">
+        <div id="myprofile" class="col col-lg-6 col-xl-4 mb-3 p-0 px-2 px-md-0 me-md-2">
+            <form method="POST" action="{% url 'profile' %}" id="user_profile" class="card">
                 {% csrf_token %}
-                <div class="card-body w-100">
+                <div class="card-body">
                     <div class="card-title fs-2 text-center ui-font">my details</div>
                     <div class="mb-1 d-flex align-items-center">
                         <label for="first_name w-50"><strong>First Name: </strong></label>
@@ -23,16 +23,16 @@
                     </div>
                     <div class="mb-1 d-flex align-items-center">
                         <label for="myprofile_username"><strong>Username: </strong></label>
-                        <input name="myprofile_username" class="form-control" type="text"
+                        <input name="myprofile_username" class="form-control text-muted" type="text"
                             value="{{ profile.user.username }}" readonly>
                     </div>
                     <div class="mb-2 d-flex align-items-center">
                         <label for="myprofile_email"><strong>Email Address: </strong></label>
-                        <input name="myprofile_email" class="form-control" type="text" value="{{ profile.user.email }}"
-                            readonly></span>
+                        <input name="myprofile_email" class="form-control text-muted" type="text"
+                            value="{{ profile.user.email }}" readonly></span>
                     </div>
                 </div>
-                <div class="card-footer w-100">
+                <div class="card-footer">
                     <div class="my-2 d-flex align-items-center">
                         <span class="myprofile-slabel me-3"><strong>Last Logged
                                 In:</strong></span><span>{{ profile.user.last_login }}</span>
@@ -42,8 +42,9 @@
                                 Joined:</strong></span><span>{{ profile.user.date_joined }}</span>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-gamebox mb-3">UPDATE</button>
+                <button type="submit" class="btn btn-gamebox mb-3 mx-auto">UPDATE</button>
             </form>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}

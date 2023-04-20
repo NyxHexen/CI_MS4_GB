@@ -5,12 +5,12 @@
 
 {% block content %}
 <div class="container my-5">
-    <div class="row align-items-center">
+    <div class="row">
         {% include "../allauth/includes/account_nav.html" %}
-        <div id="myprofile" class="col-12 col-sm-10 col-md-6 col-xl-4 offset-xl-1 mb-5">
+        <div id="myprofile-address" class="col-12 col-md-7 col-lg-6 col-xl-4 mb-5 px-2 px-md-0 me-md-2">
             <form method="POST" action="{% url 'billing_address' %}" id="user-profile" class="card align-items-center">
                 {% csrf_token %}
-                <div class="card-body w-100">
+                <div class="card-body">
                     <h2 class="card-title fs-2 text-center ui-font">default billing address</h2>
                     <fieldset>
                         <legend class="fieldset-label px-1 w-auto">Contact Details</legend>

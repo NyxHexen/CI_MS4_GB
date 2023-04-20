@@ -213,7 +213,6 @@
 
 [id*="allauth__"] [id*="div_"]:not(.form-check) {
     width: 100%;
-    display: flex;
     align-items: center;
 }
 
@@ -298,7 +297,6 @@ footer,
 #games-carousel,
 .countdown img,
 #games-filter,
-[id*='allauth__'],
 .container__background .card {
     --lg-stacked-shadow:
         0px 0.5px 0.4px hsl(var(--shadow-color) / 0.67),
@@ -360,7 +358,9 @@ footer,
 }
 
 #promo-carousel .carousel-item .card,
-#about-us .card {
+#about-us .card,
+[id*='allauth__'],
+[id*='myprofile'] {
     --shadow-elevation-high:
         0px 0px 0px hsl(var(--shadow-color) / 0.76),
         0px 0.2px 0.2px -0.5px hsl(var(--shadow-color) / 0.7),
@@ -1239,7 +1239,8 @@ footer {
     margin-right: 1rem;
 }
 
-[id*='allauth__'] {
+[id*='allauth__'],
+[id*='myprofile'] {
     --shadow-color: 0deg 0% 40%;
 }
 

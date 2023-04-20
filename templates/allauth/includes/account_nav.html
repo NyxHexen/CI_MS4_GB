@@ -1,31 +1,38 @@
 {% load i18n %}
 
 {% if user.is_authenticated %}
-<div id="accounts_nav" class="card col-3 float-start">
-<div class="card-body">
-    <h2 class="ui-font m-0 fs-3">account navigation</h2>
-    <hr>
-    <ul class="nav flex-column">
+<div class="col-12 col-md-5 col-lg-4 col-xl-3 offset-lg-1 mb-3 me-lg-2">
+  <div class="card px-2 px-lg-0" id="accounts_nav">
+    <div class="card-body">
+      <h2 class="ui-font m-0 fs-3">account navigation</h2>
+      <hr>
+      <ul class="nav flex-column">
         <li class="pt-2"><span class="text-muted">GENERAL</span></li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'profile' %}"><i class="fa-regular fa-user me-2"></i></i>{% trans 'PROFILE' %}</a>
+          <a class="nav-link" href="{% url 'profile' %}"><i
+              class="fa-regular fa-user me-2"></i></i>{% trans 'PROFILE' %}</a>
         </li>
         <li class="pt-2"><span class="text-muted">SECURITY</span></li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'account_change_password' %}"><i class="fa-solid fa-key me-2"></i>{% trans "CHANGE PASSWORD" %}</a>
+          <a class="nav-link" href="{% url 'account_change_password' %}"><i
+              class="fa-solid fa-key me-2"></i>{% trans "CHANGE PASSWORD" %}</a>
         </li>
         <li class="pt-2"><span class="text-muted">EMAIL & SOCIAL</span></li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'socialaccount_connections' %}"><i class="fa-regular fa-comment me-2"></i>{% trans "SOCIAL CONNECTIONS" %}</a>
+          <a class="nav-link" href="{% url 'socialaccount_connections' %}"><i
+              class="fa-regular fa-comment me-2"></i>{% trans "SOCIAL CONNECTIONS" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'account_email' %}"><i class="fa-solid fa-at me-2"></i>{% trans "MANAGE EMAIL ACCOUNTS" %}</a>
+          <a class="nav-link" href="{% url 'account_email' %}"><i
+              class="fa-solid fa-at me-2"></i>{% trans "MANAGE EMAIL ACCOUNTS" %}</a>
         </li>
         <li class="pt-2"><span class="text-muted">BILLING ADDRESS</span></li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'billing_address' %}"><i class="fa-solid fa-location-dot me-2"></i>{% trans "MANAGE DEFAULT ADDRESS" %}</a>
+          <a class="nav-link" href="{% url 'billing_address' %}"><i
+              class="fa-solid fa-location-dot me-2"></i>{% trans "MANAGE DEFAULT ADDRESS" %}</a>
         </li>
       </ul>
-</div>
+    </div>
+  </div>
 </div>
 {% endif %}

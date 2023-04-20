@@ -8,13 +8,13 @@
 {% block content %}
 <div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-4">
+        <div class="col col-md-6 col-xl-4">
             <div id="allauth__inactive" class="card my-5">
                 <div class="card-body d-flex flex-column align-items-center">
-                    <h1 class="card-title py-3">{% trans "Account Inactive" %}</h1>
+                    <h1 class="card-title text-center">{% trans "Account Inactive" %}</h1>
 
-                    <p>{% trans "This account is inactive." %}</p>
-                    <button role="button" onclick="history.back()" class="btn btn-outline-gamebox mt-3 mb-1">BACK</a>
+                    <p class="my-2">{% trans "This account is inactive." %}</p>
+                    <a role="button" href="{% url 'home' %}" class="btn btn-outline-gamebox mt-3 mb-1">TO HOME</a>
                 </div>
             </div>
         </div>
