@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import QueryDict, JsonResponse
+from django.http import QueryDict, JsonResponse, HttpResponse
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage
 from django.views.decorators.csrf import csrf_exempt
@@ -22,8 +22,13 @@ import json
 
 
 def games(request):
-    games = Game.objects.all()
-    dlcs = DLC.objects.all()
+    try:
+        games = Game.objects.all()
+        dlcs = DLC.objects.all()
+    except Exception:
+        messages.error(request, "There appears to be an error with our server. \
+                       Please try again in a couple of minutes.")
+        return redirect("/")
 
     filter_dict = QueryDict(mutable=True)
 
@@ -113,10 +118,16 @@ def games(request):
 
     paginator_iter = range(1, page.paginator.num_pages + 1)
 
-    genres = Genre.objects.all()
-    tags = Tag.objects.all()
-    platforms = Platform.objects.all()
-    features = Feature.objects.all()
+    try:
+        genres = Genre.objects.all()
+        tags = Tag.objects.all()
+        platforms = Platform.objects.all()
+        features = Feature.objects.all()
+    except Exception:
+        messages.error(request, "There appears to be an error with our server. \
+                       Please try again in a couple of minutes. If the issue persists, please \
+                       contact us!")
+        return redirect("/")
 
     context = {
         "page": page,
@@ -143,7 +154,8 @@ def games(request):
 
 
 def game(request, model_name, game_id):
-    game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
+    game = get_object_or_404(Game, id=game_id) if model_name == 'game' else get_object_or_404(DLC, id=game_id)
+    
     media = game.media.exclude(name__icontains='COVER')
     rating_count = game.ratingset.userrating_set.exclude(value=0).count
 
@@ -164,7 +176,10 @@ def game(request, model_name, game_id):
 @require_POST
 def set_game_rating(request, model_name, game_id):
     if request.user.is_authenticated:
-        game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
+        try:
+            game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
+        except Exception as e:
+            return HttpResponse(content=e, status=500)
         user_rating = game.ratingset.userrating_set.get_or_create(user=request.user)
         user_rating[0].value = json.loads(request.body)["rating"]
         user_rating[0].save()
@@ -236,7 +251,7 @@ def game_add(request, model_name):
 def game_edit(request, model_name, game_id):
     game = get_object_or_404(
         Game, id=game_id
-        ) if model_name.__eq__('game') else get_object_or_404(
+        ) if model_name == 'game' else get_object_or_404(
         DLC, id=game_id
         )
     
@@ -244,14 +259,14 @@ def game_edit(request, model_name, game_id):
     
     game_form = GameForm(
         instance=game
-        ) if model_name.__eq__('game') else DLCForm(
+        ) if model_name == 'game' else DLCForm(
         instance=game
         )
     
     rating_form = RatingForm(instance=rating_set)
 
     if request.method == "POST":
-        if model_name.__eq__('game'):
+        if model_name == 'game':
             game_form = GameForm(request.POST, instance=game)
         else:
             game_form = DLCForm(request.POST, instance=game)
@@ -260,17 +275,20 @@ def game_edit(request, model_name, game_id):
             game = game_form.save(commit=False)
             discount = game.promo_percentage
             game.final_price = round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
-            game.save()
-            rating_form_data = {
+            try:
+                game.save()
+                rating_form_data = {
                 'game': game if game.model_name() == 'game' else {},
                 'dlc': game if game.model_name() == 'dlc' else {},
                 'esrb_rating': request.POST.get('esrb_rating', {}),
                 'pegi_rating': request.POST.get('pegi_rating', {}),
-            }
-            rating_form = RatingForm(rating_form_data, instance=rating_set)
-            if rating_form.is_valid():
-                rating_form = rating_form.save()
-                return redirect(reverse('game', kwargs={'model_name': game.model_name(),'game_id': game.id}))
+                }
+                rating_form = RatingForm(rating_form_data, instance=rating_set)
+                if rating_form.is_valid():
+                    rating_form = rating_form.save()
+                    return redirect(reverse('game', kwargs={'model_name': game.model_name(),'game_id': game.id}))
+            except Exception as e:
+                messages.error(request, f'{e}')
 
     context = {
         'model_name': model_name,
@@ -291,7 +309,7 @@ def game_delete(request, model_name, game_id):
         game.delete()
         messages.success(request, f"{game} has been deleted successfully!")
     except Exception as e:
-        messages.error(request, "System Malfunction! Please try again later!")
+        messages.error(request, f'e')
     return redirect(reverse('games'))
 
 
@@ -302,20 +320,25 @@ def game_attrs(request, attr_id):
     game_attr = request.path.split('/')
     game_attr = [i for i in game_attr if i != ''][1]
 
-    if game_attr == 'publishers':
-        model = Publisher
-        games = Game.objects.filter(publishers=attr_id)
-        dlcs = DLC.objects.filter(publishers=attr_id)
-    elif game_attr == 'developers':
-        model = Developer
-        games = Game.objects.filter(developers=attr_id)
-        dlcs = DLC.objects.filter(developers=attr_id)
-    elif game_attr == 'platforms':
-        model = Platform
-        games = Game.objects.filter(platforms=attr_id)
-        dlcs = DLC.objects.filter(platforms=attr_id)
+    try:
+        if game_attr == 'publishers':
+            model = Publisher
+            games = Game.objects.filter(publishers=attr_id)
+            dlcs = DLC.objects.filter(publishers=attr_id)
+        elif game_attr == 'developers':
+            model = Developer
+            games = Game.objects.filter(developers=attr_id)
+            dlcs = DLC.objects.filter(developers=attr_id)
+        elif game_attr == 'platforms':
+            model = Platform
+            games = Game.objects.filter(platforms=attr_id)
+            dlcs = DLC.objects.filter(platforms=attr_id)
 
-    attr = model.objects.get(id=attr_id)
+        attr = model.objects.get(id=attr_id)
+        
+    except Exception:
+        messages.error(request, "System Malfunction! Please try again later!")
+
     game_lists = [list(qset) for qset in [games, dlcs]]
     game_list = [item for sublist in game_lists for item in sublist]
 
