@@ -13,7 +13,6 @@ def get_and_unsign_cart(request):
     cart_signed = request.session.get('cart', {})
     if "cart_signed" in cart_signed:
         cart_signed = cart_signed['cart_signed']
-    cart_signed = cart_signed
     if bool(cart_signed):
         signer = Signer()
         try: 
