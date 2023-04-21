@@ -9,11 +9,7 @@
 
 {% block content %}
 <div class="promo-header">
-    {% if request.path == '/promo/add/' %}
-    <img class="" src="{{ MEDIA_URL }}{{ promo.media.file.name }}" alt="{{ promo.media.description }}">
-    {% else %}
-    <img class="" src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}" alt="{{ promo|use_media:'LANDING.descr' }}">
-    {% endif %}
+    <img class="" src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}" alt="{{ promo.media.description }}">
     <div class="promo-info w-100 px-2 py-2 d-flex flex-column align-items-center justify-content-center">
         <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }} </h1>
         <p class="d-md-none short-description card-text">{{ promo.short_description }}</p>
@@ -193,18 +189,14 @@
         </div>
     </div>
 </div>
-
 {% if 'add' in request.path %}
     {% include 'promo/includes/promo_add.html' %}
 {% elif 'edit' in request.path %}
     {% include 'promo/includes/promo_edit.html' %}
 {% endif %}
-
 {% if user.is_staff %}
     {% include 'includes/modals/delete-modal.html' %}
 {% endif %}
-
-
 {% endblock %}
 
 {% block postloadjs %}
@@ -232,10 +224,15 @@
 </script>
 {% if request.path == '/promo/add/' or "/edit/" in request.path %}
 <script>
-    let toggleButton = document.querySelector('.promo-info button')
-    window.onload = () => {
-        toggleButton.click()
+    const toggleEditButton = document.querySelector('button[data-bs-target="#promoEdit"]')
+    const toggleAddButton = document.querySelector('button[data-bs-target="#promoAdd"]')
+    window.addEventListener('load', () => {
+        if (window.location.href.includes('add')) {
+        toggleAddButton.click()
+    } else if (window.location.href.includes('edit')) {
+        toggleEditButton.click()
     }
+    })
 
     const startDateField = document.getElementById('id_start_date')
     const endDateField = document.getElementById('id_end_date')

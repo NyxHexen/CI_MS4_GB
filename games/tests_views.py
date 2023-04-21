@@ -131,7 +131,7 @@ class TestGamesViews(TestCase):
         self.assertEqual(response.context['rating_count'], 0)
         self.assertNotIn('user_rating', response.context)
 
-    def test_game_view_guest(self):
+    def test_game_view_user(self):
         self.client.login(
             username='test-gamebox',
             password='gamebox-pwd'

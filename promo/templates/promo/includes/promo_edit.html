@@ -1,53 +1,51 @@
-<div class="container-fluid" style="padding-top: 40px;">
-    <!-- Modal -->
-    <div class="modal fade" id="promoEdit" data-bs-backdrop="static" tabindex="-1" aria-labelledby="promoEditLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <form class="modal-content" action="{% url 'promo_edit' promo.id %}" method="POST" id="promo-form">
-                {% csrf_token %}
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="promoEditLabel">Edit Promo</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="promoEdit" data-bs-backdrop="static" tabindex="-1" aria-labelledby="promoEditLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <form class="modal-content" action="{% url 'promo_edit' promo.id %}" method="POST" id="promo-form">
+            {% csrf_token %}
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="promoEditLabel">Edit Promo</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body flex-column justify-content-start">
+                <div class="col">
+                    {% for field in form %}
+                    {{ field|as_crispy_field }}
+                    {% endfor %}
+                    <table class="table">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col">Game ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Discount</th>
+                                <th scope="col">Base Price</th>
+                                <th scope="col">Final Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for game in game_list %}
+                            <tr>
+                                <td class="col text-center">{{ game.id }}</td>
+                                <td class="col">{{ game.name }}</td>
+                                <td class="col-1 game-discount"><input type="number"
+                                        name="game_discount-{{game.model_name}}_{{ game.id }}"
+                                        class="form-control text-center" value="{{ game.promo_percentage }}"></td>
+                                <td class="col text-center game-base-price">{{ game.base_price }}</td>
+                                <td class="col text-center game-final-price">{{ game.final_price }}</th>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                <div class="modal-body flex-column justify-content-start">
-                    <div class="col">
-                        {% for field in form %}
-                        {{ field|as_crispy_field }}
-                        {% endfor %}
-                        <table class="table">
-                            <thead>
-                                <tr class="text-center">
-                                    <th scope="col">Game ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Discount</th>
-                                    <th scope="col">Base Price</th>
-                                    <th scope="col">Final Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for game in game_list %}
-                                <tr>
-                                    <td class="col text-center">{{ game.id }}</td>
-                                    <td class="col">{{ game.name }}</td>
-                                    <td class="col-1 game-discount"><input type="number" name="game_discount-{{game.model_name}}_{{ game.id }}"
-                                            class="form-control text-center" value="{{ game.promo_percentage }}"></td>
-                                    <td class="col text-center game-base-price">{{ game.base_price }}</td>
-                                    <td class="col text-center game-final-price">{{ game.final_price }}</th>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-dark" id="promo_preview">Preview</button>
-                    <button type="submit" class="btn btn-gamebox" id="promo_save">Save and Exit</button>
-                    <button type="submit" class="btn btn-gamebox-alt" id="promo_activate">Activate</button>
-                </div>
-                <input type="hidden" name="submit_option" id="submit_option" value="preview">
-            </form>
-        </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-dark" id="promo_preview">Preview</button>
+                <button type="submit" class="btn btn-gamebox" id="promo_save">Save and Exit</button>
+                <button type="submit" class="btn btn-gamebox-alt" id="promo_activate">Activate</button>
+            </div>
+            <input type="hidden" name="submit_option" id="submit_option" value="preview">
+        </form>
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>

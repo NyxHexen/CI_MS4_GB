@@ -16,7 +16,6 @@ from .forms import PromoForm
 
 import random
 import datetime as dt
-import pytz
 
 def promo(request, promo_id):
     promo = get_object_or_404(Promo, id=promo_id)
@@ -56,7 +55,7 @@ def promo(request, promo_id):
     
     return render(request, 'promo/index.html', context)
 
-
+@login_required
 def promo_add(request):
     if not request.user.is_staff:
         messages.info(request, 'Super Secret Page of Awesomeness! Unauthorized access prohibited!')
@@ -171,7 +170,7 @@ def promo_add(request):
     }
     return render(request, 'promo/index.html', context)
 
-
+@login_required
 def promo_edit(request, promo_id):
     if not request.user.is_staff:
         messages.info(request, 'Super Secret Page of Awesomeness! Unauthorized access prohibited!')
@@ -193,19 +192,6 @@ def promo_edit(request, promo_id):
             if submit_option in ['save', 'activate']:
                 promo = f.save()
                 promo = Promo.objects.get(id=promo.id)
-                if f.has_changed():
-                    for data in f.changed_data:
-                        if data == 'media':
-                            if data in ['start_date', 'end_date']:
-                                setattr(
-                                    promo,
-                                    data,
-                                    pytz.utc.localize(
-                                        dt.datetime.strptime(
-                                            request.POST[data], "%Y-%m-%d %H:%M:%S"
-                                            )
-                                        )
-                                    )
                 for id in request.POST.getlist('apply_to_game', {}):
                     game = Game.objects.filter(id=id)
                     game.update(
@@ -213,7 +199,6 @@ def promo_edit(request, promo_id):
                         promo=promo, 
                         promo_percentage=request.POST.get(f'game_discount-game_{game[0].id}', 0)
                     )
-
                 for id in request.POST.getlist('apply_to_dlc', {}):
                     dlc = DLC.objects.filter(id=id)
                     dlc.update(
@@ -258,14 +243,14 @@ def promo_edit(request, promo_id):
         
         if (start_date.__le__(now) and now.__lt__(end_date)
             ) and (
-            submit_option.__eq__('activate')
+            submit_option == 'activate'
             ) and (
-            promo.apply_to_game.count().__ne__(0) or promo.apply_to_dlc.count().__ne__(0)
+            promo.apply_to_game.count() != 0 or promo.apply_to_dlc.count() != 0
             ):
             promo.active = True
             promo.save()
             return redirect(reverse('promo', kwargs={'promo_id': promo_id}))
-        elif submit_option.__eq__('save'):
+        elif submit_option == 'save':
             return redirect(reverse('promo', kwargs={'promo_id': promo_id}))
         
     paginator = Paginator(game_list, 8)
@@ -276,7 +261,6 @@ def promo_edit(request, promo_id):
         page = paginator.get_page(page_number)
     except EmptyPage:
         page = paginator.get_page(paginator.num_pages)
-
 
     context = {
         'promo': promo,
@@ -289,10 +273,13 @@ def promo_edit(request, promo_id):
 
 @login_required
 def promo_delete(request, promo_id):
+    if not request.user.is_staff:
+        messages.info(request, 'Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        return redirect("/")
     try:
         promo = Promo.objects.get(id=promo_id) 
         promo.delete()
         messages.success(request, f"{promo} has been deleted successfully!")
     except Exception as e:
         messages.error(request, f"{e}")
-    return redirect(reverse('home'))
+    return redirect("/")
