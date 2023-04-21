@@ -17,13 +17,12 @@
         <div class="col-10 offset-1">
             <h2>{{ attr.name }}</h2>
             <div class="col-4 my-3">
-                {% if attr.logo.name is not None %}
+                {% if attr.logo.file is not None %}
                 <img src="{{ MEDIA_URL }}{{ attr.logo.file }}" alt="The logo on {{ attr.name }}" class="d-block w-100">
                 {% endif %}
             </div>
             <p>{{ attr.description }}</p>
             <div class="d-flex mt-3 align-items-center justify-content-evenly">
-                {{ attr.logo }}
                 <div class="d-flex flex-column me-3">
                     <a href="{{ attr.official_site }}"><i class="fa-solid fa-up-right-from-square me-1"></i>Official Website</a>
                 </div>

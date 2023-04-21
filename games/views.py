@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import QueryDict, JsonResponse, HttpResponse
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage
+from django.core.exceptions import EmptyResultSet
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
@@ -11,7 +12,7 @@ from django.contrib import messages
 from ci_ms4_gamebox.utils import get_or_none
 from games.models import (Game, Genre,
                           Tag, Platform, Feature, DLC,
-                          RatingSet)
+                          RatingSet, Publisher, Developer,)
 from .utils import sort_by
 from .forms import GameForm, DLCForm, RatingForm
 
@@ -24,7 +25,11 @@ import json
 def games(request):
     try:
         games = Game.objects.all()
+        if not games:
+            raise EmptyResultSet
         dlcs = DLC.objects.all()
+        if not dlcs:
+            raise EmptyResultSet
     except Exception:
         messages.error(request, "System Malfunction! Please try again later!")
         return redirect("/")
@@ -55,17 +60,13 @@ def games(request):
             else queryset,
             "genres_filter": lambda queryset, param: queryset.filter(
                 genres__slug__in=param
-            ).distinct()
-            if not all(hasattr(obj, "required_game") for obj in queryset.all())
-            else queryset.filter(required_game__genres__slug__in=param).distinct(),
+            ).distinct(),
             "tags_filter": lambda queryset, param: queryset.filter(
                 tags__slug__in=param
             ).distinct(),
             "platforms_filter": lambda queryset, param: queryset.filter(
                 platforms__slug__in=param
-            ).distinct()
-            if not all(hasattr(obj, "required_game") for obj in queryset.all())
-            else queryset.filter(required_game__platforms__slug__in=param).distinct(),
+            ).distinct(),
             "features_filter": lambda queryset, param: queryset.filter(
                 features__slug__in=param
             ).distinct(),
@@ -117,14 +118,10 @@ def games(request):
 
     paginator_iter = range(1, page.paginator.num_pages + 1)
 
-    try:
-        genres = Genre.objects.all()
-        tags = Tag.objects.all()
-        platforms = Platform.objects.all()
-        features = Feature.objects.all()
-    except Exception:
-        messages.error(request, "System Malfunction! Please try again later!")
-        return redirect("/")
+    genres = Genre.objects.all()
+    tags = Tag.objects.all()
+    platforms = Platform.objects.all()
+    features = Feature.objects.all()
 
     context = {
         "page": page,
@@ -154,7 +151,7 @@ def game(request, model_name, game_id):
     game = get_object_or_404(Game, id=game_id) if model_name == 'game' else get_object_or_404(DLC, id=game_id)
     
     media = game.media.exclude(name__icontains='COVER')
-    rating_count = game.ratingset.userrating_set.exclude(value=0).count
+    rating_count = game.ratingset.userrating_set.exclude(value=0).count()
 
     context = {
         'game': game,
@@ -169,7 +166,6 @@ def game(request, model_name, game_id):
 
 
 @csrf_exempt
-@login_required
 @require_POST
 def set_game_rating(request, model_name, game_id):
     if request.user.is_authenticated:
@@ -192,7 +188,7 @@ def game_add(request, model_name):
                       Super Secret Page of Awesomeness! Unauthorized access prohibited!')
         return redirect("/")
     
-    if model_name.__eq__('game'):
+    if model_name == 'game':
         game_form = GameForm()
     else:
         game_form = DLCForm()
@@ -209,7 +205,6 @@ def game_add(request, model_name):
             'publishers': request.POST.getlist('publishers', {}),
             'developers': request.POST.getlist('developers', {}),
             'release_date': request.POST.get('release_date', datetime.now()),
-            'description': request.POST.get('description', ""),
             'platforms': request.POST.getlist('platforms', {}),
             'tags': request.POST.getlist('tags', {}),
             'features': request.POST.getlist('features', {}),
@@ -219,7 +214,7 @@ def game_add(request, model_name):
             'base_price': request.POST.get('base_price', Decimal(0.00)),
         }
 
-        if model_name.__eq__('game'):
+        if model_name == 'game':
             game_form = GameForm(game_form_data)
         else:
             game_form = DLCForm(game_form_data)
@@ -246,6 +241,10 @@ def game_add(request, model_name):
 
 @login_required
 def game_edit(request, model_name, game_id):
+    if not request.user.is_staff:
+        messages.info(request, '\
+                      Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        return redirect("/")
     game = get_object_or_404(
         Game, id=game_id
         ) if model_name == 'game' else get_object_or_404(
@@ -297,6 +296,10 @@ def game_edit(request, model_name, game_id):
 
 @login_required
 def game_delete(request, model_name, game_id):
+    if not request.user.is_staff:
+        messages.info(request, '\
+                      Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        return redirect("/")
     try:
         game = (
             Game.objects.get(id=game_id) 
@@ -308,9 +311,6 @@ def game_delete(request, model_name, game_id):
     except Exception as e:
         messages.error(request, f'{e}')
     return redirect(reverse('games'))
-
-
-from .models import Publisher, Developer, Platform
 
 
 def game_attrs(request, attr_id):
@@ -335,6 +335,7 @@ def game_attrs(request, attr_id):
 
     except Exception:
         messages.error(request, "System Malfunction! Please try again later!")
+        return redirect('/')
 
     game_lists = [list(qset) for qset in [games, dlcs]]
     game_list = [item for sublist in game_lists for item in sublist]
