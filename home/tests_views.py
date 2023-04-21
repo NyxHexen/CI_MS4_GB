@@ -3,15 +3,11 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 
-from decimal import Decimal
-from datetime import date
-
 from .models import Media
 from games.models import *
 
 class MediaModelTest(TestCase):
     def setUp(self):
-        self.games_url = reverse('games')
         self.user = User.objects.create_user(
             username='test-gamebox', 
             password='gamebox-pwd',
@@ -35,53 +31,6 @@ class MediaModelTest(TestCase):
             name='No Image COVER',
             description='No Image COVER',
             media_type='image'
-        )
-        self.genre_1 = Genre.objects.create(name='RPG', slug='rpg')
-        self.genre_2 = Genre.objects.create(name='Shooter', slug='shooter')
-        self.tag = Tag.objects.create(name='First Person')
-        self.feature = Feature.objects.create(name='Open World')
-        self.developer = Developer.objects.create(
-            name="Test Dev 1",
-            country='GB'
-        )
-        self.publisher = Publisher.objects.create(
-            name="Test Pub 1",
-            country='GB',
-        )
-        self.platform = Platform.objects.create(
-            name="PC",
-            country='GB'
-        )
-        self.game = Game.objects.create(
-            name="Assassin's Creed",
-            description="An action-adventure game",
-            storyline="A story about assassins",
-            release_date=date(2007, 11, 13),
-            base_price=round(Decimal(49.99), 2),
-        )
-        self.dlc = DLC.objects.create(
-            required_game=self.game,
-            name="Bassassin's Creed DLC",
-            description="An action-adventure game DLC",
-            storyline="A story about assassins DLC",
-            release_date=date(2011, 5, 13),
-            base_price=round(Decimal(49.99), 2),
-        )
-        self.game.genres.add(self.genre_1)
-        self.dlc.genres.add(self.genre_2)
-        self.rating_set = RatingSet.objects.create(
-            game=self.game,
-            dlc=None,
-        )
-        self.rating_set = RatingSet.objects.create(
-            game=None,
-            dlc=self.dlc,
-        )
-        self.esrb_rating = EsrbRating.objects.create(
-            name="Teen",
-        )
-        self.pegi_rating = PegiRating.objects.create(
-            name="17",
         )
 
     def test_media_view_guest(self):

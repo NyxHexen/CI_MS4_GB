@@ -24,7 +24,6 @@ class MediaFormTest(TestCase):
 
     def test_form(self):
         form = MediaForm(data=self.form_data)
-        print(form.errors)
         self.assertTrue(form.is_valid())
 
     def test_bad_form(self):
