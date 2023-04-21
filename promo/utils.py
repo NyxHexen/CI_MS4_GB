@@ -1,14 +1,16 @@
 from datetime import datetime, time, timedelta
 
 from decimal import Decimal
-
+from django.utils import timezone
 
 def default_start_datetime():
-    return datetime.combine(datetime.now().date(), time(hour=0, minute=1))
+    now = timezone.now()
+    return timezone.make_aware(datetime.combine(now.date(), time(hour=0, minute=1)), now.tzinfo)
 
 
 def default_end_datetime():
-    return datetime.combine(datetime.now().date(), time(hour=0, minute=1)) + timedelta(days=1)
+    now = timezone.now()
+    return timezone.make_aware(datetime.combine(now.date(), time(hour=0, minute=1)) + timedelta(days=1), now.tzinfo)
 
 
 # Applies the discount to all associated games/DLCs when a Promo becomes active.
