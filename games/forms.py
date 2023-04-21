@@ -26,7 +26,6 @@ class GameForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        print(self.fields['description'].widget.attrs)
 
         self.fields['description'].widget.attrs = {'rows': 5, 'cols': 40}
         self.fields['storyline'].widget.attrs = {'rows': 5, 'cols': 40}
