@@ -1,7 +1,5 @@
-from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse
-from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 
