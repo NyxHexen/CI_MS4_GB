@@ -5,8 +5,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 
-from allauth.account.models import EmailAddress
-
 from ci_ms4_gamebox.utils import get_or_none
 from .models import UserProfile
 from .forms import BillingAddressForm, NewsletterForm
@@ -15,9 +13,10 @@ from .forms import BillingAddressForm, NewsletterForm
 @login_required
 def myprofile(request):
     profile = UserProfile.objects.get(user=request.user)
+
     if request.POST:
-        username = request.POST.get('myprofile_username')
-        email = request.POST.get('myprofile_email')
+        username = request.user.username
+        email = request.user.email
         first_name = request.POST.get('myprofile_first_name')
         last_name = request.POST.get('myprofile_last_name')
         User.objects.filter(
@@ -43,13 +42,13 @@ def billing_address(request):
 
     if request.method == "POST":
         form_data = {
-            "default_phone_number": request.POST["default_phone_number"],
-            "default_country": request.POST["default_country"],
-            "default_postcode": request.POST["default_postcode"],
-            "default_town_or_city": request.POST["default_town_or_city"],
-            "default_street_address1": request.POST["default_street_address1"],
-            "default_street_address2": request.POST["default_street_address2"],
-            "default_county": request.POST["default_county"],
+            "default_phone_number": request.POST.get("default_phone_number", ""),
+            "default_country": request.POST.get("default_country", ""),
+            "default_postcode": request.POST.get("default_postcode", ""),
+            "default_town_or_city": request.POST.get("default_town_or_city", ""),
+            "default_street_address1": request.POST.get("default_street_address1", ""),
+            "default_street_address2": request.POST.get("default_street_address2", ""),
+            "default_county": request.POST.get("default_county", ""),
         }
         
         f = BillingAddressForm(form_data, initial=form.initial)
@@ -80,9 +79,8 @@ def newsletter_sub(request):
                        an account? Why not sign up!")
         return redirect(reverse('account_login'))
     form = NewsletterForm(request.POST)
-    email = request.POST.get('email')
     if form.is_valid():
-        user = get_or_none(User, email=email)
+        user = get_or_none(User, email=form.cleaned_data['subscription_email'])
         if user is not None and request.user == user:
             if request.user.userprofile.newsletter_sub:
                 messages.info(request, "You are already subscribed!\
