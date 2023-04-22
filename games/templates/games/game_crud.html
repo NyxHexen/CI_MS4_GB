@@ -4,105 +4,108 @@
 {% load cart_tags %}
 
 {% block extra_css %}
-{{ block.super }}
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    {{ block.super }}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+          rel="stylesheet" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 {% endblock %}
 
 {% block page_header %}
-<div class="container">
-    <div class="row">
-        <div class="col"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
     </div>
-</div>
 {% endblock %}
 
 {% block content %}
-<div class="container my-5">
-    <div class="row">
+    <div class="container my-5">
+        <div class="row">
             {% if 'add' in request.path %}
-        <div id="game-add" class="col-11 col-lg-8 offset-lg-2 card mx-auto">
-            <form action="{% url 'game_add' model_name %}" method="post" class="row card-body justify-content-center">
-            <h2 class="text-center ui-font">Add New {{ model_name }}</h2>
-            {% elif 'edit' in request.path %}
-        <div id="game-edit" class="col-12 col-lg-8 offset-lg-2 card">
-            <form action="{% url 'game_edit' model_name game_id %}" method="post" class="row card-body justify-content-center">
-            <h2 class="text-center ui-font">Edit {{ model_name }}</h2>
-            {% endif %}
-                <hr class="my-3">
-                {% csrf_token %}
-                <fieldset class="col-12 col-md-6 col-xl-4 d-flex flex-column align-items-start" name="input">
-                    {% if model_name == 'dlc' %}
-                    {{ game_form.required_game|as_crispy_field }}
-                    {% endif %}
-                    {{ game_form.name|as_crispy_field }}
-                    {{ game_form.release_date|as_crispy_field }}
-                    {{ game_form.description|as_crispy_field }}
-                    {{ game_form.storyline|as_crispy_field }}
-                    {{ game_form.base_price|as_crispy_field }}
-                </fieldset>
-                <fieldset class="col-12 col-md-6 col-xl-4">
-                    {{ game_form.publishers|as_crispy_field }}
-                    {{ game_form.developers|as_crispy_field }}
-                    {{ game_form.platforms|as_crispy_field }}
-                    {{ rating_form.esrb_rating|as_crispy_field }}
-                    {{ rating_form.pegi_rating|as_crispy_field }}
-                </fieldset>
-                <hr class="d-none d-md-block d-lg-none my-4">
-                <fieldset class="col-12 col-xl-4 d-md-flex flex-lg-column d-lg-block justify-content-between"
-                    name="select">
-                    <div class="d-flex flex-column align-items-start col col-md-2 col-lg-auto">
-                        {{ game_form.is_featured|as_crispy_field }}
-                        {{ game_form.carousel|as_crispy_field }}
+                <div id="game-add" class="col-11 col-lg-8 offset-lg-2 card mx-auto">
+                    <form action="{% url 'game_add' model_name %}"
+                          method="post"
+                          class="row card-body justify-content-center">
+                        <h2 class="text-center ui-font">Add New {{ model_name }}</h2>
+                    {% elif 'edit' in request.path %}
+                        <div id="game-edit" class="col-12 col-lg-8 offset-lg-2 card">
+                            <form action="{% url 'game_edit' model_name game_id %}"
+                                  method="post"
+                                  class="row card-body justify-content-center">
+                                <h2 class="text-center ui-font">Edit {{ model_name }}</h2>
+                            {% endif %}
+                            <hr class="my-3">
+                            {% csrf_token %}
+                            <fieldset class="col-12 col-md-6 col-xl-4 d-flex flex-column align-items-start"
+                                      name="input">
+                                {% if model_name == 'dlc' %}{{ game_form.required_game|as_crispy_field }}{% endif %}
+                                {{ game_form.name|as_crispy_field }}
+                                {{ game_form.release_date|as_crispy_field }}
+                                {{ game_form.description|as_crispy_field }}
+                                {{ game_form.storyline|as_crispy_field }}
+                                {{ game_form.base_price|as_crispy_field }}
+                            </fieldset>
+                            <fieldset class="col-12 col-md-6 col-xl-4">
+                                {{ game_form.publishers|as_crispy_field }}
+                                {{ game_form.developers|as_crispy_field }}
+                                {{ game_form.platforms|as_crispy_field }}
+                                {{ rating_form.esrb_rating|as_crispy_field }}
+                                {{ rating_form.pegi_rating|as_crispy_field }}
+                            </fieldset>
+                            <hr class="d-none d-md-block d-lg-none my-4">
+                            <fieldset class="col-12 col-xl-4 d-md-flex flex-lg-column d-lg-block justify-content-between"
+                                      name="select">
+                                <div class="d-flex flex-column align-items-start col col-md-2 col-lg-auto">
+                                    {{ game_form.is_featured|as_crispy_field }}
+                                    {{ game_form.carousel|as_crispy_field }}
+                                </div>
+                                <div class="d-flex flex-column col mx-2">
+                                    {{ game_form.genres|as_crispy_field }}
+                                    {{ game_form.tags|as_crispy_field }}
+                                </div>
+                                <div class="d-flex flex-column col mx-2">
+                                    {{ game_form.features|as_crispy_field }}
+                                    {{ game_form.media|as_crispy_field }}
+                                </div>
+                            </fieldset>
+                            <button type="submit" class="btn btn-gamebox-alt col-auto">Save and Exit</button>
+                        </form>
                     </div>
-                    <div class="d-flex flex-column col mx-2">
-                    {{ game_form.genres|as_crispy_field }}
-                    {{ game_form.tags|as_crispy_field }}
-                    </div>
-                    <div class="d-flex flex-column col mx-2">
-                    {{ game_form.features|as_crispy_field }}
-                    {{ game_form.media|as_crispy_field }}
-                    </div>
-                </fieldset>
-                <button type="submit" class="btn btn-gamebox-alt col-auto">Save and Exit</button>
-            </form>
-        </div>
-    </div>
-</div>
-{% endblock %}
-
-{% block postloadjs %}
-<!-- Popperjs -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous">
-</script>
-<!-- Tempus Dominus JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/js/tempus-dominus.min.js"
-    crossorigin="anonymous"></script>
-<!-- Tempus Dominus Styles -->
-<link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/css/tempus-dominus.min.css"
-    crossorigin="anonymous">
-<script>
-    $(document).ready(function () {
-        $('.selectmultiple').each((index, elem) => {
-            $(elem).select2({
-                theme: 'bootstrap-5'
-            });
-        })
-    });
-</script>
-<script>
-    const releaseDateField = document.getElementById('id_release_date')
-    const pickerReleaseDate = new tempusDominus.TempusDominus(releaseDateField, {
-        localization: {
-            format: 'yyyy-MM-dd',
-        }
-    });
-</script>
-
-{% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+        {% block postloadjs %}
+            <!-- Popperjs -->
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous">
+            </script>
+            <!-- Tempus Dominus JavaScript -->
+            <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/js/tempus-dominus.min.js"
+                    crossorigin="anonymous"></script>
+            <!-- Tempus Dominus Styles -->
+            <link rel="stylesheet"
+                  href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/css/tempus-dominus.min.css"
+                  crossorigin="anonymous">
+            <script>
+                $(document).ready(function() {
+                    $('.selectmultiple').each((index, elem) => {
+                        $(elem).select2({
+                            theme: 'bootstrap-5'
+                        });
+                    })
+                });
+            </script>
+            <script>
+                const releaseDateField = document.getElementById('id_release_date')
+                const pickerReleaseDate = new tempusDominus.TempusDominus(releaseDateField, {
+                    localization: {
+                        format: 'yyyy-MM-dd',
+                    }
+                });
+            </script>
+        {% endblock %}

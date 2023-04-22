@@ -1,396 +1,438 @@
 {% extends "base.html" %}
 {% load static %}
 {% load tags %}
-
-{% block page_header %}
-{% endblock %}
-
+{% block page_header %}{% endblock %}
 {% block content %}
-<div class="container my-3 my-md-5">
-    <div class="row justify-content-evenly align-items-start">
-        {% include './includes/filter.html' %}
-        <div id="games-list" class="col-8plus">
-            <div id="games-header" class="row card mb-2 d-flex flex-row">
-                <div class="col-12 col-md-auto col-lg-12 d-flex align-items-center justify-content-end">
-                    <button id="filter-open" type="button" class="col-11 col-sm-auto d-lg-none btn btn-gamebox mx-auto mx-sm-0"><i
-                            class="fa-solid fa-filter"></i> Filter</button>
-                </div>
-                <div id="pagination" class="col-6 col-md-3 col-lg-6 card-body d-flex align-items-center">
-                    {% if filter_dict %}
-                    <a class="btn {% if not page.has_previous %}disabled{% endif %}"
-                        href="{% if page.has_previous %}?filter=true&{{ filter_dict }}&page={{ page.previous_page_number }}{% else %}#{% endif %}"
-                        aria-label="Previous Page">
-                        {% else %}
-                        <a class="btn {% if not page.has_previous %}disabled{% endif %}"
-                            href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}#{% endif %}"
-                            aria-label="Previous">
-                            {% endif %}
-                            <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span></a>
-                        <div class="col-2">
-                            <label for="page-input" class="visually-hidden form-label">Page Number</label>
-                            <input type="number" class="form-control" id="page-input" placeholder="{{ page.number }}">
-                        </div>
-                        <span class="px-2 py-1">of</span>
-                        <span class="px-2 py-1">{{ page.paginator.num_pages }}</span>
+    <div class="container my-3 my-md-5">
+        <div class="row justify-content-evenly align-items-start">
+            {% include './includes/filter.html' %}
+            <div id="games-list" class="col-8plus">
+                <div id="games-header" class="row card mb-2 d-flex flex-row">
+                    <div class="col-12 col-md-auto col-lg-12 d-flex align-items-center justify-content-end">
+                        <button id="filter-open"
+                                type="button"
+                                class="col-11 col-sm-auto d-lg-none btn btn-gamebox mx-auto mx-sm-0">
+                            <i class="fa-solid fa-filter"></i> Filter
+                        </button>
+                    </div>
+                    <div id="pagination"
+                         class="col-6 col-md-3 col-lg-6 card-body d-flex align-items-center">
                         {% if filter_dict %}
-                        <a class="btn {% if not page.has_next %}disabled{% endif %}"
-                            href="{% if page.has_next %}?filter=true&{{ filter_dict }}&page={{ page.next_page_number }}{% else %}#{% endif %}"
-                            aria-label="Next Page">
+                            <a class="btn {% if not page.has_previous %}disabled{% endif %}"
+                               href="{% if page.has_previous %}?filter=true&{{ filter_dict }}&page={{ page.previous_page_number }}{% else %}#{% endif %}"
+                               aria-label="Previous Page">
                             {% else %}
-                            <a class="btn {% if not page.has_next %}disabled{% endif %}"
-                                href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
-                                aria-label="Next Page">
+                                <a class="btn {% if not page.has_previous %}disabled{% endif %}"
+                                   href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}#{% endif %}"
+                                   aria-label="Previous">
                                 {% endif %}
-                                <span aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span></a>
-                </div>
-                <div class="col-3 offset-md-3 card-body">
-                    <select id="games_sort" class="form-select" aria-label="Default select example">
-                        <option disabled {% if not filter_dict %}selected{% endif %}>Sort By</option>
-                        <option value="price_desc" {% if "price_desc" in filter_dict %}selected{% endif %}>Price (from
-                            highest)</option>
-                        <option value="price_asc" {% if "price_asc" in filter_dict %}selected{% endif %}>Price (from
-                            lowest)</option>
-                        <option value="discount_desc" {% if "discount_desc" in filter_dict %}selected{% endif %}>
-                            Discount (from highest)</option>
-                        <option value="title_asc" {% if "title_asc" in filter_dict %}selected{% endif %}>Title (A to Z)
-                        </option>
-                        <option value="title_desc" {% if "title_desc" in filter_dict %}selected{% endif %}>Title (Z to
-                            A)</option>
-                        <option value="date_desc" {% if "date_desc" in filter_dict %}selected{% endif %}>Release Date
-                            (newest first)</option>
-                        <option value="date_asc" {% if "date_asc" in filter_dict %}selected{% endif %}>Release Date
-                            (oldest first)</option>
-                        <option value="rating_desc" {% if "rating_desc" in filter_dict %}selected{% endif %}>Rating
-                            (from highest)</option>
-                    </select>
+                                <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span></a>
+                            <div class="col-2">
+                                <label for="page-input" class="visually-hidden form-label">Page Number</label>
+                                <input type="number"
+                                       class="form-control"
+                                       id="page-input"
+                                       placeholder="{{ page.number }}">
+                            </div>
+                            <span class="px-2 py-1">of</span>
+                            <span class="px-2 py-1">{{ page.paginator.num_pages }}</span>
+                            {% if filter_dict %}
+                                <a class="btn {% if not page.has_next %}disabled{% endif %}"
+                                   href="{% if page.has_next %}?filter=true&{{ filter_dict }}&page={{ page.next_page_number }}{% else %}#{% endif %}"
+                                   aria-label="Next Page">
+                                {% else %}
+                                    <a class="btn {% if not page.has_next %}disabled{% endif %}"
+                                       href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
+                                       aria-label="Next Page">
+                                    {% endif %}
+                                    <span aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span></a>
+                            </div>
+                            <div class="col-3 offset-md-3 card-body">
+                                <select id="games_sort"
+                                        class="form-select"
+                                        aria-label="Default select example">
+                                    <option disabled {% if not filter_dict %}selected{% endif %}>Sort By</option>
+                                    <option value="price_desc"
+                                            {% if "price_desc" in filter_dict %}selected{% endif %}>
+                                        Price (from
+                                        highest)
+                                    </option>
+                                    <option value="price_asc"
+                                            {% if "price_asc" in filter_dict %}selected{% endif %}>
+                                        Price (from
+                                        lowest)
+                                    </option>
+                                    <option value="discount_desc"
+                                            {% if "discount_desc" in filter_dict %}selected{% endif %}>
+                                        Discount (from highest)
+                                    </option>
+                                    <option value="title_asc"
+                                            {% if "title_asc" in filter_dict %}selected{% endif %}>
+                                        Title (A to Z)
+                                    </option>
+                                    <option value="title_desc"
+                                            {% if "title_desc" in filter_dict %}selected{% endif %}>
+                                        Title (Z to
+                                        A)
+                                    </option>
+                                    <option value="date_desc"
+                                            {% if "date_desc" in filter_dict %}selected{% endif %}>
+                                        Release Date
+                                        (newest first)
+                                    </option>
+                                    <option value="date_asc"
+                                            {% if "date_asc" in filter_dict %}selected{% endif %}>
+                                        Release Date
+                                        (oldest first)
+                                    </option>
+                                    <option value="rating_desc"
+                                            {% if "rating_desc" in filter_dict %}selected{% endif %}>
+                                        Rating
+                                        (from highest)
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="games row">
+                            {% for game in page %}
+                                <div class="game col-6 col-md-3 col-lg-4 col-xl-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
+                                    <div class="game-cover--front">
+                                        <div class="game-cover-image">
+                                            {% if game|use_media:'COVER.src' is not None %}
+                                                <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
+                                                     alt="{{ game|use_media:'COVER.descr' }}">
+                                            {% else %}
+                                                <img src="{{ MEDIA_URL }}noimage.jpg"
+                                                     alt="This game does not yet have a cover image!">
+                                            {% endif %}
+                                        </div>
+                                        <p class="game-title">{{ game.name }}</p>
+                                    </div>
+                                    <div class="game-cover--reverse d-flex justify-content-between align-items-end">
+                                        <form action="{% url 'cart_add' game.model_name game.id %}"
+                                              method="post"
+                                              class="w-100 d-flex flex-row">
+                                            {% csrf_token %}
+                                            <label for="id_qty_{{ game.model_name }}_{{ game.id }}"
+                                                   class="visually-hidden form-label">Quantity</label>
+                                            <input class="form-control"
+                                                   type="number"
+                                                   name="quantity"
+                                                   id="id_qty_{{ game.id }}"
+                                                   value="1"
+                                                   min="1"
+                                                   max="99"
+                                                   data-game-id="{{ game.id }}">
+                                            <button type="submit" aria-label="Add to cart" class="add-cart btn ms-2 py-0">
+                                                <span class="d-none d-md-inline">Add to</span><i class="fa-solid fa-cart-plus"></i>
+                                            </button>
+                                            <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
+                                        </form>
+                                    </div>
+                                    <a target="_blank"
+                                       href="{% url 'game' game.model_name game.id %}"
+                                       class="game-back--front d-flex flex-column justify-content-around">
+                                        {% if not request.user_agent.is_mobile %}<h2 class="game-title-back text-center">{{ game.name }}</h2>{% endif %}
+                                        <div class="game-info">
+                                            <div class="genres-box m-1">
+                                                <h3>Genre</h3>
+                                                <hr>
+                                                <p>
+                                                    {% for genre in game.genres.all %}
+                                                        {{ genre.name }}
+                                                        {% if not forloop.last %},{% endif %}
+                                                    {% endfor %}
+                                                </p>
+                                            </div>
+                                            <div class="tags-box m-1">
+                                                <h3>Tags</h3>
+                                                <hr>
+                                                <p>
+                                                    {% for tag in game.tags.all %}
+                                                        {{ tag.name }}
+                                                        {% if not forloop.last %},{% endif %}
+                                                    {% endfor %}
+                                                </p>
+                                            </div>
+                                            <div class="features-box m-1">
+                                                <h3>Features</h3>
+                                                <hr>
+                                                <p>
+                                                    {% for feature in game.features.all %}
+                                                        {{ feature.name }}
+                                                        {% if not forloop.last %},{% endif %}
+                                                    {% endfor %}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="rating-stars d-flex justify-content-center">
+                                            {% if request.user_agent.is_mobile %}
+                                                <span class="star d-flex justify-content-center align-items-center">
+                                                    <i class="fa-solid fa-star active"></i>
+                                                </span>
+                                            {% else %}
+                                                <span class="star d-flex justify-content-center align-items-center">
+                                                    {% if game.ratingset.user_rating_calc > 0 and game.ratingset.user_rating_calc <= 0.5 %}
+                                                        <i class="fa-solid fa-star-half-stroke active"></i>
+                                                    {% elif game.ratingset.user_rating_calc > 0.5 %}
+                                                        <i class="fa-solid fa-star active"></i>
+                                                    {% else %}
+                                                        <i class="fa-regular fa-star"></i>
+                                                    {% endif %}
+                                                </span>
+                                                <span class="star d-flex justify-content-center align-items-center">
+                                                    {% if game.ratingset.user_rating_calc > 1 and game.ratingset.user_rating_calc <= 1.5 %}
+                                                        <i class="fa-solid fa-star-half-stroke active"></i>
+                                                    {% elif game.ratingset.user_rating_calc > 1.5 %}
+                                                        <i class="fa-solid fa-star active"></i>
+                                                    {% else %}
+                                                        <i class="fa-regular fa-star"></i>
+                                                    {% endif %}
+                                                </span>
+                                                <span class="star d-flex justify-content-center align-items-center">
+                                                    {% if game.ratingset.user_rating_calc > 2 and game.ratingset.user_rating_calc <= 2.5 %}
+                                                        <i class="fa-solid fa-star-half-stroke active"></i>
+                                                    {% elif game.ratingset.user_rating_calc > 2.5 %}
+                                                        <i class="fa-solid fa-star active"></i>
+                                                    {% else %}
+                                                        <i class="fa-regular fa-star"></i>
+                                                    {% endif %}
+                                                </span>
+                                                <span class="star d-flex justify-content-center align-items-center">
+                                                    {% if game.ratingset.user_rating_calc > 3 and game.ratingset.user_rating_calc <= 3.5 %}
+                                                        <i class="fa-solid fa-star-half-stroke active"></i>
+                                                    {% elif game.ratingset.user_rating_calc > 3.5 %}
+                                                        <i class="fa-solid fa-star active"></i>
+                                                    {% else %}
+                                                        <i class="fa-regular fa-star"></i>
+                                                    {% endif %}
+                                                </span>
+                                                <span class="star d-flex justify-content-center align-items-center">
+                                                    {% if game.ratingset.user_rating_calc > 4 and game.ratingset.user_rating_calc <= 4.5 %}
+                                                        <i class="fa-solid fa-star-half-stroke active"></i>
+                                                    {% elif game.ratingset.user_rating_calc > 4.5 %}
+                                                        <i class="fa-solid fa-star active"></i>
+                                                    {% else %}
+                                                        <i class="fa-regular fa-star"></i>
+                                                    {% endif %}
+                                                </span>
+                                            {% endif %}
+                                            <span class="ms-1">{{ game.ratingset.user_rating_calc }}</span>
+                                        </div>
+                                    </a>
+                                    <div class="game-back--reverse d-flex justify-content-end align-items-end">
+                                        {% if game.in_promo and game.promo.active is True %}
+                                            <div class="promo-discount">-{{ game.promo_percentage }}%</div>
+                                        {% endif %}
+                                        <div class="game-price">
+                                            £
+                                            {% if game.in_promo and game.promo.active is True %}
+                                                {{ game.final_price }}
+                                            {% else %}
+                                                {{ game.base_price }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="games row">
-                {% for game in page %}
-                <div
-                    class="game col-6 col-md-3 col-lg-4 col-xl-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
-                    <div class="game-cover--front">
-                        <div class="game-cover-image">
-                            {% if game|use_media:'COVER.src' is not None %}
-                            <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
-                                alt="{{ game|use_media:'COVER.descr' }}">
-                            {% else %}
-                            <img src="{{ MEDIA_URL }}noimage.jpg" alt="This game does not yet have a cover image!">
-                            {% endif %}
-                        </div>
-                        <p class="game-title">{{ game.name }}</p>
-                    </div>
-                    <div class="game-cover--reverse d-flex justify-content-between align-items-end">
-                        <form action="{% url 'cart_add' game.model_name game.id %}"  method="POST"
-                            class="w-100 d-flex flex-row">
-                            {% csrf_token %}
-                            <label for="id_qty_{{ game.model_name }}_{{ game.id }}" class="visually-hidden form-label">Quantity</label>
-                            <input class="form-control" type="number" name="quantity" id="id_qty_{{ game.id }}"
-                                value="1" min="1" max="99" data-game-id="{{ game.id }}">
-                            <button type="submit" aria-label="Add to cart" class="add-cart btn ms-2 py-0"><span
-                                    class="d-none d-md-inline">Add to </span><i
-                                    class="fa-solid fa-cart-plus"></i></button>
-                            <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
-                        </form>
-                    </div>
-                    <a target="_blank" href="{% url 'game' game.model_name game.id %}"
-                        class="game-back--front d-flex flex-column justify-content-around">
-                        {% if not request.user_agent.is_mobile %}
-                        <h2 class="game-title-back text-center">{{ game.name }}</h2>
-                        {% endif %}
-                        <div class="game-info">
-                            <div class="genres-box m-1">
-                                <h3 class="">Genre</h3>
-                                <hr>
-                                <p>{% for genre in game.genres.all %}{{ genre.name }}{% if not forloop.last %},
-                                    {% endif %}{% endfor %}</p>
-                            </div>
-                            <div class="tags-box m-1">
-                                <h3>Tags</h3>
-                                <hr>
-                                <p>{% for tag in game.tags.all %}{{ tag.name }}{% if not forloop.last %},
-                                    {% endif %}{% endfor %}</p>
-                            </div>
-                            <div class="features-box m-1">
-                                <h3>Features</h3>
-                                <hr>
-                                <p>{% for feature in game.features.all %}{{ feature.name }}{% if not forloop.last %},
-                                    {% endif %}{% endfor %}</p>
-                            </div>
-                        </div>
-                        <div class="rating-stars d-flex justify-content-center">
-                            {% if request.user_agent.is_mobile %}
-                            <span class="star d-flex justify-content-center align-items-center">
-                                <i class="fa-solid fa-star active"></i>
-                            </span>
-                            {% else %}
-                            <span class="star d-flex justify-content-center align-items-center">
-                                {% if game.ratingset.user_rating_calc > 0 and game.ratingset.user_rating_calc <= 0.5 %}
-                                <i class="fa-solid fa-star-half-stroke active"></i>
-                                {% elif game.ratingset.user_rating_calc > 0.5 %}
-                                <i class="fa-solid fa-star active"></i>
-                                {% else %}
-                                <i class="fa-regular fa-star"></i>
-                                {% endif %}
-                            </span>
-                            <span class="star d-flex justify-content-center align-items-center">
-                                {% if game.ratingset.user_rating_calc > 1 and game.ratingset.user_rating_calc <= 1.5 %}
-                                <i class="fa-solid fa-star-half-stroke active"></i>
-                                {% elif game.ratingset.user_rating_calc > 1.5 %}
-                                <i class="fa-solid fa-star active"></i>
-                                {% else %}
-                                <i class="fa-regular fa-star"></i>
-                                {% endif %}
-                            </span>
-                            <span class="star d-flex justify-content-center align-items-center">
-                                {% if game.ratingset.user_rating_calc > 2 and game.ratingset.user_rating_calc <= 2.5 %}
-                                <i class="fa-solid fa-star-half-stroke active"></i>
-                                {% elif game.ratingset.user_rating_calc > 2.5 %}
-                                <i class="fa-solid fa-star active"></i>
-                                {% else %}
-                                <i class="fa-regular fa-star"></i>
-                                {% endif %}
-                            </span>
-                            <span class="star d-flex justify-content-center align-items-center">
-                                {% if game.ratingset.user_rating_calc > 3 and game.ratingset.user_rating_calc <= 3.5 %}
-                                <i class="fa-solid fa-star-half-stroke active"></i>
-                                {% elif game.ratingset.user_rating_calc > 3.5 %}
-                                <i class="fa-solid fa-star active"></i>
-                                {% else %}
-                                <i class="fa-regular fa-star"></i>
-                                {% endif %}
-                            </span>
-                            <span class="star d-flex justify-content-center align-items-center">
-                                {% if game.ratingset.user_rating_calc > 4 and game.ratingset.user_rating_calc <= 4.5 %}
-                                <i class="fa-solid fa-star-half-stroke active"></i>
-                                {% elif game.ratingset.user_rating_calc > 4.5 %}
-                                <i class="fa-solid fa-star active"></i>
-                                {% else %}
-                                <i class="fa-regular fa-star"></i>
-                                {% endif %}
-                            </span>
-                            {% endif %}
-                            <span class="ms-1">{{ game.ratingset.user_rating_calc }}</span>
-                        </div>
-                    </a>
-                    <div class="game-back--reverse d-flex justify-content-end align-items-end">
-                        {% if game.in_promo and game.promo.active is True%}
-                        <div class="promo-discount">
-                            -{{ game.promo_percentage }}%
-                        </div>
-                        {% endif %}
-                        <div class="game-price">£
-                            {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
-
-{% block corecss %}
-<link href="{% static 'css/nouislider.css' %}" rel="stylesheet">
-{{ block.super }}
-{% endblock %}
-
-{% block corejs %}
-<script src="{% static 'js/nouislider.js' %}"></script>
-<script src="{% static 'js/wNumb.min.js' %}"></script>
-{{ block.super }}
-{% endblock %}
-
-{% block postloadcss %}
-<style>
+        {% endblock %}
+        {% block corecss %}
+            <link href="{% static 'css/nouislider.css' %}" rel="stylesheet">
+            {{ block.super }}
+        {% endblock %}
+        {% block corejs %}
+            <script src="{% static 'js/nouislider.js' %}"></script>
+            <script src="{% static 'js/wNumb.min.js' %}"></script>
+            {{ block.super }}
+        {% endblock %}
+        {% block postloadcss %}
+            <style>
     #price-slider__from,
     #price-slider__to {
         padding: 7px;
         margin: 15px 5px 5px;
         width: 70px;
     }
-</style>
-{% endblock %}
+            </style>
+        {% endblock %}
+        {% block postloadjs %}
+            {{ block.super }}
+            <script>
+                let gamesFilter = document.getElementById('games-filter')
+                let filterOpenBtn = document.getElementById('filter-open')
+                let filterCloseBtn = document.getElementById('filter-close')
+                filterOpenBtn.addEventListener('click', e => {
+                    gamesFilter.classList.add('show')
+                })
+                filterCloseBtn.addEventListener('click', e => {
+                    gamesFilter.classList.remove('show')
+                })
+            </script>
+            <script>
+                let priceSlider = document.getElementById('price-slider');
+                let priceNodes = [
+                    document.getElementById('price-slider__from'),
+                    document.getElementById('price-slider__to'),
+                ]
 
-{% block postloadjs %}
-{{ block.super }}
+                let priceSliderCeiling = Number("{{price_slider_ceil}}")
+                let filterDict = "{{ filter_dict }}"
+                let filterDictPrice, filterDictDate;
 
-<script>
-    let gamesFilter = document.getElementById('games-filter')
-    let filterOpenBtn = document.getElementById('filter-open')
-    let filterCloseBtn = document.getElementById('filter-close')
-    filterOpenBtn.addEventListener('click', e => {
-        gamesFilter.classList.add('show')
-    })
-    filterCloseBtn.addEventListener('click', e => {
-        gamesFilter.classList.remove('show')
-    })
-</script>
+                if (filterDict.includes('price_range') == true) {
+                    filterDictPrice = filterDict.match(/price_range=([^&]+)/)[1].split('%2C')
+                } else if (filterDict.includes('date_range')) {
+                    filterDictDate = filterDict.match(/date_range=([^&]+)/)[1].split('%2C')
+                }
 
-<script>
-    let priceSlider = document.getElementById('price-slider');
-    let priceNodes = [
-        document.getElementById('price-slider__from'),
-        document.getElementById('price-slider__to'),
-    ]
+                noUiSlider.create(priceSlider, {
+                    start: filterDict.includes('price_range') && filterDictPrice ? [filterDictPrice[0], filterDictPrice[
+                        1]] : [0, priceSliderCeiling],
+                    connect: true,
+                    step: 10,
+                    range: {
+                        'min': 0,
+                        'max': priceSliderCeiling
+                    },
+                    format: wNumb({
+                        decimals: 2,
+                        thousand: ',',
+                        prefix: '£'
+                    })
+                });
 
-    let priceSliderCeiling = Number("{{price_slider_ceil}}")
-    let filterDict = "{{ filter_dict }}"
-    let filterDictPrice, filterDictDate;
+                priceSlider.noUiSlider.on('update', function(values, handle) {
+                    priceNodes[handle].value = values[handle]
+                });
 
-    if (filterDict.includes('price_range') == true) {
-        filterDictPrice = filterDict.match(/price_range=([^&]+)/)[1].split('%2C')
-    } else if (filterDict.includes('date_range')) {
-        filterDictDate = filterDict.match(/date_range=([^&]+)/)[1].split('%2C')
-    }
+                priceNodes[0].addEventListener('change', function() {
+                    priceSlider.noUiSlider.set([this.value, null]);
+                });
 
-    noUiSlider.create(priceSlider, {
-        start: filterDict.includes('price_range') && filterDictPrice ? [filterDictPrice[0], filterDictPrice[
-            1]] : [0, priceSliderCeiling],
-        connect: true,
-        step: 10,
-        range: {
-            'min': 0,
-            'max': priceSliderCeiling
-        },
-        format: wNumb({
-            decimals: 2,
-            thousand: ',',
-            prefix: '£'
-        })
-    });
+                priceNodes[1].addEventListener('change', function() {
+                    priceSlider.noUiSlider.set([null, this.value]);
+                });
 
-    priceSlider.noUiSlider.on('update', function (values, handle) {
-        priceNodes[handle].value = values[handle]
-    });
+                let releaseDateSlider = document.getElementById('release-date-slider');
+                let dateNodes = [
+                    document.getElementById('release-date-slider__from'),
+                    document.getElementById('release-date-slider__to'),
+                ]
 
-    priceNodes[0].addEventListener('change', function () {
-        priceSlider.noUiSlider.set([this.value, null]);
-    });
+                noUiSlider.create(releaseDateSlider, {
+                    start: [1980, new Date().getFullYear()],
+                    connect: true,
+                    step: 1,
+                    range: {
+                        'min': 1980,
+                        'max': new Date().getFullYear()
+                    },
+                    format: wNumb({
+                        decimals: 0,
+                    })
+                });
 
-    priceNodes[1].addEventListener('change', function () {
-        priceSlider.noUiSlider.set([null, this.value]);
-    });
+                releaseDateSlider.noUiSlider.on('update', function(values, handle) {
+                    dateNodes[handle].value = values[handle]
+                });
 
-    let releaseDateSlider = document.getElementById('release-date-slider');
-    let dateNodes = [
-        document.getElementById('release-date-slider__from'),
-        document.getElementById('release-date-slider__to'),
-    ]
+                dateNodes[0].addEventListener('change', function() {
+                    releaseDateSlider.noUiSlider.set([this.value, null]);
+                });
 
-    noUiSlider.create(releaseDateSlider, {
-        start: [1980, new Date().getFullYear()],
-        connect: true,
-        step: 1,
-        range: {
-            'min': 1980,
-            'max': new Date().getFullYear()
-        },
-        format: wNumb({
-            decimals: 0,
-        })
-    });
+                dateNodes[1].addEventListener('change', function() {
+                    releaseDateSlider.noUiSlider.set([null, this.value]);
+                });
 
-    releaseDateSlider.noUiSlider.on('update', function (values, handle) {
-        dateNodes[handle].value = values[handle]
-    });
+                let initialFromDate = dateNodes[0].value;
+                let initialToDate = dateNodes[1].value;
+                let initialFromPrice = 0;
+                let initialToPrice = priceSliderCeiling;
 
-    dateNodes[0].addEventListener('change', function () {
-        releaseDateSlider.noUiSlider.set([this.value, null]);
-    });
+                let form = document.getElementById('game-filter-form');
 
-    dateNodes[1].addEventListener('change', function () {
-        releaseDateSlider.noUiSlider.set([null, this.value]);
-    });
+                form.querySelector('#filter_reset').addEventListener('click', (event) => {
+                    window.location.replace("{% url 'games'%}")
+                })
 
-    let initialFromDate = dateNodes[0].value;
-    let initialToDate = dateNodes[1].value;
-    let initialFromPrice = 0;
-    let initialToPrice = priceSliderCeiling;
+                form.addEventListener('submit', function(event) {
+                    initFilter(price, "price");
+                    initFilter(genres, "genres");
+                    initFilter(tags, "tags");
+                    initFilter(platforms, "platforms");
+                    initFilter(features, "features");
+                    initFilter(date, "date");
+                    return true
+                });
 
-    let form = document.getElementById('game-filter-form');
+                function initFilter(filter_group, filter_name) {
+                    if (filter_name == "price") {
+                        let sliders = Array.from(document.querySelectorAll(
+                                `fieldset[id="${filter_name}"] input:not([type=hidden])`))
+                            .map(input => input.value.replace("£", ""));
+                        if (sliders.length != 0 && (sliders[0] != initialFromPrice || sliders[1] != initialToPrice)) {
+                            form.querySelector(`input[name="${filter_name}_range"]`).value = sliders;
+                        } else {
+                            form.querySelector(`input[name="${filter_name}_range"]`).removeAttribute('name')
+                        }
+                    } else if (filter_name == "date") {
+                        let sliders = Array.from(document.querySelectorAll(
+                                `fieldset[id="${filter_name}"] input:not([type=hidden])`))
+                            .map(input => input.value);
+                        if (sliders.length != 0 && (sliders[0] !== initialFromDate || sliders[1] !== initialToDate)) {
+                            form.querySelector(`input[name="${filter_name}_range"]`).value = sliders;
+                        } else {
+                            form.querySelector(`input[name="${filter_name}_range"]`).removeAttribute('name')
+                        }
+                    } else {
+                        let checkboxes = Array.from(document.querySelectorAll(`fieldset[id="${filter_name}"] input:checked`))
+                            .map(input => input.value);
+                        if (checkboxes.length != 0) {
+                            form.querySelector(`input[name="${filter_name}_filter"]`).value = checkboxes;
+                        } else {
+                            form.querySelector(`input[name="${filter_name}_filter"]`).removeAttribute('name')
+                        }
+                    }
+                }
+            </script>
+            <script>
+                let pageInput = document.getElementById('page-input');
 
-    form.querySelector('#filter_reset').addEventListener('click', (event) => {
-        window.location.replace("{% url 'games'%}")
-    })
+                function goToPage(e) {
+                    if (e.type === 'blur' || e.code === "Enter" || e.code === "NumpadEnter") {
+                        if (pageInput.value != "" && pageInput.value != pageInput.placeholder) {
+                            window.location.href = `/games/?page=${pageInput.value}`;
+                        }
+                    }
+                }
 
-    form.addEventListener('submit', function (event) {
-        initFilter(price, "price");
-        initFilter(genres, "genres");
-        initFilter(tags, "tags");
-        initFilter(platforms, "platforms");
-        initFilter(features, "features");
-        initFilter(date, "date");
-        return true
-    });
+                pageInput.addEventListener('blur', e => {
+                    goToPage(e)
+                });
+                pageInput.addEventListener('keyup', e => {
+                    goToPage(e)
+                })
+            </script>
+            <script>
+                let gamesSort = document.querySelector('#games_sort')
 
-    function initFilter(filter_group, filter_name) {
-        if (filter_name == "price") {
-            let sliders = Array.from(document.querySelectorAll(
-                    `fieldset[id="${filter_name}"] input:not([type=hidden])`))
-                .map(input => input.value.replace("£", ""));
-            if (sliders.length != 0 && (sliders[0] != initialFromPrice || sliders[1] != initialToPrice)) {
-                form.querySelector(`input[name="${filter_name}_range"]`).value = sliders;
-            } else {
-                form.querySelector(`input[name="${filter_name}_range"]`).removeAttribute('name')
-            }
-        } else if (filter_name == "date") {
-            let sliders = Array.from(document.querySelectorAll(
-                    `fieldset[id="${filter_name}"] input:not([type=hidden])`))
-                .map(input => input.value);
-            if (sliders.length != 0 && (sliders[0] !== initialFromDate || sliders[1] !== initialToDate)) {
-                form.querySelector(`input[name="${filter_name}_range"]`).value = sliders;
-            } else {
-                form.querySelector(`input[name="${filter_name}_range"]`).removeAttribute('name')
-            }
-        } else {
-            let checkboxes = Array.from(document.querySelectorAll(`fieldset[id="${filter_name}"] input:checked`))
-                .map(input => input.value);
-            if (checkboxes.length != 0) {
-                form.querySelector(`input[name="${filter_name}_filter"]`).value = checkboxes;
-            } else {
-                form.querySelector(`input[name="${filter_name}_filter"]`).removeAttribute('name')
-            }
-        }
-    }
-</script>
+                gamesSort.addEventListener('change', (e) => {
+                    let select = e.target;
+                    let url = window.location.search;
 
-<script>
-    let pageInput = document.getElementById('page-input');
+                    if (url.includes('sort_by')) {
+                        url = url.replace(/sort_by=[^&]*/, `sort_by=${select.value}`);
+                    } else if (url.startsWith('?')) {
+                        url += `&sort_by=${select.value}`;
+                    } else {
+                        url += `?sort_by=${select.value}`;
+                    }
 
-    function goToPage(e) {
-        if (e.type === 'blur' || e.code === "Enter" || e.code === "NumpadEnter") {
-            if (pageInput.value != "" && pageInput.value != pageInput.placeholder) {
-                window.location.href = `/games/?page=${pageInput.value}`;
-            }
-        }
-    }
-
-    pageInput.addEventListener('blur', e => {
-        goToPage(e)
-    });
-    pageInput.addEventListener('keyup', e => {
-        goToPage(e)
-    })
-</script>
-
-<script>
-    let gamesSort = document.querySelector('#games_sort')
-
-    gamesSort.addEventListener('change', (e) => {
-        let select = e.target;
-        let url = window.location.search;
-
-        if (url.includes('sort_by')) {
-            url = url.replace(/sort_by=[^&]*/, `sort_by=${select.value}`);
-        } else if (url.startsWith('?')) {
-            url += `&sort_by=${select.value}`;
-        } else {
-            url += `?sort_by=${select.value}`;
-        }
-
-        window.location.href = url;
-    });
-</script>
-{% endblock %}
+                    window.location.href = url;
+                });
+            </script>
+        {% endblock %}

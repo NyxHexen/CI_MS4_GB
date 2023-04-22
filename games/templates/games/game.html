@@ -2,488 +2,543 @@
 {% load static %}
 {% load tags %}
 {% load cart_tags %}
-
 {% block page_header %}
-<div class="container">
-    <div class="row">
-        <div class="col"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
     </div>
-</div>
 {% endblock %}
-
 {% block content %}
-<div class="game-header w-100">
-    <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" class="w-100"
-        alt="{{ game|use_media:'LANDING.descr' }}" />
-    <div class="container__blur position-absolute">
-        <div class="container game-detail-title d-flex flex-column justify-content-end">
-            <div class="row">
-                <div class="col offset-md-3 offset-xl-2 pt-3">
-                    <h2 class="display-3">{{ game.name }}</h2>
-                    <h3 class="fs-5 text-muted">{{ game.release_date }}</h3>
+    <div class="game-header w-100">
+        <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}"
+             class="w-100"
+             alt="{{ game|use_media:'LANDING.descr' }}" />
+        <div class="container__blur position-absolute">
+            <div class="container game-detail-title d-flex flex-column justify-content-end">
+                <div class="row">
+                    <div class="col offset-md-3 offset-xl-2 pt-3">
+                        <h2 class="display-3">{{ game.name }}</h2>
+                        <h3 class="fs-5 text-muted">{{ game.release_date }}</h3>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="container__shadow position-relative">
-    <div class="container">
-        <div class="game-detail-info row justify-content-center justify-content-md-start">
-            <div class="game-detail-cover col-8 col-sm-5 col-md-3 col-xl-2 my-3 d-flex flex-column align-items-center">
-                <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}" />
-                <form action="{% url 'cart_add' game.model_name game.id %}"  method="POST"
-                    class="w-100 d-flex flex-row mt-2">
-                    {% csrf_token %}
-                    <label for="id_qty_{{ game.model_name }}_{{ game.id }}" class="visually-hidden form-label">Quantity</label>
-                    <input class="form-control" type="number" name="quantity" id="id_qty_{{ game.id }}" value="1"
-                        min="1" max="99" data-game-id="{{ game.id }}">
-                    <button type="submit" aria-label="Add to cart"
-                        class="add-cart btn btn-gamebox ms-2 py-0 w-100"><span class="d-none d-md-inline">Add to
-                        </span><i class="fa-solid fa-cart-plus"></i></button>
-                    <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
-                </form>
-                <div class="w-100 mt-2 d-flex align-items-center justify-content-evenly">
-                    {% if game.in_promo and game.promo.active is True%}
-                    <span class="promo-discount fs-5">
-                        -{{ game.promo_percentage }}%
-                    </span>
-                    {% endif %}
-                    <div class="d-flex flex-column justify-content-end text-end">
-                        {% if game.in_promo and game.promo.active is True%}
-                        <span class="fs-5 text-muted"><s>£{{ game.base_price }}</s></span>
+    <div class="container__shadow position-relative">
+        <div class="container">
+            <div class="game-detail-info row justify-content-center justify-content-md-start">
+                <div class="game-detail-cover col-8 col-sm-5 col-md-3 col-xl-2 my-3 d-flex flex-column align-items-center">
+                    <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
+                         alt="{{ game|use_media:'COVER.descr' }}" />
+                    <form action="{% url 'cart_add' game.model_name game.id %}"
+                          method="post"
+                          class="w-100 d-flex flex-row mt-2">
+                        {% csrf_token %}
+                        <label for="id_qty_{{ game.model_name }}_{{ game.id }}"
+                               class="visually-hidden form-label">Quantity</label>
+                        <input class="form-control"
+                               type="number"
+                               name="quantity"
+                               id="id_qty_{{ game.id }}"
+                               value="1"
+                               min="1"
+                               max="99"
+                               data-game-id="{{ game.id }}">
+                        <button type="submit"
+                                aria-label="Add to cart"
+                                class="add-cart btn btn-gamebox ms-2 py-0 w-100">
+                            <span class="d-none d-md-inline">Add to</span><i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                        <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
+                    </form>
+                    <div class="w-100 mt-2 d-flex align-items-center justify-content-evenly">
+                        {% if game.in_promo and game.promo.active is True %}
+                            <span class="promo-discount fs-5">-{{ game.promo_percentage }}%</span>
                         {% endif %}
-                        <span class="fs-4">£{{game.final_price}}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-8 offset-xl-2 col-xl-7 pt-3">
-                {% if user.is_staff %}
-                <div class="admin-btns mb-2 d-flex align-items-center justify-content-center">
-                    <a class="btn btn-gamebox-alt" href="{% url 'game_edit' game.model_name game.id %}">
-                        Edit Game
-                    </a>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                        Delete Game
-                    </button>
-                </div>
-                {% endif %}
-                <div class="game-genre-list mb-2">
-                    <span><strong> Genre: </strong></span>
-                    {% for genre in game.genres.all %}
-                    {% if forloop.last %}
-                    <a target="_blank"  href="{% url 'games' %}?filter=true&genres_filter={{ genre.slug }}" class="genre-link">{{ genre }}</a>
-                    {% else %}
-                    <a target="_blank"  href="{% url 'games' %}?filter=true&genres_filter={{ genre.slug }}" class="genre-link">{{ genre }}</a>,
-                    {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="game-platform-list mb-2">
-                    <span><strong> Platforms: </strong></span>
-                    {% for platform in game.platforms.all %}
-                    {% if forloop.last %}
-                    <a target="_blank"  href="{% url 'games' %}platforms/{{ platform.id }}" class="platform-link">{{ platform }}</a>
-                    {% else %}
-                    <a target="_blank"  href="{% url 'games' %}platforms/{{ platform.id }}" class="platform-link">{{ platform }}</a>,
-                    {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="game-description mt-3">
-                    <p>{{ game.description }}</p>
-                </div>
-            </div>
-            <div class="col-8 col-md-4 col-xl-3 mt-3 position-relative">
-                <div class="card">
-                    <div class="card-body game-detail-rating p-3 m-3 mb-0 align-self-center">
-                        <div class="d-flex flex-column justify-content-center align-items-center">
-                            <span class="card-title m-0 fs-1">{{ game.ratingset.user_rating_calc }}</span>
-                            <span class="fs-6 text-center">&nbsp;</span>
-                        </div>
-                    </div>
-                    <p class="text-muted text-center mb-1"><small>Based on
-                            {{ rating_count }} member ratings</small></p>
-                    <div class="card-body d-flex flex-column py-0">
-                        <h4 class="h6 cart-title mb-0">
-                            {% if user_rating %}
-                            You have rated this game:
-                            {% else %}
-                            How would you rate this game?
+                        <div class="d-flex flex-column justify-content-end text-end">
+                            {% if game.in_promo and game.promo.active is True %}
+                                <span class="fs-5 text-muted"><s>£{{ game.base_price }}</s></span>
                             {% endif %}
-                        </h4>
-                        <div class="stars-container d-flex justify-content-center fs-4 mt-1">
-                            <a href="#" class="star star-1" data-id="1">
-                                <i class="fa-solid fa-star"></i> 
-                            </a>
-                            <a href="#" class="star star-2" data-id="2">
-                                <i class="fa-solid fa-star"></i>
-                            </a>
-                            <a href="#" class="star star-3" data-id="3">
-                                <i class="fa-solid fa-star"></i>
-                            </a>
-                            <a href="#" class="star star-4" data-id="4">
-                                <i class="fa-solid fa-star"></i>
-                            </a>
-                            <a href="#" class="star star-5" data-id="5">
-                                <i class="fa-solid fa-star"></i>
-                            </a>
-                        </div>
-                        <div class="stars-message-container align-self-center">
-                            <span class="stars-message">&nbsp;</span>
+                            <span class="fs-4">£{{ game.final_price }}</span>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container__color text-bg-gamebox-alt position-relative my-3">
-    <div class="container">
-        <div class="game-detail-media row">
-            <div class="col my-3">
-                <div id="carouselExampleControls" class="carousel carousel-dark slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="row d-flex w-100">
-                                {% for item in media %}
-                                {% if not request.user_agent.is_mobile %}
-                                    {% if forloop.last and not media|length|divisibleby:2 and not forloop.first %}
-                                    {% elif forloop.counter|divisibleby:2 %}
-                                    <div class="col-6 carousel-image px-1 position-relative">
-                                        <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-100"
-                                            alt="{{ item.description }}">
-                                        {% if item.media_type == 'video' %}
-                                        <button type="button" data-href="{{ item.url }}" data-title="{{ item.name }}"
-                                            class="btn btn-primary position-absolute player-trigger" data-bs-toggle="modal"
-                                            data-bs-target="#gameMediaPlayer">
-                                            <i class="fa-regular fa-circle-play display-1"></i>
-                                            <span class="visually-hidden">Play Video</span>
-                                        </button>
-                                        {% endif %}
-                                    </div>
-                                </div>
+                <div class="col-12 col-md-8 offset-xl-2 col-xl-7 pt-3">
+                    {% if user.is_staff %}
+                        <div class="admin-btns mb-2 d-flex align-items-center justify-content-center">
+                            <a class="btn btn-gamebox-alt"
+                               href="{% url 'game_edit' game.model_name game.id %}">Edit Game</a>
+                            <button type="button"
+                                    class="btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal">Delete Game</button>
+                        </div>
+                    {% endif %}
+                    <div class="game-genre-list mb-2">
+                        <span><strong>Genre:</strong></span>
+                        {% for genre in game.genres.all %}
+                            {% if forloop.last %}
+                                <a target="_blank"
+                                   href="{% url 'games' %}?filter=true&genres_filter={{ genre.slug }}"
+                                   class="genre-link">{{ genre }}</a>
+                            {% else %}
+                                <a target="_blank"
+                                   href="{% url 'games' %}?filter=true&genres_filter={{ genre.slug }}"
+                                   class="genre-link">{{ genre }}</a>,
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="game-platform-list mb-2">
+                        <span><strong>Platforms:</strong></span>
+                        {% for platform in game.platforms.all %}
+                            {% if forloop.last %}
+                                <a target="_blank"
+                                   href="{% url 'games' %}platforms/{{ platform.id }}"
+                                   class="platform-link">{{ platform }}</a>
+                            {% else %}
+                                <a target="_blank"
+                                   href="{% url 'games' %}platforms/{{ platform.id }}"
+                                   class="platform-link">{{ platform }}</a>,
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="game-description mt-3">
+                        <p>{{ game.description }}</p>
+                    </div>
+                </div>
+                <div class="col-8 col-md-4 col-xl-3 mt-3 position-relative">
+                    <div class="card">
+                        <div class="card-body game-detail-rating p-3 m-3 mb-0 align-self-center">
+                            <div class="d-flex flex-column justify-content-center align-items-center">
+                                <span class="card-title m-0 fs-1">{{ game.ratingset.user_rating_calc }}</span>
+                                <span class="fs-6 text-center">&nbsp;</span>
                             </div>
-                            {% if not forloop.counter == media|length|add:"-1" and not media|length|divisibleby:2 or media|length|divisibleby:2 and not forloop.last %}
-                            <div class="carousel-item">
-                                <div class="row d-flex w-100">
-                                    {% endif %}
-                                    {% else %}
-                                    <div class="col-6 carousel-image px-1 position-relative">
-                                        <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-100"
-                                            alt="{{ item.description }}">
-                                        {% if item.media_type == 'video' %}
-                                        <button type="button" data-href="{{ item.url }}" data-title="{{ item.name }}"
-                                            class="btn btn-primary position-absolute player-trigger" data-bs-toggle="modal"
-                                            data-bs-target="#gameMediaPlayer">
-                                            <i class="fa-regular fa-circle-play display-1"></i>
-                                            <span class="visually-hidden">Play Video</span>
-                                        </button>
-                                        {% endif %}
-                                    </div>
-                                    {% endif %}
+                        </div>
+                        <p class="text-muted text-center mb-1">
+                            <small>Based on
+                            {{ rating_count }} member ratings</small>
+                        </p>
+                        <div class="card-body d-flex flex-column py-0">
+                            <h4 class="h6 cart-title mb-0">
+                                {% if user_rating %}
+                                    You have rated this game:
                                 {% else %}
-                                <div class="col-12 carousel-image px-1 position-relative">
-                                    <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-100"
-                                        alt="{{ item.description }}">
-                                    {% if item.media_type == 'video' %}
-                                    <button type="button" data-href="{{ item.url }}" data-title="{{ item.name }}"
-                                        class="btn btn-primary position-absolute player-trigger" data-bs-toggle="modal"
-                                        data-bs-target="#gameMediaPlayer">
-                                        <i class="fa-regular fa-circle-play display-1"></i>
-                                        <span class="visually-hidden">Play Video</span>
-                                    </button>
-                                    {% endif %}
+                                    How would you rate this game?
+                                {% endif %}
+                            </h4>
+                            <div class="stars-container d-flex justify-content-center fs-4 mt-1">
+                                <a href="#" class="star star-1" data-id="1">
+                                    <i class="fa-solid fa-star"></i>
+                                </a>
+                                <a href="#" class="star star-2" data-id="2">
+                                    <i class="fa-solid fa-star"></i>
+                                </a>
+                                <a href="#" class="star star-3" data-id="3">
+                                    <i class="fa-solid fa-star"></i>
+                                </a>
+                                <a href="#" class="star star-4" data-id="4">
+                                    <i class="fa-solid fa-star"></i>
+                                </a>
+                                <a href="#" class="star star-5" data-id="5">
+                                    <i class="fa-solid fa-star"></i>
+                                </a>
+                            </div>
+                            <div class="stars-message-container align-self-center">
+                                <span class="stars-message">&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container__color text-bg-gamebox-alt position-relative my-3">
+        <div class="container">
+            <div class="game-detail-media row">
+                <div class="col my-3">
+                    <div id="carouselExampleControls"
+                         class="carousel carousel-dark slide"
+                         data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="row d-flex w-100">
+                                    {% for item in media %}
+                                        {% if not request.user_agent.is_mobile %}
+                                            {% if forloop.last and not media|length|divisibleby:2 and not forloop.first %}
+                                            {% elif forloop.counter|divisibleby:2 %}
+                                                <div class="col-6 carousel-image px-1 position-relative">
+                                                    <img src="{{ MEDIA_URL }}{{ item.file.name }}"
+                                                         class="d-block w-100"
+                                                         alt="{{ item.description }}">
+                                                    {% if item.media_type == 'video' %}
+                                                        <button type="button"
+                                                                data-href="{{ item.url }}"
+                                                                data-title="{{ item.name }}"
+                                                                class="btn btn-primary position-absolute player-trigger"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#gameMediaPlayer">
+                                                            <i class="fa-regular fa-circle-play display-1"></i>
+                                                            <span class="visually-hidden">Play Video</span>
+                                                        </button>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if not forloop.counter == media|length|add:"-1" and not media|length|divisibleby:2 or media|length|divisibleby:2 and not forloop.last %}
+                                            <div class="carousel-item">
+                                                <div class="row d-flex w-100">
+                                                {% endif %}
+                                            {% else %}
+                                                <div class="col-6 carousel-image px-1 position-relative">
+                                                    <img src="{{ MEDIA_URL }}{{ item.file.name }}"
+                                                         class="d-block w-100"
+                                                         alt="{{ item.description }}">
+                                                    {% if item.media_type == 'video' %}
+                                                        <button type="button"
+                                                                data-href="{{ item.url }}"
+                                                                data-title="{{ item.name }}"
+                                                                class="btn btn-primary position-absolute player-trigger"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#gameMediaPlayer">
+                                                            <i class="fa-regular fa-circle-play display-1"></i>
+                                                            <span class="visually-hidden">Play Video</span>
+                                                        </button>
+                                                    {% endif %}
+                                                </div>
+                                            {% endif %}
+                                        {% else %}
+                                            <div class="col-12 carousel-image px-1 position-relative">
+                                                <img src="{{ MEDIA_URL }}{{ item.file.name }}"
+                                                     class="d-block w-100"
+                                                     alt="{{ item.description }}">
+                                                {% if item.media_type == 'video' %}
+                                                    <button type="button"
+                                                            data-href="{{ item.url }}"
+                                                            data-title="{{ item.name }}"
+                                                            class="btn btn-primary position-absolute player-trigger"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#gameMediaPlayer">
+                                                        <i class="fa-regular fa-circle-play display-1"></i>
+                                                        <span class="visually-hidden">Play Video</span>
+                                                    </button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if not forloop.last %}
+                                        <div class="carousel-item">
+                                            <div class="row d-flex w-100">
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
-                        {% if not forloop.last %}
-                        <div class="carousel-item">
-                            <div class="row d-flex w-100">
+                    </div>
+                </div>
+                <button class="carousel-control-prev"
+                        type="button"
+                        data-bs-target="#carouselExampleControls"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next"
+                        type="button"
+                        data-bs-target="#carouselExampleControls"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col mt-4 col-sm-8 col-md-10 col-lg-8">
+                <div class="col">
+                    <h2 class="ui-font header-decoration">storyline</h2>
+                    <p>{{ game.storyline }}</p>
+                </div>
+                <div class="col mt-4 col-sm-8 col-md-10 col-lg-8">
+                    {% if game.model_name == 'game' %}
+                        <h2 class="ui-font header-decoration">related content</h2>
+                        <div class="col-5 col-sm-4 col-md-3 col-lg-5 col-xl-3 d-flex mt-3 mx-auto mx-md-0">
+                            {% for dlc in game.dlc_set.all %}
+                                <a target="_blank"
+                                   href="{% url 'game' dlc.model_name dlc.id %}"
+                                   class="col dlc position-relative mx-1">
+                                    <span class="h5 position-absolute text-center">{{ dlc }}</span>
+                                    <img class="img-fluid w-100"
+                                         src="{{ MEDIA_URL }}{{ dlc|use_media:'COVER.src' }}"
+                                         alt="{{ dlc|use_media:'COVER.descr' }}">
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <h2 class="ui-font header-decoration">required Game</h2>
+                            <div class="col-5 col-sm-4 col-md-3 col-xl-2 d-flex mt-3 mx-auto mx-md-0">
+                                <a target="_blank"
+                                   href="{% url 'game' game.required_game.model_name game.required_game.id %}"
+                                   class="col dlc position-relative mx-1">
+                                    <span class="h5 position-absolute text-center">{{ game.required_game.name }}</span>
+                                    <img class="img-fluid w-100"
+                                         src="{{ MEDIA_URL }}{{ game.required_game|use_media:'COVER.src' }}"
+                                         alt="{{ dlc|use_media:'COVER.descr' }}">
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 col-lx-6 mt-4 mt-lg-0">
+                    <h2 class="ui-font h4">information</h2>
+                    <div class="dev-list d-flex flex-column my-1 ps-4">
+                        <span><strong>Developers:</strong></span>
+                        <div class="dev-list-inner">
+                            {% for developer in game.developers.all %}
+                                {% if forloop.last %}
+                                    <a target="_blank"
+                                       href="{% url 'games' %}developers/{{ developer.id }}"
+                                       class="developer-link">{{ developer }}</a>
+                                {% else %}
+                                    <a target="_blank"
+                                       href="{% url 'games' %}developers/{{ developer.id }}"
+                                       class="developer-link">{{ developer }}</a>,
                                 {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="publisher-list d-flex flex-column my-1 ps-4">
+                        <span><strong>Publishers:</strong></span>
+                        <div class="publisher-list-inner">
+                            {% for publisher in game.publishers.all %}
+                                {% if forloop.last %}
+                                    <a target="_blank"
+                                       href="{% url 'games' %}publishers/{{ publisher.id }}"
+                                       class="publisher-link">{{ publisher }}</a>
+                                {% else %}
+                                    <a target="_blank"
+                                       href="{% url 'games' %}publishers/{{ publisher.id }}"
+                                       class="publisher-link">{{ publisher }}</a>,
                                 {% endif %}
-                                {% endfor %}
-                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tag-list d-flex flex-column my-1 ps-4">
+                        <span><strong>Tags:</strong></span>
+                        <div class="tag-list-inner">
+                            {% for tag in game.tags.all %}
+                                {% if forloop.last %}
+                                    <a target="_blank"
+                                       href="{% url 'games' %}?filter=true&tags_filter={{ tag.slug }}"
+                                       class="tag-link">{{ tag }}</a>
+                                {% else %}
+                                    <a target="_blank"
+                                       href="{% url 'games' %}?filter=true&tags_filter={{ tag.slug }}"
+                                       class="tag-link">{{ tag }}</a>,
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="feature-list d-flex flex-column my-1 ps-4">
+                        <span><strong>Features:</strong></span>
+                        <div class="feature-list-inner">
+                            {% for feature in game.features.all %}
+                                {% if forloop.last %}
+                                    <a target="_blank"
+                                       href="{% url 'games' %}?filter=true&features_filter={{ feature.slug }}"
+                                       class="feature-link">{{ feature }}</a>
+                                {% else %}
+                                    <a target="_blank"
+                                       href="{% url 'games' %}?filter=true&features_filter={{ feature.slug }}"
+                                       class="feature-link">{{ feature }}</a>,
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <h2 class="ui-font h4 mt-3">age rating</h2>
+                    <div class="ratings-list d-flex flex-column ps-4">
+                        <div class="ratings-list-inner d-flex align-items-center">
+                            <img class="img-fluid mx-1"
+                                 src="{{ MEDIA_URL }}{{ game.ratingset.esrb_rating.image }}"
+                                 alt="{{ game.ratingset.esrb_rating }}"
+                                 title="ESRB Rating: {{ game.ratingset.esrb_rating }}">
+                            <img class="img-fluid mx-1"
+                                 src="{{ MEDIA_URL }}{{ game.ratingset.pegi_rating.image }}"
+                                 alt="{{ game.ratingset.pegi_rating }}"
+                                 title="PEGI Rating: {{ game.ratingset.pegi_rating }}">
                         </div>
                     </div>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
     </div>
-</div>
-<div class="container mb-5">
-    <div class="row">
-        <div class="col mt-4 col-sm-8 col-md-10 col-lg-8">
-            <div class="col">
-                <h2 class="ui-font header-decoration">storyline</h2>
-                <p>{{ game.storyline }}</p>
-            </div>
-            <div class="col mt-4 col-sm-8 col-md-10 col-lg-8">
-                    {% if game.model_name == 'game' %}
-                    <h2 class="ui-font header-decoration">related content</h2>
-                    <div class="col-5 col-sm-4 col-md-3 col-lg-5 col-xl-3 d-flex mt-3 mx-auto mx-md-0">
-                        {% for dlc in game.dlc_set.all %}
-                        <a target="_blank" href="{% url 'game' dlc.model_name dlc.id %}" class="col dlc position-relative mx-1">
-                            <span class="h5 position-absolute text-center">{{ dlc }}</span>
-                            <img class="img-fluid w-100" src="{{ MEDIA_URL }}{{ dlc|use_media:'COVER.src'}}"
-                                alt="{{ dlc|use_media:'COVER.descr'}}">
-                        </a>
-                    {% endfor %}
-                    {% else %}
-                    <h2 class="ui-font header-decoration">required Game</h2>
-                    <div class="col-5 col-sm-4 col-md-3 col-xl-2 d-flex mt-3 mx-auto mx-md-0">
-                        <a target="_blank" href="{% url 'game' game.required_game.model_name game.required_game.id %}"
-                            class="col dlc position-relative mx-1">
-                            <span class="h5 position-absolute text-center">{{ game.required_game.name }}</span>
-                            <img class="img-fluid w-100"
-                                src="{{ MEDIA_URL }}{{ game.required_game|use_media:'COVER.src'}}"
-                                alt="{{ dlc|use_media:'COVER.descr'}}">
-                        </a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-4 col-lx-6 mt-4 mt-lg-0">
-                <h2 class="ui-font h4">information</h2>
-                <div class="dev-list d-flex flex-column my-1 ps-4">
-                    <span><strong> Developers: </strong></span>
-                    <div class="dev-list-inner">
-                        {% for developer in game.developers.all %}
-                        {% if forloop.last %}
-                        <a target="_blank"  href="{% url 'games' %}developers/{{ developer.id }}" class="developer-link">{{ developer }}</a>
-                        {% else %}
-                        <a target="_blank"  href="{% url 'games' %}developers/{{ developer.id }}" class="developer-link">{{ developer }}</a>,
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="publisher-list d-flex flex-column my-1 ps-4">
-                    <span><strong> Publishers: </strong></span>
-                    <div class="publisher-list-inner">
-                        {% for publisher in game.publishers.all %}
-                        {% if forloop.last %}
-                        <a target="_blank"  href="{% url 'games' %}publishers/{{ publisher.id }}" class="publisher-link">{{ publisher }}</a>
-                        {% else %}
-                        <a target="_blank"  href="{% url 'games' %}publishers/{{ publisher.id }}" class="publisher-link">{{ publisher }}</a>,
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="tag-list d-flex flex-column my-1 ps-4">
-                    <span><strong> Tags: </strong></span>
-                    <div class="tag-list-inner">
-                        {% for tag in game.tags.all %}
-                        {% if forloop.last %}
-                        <a target="_blank"  href="{% url 'games' %}?filter=true&tags_filter={{ tag.slug }}" class="tag-link">{{ tag }}</a>
-                        {% else %}
-                        <a target="_blank"  href="{% url 'games' %}?filter=true&tags_filter={{ tag.slug }}" class="tag-link">{{ tag }}</a>,
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="feature-list d-flex flex-column my-1 ps-4">
-                    <span><strong> Features: </strong></span>
-                    <div class="feature-list-inner">
-                        {% for feature in game.features.all %}
-                        {% if forloop.last %}
-                        <a target="_blank"  href="{% url 'games' %}?filter=true&features_filter={{ feature.slug }}" class="feature-link">{{ feature }}</a>
-                        {% else %}
-                        <a target="_blank"  href="{% url 'games' %}?filter=true&features_filter={{ feature.slug }}" class="feature-link">{{ feature }}</a>,
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
-                <h2 class="ui-font h4 mt-3">age rating</h2>
-                <div class="ratings-list d-flex flex-column ps-4">
-                    <div class="ratings-list-inner d-flex align-items-center">
-                        <img class="img-fluid mx-1" src="{{ MEDIA_URL }}{{ game.ratingset.esrb_rating.image }}"
-                            alt="{{ game.ratingset.esrb_rating }}"
-                            title="ESRB Rating: {{ game.ratingset.esrb_rating }}">
-                        <img class="img-fluid mx-1" src="{{ MEDIA_URL }}{{ game.ratingset.pegi_rating.image }}"
-                            alt="{{ game.ratingset.pegi_rating }}"
-                            title="PEGI Rating: {{ game.ratingset.pegi_rating }}">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% include 'games/includes/video_player.html' %}
-
-{% if user.is_staff %}
-    {% include 'includes/modals/delete-modal.html' %}
-{% endif %}
-
+    {% include 'games/includes/video_player.html' %}
+    {% if user.is_staff %}
+        {% include 'includes/modals/delete-modal.html' %}
+    {% endif %}
 {% endblock %}
-
 {% block postloadjs %}
-{{ block.super }}
-<script>
-    let modal = document.querySelector('#gameMediaPlayer')
-    let videoPlayer = document.getElementById('video-player')
-    let videoPlayerTrigger = document.querySelectorAll('.player-trigger')
-    let playerWidth = window.innerWidth
-    let playerHeight = window.innerHeight
+    {{ block.super }}
+    <script>
+        let modal = document.querySelector('#gameMediaPlayer')
+        let videoPlayer = document.getElementById('video-player')
+        let videoPlayerTrigger = document.querySelectorAll('.player-trigger')
+        let playerWidth = window.innerWidth
+        let playerHeight = window.innerHeight
 
-    videoPlayer.width = Math.ceil(playerWidth * .8)
-    videoPlayer.height = Math.ceil(playerHeight * .8)
+        videoPlayer.width = Math.ceil(playerWidth * .8)
+        videoPlayer.height = Math.ceil(playerHeight * .8)
 
-    videoPlayerTrigger.forEach(button => {
-        let src = button.dataset.href
-        let title = button.dataset.title
-        button.addEventListener('click', e => {
+        videoPlayerTrigger.forEach(button => {
+            let src = button.dataset.href
+            let title = button.dataset.title
+            button.addEventListener('click', e => {
+                videoPlayer.setAttribute("src", src)
+                modal.querySelector('#gameMediaPlayerLabel').innerText = title
+            })
+        })
+
+        modal.addEventListener('hide.bs.modal', e => {
+            let src = videoPlayer.getAttribute("src")
+            videoPlayer.setAttribute("src", "")
+            setTimeout(500)
             videoPlayer.setAttribute("src", src)
-            modal.querySelector('#gameMediaPlayerLabel').innerText = title
         })
-    })
-
-    modal.addEventListener('hide.bs.modal', e => {
-        let src = videoPlayer.getAttribute("src")
-        videoPlayer.setAttribute("src", "")
-        setTimeout(500)
-        videoPlayer.setAttribute("src", src)
-    })
-</script>
-<script>
-    const RATING_LEVELS = {
-        0: ["", "Neutral"],
-        1: ["tomato", "Awful"],
-        2: ["orange", "Bad"],
-        3: ["dodgerblue", "Average"],
-        4: ["mediumseagreen", "Good"],
-        5: ["slateblue", "Very Good"]
-    }
-
-    const DEFAULT_COLOR = "#1f1f1f";
-    const NBSP = "\u00A0";
-    const AUTH = "{{ user.is_authenticated }}"
-
-    const gameRating = document.querySelectorAll('.game-detail-rating span');
-    const ratingScore = gameRating[0];
-    const ratingMessage = gameRating[1];
-    let ratingScoreFloat = parseFloat(gameRating[0].innerHTML);
-
-    function setGameRating() {
-        if (ratingScoreFloat >= 0 && ratingScoreFloat < 1) {
-            ratingMessage.innerText = "Neutral";
-        } else {
-            for (let i = 1; i <= 5; i++) {
-                if (ratingScoreFloat >= i && ratingScoreFloat < i + 1) {
-                    ratingScore.style.color = RATING_LEVELS[i][0];
-                    ratingMessage.innerText = RATING_LEVELS[i][1];
-                    ratingMessage.style.color = RATING_LEVELS[i][0];
-                    ratingScore.parentElement.parentElement.style.borderColor = RATING_LEVELS[i][0];
-                    break;
-                }
-            }
+    </script>
+    <script>
+        const RATING_LEVELS = {
+            0: ["", "Neutral"],
+            1: ["tomato", "Awful"],
+            2: ["orange", "Bad"],
+            3: ["dodgerblue", "Average"],
+            4: ["mediumseagreen", "Good"],
+            5: ["slateblue", "Very Good"]
         }
-    }
 
-    const ratingStars = document.querySelectorAll('.star')
-    const starsMessage = document.querySelector('.stars-message')
-    let userRatingFloat = parseFloat("{{ user_rating }}");
+        const DEFAULT_COLOR = "#1f1f1f";
+        const NBSP = "\u00A0";
+        const AUTH = "{{ user.is_authenticated }}"
 
-    function setUserRating() {
-        if (userRatingFloat) {
-            for (let i = 1; i <= 5; i++) {
-                if (userRatingFloat >= i && userRatingFloat < i + 1) {
-                    const stars = Object.entries(ratingStars).slice(0, i)
-                    stars.forEach(star => {
-                        star[1].style.color = RATING_LEVELS[i][0];
-                        starsMessage.innerText = RATING_LEVELS[i][1];
-                    })
-                    break;
-                }
-            }
-        }
-    }
+        const gameRating = document.querySelectorAll('.game-detail-rating span');
+        const ratingScore = gameRating[0];
+        const ratingMessage = gameRating[1];
+        let ratingScoreFloat = parseFloat(gameRating[0].innerHTML);
 
-    ratingStars.forEach(star => {
-        const starNumber = star.dataset.id
-        const sliceStars = Object.entries(ratingStars).slice(0, starNumber)
-        const darkStars = Object.entries(ratingStars).slice(starNumber)
-        star.addEventListener('mouseover', e => {
-            sliceStars.forEach(slice => {
-                slice[1].style.color = RATING_LEVELS[starNumber][0];
-                starsMessage.innerText = RATING_LEVELS[starNumber][1];
-            })
-            darkStars.forEach(star => {
-                star[1].style.color = DEFAULT_COLOR;
-            })
-        })
-        star.addEventListener('mouseout', e => {
-            sliceStars.forEach(slice => {
-                slice[1].style.color = DEFAULT_COLOR;
-                starsMessage.innerText = NBSP;
-            })
-            setUserRating();
-        })
-        star.addEventListener('click', e => {
-            if (AUTH != 'False') {
-                postRating(star)
+        function setGameRating() {
+            if (ratingScoreFloat >= 0 && ratingScoreFloat < 1) {
+                ratingMessage.innerText = "Neutral";
             } else {
-                let newToastNode = document.createElement('div')
-                let messageDiv = document.querySelector('.message-container')
-                messageDiv.insertBefore(newToastNode, messageDiv.firstChild)
+                for (let i = 1; i <= 5; i++) {
+                    if (ratingScoreFloat >= i && ratingScoreFloat < i + 1) {
+                        ratingScore.style.color = RATING_LEVELS[i][0];
+                        ratingMessage.innerText = RATING_LEVELS[i][1];
+                        ratingMessage.style.color = RATING_LEVELS[i][0];
+                        ratingScore.parentElement.parentElement.style.borderColor = RATING_LEVELS[i][0];
+                        break;
+                    }
+                }
+            }
+        }
+
+        const ratingStars = document.querySelectorAll('.star')
+        const starsMessage = document.querySelector('.stars-message')
+        let userRatingFloat = parseFloat("{{ user_rating }}");
+
+        function setUserRating() {
+            if (userRatingFloat) {
+                for (let i = 1; i <= 5; i++) {
+                    if (userRatingFloat >= i && userRatingFloat < i + 1) {
+                        const stars = Object.entries(ratingStars).slice(0, i)
+                        stars.forEach(star => {
+                            star[1].style.color = RATING_LEVELS[i][0];
+                            starsMessage.innerText = RATING_LEVELS[i][1];
+                        })
+                        break;
+                    }
+                }
+            }
+        }
+
+        ratingStars.forEach(star => {
+            const starNumber = star.dataset.id
+            const sliceStars = Object.entries(ratingStars).slice(0, starNumber)
+            const darkStars = Object.entries(ratingStars).slice(starNumber)
+            star.addEventListener('mouseover', e => {
+                sliceStars.forEach(slice => {
+                    slice[1].style.color = RATING_LEVELS[starNumber][0];
+                    starsMessage.innerText = RATING_LEVELS[starNumber][1];
+                })
+                darkStars.forEach(star => {
+                    star[1].style.color = DEFAULT_COLOR;
+                })
+            })
+            star.addEventListener('mouseout', e => {
+                sliceStars.forEach(slice => {
+                    slice[1].style.color = DEFAULT_COLOR;
+                    starsMessage.innerText = NBSP;
+                })
+                setUserRating();
+            })
+            star.addEventListener('click', e => {
+                if (AUTH != 'False') {
+                    postRating(star)
+                } else {
+                    let newToastNode = document.createElement('div')
+                    let messageDiv = document.querySelector('.message-container')
+                    messageDiv.insertBefore(newToastNode, messageDiv.firstChild)
+                    newToastNode.outerHTML = errorToast
+                    messageDiv.children[0].children[0].children[0].innerHTML = "\
+                            You must be logged in to rate this game!"
+                    const toastElList = document.querySelectorAll('.toast')
+                    const new_toast = new bootstrap.Toast(toastElList[0])
+                    new_toast.show()
+                }
+            })
+        })
+
+        setUserRating();
+        setGameRating();
+
+        const errorToast = `{% include 'includes/toasts/toast-error.html'%}`
+        const successToast = `{% include 'includes/toasts/toast-success.html'%}`
+
+        async function postRating(star) {
+            const postRating = await fetch("{% url 'set_game_rating' game.model_name game.id %}", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    'rating': star.dataset.id,
+                })
+            });
+
+            let newToastNode = document.createElement('div')
+            let messageDiv = document.querySelector('.message-container')
+            messageDiv.insertBefore(newToastNode, messageDiv.firstChild)
+
+            if (!postRating.ok) {
                 newToastNode.outerHTML = errorToast
                 messageDiv.children[0].children[0].children[0].innerHTML = "\
-                    You must be logged in to rate this game!"
-                const toastElList = document.querySelectorAll('.toast')
-                const new_toast = new bootstrap.Toast(toastElList[0])
-                new_toast.show()
+                    System malfunction! Please try again later.\
+                    "
+            } else {
+                const response = await postRating.json();
+                userRatingFloat = star.dataset.id;
+                ratingScoreFloat = response['new_game_rating'];
+                gameRating[0].innerHTML = response['new_game_rating']
+                setUserRating();
+                setGameRating();
+                newToastNode.outerHTML = successToast
+                messageDiv.children[0].children[0].children[0].innerHTML = "\
+                    Thank you! Game rated. Happy gaming!\
+                    "
             }
-        })
-    })
 
-    setUserRating();
-    setGameRating();
-
-    const errorToast = `{% include 'includes/toasts/toast-error.html'%}`
-    const successToast = `{% include 'includes/toasts/toast-success.html'%}`
-
-    async function postRating(star) {
-        const postRating = await fetch("{% url 'set_game_rating' game.model_name game.id %}", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                'rating': star.dataset.id,
-            })
-        });
-
-        let newToastNode = document.createElement('div')
-        let messageDiv = document.querySelector('.message-container')
-        messageDiv.insertBefore(newToastNode, messageDiv.firstChild)
-
-        if (!postRating.ok) {
-            newToastNode.outerHTML = errorToast
-            messageDiv.children[0].children[0].children[0].innerHTML = "\
-            System malfunction! Please try again later.\
-            "
-        } else {
-            const response = await postRating.json();
-            userRatingFloat = star.dataset.id;
-            ratingScoreFloat = response['new_game_rating'];
-            gameRating[0].innerHTML = response['new_game_rating']
-            setUserRating();
-            setGameRating();
-            newToastNode.outerHTML = successToast
-            messageDiv.children[0].children[0].children[0].innerHTML = "\
-            Thank you! Game rated. Happy gaming!\
-            "
+            const toastElList = document.querySelectorAll('.toast')
+            const new_toast = new bootstrap.Toast(toastElList[0])
+            new_toast.show()
         }
-
-        const toastElList = document.querySelectorAll('.toast')
-        const new_toast = new bootstrap.Toast(toastElList[0])
-        new_toast.show()
-    }
-</script>
+    </script>
 {% endblock %}
