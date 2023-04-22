@@ -7,7 +7,6 @@ register = template.Library()
 def use_media(set, media_use):
     img_type, img_attr = media_use.split('.')
     try:
-        # Change file.name to URL after implementing S3
         if set.model_name() == 'promo':
             media = set.media
         else:
