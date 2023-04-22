@@ -226,7 +226,7 @@ STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
 STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
 
 # Email Setup
-if 'DEVELOPMENT' in os.environ:
+if os.environ.get('DEVELOPMENT'):
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'info@gamebox.com'
 else:

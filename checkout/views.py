@@ -6,6 +6,7 @@ from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
 
 from ci_ms4_gamebox.utils import get_or_none
 from cart.utils import get_and_unsign_cart
@@ -21,6 +22,7 @@ import os
 import stripe
 import random
 import json
+import uuid
 
 
 # Create your views here.
@@ -149,6 +151,48 @@ def checkout_success(request, order_number):
                     Your order number is {order_number}. A confirmation \
                     email will be sent to {order.email}",
     )
+    try:
+        order_items = ""
+        for item in order.lineitems.all():
+            game = item.game.name if item.game is not None else item.dlc.name
+            serial = uuid.uuid4().hex.upper()
+            price = item.price
+            item_info = f"""
+                Name: {game}
+                Price: {price}
+                Serial Number: {serial}
+                
+                """
+            order_items += item_info
+            
+        message = f"""
+        Hi {order.full_name},
+
+        Thank you for your purchase! Below you will find your complete order details:
+        
+        {order_items}
+        
+        Should you have any questions, please do not hesitate to contact us via e-mail
+        at info@gamebox.com.
+        
+        Sincerely,
+        The GameBOX team
+        """
+
+        send_mail(
+            f"[GameBOX] Thank you for your purchase! Enjoy! Order #: {order.order_number}",
+            message,
+            "info@gamebox.com",
+            [request.user.email,]
+        )
+    except Exception as e:
+        print(e)
+        messages.error(
+        request,
+        f"There has been an issue with your email confirmation.\
+            Please contact us to resolve this error.",
+    )
+
     if not request.user.is_authenticated:
         if "cart" in request.session:
             cart = get_and_unsign_cart(request)
