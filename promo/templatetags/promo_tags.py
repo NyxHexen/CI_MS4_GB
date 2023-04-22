@@ -8,9 +8,15 @@ register = template.Library()
 def promo_games(name):
     try:
         promo = Promo.objects.get(name=name)
-        game_lists = [list(qset) for qset in [promo.apply_to_game.all(), promo.apply_to_dlc.all()]]
+        game_lists = [
+            list(qset) for qset in [
+                promo.apply_to_game.all(), promo.apply_to_dlc.all()
+                ]
+            ]
         # Flatten the list of lists into a single list
-        game_list = [item for sublist in game_lists for item in sublist]
+        game_list = [
+            item for sublist in game_lists for item in sublist
+            ]
         return game_list
     except Exception as e:
         return None
@@ -18,7 +24,9 @@ def promo_games(name):
 @register.filter
 def calc_promo_price(price, increase):
     try:
-        promo_calc = round(price * (1 + (Decimal(increase) / 100 * -1 )), 2)
+        promo_calc = round(
+            price * (1 + (Decimal(increase) / 100 * -1 ))
+            , 2)
         return promo_calc
     except Exception:
         return None
@@ -34,6 +42,8 @@ def slide_split(iter, request):
             size = 1
         else:
             size = 4
-        return [iter[i:i+size] for i in range(0, len(iter), size)]
+        return [
+            iter[i:i+size] for i in range(0, len(iter), size)
+            ]
     else:
         return None

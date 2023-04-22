@@ -8,13 +8,19 @@ from .utils import apply_discount, remove_discount
 # Controls actions that occur when a Promo becomes active/offline.
 @receiver(pre_save, sender=Promo)
 def promo_price_apply(instance, *args, **kwargs):
-    promo = get_or_none(Promo, id=instance.id)
+    promo = get_or_none(
+        Promo,
+        id=instance.id
+        )
     if promo is not None:
         current = promo.active
         updated = instance.active
-        apply_discount(instance) if current < updated else remove_discount(
-            instance
-        ) if current > updated else None
+        (apply_discount(instance)
+         if current < updated
+         else remove_discount(instance)
+         if current > updated
+         else None
+        )
 
 @receiver(m2m_changed, sender=Promo.apply_to_game.through)
 def game_change(instance, *args, **kwargs):

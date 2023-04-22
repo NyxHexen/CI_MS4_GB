@@ -11,20 +11,77 @@ from .utils import (default_start_datetime, default_end_datetime,
 
 
 class Promo(CustomBaseModel):
-    active = models.BooleanField('Active?', default=False)
-    name = models.CharField('Name', max_length=254, unique=True)
-    slug = models.SlugField(max_length=254, null=True, blank=True)
-    start_date = models.DateTimeField('Start From', null=True, default=default_start_datetime)
-    end_date = models.DateTimeField('End On', null=True, default=default_end_datetime)
-    apply_to_game = models.ManyToManyField(Game, related_name="gameset", blank=True)
-    apply_to_dlc = models.ManyToManyField(DLC, related_name="dlcset", blank=True)
-    landing_page = models.BooleanField('Landing Page?', default=False)
-    media = models.ForeignKey(Media, null=True, blank=True, on_delete=models.SET_NULL)
-    url = models.URLField('URL', max_length=1024, null=True, blank=True)
-    is_featured = models.BooleanField('Add to Featured List', default=False, null=True, blank=True)
-    carousel = models.BooleanField('Add to Home Carousel', default=False, null=True, blank=True)
-    short_description = models.TextField(max_length=512, null=True, blank=True)
-    long_description = models.TextField(max_length=1024, null=True, blank=True)
+    active = models.BooleanField(
+        'Active?',
+        default=False)
+    name = models.CharField(
+        'Name',
+        max_length=254,
+        unique=True
+        )
+    slug = models.SlugField(
+        max_length=254,
+        null=True,
+        blank=True
+        )
+    start_date = models.DateTimeField(
+        'Start From',
+        null=True,
+        default=default_start_datetime
+        )
+    end_date = models.DateTimeField(
+        'End On',
+        null=True,
+        default=default_end_datetime
+        )
+    apply_to_game = models.ManyToManyField(
+        Game,
+        related_name="gameset",
+        blank=True
+        )
+    apply_to_dlc = models.ManyToManyField(
+        DLC,
+        related_name="dlcset",
+        blank=True
+        )
+    landing_page = models.BooleanField(
+        'Landing Page?',
+        default=False
+        )
+    media = models.ForeignKey(
+        Media,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+        )
+    url = models.URLField(
+        'URL',
+        max_length=1024,
+        null=True,
+        blank=True
+        )
+    is_featured = models.BooleanField(
+        'Add to Featured List',
+        default=False,
+        null=True,
+        blank=True
+        )
+    carousel = models.BooleanField(
+        'Add to Home Carousel',
+        default=False,
+        null=True,
+        blank=True
+        )
+    short_description = models.TextField(
+        max_length=512,
+        null=True,
+        blank=True
+        )
+    long_description = models.TextField(
+        max_length=1024,
+        null=True,
+        blank=True
+        )
 
 
     def __str__(self) -> str:
@@ -85,12 +142,19 @@ class Promo(CustomBaseModel):
         match kwargs["action"]:
             case 'pre_remove':
                 self.pre_remove = set(self.apply_to_game.all())
-                self.pre_remove = self.pre_remove.union(set(self.apply_to_dlc.all()))
+                self.pre_remove = self.pre_remove.union(
+                    set(self.apply_to_dlc.all())
+                    )
             case 'post_remove':
                 self.post_remove = set(self.apply_to_game.all())
-                self.post_remove = self.post_remove.union(set(self.apply_to_dlc.all()))
+                self.post_remove = self.post_remove.union(
+                    set(self.apply_to_dlc.all())
+                    )
                 for i in self.pre_remove.difference(self.post_remove):
-                    game = get_or_none(kwargs['model'], id=i.id)
+                    game = get_or_none(
+                        kwargs['model'],
+                        id=i.id
+                        )
                     game.in_promo = False
                     game.promo = None
                     game.promo_percentage = 0
@@ -98,12 +162,19 @@ class Promo(CustomBaseModel):
                     game.save()
             case 'pre_add':
                 self.pre_add = set(self.apply_to_game.all())
-                self.pre_add = self.pre_add.union(set(self.apply_to_dlc.all()))
+                self.pre_add = self.pre_add.union(
+                    set(self.apply_to_dlc.all())
+                    )
             case 'post_add':
                 self.post_add = set(self.apply_to_game.all())
-                self.post_add = self.post_add.union(set(self.apply_to_dlc.all()))
+                self.post_add = self.post_add.union(
+                    set(self.apply_to_dlc.all())
+                    )
                 for i in self.post_add.difference(self.pre_add):
-                    game = get_or_none(kwargs['model'], id=i.id)
+                    game = get_or_none(
+                        kwargs['model'],
+                        id=i.id
+                        )
                     if self.check_dupe(self, game):
                         break
                     game.in_promo = True if self.active else False
@@ -125,8 +196,12 @@ class Promo(CustomBaseModel):
             .get("promo_percentage__max", 0)
         )
         highest_promo_percentage = max(
-            promo_games if promo_games is not None else 0,
-            promo_dlc if promo_dlc is not None else 0,
+            (promo_games
+            if promo_games is not None
+            else 0),
+            (promo_dlc
+            if promo_dlc is not None
+            else 0),
         )
         return highest_promo_percentage
     
@@ -134,7 +209,11 @@ class Promo(CustomBaseModel):
     @staticmethod
     def check_dupe(instance, game):
         """If the game passed in is already in another Promo - remove it from this Promo"""
-        game_dupes = Promo.objects.filter(apply_to_game__id=game.id).exclude(id=instance.id)
+        game_dupes = Promo.objects.filter(
+            apply_to_game__id=game.id
+            ).exclude(
+            id=instance.id
+            )
         if len(game_dupes) > 0:
             if game.model_name() == "game":
                 instance.apply_to_game.remove(game)
@@ -143,6 +222,8 @@ class Promo(CustomBaseModel):
 
 
     def total_in_promo(self):
-        return len(self.apply_to_game.all()) + len(self.apply_to_dlc.all())
+        return (len(self.apply_to_game.all())
+                + len(self.apply_to_dlc.all())
+                )
 
     total_in_promo.short_description = "Games In Promo"

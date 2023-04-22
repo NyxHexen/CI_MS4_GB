@@ -37,10 +37,12 @@ class PromoForm(forms.ModelForm):
         if promo_instance:
             try:
                 games = (
-                    promo_instance.apply_to_game.all() + Game.objects.filter(in_promo=False)
+                    promo_instance.apply_to_game.all()
+                    + Game.objects.filter(in_promo=False)
                 )
                 dlcs = (
-                    promo_instance.apply_to_dlc.all() + DLC.objects.filter(in_promo=False)
+                    promo_instance.apply_to_dlc.all()
+                    + DLC.objects.filter(in_promo=False)
                 )
                 self.fields['apply_to_game'].queryset = games
                 self.fields['apply_to_dlc'].queryset = dlcs

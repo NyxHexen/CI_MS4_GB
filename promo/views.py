@@ -18,21 +18,37 @@ import random
 import datetime as dt
 
 def promo(request, promo_id):
-    promo = get_object_or_404(Promo, id=promo_id)
+    promo = get_object_or_404(
+        Promo,
+        id=promo_id
+        )
     if not promo.active and not request.user.is_staff:
-        messages.error(request, 'The Sale you are looking for is not currently available! Please try again later or \
-                       contact us for further information!')
+        messages.error(
+            request,
+            'The Sale you are looking for is not currently available!\
+                Please try again later or contact us for further assistance!'
+                )
         return redirect("/")
     
     # Convert each argument to a list
-    game_lists = [list(qset) for qset in [promo.apply_to_game.all(), promo.apply_to_dlc.all()]]
+    game_lists = [
+        list(qset) for qset in [
+            promo.apply_to_game.all(), promo.apply_to_dlc.all()
+            ]
+        ]
     # Flatten the list of lists into a single list
-    game_list = [item for sublist in game_lists for item in sublist]
+    game_list = [
+        item for sublist in game_lists for item in sublist
+        ]
     filter_dict = QueryDict(mutable=True)
 
     if "sort_by" in request.GET:
         filter_dict.update({f"sort_by": f'{request.GET.get("sort_by")}'})
-        sorted_games = sort_by(request.GET.get("sort_by"), promo.apply_to_game.all(), promo.apply_to_dlc.all())
+        sorted_games = sort_by(
+            request.GET.get("sort_by"),
+            promo.apply_to_game.all(),
+            promo.apply_to_dlc.all()
+            )
         paginator = Paginator(sorted_games, 4)
     else:
         paginator = Paginator(game_list, 4)
@@ -58,7 +74,9 @@ def promo(request, promo_id):
 @login_required
 def promo_add(request):
     if not request.user.is_staff:
-        messages.info(request, 'Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        messages.info(
+            request,
+            'Super Secret Page of Awesomeness! Unauthorized access prohibited!')
         return redirect("/")
     game_list = list()
     real_game_list = list()
@@ -99,10 +117,15 @@ def promo_add(request):
                     
                     for id in request.POST.getlist('apply_to_game'):
                         game = Game.objects.get(id=id)
-                        discount = request.POST.get(f'game_discount-game_{id}') or game.promo_percentage                    
+                        discount = request.POST.get(
+                            f'game_discount-game_{id}') or game.promo_percentage                    
                         if not game.in_promo:
                             game.promo_percentage = discount
-                            game.final_price = round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
+                            game.final_price = round(
+                                game.base_price
+                                - game.base_price
+                                * (Decimal(discount) / 100),
+                                2)
                             game_list.append(game)
                             real_game_list.append(game)
                         else:
@@ -111,10 +134,15 @@ def promo_add(request):
 
                     for id in request.POST.getlist('apply_to_dlc'):
                         game = DLC.objects.get(id=id)
-                        discount = request.POST.get(f'game_discount-dlc_{id}') or game.promo_percentage
+                        discount = request.POST.get(
+                            f'game_discount-dlc_{id}') or game.promo_percentage
                         if not game.in_promo:
                             game.promo_percentage = discount
-                            game.final_price = round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
+                            game.final_price = round(
+                                game.base_price
+                                - game.base_price
+                                * (Decimal(discount) / 100),
+                                2)
                             game_list.append(game)
                             real_game_list.append(game)
                         else:
@@ -173,7 +201,10 @@ def promo_add(request):
 @login_required
 def promo_edit(request, promo_id):
     if not request.user.is_staff:
-        messages.info(request, 'Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        messages.info(
+            request,
+            'Super Secret Page of Awesomeness!\
+                Unauthorized access prohibited!')
         return redirect("/")
     promo = get_object_or_404(Promo, id=promo_id)
     promo.active = False
@@ -181,8 +212,14 @@ def promo_edit(request, promo_id):
 
     submit_option = request.POST.get('submit_option')
 
-    game_lists = [list(qset) for qset in [promo.apply_to_game.all(), promo.apply_to_dlc.all()]]
-    game_list = [item for sublist in game_lists for item in sublist]
+    game_lists = [
+        list(qset) for qset in [
+            promo.apply_to_game.all(), promo.apply_to_dlc.all()
+            ]
+        ]
+    game_list = [
+        item for sublist in game_lists for item in sublist
+        ]
 
     form = PromoForm(instance=promo)
 
@@ -215,10 +252,15 @@ def promo_edit(request, promo_id):
 
                 for id in request.POST.getlist('apply_to_game'):
                     game = Game.objects.get(id=id)
-                    discount = request.POST.get(f'game_discount-game_{id}') or game.promo_percentage                    
+                    discount = request.POST.get(
+                        f'game_discount-game_{id}') or game.promo_percentage                    
                     if not game.in_promo:
                         game.promo_percentage = discount
-                        game.final_price = round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
+                        game.final_price = round(
+                            game.base_price
+                            - game.base_price
+                            * (Decimal(discount) / 100),
+                            2)
                         game_list.append(game)
                     else:
                         apply_to_game_list.remove(id)
@@ -226,10 +268,14 @@ def promo_edit(request, promo_id):
 
                 for id in request.POST.getlist('apply_to_dlc'):
                     game = DLC.objects.get(id=id)
-                    discount = request.POST.get(f'game_discount-dlc_{id}') or game.promo_percentage
+                    discount = request.POST.get(
+                        f'game_discount-dlc_{id}') or game.promo_percentage
                     if not game.in_promo:
                         game.promo_percentage = discount
-                        game.final_price = round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
+                        game.final_price = round(
+                            game.base_price
+                            - game.base_price
+                            * (Decimal(discount) / 100), 2)
                         game_list.append(game)
                     else:
                         apply_to_dlc_list.remove(id)
@@ -249,9 +295,11 @@ def promo_edit(request, promo_id):
             ):
             promo.active = True
             promo.save()
-            return redirect(reverse('promo', kwargs={'promo_id': promo_id}))
+            return redirect(
+                reverse('promo', kwargs={'promo_id': promo_id}))
         elif submit_option == 'save':
-            return redirect(reverse('promo', kwargs={'promo_id': promo_id}))
+            return redirect(
+                reverse('promo', kwargs={'promo_id': promo_id}))
         
     paginator = Paginator(game_list, 8)
 
@@ -274,12 +322,20 @@ def promo_edit(request, promo_id):
 @login_required
 def promo_delete(request, promo_id):
     if not request.user.is_staff:
-        messages.info(request, 'Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        messages.info(
+            request,
+            'Super Secret Page of Awesomeness!\
+                Unauthorized access prohibited!')
         return redirect("/")
     try:
         promo = Promo.objects.get(id=promo_id) 
         promo.delete()
-        messages.success(request, f"{promo} has been deleted successfully!")
+        messages.success(
+            request,
+            f"{promo} has been deleted successfully!")
     except Exception as e:
-        messages.error(request, f"{e}")
+        messages.error(
+            request,
+            f"{e}"
+            )
     return redirect("/")
