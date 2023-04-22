@@ -20,8 +20,8 @@ def index(request):
         carousel = []
 
     try: 
-        featured_games = list(Game.objects.filter(is_featured=8))
-        featured_games += list(DLC.objects.filter(is_featured=8))
+        featured_games = list(Game.objects.filter(is_featured=True))
+        featured_games += list(DLC.objects.filter(is_featured=True))
         if len(featured_games) > 4:
             cards_num = 5 if request.user_agent.is_pc else 4
             is_featured = random.sample(featured_games, cards_num)
