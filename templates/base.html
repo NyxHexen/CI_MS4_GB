@@ -1,278 +1,278 @@
 {% load static %}
-<!doctype html>
-<html lang="en" data-bs-theme="light">
-
-<head>
-    {% block meta %}
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% endblock %}
-
-    {% block extra_meta %}
-    {% endblock %}
-
-    {% block corecss %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
-    {% endblock %}
-
-    {% block extra_css %}
-    {% endblock %}
-
-    {% block corejs %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-    </script>
-    <script src="https://kit.fontawesome.com/f05b6615ad.js" crossorigin="anonymous"></script>
-    <!-- Stripe -->
-    <script src="https://js.stripe.com/v3/"></script>
-    {% endblock %}
-
-    {% block extra_js %}
-    {% endblock %}
-
-    <title>GameBOX {% block extra_title %}{% endblock %}</title>
-</head>
-
-<body>
-    <header>
-        <nav class="container navbar navbar-expand-lg mx-auto px-2 py-1 mt-lg-5">
-            <div class="container-fluid">
-                <a class="navbar-brand ps-1 px-sm-2 py-0" href="{% url 'home' %}">Game<span>boX</span></a>
-                <button class="btn btn-gamebox navbar-toggler float-end" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#mobile-menu" aria-controls="mobile-menu">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item d-flex align-items-center">
-                            <a class="nav-link {% if request.path == '/games/' %}active" aria-current="page" {% else %}"
-                                {% endif %} href="{% url 'games' %}">browse</a>
-                        </li>
-                        <li class="nav-item d-flex align-items-center">
-                            <a class="nav-link {% if request.path == '/about/' %}active" aria-current="page" {% else %}"
-                                {% endif %} href="{% url 'about' %}">About</a>
-                        </li>
-                        <li class="nav-item d-flex align-items-center">
-                            <a class="nav-link {% if request.path == '/support/' %}active" aria-current="page"
-                                {% else %}" {% endif %} href="{% url 'support' %}">support</a>
-                        </li>
-                        {% if user.is_staff %}
-                        <li class="nav-item d-flex align-items-center ms-lg-2">
-                            <div class="btn-group">
-                                <a role="button" href="{% url 'admin:index' %}" class="btn btn-sm btn-dark">admin</a>
-                                <button type="button" class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="visually-hidden">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <h6 class="dropdown-header content-font">Promotions</h6>
-                                    </li>
-                                    <li><a class="dropdown-item content-font" href="{% url 'promo_add' %}">Add New
-                                            Promo</a></li>
-                                    <li>
-                                        <h6 class="dropdown-header content-font">Games/DLCs</h6>
-                                    </li>
-                                    <li><a class="dropdown-item content-font" href="{% url 'game_add' 'game' %}">Add New
-                                            Game</a></li>
-                                    <li><a class="dropdown-item content-font" href="{% url 'game_add' 'dlc' %}">Add New
-                                            DLC</a></li>
-                                    <li>
-                                        <h6 class="dropdown-header content-font">Media</h6>
-                                    </li>
-                                    <li><a class="dropdown-item content-font" href="{% url 'media' %}">View All</a></li>
-                                    <li><a class="dropdown-item content-font" href="{% url 'media_add' %}">Add New
-                                            Media</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-                <div class="collapse navbar-collapse justify-content-end">
-                    <ul class="navbar-nav align-items-center">
-                        {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="cart-nav nav-link {% if request.path == '/cart/' %}active" aria-current="page"
-                                {% else %}" {% endif %} href="{% url 'cart' %}"><i
-                                    class="fa-solid fa-cart-shopping fs-5"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="cart-nav nav-link {% if request.path == '/myprofile/' %}active"
-                                aria-current="page" {% else %}" {% endif %} href="{% url 'profile' %}">my profile</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">sign out</a></li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="cart-nav nav-link" href="{% url 'cart' %}">
-                                <i class="fa-solid fa-cart-shopping fs-5"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/accounts/signup/' %}active" aria-current="page"
-                                {% else %}" {% endif %} href="{% url 'account_signup' %}">sign up</a>
-                        </li>
-                        <li class="nav-item align-self-center">
-                            <a class="nav-link {% if request.path == '/accounts/login/' %}active" aria-current="page"
-                                {% else %}" {% endif %} href="{% url 'account_login' %}">sign in</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-            <div class="offcanvas offcanvas-start px-sm-5" tabindex="-1" id="mobile-menu"
-                aria-labelledby="mobile-menu-header">
-                <div class="offcanvas-header text-bg-light rounded">
-                    <h5 class="offcanvas-title fs-2" id="mobile-menu-header">Menu</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="col-auto col-sm-6 mx-sm-auto mx-3 offcanvas-body card mt-5 m-lg-auto p-0 p-lg-auto">
-                    <ul class="d-flex d-lg-none flex-column list-group list-group-flush fs-3 text-center">
-                        <li class="list-group-item {% if request.path == '/games/' %}active" aria-current="page"
-                            {% else %}" {% endif %}>
-                            <a class="nav-link" aria-current="page" href="{% url 'games' %}">browse</a>
-                        </li>
-                        <li class="list-group-item {% if request.path == '/about/' %}active" aria-current="page"
-                            {% else %}" {% endif %}>
-                            <a class="nav-link" href="#">About</a>
-                        </li>
-                        <li class="list-group-item {% if request.path == '/support/' %}active" aria-current="page"
-                            {% else %}" {% endif %}>
-                            <a class="nav-link" href="#">support</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-auto col-sm-6 mx-sm-auto mx-3 offcanvas-body card mt-5 m-lg-auto p-0 p-lg-auto">
-                    <ul class="d-flex d-lg-none flex-column list-group list-group-flush fs-3 text-center">
-                        {% if user.is_authenticated %}
-                        <li class="list-group-item {% if request.path == '/cart/' %}active" aria-current="page"
-                            {% else %}" {% endif %}>
-                            <a class="cart-nav nav-link" href="{% url 'cart' %}">shopping
-                                cart</a></li>
-                        <li class="list-group-item {% if request.path == '/myprofile/' %}active" aria-current="page"
-                            {% else %}" {% endif %}>
-                            <a class="cart-nav nav-link" href="{% url 'profile' %}">my profile</a></li>
-                        <li class="list-group-item {% if request.path == '/myprofile/' %}active" aria-current="page"
-                        {% else %}" {% endif %}>
-                            <a class="nav-link" href="{% url 'account_logout' %}">sign out</a>
-                        </li>
-                        {% else %}
-                        <li class="list-group-item {% if request.path == '/cart/' %}active" aria-current="page"
-                            {% else %}" {% endif %}>
-                            <a class="cart-nav nav-link" href="{% url 'cart' %}"><i
-                                    class="fa-solid fa-cart-shopping"></i></a></li>
-                        <li class="list-group-item  {% if request.path == '/myprofile/' %}active" aria-current="page"
-                        {% else %}" {% endif %}>
-                            <a class="nav-link" href="{% url 'account_login' %}">sign in</a>
-                        </li>
-                        <li class="list-group-item {% if request.path == '/myprofile/' %}active" aria-current="page"
-                        {% else %}" {% endif %}>
-                            <a class="nav-link" href="{% url 'account_signup' %}">sign up</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <div class="message-container me-md-2 mt-md-2">
-        {% for message in messages %}
-        {% with message.level as level %}
-        {% if level == 40 %}
-        {% include 'includes/toasts/toast-error.html'%}
-        {% elif level == 30 %}
-        {% include 'includes/toasts/toast-warning.html'%}
-        {% elif level == 25 %}
-        {% include 'includes/toasts/toast-success.html'%}
-        {% else %}
-        {% include 'includes/toasts/toast-info.html'%}
-        {% endif %}
-        {% endwith %}
-        {% endfor %}
-    </div>
-
-    {% block page_header %}
-    {% endblock %}
-
-    {% block content %}
-    {% endblock %}
-
-    <footer class="pt-3">
-        <div id="footer" class="container">
-            <div class="row my-2 justify-content-center">
-                <div class="col-12 col-lg-3 d-flex flex-column justify-content-center align-items-center">
-                    <h5 class="ui-font text-center">stay connected</h5>
-                    <a href="mailto:info@gamebox.com" class="text-center"><i
-                            class="fa-solid fa-at me-2"></i>info@gamebox.com</a>
-                    <div class="social-links d-flex justify-content-center">
-                        <a target="_blank" href="https://www.facebook.com/" class="fs-1 text-primary">
-                            <i class="fa-brands fa-facebook"></i>
-                            <span class="visually-hidden">Gamebox Facebook Page</span>
-                        </a>
-                        <a target="_blank" href="https://www.twitter.com/" class="fs-1 text-info">
-                            <i class="fa-brands fa-square-twitter"></i>
-                            <span class="visually-hidden">Gamebox Twitter Page</span>
-                        </a>
-                        <a target="_blank" href="https://www.youtube.com/" class="fs-1 text-danger">
-                            <i class="fa-brands fa-youtube"></i>
-                            <span class="visually-hidden">Gamebox YouTube Page</span>
-                        </a>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block meta %}
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <meta charset="utf-8">
+            <meta name="viewport"
+                  content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description"
+                  content="Shop the latest and greatest digital video games on our online store! Discover a wide selection of titles for all platforms, and enjoy instant delivery right to your device. Find great deals and discounts on top-rated games, and join our community of passionate gamers today.">
+        {% endblock %}
+        {% block extra_meta %}{% endblock %}
+        {% block corecss %}
+            <!-- Bootstrap -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+                  rel="stylesheet"
+                  integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+                  crossorigin="anonymous">
+            <!-- Custom CSS -->
+            <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+        {% endblock %}
+        {% block extra_css %}{% endblock %}
+        {% block corejs %}
+            <!-- Bootstrap -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" 
+                    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" 
+                    crossorigin="anonymous"></script>
+            <!-- FontAwesome -->
+            <script src="https://kit.fontawesome.com/f05b6615ad.js"
+                    crossorigin="anonymous"></script>
+            <!-- Stripe -->
+            <script src="https://js.stripe.com/v3/"></script>
+        {% endblock %}
+        {% block extra_js %}{% endblock %}
+        <title>GameBOX
+            {% block extra_title %}{% endblock %}
+        </title>
+    </head>
+    <body>
+        <header>
+            <nav class="container navbar navbar-expand-lg mx-auto px-2 py-1 mt-lg-5">
+                <div class="container-fluid">
+                    <a class="navbar-brand ps-1 px-sm-2 py-0" href="{% url 'home' %}">Game<span>boX</span></a>
+                    <button class="btn btn-gamebox navbar-toggler float-end"
+                            type="button"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#mobile-menu"
+                            aria-controls="mobile-menu">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <!-- Default Responsive Nav -->
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item d-flex align-items-center">
+                                <a class="nav-link {% if request.path == '/games/' %}active" aria-current="page" {% else %}" {% endif %} href="{% url 'games' %}">browse</a>
+                            </li>
+                            <li class="nav-item d-flex align-items-center">
+                                <a class="nav-link {% if request.path == '/about/' %}active" aria-current="page" {% else %}" {% endif %} href="{% url 'about' %}">About</a>
+                            </li>
+                            <li class="nav-item d-flex align-items-center">
+                                <a class="nav-link {% if request.path == '/support/' %}active" aria-current="page" {% else %}" {% endif %} href="{% url 'support' %}">support</a>
+                            </li>
+                            {% if user.is_staff %}
+                            <!-- Admin Button and Dropdown -->
+                                <li class="nav-item d-flex align-items-center ms-lg-2">
+                                    <div class="btn-group">
+                                        <a role="button"
+                                           href="{% url 'admin:index' %}"
+                                           class="btn btn-sm btn-dark">admin</a>
+                                        <button type="button"
+                                                class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split"
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                            <span class="visually-hidden">Toggle Dropdown</span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <h6 class="dropdown-header content-font">Promotions</h6>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item content-font" href="{% url 'promo_add' %}">Add New Promo</a>
+                                            </li>
+                                            <li>
+                                                <h6 class="dropdown-header content-font">Games/DLCs</h6>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item content-font" href="{% url 'game_add' 'game' %}">Add New Game</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item content-font" href="{% url 'game_add' 'dlc' %}">Add New DLC</a>
+                                            </li>
+                                            <li>
+                                                <h6 class="dropdown-header content-font">Media</h6>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item content-font" href="{% url 'media' %}">View All</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item content-font" href="{% url 'media_add' %}">Add New Media</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <!-- Login Specific Links -->
+                    <div class="collapse navbar-collapse justify-content-end">
+                        <ul class="navbar-nav align-items-center">
+                            {% if user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a class="cart-nav nav-link {% if request.path == '/cart/' %}active" aria-current="page" {% else %}" {% endif %} href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping fs-5"></i></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="cart-nav nav-link {% if request.path == '/myprofile/' %}active" aria-current="page" {% else %}" {% endif %} href="{% url 'profile' %}">my profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'account_logout' %}">sign out</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="cart-nav nav-link" href="{% url 'cart' %}"> <i class="fa-solid fa-cart-shopping fs-5"></i> </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {% if request.path == '/accounts/signup/' %}active" aria-current="page" {% else %}" {% endif %} href="{% url 'account_signup' %}">sign up</a>
+                                </li>
+                                <li class="nav-item align-self-center">
+                                    <a class="nav-link {% if request.path == '/accounts/login/' %}active" aria-current="page" {% else %}" {% endif %} href="{% url 'account_login' %}">sign in</a>
+                                </li>
+                            {% endif %}
+                        </ul>
                     </div>
                 </div>
-                <div class="col-12 col-lg-4">
-                    <h5 class="ui-font text-center">newsletter</h5>
-                    <p class="text-center mt-3 mb-0">Sign up for exclusive updates and promotions.</p>
-                    <form class="d-flex align-items-center justify-content-center" action="{% url 'newsletter_sub' %}" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="newsletter_redirect" value="{{ request.get_full_path }}">
-                        <div class="mt-3 me-2 w-50">
-                            {{ newsletter_form.subscription_email|as_crispy_field }}
-                        </div>
-                        <button type="submit" class="btn btn-gamebox">Subscribe</button>
-                    </form>
-                </div>
-                <div class="col-12 col-lg-3 d-flex flex-column justify-content-center align-items-center">
-                    <h5 class="ui-font text-center">navigate </h5>
-                    <div class="footer-nav d-flex">
-                        <ul class="navbar-nav px-3 col-6">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'games' %}">Browse <i
-                                        class="fa-solid fa-caret-right"></i></a>
+                <!-- Custom Offcanvas Tablet/Mobile Menu -->
+                <div class="offcanvas offcanvas-start px-sm-5"
+                     tabindex="-1"
+                     id="mobile-menu"
+                     aria-labelledby="mobile-menu-header">
+                    <div class="offcanvas-header text-bg-light rounded">
+                        <h5 class="offcanvas-title fs-2" id="mobile-menu-header">Menu</h5>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="col-auto col-sm-6 mx-sm-auto mx-3 offcanvas-body card mt-5 m-lg-auto p-0 p-lg-auto">
+                        <ul class="d-flex d-lg-none flex-column list-group list-group-flush fs-3 text-center">
+                            <li class="list-group-item {% if request.path == '/games/' %}active" aria-current="page" {% else %}" {% endif %}>
+                                <a class="nav-link" aria-current="page" href="{% url 'games' %}">browse</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'about' %}">About <i class="fa-solid fa-caret-right"></i></a>
+                            <li class="list-group-item {% if request.path == '/about/' %}active" aria-current="page" {% else %}" {% endif %}>
+                                <a class="nav-link" href="#">About</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'support' %}">Support <i class="fa-solid fa-caret-right"></i></a>
+                            <li class="list-group-item {% if request.path == '/support/' %}active" aria-current="page" {% else %}" {% endif %}>
+                                <a class="nav-link" href="#">support</a>
                             </li>
                         </ul>
-                        <ul class="navbar-nav ms-4 col-6">
-                            <li class="nav-item {% if request.path == '/cart/' %}active" aria-current="page" {% else %}"
-                                {% endif %}>
-                                <a class="cart-nav nav-link" href="{% url 'cart' %}">Shopping
-                                    Cart <i class="fa-solid fa-caret-right"></i>
-                                </a>
-                            </li>
+                    </div>
+                    <div class="col-auto col-sm-6 mx-sm-auto mx-3 offcanvas-body card mt-5 m-lg-auto p-0 p-lg-auto">
+                        <ul class="d-flex d-lg-none flex-column list-group list-group-flush fs-3 text-center">
                             {% if user.is_authenticated %}
-                            <li class="nav-item {% if request.path == '/myprofile/' %}active" aria-current="page"
-                                {% else %}" {% endif %}>
+                                <li class="list-group-item {% if request.path == '/cart/' %}active" aria-current="page" {% else %}" {% endif %}>
+                                    <a class="cart-nav nav-link" href="{% url 'cart' %}">shopping cart</a>
+                                </li>
+                                <li class="list-group-item {% if request.path == '/myprofile/' %}active" aria-current="page" {% else %}" {% endif %}>
+                                    <a class="cart-nav nav-link" href="{% url 'profile' %}">my profile</a></li>
+                                <li class="list-group-item {% if request.path == '/myprofile/' %}active" aria-current="page" {% else %}" {% endif %}>
+                                    <a class="nav-link" href="{% url 'account_logout' %}">sign out</a>
+                                </li>
+                            {% else %}
+                                <li class="list-group-item {% if request.path == '/cart/' %}active" aria-current="page" {% else %}" {% endif %}>
+                                    <a class="cart-nav nav-link" href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                                <li class="list-group-item  {% if request.path == '/myprofile/' %}active" aria-current="page" {% else %}" {% endif %}>
+                                    <a class="nav-link" href="{% url 'account_login' %}">sign in</a>
+                                </li>
+                                <li class="list-group-item {% if request.path == '/myprofile/' %}active" aria-current="page" {% else %}" {% endif %}>
+                                    <a class="nav-link" href="{% url 'account_signup' %}">sign up</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <!-- Messages from Back-end -->
+        <div class="message-container me-md-2 mt-md-2">
+            {% for message in messages %}
+                {% with message.level as level %}
+                    {% if level == 40 %}
+                        {% include 'includes/toasts/toast-error.html' %}
+                    {% elif level == 30 %}
+                        {% include 'includes/toasts/toast-warning.html' %}
+                    {% elif level == 25 %}
+                        {% include 'includes/toasts/toast-success.html' %}
+                    {% else %}
+                        {% include 'includes/toasts/toast-info.html' %}
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+        </div>
+        {% block page_header %}{% endblock %}
+        {% block content %}{% endblock %}
+        <!-- Footer -->
+        <footer class="pt-3">
+            <div id="footer" class="container">
+                <div class="row my-2 justify-content-center">
+                    <div class="col-12 col-lg-3 d-flex flex-column justify-content-center align-items-center">
+                        <h5 class="ui-font text-center">stay connected</h5>
+                        <a href="mailto:info@gamebox.com" class="text-center"><i class="fa-solid fa-at me-2"></i>info@gamebox.com</a>
+                        <div class="social-links d-flex justify-content-center">
+                            <a target="_blank"
+                               href="https://www.facebook.com/"
+                               class="fs-1 text-primary mx-1">
+                                <i class="fa-brands fa-facebook"></i>
+                                <span class="visually-hidden">Gamebox Facebook Page</span>
+                            </a>
+                            <a target="_blank"
+                               href="https://www.twitter.com/"
+                               class="fs-1 text-info mx-1">
+                                <i class="fa-brands fa-square-twitter"></i>
+                                <span class="visually-hidden">Gamebox Twitter Page</span>
+                            </a>
+                            <a target="_blank"
+                               href="https://www.youtube.com/"
+                               class="fs-1 text-danger mx-1">
+                                <i class="fa-brands fa-youtube"></i>
+                                <span class="visually-hidden">Gamebox YouTube Page</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Newsletter Form -->
+                    <div class="col-12 col-lg-4">
+                        <h5 class="ui-font text-center">newsletter</h5>
+                        <p class="text-center mt-3 mb-0">Sign up for exclusive updates and promotions.</p>
+                        <form class="d-flex align-items-center justify-content-center"
+                              action="{% url 'newsletter_sub' %}"
+                              method="post">
+                            {% csrf_token %}
+                            <input type="hidden"
+                                   name="newsletter_redirect"
+                                   value="{{ request.get_full_path }}">
+                            <div class="mt-3 me-2 w-50">{{ newsletter_form.subscription_email|as_crispy_field }}</div>
+                            <button type="submit" class="btn btn-gamebox">Subscribe</button>
+                        </form>
+                    </div>
+                    <!-- Footer Nav Links -->
+                    <div class="col-12 col-lg-3 d-flex flex-column justify-content-center align-items-center">
+                        <h5 class="ui-font text-center">navigate</h5>
+                        <div class="footer-nav d-flex">
+                            <ul class="navbar-nav px-3 col-6">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'games' %}">Browse <i class="fa-solid fa-caret-right"></i></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'about' %}">About <i class="fa-solid fa-caret-right"></i></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'support' %}">Support <i class="fa-solid fa-caret-right"></i></a>
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav ms-4 col-6">
+                            <li class="nav-item {% if request.path == '/cart/' %}active" aria-current="page" {% else %}" {% endif %}> <a class="cart-nav nav-link" href="{% url 'cart' %}"> Shopping Cart <i class="fa-solid fa-caret-right"></i> </a>
+                        </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item {% if request.path == '/myprofile/' %}active" aria-current="page" {% else %}" {% endif %}>
                                 <a class="cart-nav nav-link" href="{% url 'profile' %}">
                                     My Profile <i class="fa-solid fa-caret-right"></i>
                                 </a>
                             </li>
-                            <li class="nav-item {% if request.path == '/myprofile/' %}active" aria-current="page"
-                            {% else %}" {% endif %}>
-                                <a class="nav-link" href="{% url 'account_logout' %}">
-                                    Sign Out <i class="fa-solid fa-caret-right"></i>
-                                </a>
+                            <li class="nav-item {% if request.path == '/myprofile/' %}active" aria-current="page" {% else %}" {% endif %}>
+                                <a class="nav-link" href="{% url 'account_logout' %}"> Sign Out <i class="fa-solid fa-caret-right"></i> </a>
                             </li>
-                            {% else %}
-                            <li class="nav-item {% if request.path == '/myprofile/' %}active" aria-current="page"
-                            {% else %}" {% endif %}>
+                        {% else %}
+                            <li class="nav-item {% if request.path == '/myprofile/' %}active" aria-current="page" {% else %}" {% endif %}>
                                 <a class="nav-link" href="{% url 'account_login' %}">
                                     Sign In <i class="fa-solid fa-caret-right"></i>
                                 </a>
@@ -283,22 +283,21 @@
                                     Sign Up <i class="fa-solid fa-caret-right"></i>
                                 </a>
                             </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col d-flex justify-content-between align-items-end">
-                    <div class="copyright">
-                        <span>&copy; 2023 NyxHexen - All rights reserved.</span>
-                    </div>
+                        {% endif %}
+                    </ul>
                 </div>
             </div>
         </div>
-    </footer>
-
-    {% block postloadjs %}
+        <div class="row">
+            <div class="col d-flex justify-content-between align-items-end">
+                <div class="copyright">
+                    <span>&copy; 2023 NyxHexen - All rights reserved.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+{% block postloadjs %}
     <script src="{% static 'js/games.js' %}"></script>
     <script>
         const toastElList = document.querySelectorAll('.toast')
@@ -307,7 +306,6 @@
             new_toast.show()
         })
     </script>
-    {% endblock %}
+{% endblock %}
 </body>
-
 </html>
