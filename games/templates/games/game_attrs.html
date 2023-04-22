@@ -106,7 +106,9 @@
                                 <td class="text-center">
                                     <div class="d-flex align-items-center justify-content-center">
                                         <span class="promo-discount fs-6">
+                                            {% if game.in_promo %}
                                             -{{ game.promo_percentage }}%
+                                            {% endif %}
                                         </span>
                                         <div class="d-flex flex-column ms-3">
                                             {% if game.in_promo %}
