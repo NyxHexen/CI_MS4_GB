@@ -18,6 +18,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+handler400 = "ci_ms4_gamebox.views.handler400"
+handler403 = "ci_ms4_gamebox.views.handler403"
+handler404 = "ci_ms4_gamebox.views.handler404"
+handler500 = "ci_ms4_gamebox.views.handler500"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),

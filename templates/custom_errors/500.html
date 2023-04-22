@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "500 Server Error" %}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col col-md-8 col-xl-6">
+            <div id="allauth__inactive" class="card my-5">
+                <div class="card-body d-flex flex-column align-items-center">
+                    <h1 class="card-title text-center">{% trans "A Server Error Has Occurred" %}</h1>
+                    <small class="text-muted">500</small>
+                    <p class="my-2">{% trans "Please use the navigation bar or the button bellow to navigate back to the site content." %}</p>
+                    <a role="button" href="{% url 'home' %}" class="btn btn-outline-gamebox mt-3 mb-1">TO HOME</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
