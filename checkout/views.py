@@ -33,20 +33,29 @@ def checkout(request):
     if not request.user.is_authenticated:
         cart = get_and_unsign_cart(request)
         if len(cart) == 0:
-            messages.error(request, "You cannot checkout with an empty cart!")
+            messages.error(
+                request,
+                "You cannot checkout with an empty cart!"
+                )
             return redirect(reverse("cart"))
 
     else:
         cart = Cart.objects.get_or_create(user=request.user)[0]
         if cart.cartitems.count() == 0:
-            messages.error(request, "You cannot checkout with an empty cart!")
+            messages.error(
+                request,
+                "You cannot checkout with an empty cart!"
+                )
             return redirect(reverse("cart"))
 
     if request.user.is_authenticated:
         billing_addr = get_or_none(UserProfile, user=request.user)
         if billing_addr is not None:
             form_data = {
-                "full_name": f'{billing_addr.user.first_name} {billing_addr.user.last_name}',
+                "full_name": (
+                f'{billing_addr.user.first_name}' + 
+                f'{billing_addr.user.last_name}'
+                ),
                 "email": billing_addr.user.email,
                 "phone_number": billing_addr.default_phone_number,
                 "country": billing_addr.default_country,
@@ -70,12 +79,18 @@ def checkout(request):
                     if hasattr(billing_addr, "default_" + data):
                         match = getattr(billing_addr, "default_" + data)
                         if order_form.cleaned_data[data] != match:
-                            setattr(billing_addr, "default_" + data, order_form.cleaned_data[data])
+                            setattr(
+                                billing_addr,
+                                "default_" + data,
+                                order_form.cleaned_data[data]
+                                )
                             billing_addr.save()
             
             order = order_form.save(commit=False)
             order.stripe_pid = request.POST.get('client_secret').split('_secret')[0]
-            order.original_cart = json.dumps(cart_contents(request)['list_cart'])
+            order.original_cart = json.dumps(
+                cart_contents(request)['list_cart']
+                )
             order.save()
             if not request.user.is_authenticated:
                 for item_id, item_data in cart.items():
@@ -151,13 +166,17 @@ def checkout_success(request, order_number):
     messages.success(
         request,
         f"Order successfully processed! \
-                    Your order number is {order_number}. A confirmation \
-                    email will be sent to {order.email}",
+          Your order number is {order_number}. A confirmation \
+          email will be sent to {order.email}",
     )
     try:
         order_items = ""
         for item in order.lineitems.all():
-            game = item.game.name if item.game is not None else item.dlc.name
+            game = (
+                item.game.name
+                if item.game is not None
+                else item.dlc.name
+                )
             serial = uuid.uuid4().hex.upper()
             price = item.price
             item_info = f"""
@@ -183,17 +202,18 @@ def checkout_success(request, order_number):
         """
 
         send_mail(
-            f"[GameBOX] Thank you for your purchase! Enjoy! Order #: {order.order_number}",
+            f"""
+            [GameBOX] Thank you for your purchase! Enjoy! Order #: {order.order_number}
+            """,
             message,
             "info@gamebox.com",
             [request.user.email,]
         )
     except Exception as e:
-        print(e)
         messages.error(
         request,
         f"There has been an issue with your email confirmation.\
-            Please contact us to resolve this error.",
+          Please contact us to resolve this error.",
     )
 
     if not request.user.is_authenticated:
@@ -216,14 +236,21 @@ def checkout_success(request, order_number):
         games = Game.objects.all()
         dlcs = DLC.objects.all()
     except:
-        messages.error(request, "Some of our games have escaped! \
-                       Give us a minute and we'll bring them right back.")
+        messages.error(
+            request,
+            "Some of our games have escaped! \
+             Give us a minute and we'll bring them right back.")
 
     purchased_games = [i.game or i.dlc for i in order.lineitems.all()]
-    unowned_games = [j for j in games if j not in purchased_games] + [
-        j for j in dlcs if j not in purchased_games
-    ]
-    samples_num = 5 if len(unowned_games) > 5 else len(unowned_games)
+    unowned_games = (
+        [game for game in games if game not in purchased_games] + 
+        [dlc for dlc in dlcs if dlc not in purchased_games]
+    )
+    samples_num = (
+        5
+        if len(unowned_games) > 5
+        else len(unowned_games)
+        )
     suggested_games = random.sample(unowned_games, samples_num)
 
     context = {"order": order, "suggested_games": suggested_games}
@@ -255,7 +282,9 @@ def create_stripe_intent(request):
             currency=settings.STRIPE_CURRENCY,
             automatic_payment_methods={"enabled": True},
         )
-        return JsonResponse({"client_secret": intent.client_secret})
+        return JsonResponse(
+            {"client_secret": intent.client_secret}
+            )
     except Exception as e:
         messages.error(
             request,
@@ -294,7 +323,8 @@ def modify_stripe_intent(request):
     except Exception as e:
         messages.error(
             request,
-            "We're unable to process your payment at this time. Please try again later, \
-            and if the issue persists, please contact customer support for assistance.",
+            "We're unable to process your payment at this time.\
+                Please try again later, and if the issue persists,\
+                      please contact customer support for assistance.",
         )
         return HttpResponse(content=e, status=400)

@@ -11,21 +11,66 @@ from games.models import Game, DLC
 # Create your models here.
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
-    order_number = models.CharField(max_length=32, null=False, editable=False)
-    full_name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=254)
-    phone_number = models.CharField(max_length=20)
-    country = CountryField(blank_label='Country*')
-    postcode = models.CharField(max_length=20, null=True, blank=True)
-    town_or_city = models.CharField(max_length=40)
-    street_address1 = models.CharField(max_length=80)
-    street_address2 = models.CharField(max_length=80, null=True, blank=True)
-    county = models.CharField(max_length=80, null=True, blank=True)
-    date = models.DateTimeField(auto_now_add=True)
-    order_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    original_cart = models.TextField(default='')
-    stripe_pid = models.CharField(max_length=254, default='')
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='orders',
+        )
+    order_number = models.CharField(
+        max_length=32,
+        null=False,
+        editable=False,
+        )
+    full_name = models.CharField(
+        max_length=50,
+        )
+    email = models.EmailField(
+        max_length=254
+        )
+    phone_number = models.CharField(
+        max_length=20
+        )
+    country = CountryField(
+        blank_label='Country*'
+        )
+    postcode = models.CharField(
+        max_length=20,
+        null=True,
+        blank=True
+        )
+    town_or_city = models.CharField(
+        max_length=40
+        )
+    street_address1 = models.CharField(
+        max_length=80
+        )
+    street_address2 = models.CharField(
+        max_length=80,
+        null=True,
+        blank=True
+        )
+    county = models.CharField(
+        max_length=80,
+        null=True,
+        blank=True
+        )
+    date = models.DateTimeField(
+        auto_now_add=True
+        )
+    order_total = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+        )
+    original_cart = models.TextField(
+        default=''
+        )
+    stripe_pid = models.CharField(
+        max_length=254,
+        default=''
+        )
 
     def _generate_order_number(self):
         """
@@ -53,11 +98,29 @@ class Order(models.Model):
 
 
 class OrderLineItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='lineitems')
-    game = models.ForeignKey(Game, null=True, blank=True, on_delete=models.CASCADE)
-    dlc = models.ForeignKey(DLC, null=True, blank=True, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name='lineitems'
+        )
+    game = models.ForeignKey(
+        Game,null=True,
+        blank=True,
+        on_delete=models.CASCADE
+        )
+    dlc = models.ForeignKey(
+        DLC,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+        )
+    quantity = models.PositiveIntegerField(
+        default=1
+        )
+    price = models.DecimalField(
+        max_digits=6,
+        decimal_places=2
+        )
 
     def save(self, *args, **kwargs):
         """
