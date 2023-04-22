@@ -11,14 +11,18 @@ def use_media(set, media_use):
         if set.model_name() == 'promo':
             media = set.media
         else:
-            media = set.media.filter(media_use=img_type).first()
+            media = set.media.filter(
+                media_use=img_type
+                ).first()
             
         if img_attr == 'src':
             return media.file.name
         elif img_attr == 'descr':
             return media.description
     except:
-        media = Media.objects.get(slug=f'no-image-{img_type.lower()}')
+        media = Media.objects.get(
+            slug=f'no-image-{img_type.lower()}'
+            )
 
         if img_attr == 'src':
             return media.file.name
