@@ -56,10 +56,11 @@
       {% endfor %}
     </div>
     <div class="carousel-inner">
+      {% if carousel|length != 0 %}
       {% for item in carousel %}
       <div class="carousel-item{% if forloop.first %} active{% endif %}">
         <div class="overlay d-block d-sm-none"></div>
-        <a target="_blank"  href="
+        <a target="_blank" href="
           {% if item.model_name == 'game' or item.model_name == 'dlc' %}
           {% url 'game' item.model_name item.id %}
           {% elif item.model_name == 'promo'%}
@@ -77,7 +78,8 @@
             {% endif %}
           </div>
           {% if item.model_name == 'game' or item.model_name == 'dlc' %}
-          <form action="{% url 'cart_add' item.model_name item.id %}" method="POST" class="d-flex text-bg-light rounded position-relative">
+          <form action="{% url 'cart_add' item.model_name item.id %}" method="POST"
+            class="d-flex text-bg-light rounded position-relative">
             {% csrf_token %}
             <div class="me-2 d-flex align-items-center justify-content-evenly text-black">
               {% if item.in_promo and item.promo.active is True%}
@@ -92,9 +94,8 @@
             <label for="id_qty_{{ game.model_name }}_{{ game.id }}" class="visually-hidden form-label">Quantity</label>
             <input class="form-control" type="hidden" name="quantity" id="id_qty_{{ game.id }}" value="1" min="1"
               max="99" data-game-id="{{ game.id }}">
-            <button type="submit" aria-label="Add to cart"
-              class="add-to-cart fs-5 btn btn-lg py-3 px-4 float-end"><span class="d-none d-sm-inline">Add to </span><i
-                class="fa-solid fa-cart-plus"></i></button>
+            <button type="submit" aria-label="Add to cart" class="add-to-cart fs-5 btn btn-lg py-3 px-4 float-end"><span
+                class="d-none d-sm-inline">Add to </span><i class="fa-solid fa-cart-plus"></i></button>
             <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
           </form>
           {% elif item.model_name == 'promo' %}
@@ -107,23 +108,37 @@
         </div>
       </div>
       {% endfor %}
+      {% else %}
+      <div class="carousel-item active">
+        <div class="overlay d-block d-sm-none"></div>
+        <img src="{{ MEDIA_URL }}{{ item|use_media:'LANDING.src' }}" class="d-block"
+          alt="{{ item|use_media:'LANDING.descr' }}">
+        <div class="carousel-caption text-black">
+          <h2>There has been an error. Please refresh your page to try again!</h2>
+        </div>
+      </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#games-carousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <span class="carousel-control-prev hover-bg"></span>
-    <button class="carousel-control-next" type="button" data-bs-target="#games-carousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-    <span class="carousel-control-next hover-bg"></span>
+    </a>
+  </div>
+  {% endif %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#games-carousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <span class="carousel-control-prev hover-bg"></span>
+  <button class="carousel-control-next" type="button" data-bs-target="#games-carousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+  <span class="carousel-control-next hover-bg"></span>
   </div>
 </section>
 <section class="container mt-4 mb-5">
   <h2 class="ps-3">Featured Games</h2>
   <hr>
   <div class="games row justify-content-center mt-3">
+    {% if is_featured|length != 0%}
     {% for game in is_featured %}
     <div
       class="game col-6 col-md-3 col-lg-3 col-xl-2 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
@@ -138,8 +153,7 @@
         <p class="game-title">{{ game.name }}</p>
       </div>
       <div class="game-cover--reverse d-flex justify-content-between align-items-end">
-        <form action="{% url 'cart_add' game.model_name game.id %}"  method="POST"
-          class="w-100 d-flex flex-row">
+        <form action="{% url 'cart_add' game.model_name game.id %}" method="POST" class="w-100 d-flex flex-row">
           {% csrf_token %}
           <label for="id_qty_{{ game.model_name }}_{{ game.id }}" class="visually-hidden form-label">Quantity</label>
           <input class="form-control" type="number" name="quantity" id="id_qty_{{ game.id }}" value="1" min="1" max="99"
@@ -149,7 +163,7 @@
           <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
         </form>
       </div>
-      <a target="_blank"  href="{% url 'game' game.model_name game.id %}"
+      <a target="_blank" href="{% url 'game' game.model_name game.id %}"
         class="game-back--front d-flex flex-column justify-content-around">
         {% if not request.user_agent.is_mobile %}
         <h2 class="game-title-back text-center">{{ game.name }}</h2>
@@ -241,6 +255,13 @@
       </div>
     </div>
     {% endfor %}
+    {% else %}
+    <div class="card col col-lg-8 col-xl-6">
+      <div class="card-body">
+        <h2 class="text-center">There has been an error. Please refresh your page to try again!</h2>
+      </div>
+    </div>
+    {% endif %}
   </div>
 </section>
 <section class="deals pt-2 pb-0 pb-lg-5">
@@ -251,7 +272,7 @@
       {% if dotd|length != 0 %}
       {% for deal in dotd %}
       <div class="countdown col-7 col-xs-6 col-md-4 col-lg-3">
-        <a target="_blank"  {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
+        <a target="_blank" {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
           href="{% url 'game' deal.model_name deal.id %}" {% else %} href="{% url 'promo' deal.id %}" {% endif %}
           class="content-overlay d-flex flex-column">
           <div class="content-overlay__name-wrapper d-flex flex-column justify-content-center align-items-center">
