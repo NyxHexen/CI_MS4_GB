@@ -143,9 +143,43 @@
                         <div class="carousel-item active">
                             <div class="row d-flex w-100">
                                 {% for item in media %}
-                                {% if forloop.last and not media|length|divisibleby:2 and not forloop.first %}
-                                {% elif forloop.counter|divisibleby:2 %}
-                                <div class="col-6 carousel-image px-1 position-relative">
+                                {% if not request.user_agent.is_mobile %}
+                                    {% if forloop.last and not media|length|divisibleby:2 and not forloop.first %}
+                                    {% elif forloop.counter|divisibleby:2 %}
+                                    <div class="col-6 carousel-image px-1 position-relative">
+                                        <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-100"
+                                            alt="{{ item.description }}">
+                                        {% if item.media_type == 'video' %}
+                                        <button type="button" data-href="{{ item.url }}" data-title="{{ item.name }}"
+                                            class="btn btn-primary position-absolute player-trigger" data-bs-toggle="modal"
+                                            data-bs-target="#gameMediaPlayer">
+                                            <i class="fa-regular fa-circle-play display-1"></i>
+                                            <span class="visually-hidden">Play Video</span>
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if not forloop.counter == media|length|add:"-1" and not media|length|divisibleby:2 or media|length|divisibleby:2 and not forloop.last %}
+                            <div class="carousel-item">
+                                <div class="row d-flex w-100">
+                                    {% endif %}
+                                    {% else %}
+                                    <div class="col-6 carousel-image px-1 position-relative">
+                                        <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-100"
+                                            alt="{{ item.description }}">
+                                        {% if item.media_type == 'video' %}
+                                        <button type="button" data-href="{{ item.url }}" data-title="{{ item.name }}"
+                                            class="btn btn-primary position-absolute player-trigger" data-bs-toggle="modal"
+                                            data-bs-target="#gameMediaPlayer">
+                                            <i class="fa-regular fa-circle-play display-1"></i>
+                                            <span class="visually-hidden">Play Video</span>
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                {% else %}
+                                <div class="col-12 carousel-image px-1 position-relative">
                                     <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-100"
                                         alt="{{ item.description }}">
                                     {% if item.media_type == 'video' %}
@@ -159,23 +193,10 @@
                                 </div>
                             </div>
                         </div>
-                        {% if not forloop.counter == media|length|add:"-1" and not media|length|divisibleby:2 or media|length|divisibleby:2 and not forloop.last %}
+                        {% if not forloop.last %}
                         <div class="carousel-item">
                             <div class="row d-flex w-100">
                                 {% endif %}
-                                {% else %}
-                                <div class="col-6 carousel-image px-1 position-relative">
-                                    <img src="{{ MEDIA_URL }}{{ item.file.name }}" class="d-block w-100"
-                                        alt="{{ item.description }}">
-                                    {% if item.media_type == 'video' %}
-                                    <button type="button" data-href="{{ item.url }}"
-                                        class="btn btn-primary position-absolute player-trigger" data-bs-toggle="modal"
-                                        data-bs-target="#gameMediaPlayer">
-                                        <i class="fa-regular fa-circle-play display-1"></i>
-                                        <span class="visually-hidden">Play Video</span>
-                                    </button>
-                                    {% endif %}
-                                </div>
                                 {% endif %}
                                 {% endfor %}
                             </div>
