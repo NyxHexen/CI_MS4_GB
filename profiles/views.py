@@ -12,7 +12,9 @@ from .forms import BillingAddressForm, NewsletterForm
 # Create your views here.
 @login_required
 def myprofile(request):
-    profile = UserProfile.objects.get(user=request.user)
+    profile = UserProfile.objects.get(
+        user=request.user
+        )
 
     if request.POST:
         username = request.user.username
@@ -22,7 +24,10 @@ def myprofile(request):
         User.objects.filter(
             username=username,
             email=email,
-        ).update(first_name=first_name, last_name=last_name)
+        ).update(
+            first_name=first_name,
+            last_name=last_name
+            )
 
     context = {
         'profile': profile,
@@ -35,7 +40,10 @@ def billing_address(request):
     try:
         profile = UserProfile.objects.get(user=request.user)
     except Exception:
-        messages.error(request, "System Malfunction! Please try again later.")
+        messages.error(
+            request,
+            "System Malfunction! Please try again later."
+            )
         return redirect('profile')
     
     form = BillingAddressForm(instance=profile)
@@ -51,19 +59,30 @@ def billing_address(request):
             "default_county": request.POST.get("default_county", ""),
         }
         
-        f = BillingAddressForm(form_data, initial=form.initial)
+        f = BillingAddressForm(
+            form_data,
+            initial=form.initial
+            )
 
         if f.is_valid():
             if f.has_changed():
                 for data in f.changed_data:
                     try:
-                        setattr(profile, data, form_data[data])
+                        setattr(profile,
+                                data,
+                                form_data[data]
+                                )
                         profile.save()
                     except Exception:
-                        messages.error(request, 'System Malfunction! \
-                                       Please try again later!')
+                        messages.error(
+                            request,
+                            'System Malfunction! Please try again later!'
+                            )
                         break
-                messages.success(request, "Your billing address has been updated!")
+                messages.success(
+                    request,
+                    "Your billing address has been updated!"
+                    )
                 return redirect(reverse("billing_address"))
 
     context = {
@@ -75,28 +94,47 @@ def billing_address(request):
 @require_POST
 def newsletter_sub(request):
     if not request.user.is_authenticated:
-        messages.error(request, "You must login to subscribe to our newsletter. Don't have \
-                       an account? Why not sign up!")
+        messages.error(
+            request,
+            "You must login to subscribe to our newsletter. Don't have \
+            an account? Why not sign up!")
         return redirect(reverse('account_login'))
     form = NewsletterForm(request.POST)
+
     if form.is_valid():
-        user = get_or_none(User, email=form.cleaned_data['subscription_email'])
-        if user is not None and request.user == user:
+        user = get_or_none(
+            User,
+            email=form.cleaned_data['subscription_email']
+            )
+        if (user is not None
+            and request.user == user
+            ):
             if request.user.userprofile.newsletter_sub:
-                messages.info(request, "You are already subscribed!\
-                            If you are not receiving our emails, please reach out to us!")
+                messages.info(
+                    request,
+                    "You are already subscribed!\
+                        If you are not receiving our emails, please reach out to us!")
             else:
                 user.userprofile.newsletter_sub = True
                 user.userprofile.save()
-                messages.success(request, "Thank you for subscribing to our newsletter.\
-                                    Our welcome letter will be with you shortly!")
+                messages.success(
+                    request,
+                    "Thank you for subscribing to our newsletter.\
+                        Our welcome letter will be with you shortly!")
         elif user is not None and request.user != user:
-            messages.error(request, 'This e-mail address is already associated with another account.')
+            messages.error(
+                request,
+                'This e-mail address is already associated with another account.'
+                )
         elif user is None:
             # https://stackoverflow.com/questions/2053258/how-do-i-output-html-in-a-message-in-the-new-django-messages-framework
-            messages.info(request, "Newsletter can only be sent to your primary e-mail address.\
-                          If you wish to change your primary address, click\
-                          <a class=\"text-light\" href=\"{% url \'accounts:email\'%}\">here</a>.", extra_tags='safe')
+            messages.info(
+                request,
+                "Newsletter can only be sent to your primary e-mail address.\
+                    If you wish to change your primary address, click\
+                    <a class=\"text-light\" href=\"{% url \'accounts:email\'%}\">here</a>.",
+                    extra_tags='safe'
+                    )
 
     redirect_url = request.POST.get('newsletter_redirect')
     return redirect(redirect_url)

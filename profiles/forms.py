@@ -36,7 +36,11 @@ class BillingAddressForm(forms.ModelForm):
 
 
 class NewsletterForm(forms.Form):
-    subscription_email = forms.EmailField(label='Email: *',max_length=320, required=True)
+    subscription_email = forms.EmailField(
+        label='Email: *',
+        max_length=320,
+        required=True
+        )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
