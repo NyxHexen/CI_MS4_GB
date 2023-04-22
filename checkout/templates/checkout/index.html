@@ -2,308 +2,327 @@
 {% load static %}
 {% load tags %}
 {% load cart_tags %}
-
-{% block extra_css %}
-{{ block.super }}
-{% endblock %}
-
 {% block page_header %}
-<div class="container">
-    <div class="row">
-        <div class="col"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
     </div>
-</div>
 {% endblock %}
-
 {% block content %}
-<!-- Loading Screen -->
-<div id="loading-overlay" class="d-none flex-column align-items-center justify-content-center">
-    <div class="overlay-text d-flex">
-        <h2 class="ui-font me-1">loading</h2><span class="me-1">.</span><span class="me-1">.</span><span
-            class="me-1">.</span>
+    <!-- Loading Screen -->
+    <div id="loading-overlay"
+         class="d-none flex-column align-items-center justify-content-center">
+        <div class="overlay-text d-flex">
+            <h2 class="ui-font me-1">loading</h2>
+            <span class="me-1">.</span>
+            <span class="me-1">.</span>
+            <span class="me-1">.</span>
+        </div>
+        <div class="overlay-title">
+            <span class="letter ui-font l-0 me-1 fun-letter">G</span>
+            <span class="letter ui-font l-1 me-1 fun-letter">a</span>
+            <span class="letter ui-font l-2 me-1 fun-letter">m</span>
+            <span class="letter ui-font l-3 me-1 fun-letter">e</span>
+            <span class="letter ui-font l-4 me-1 fun-letter">b</span>
+            <span class="letter ui-font l-5 me-1 fun-letter">o</span>
+            <span class="letter ui-font l-6 me-1 fun-letter">X</span>
+        </div>
     </div>
-    <div class="overlay-title">
-        <span class="letter ui-font l-0 me-1 fun-letter">G</span>
-        <span class="letter ui-font l-1 me-1 fun-letter">a</span>
-        <span class="letter ui-font l-2 me-1 fun-letter">m</span>
-        <span class="letter ui-font l-3 me-1 fun-letter">e</span>
-        <span class="letter ui-font l-4 me-1 fun-letter">b</span>
-        <span class="letter ui-font l-5 me-1 fun-letter">o</span>
-        <span class="letter ui-font l-6 me-1 fun-letter">X</span>
-    </div>
-</div>
-<!-- Order Display -->
-<div class="container my-5">
-    <form action="{% url 'checkout' %}" id="payment-form" method="POST" class="row ">
-        {% csrf_token %}
-        <div class="col-12 col-md-6 col-xl-4 order-2 mb-2 mb-xl-0">
-            <div class="card pt-4">
-                <h2 class="text-center ui-font">your order</h2>
-                <table id="cart-items" class="table-responsive mb-1">
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in cart_items %}
-                        <tr>
-                            <td><img class="cart-image" src="{{ MEDIA_URL }}{{ item.item|use_media:'COVER.src' }}"
-                                    alt="{{ item.item|use_media:'COVER.descr' }}"></td>
-                            <td>{{ item.item.name }}</td>
-                            <td class="text-muted small"><em>{{ item.quantity }} @ £{{ item.item.final_price }}</em>
-                            </td>
+    <!-- Order Display -->
+    <div class="container my-5">
+        <form action="{% url 'checkout' %}"
+              id="payment-form"
+              method="post"
+              class="row ">
+            {% csrf_token %}
+            <div class="col-12 col-md-6 col-xl-4 order-2 mb-2 mb-xl-0">
+                <div class="card pt-4">
+                    <h2 class="text-center ui-font">your order</h2>
+                    <table id="cart-items" class="table-responsive mb-1">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart_items %}
+                                <tr>
+                                    <td>
+                                        <img class="cart-image"
+                                             src="{{ MEDIA_URL }}{{ item.item|use_media:'COVER.src' }}"
+                                             alt="{{ item.item|use_media:'COVER.descr' }}">
+                                    </td>
+                                    <td>{{ item.item.name }}</td>
+                                    <td class="text-muted small">
+                                        <em>{{ item.quantity }} @ £{{ item.item.final_price }}</em>
+                                    </td>
+                                </tr>
                             {% endfor %}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <!-- Billing Details -->
-        <div class="col-12 col-md-6 col-xl-4 order-1 mb-2 mb-xl-0">
-            <div class="card pt-4">
-                <div class="card-body">
-                    <div class="d-flex align-items-center ps-1">
-                        <div class="col d-flex flex-column">
-                            <div class="form-check form-check-inline float-right mr-0">
-                                {% if user.is_authenticated %}
-                                <label class="form-check-label" for="id-save-info">Save as default billing
-                                    address</label>
-                                <input class="form-check-input ml-2 mr-0" type="checkbox" id="id-save-info"
-                                    name="save-info" checked>
-                                {% else %}
-                                <div class="text-center">
-                                    <a class="text-info" href="{% url 'account_signup' %}">Create an account</a>
-                                    <span>or</span>
-                                    <a class="text-info" href="{% url 'account_login' %}">login</a> to save this
-                                    <span></span>information</span>
+            <!-- Billing Details -->
+            <div class="col-12 col-md-6 col-xl-4 order-1 mb-2 mb-xl-0">
+                <div class="card pt-4">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center ps-1">
+                            <div class="col d-flex flex-column">
+                                <div class="form-check form-check-inline float-right mr-0">
+                                    {% if user.is_authenticated %}
+                                        <label class="form-check-label" for="id-save-info">
+                                            Save as default billing
+                                            address
+                                        </label>
+                                        <input class="form-check-input ml-2 mr-0"
+                                               type="checkbox"
+                                               id="id-save-info"
+                                               name="save-info"
+                                               checked>
+                                    {% else %}
+                                        <div class="text-center">
+                                            <a class="text-info" href="{% url 'account_signup' %}">Create an account</a>
+                                            <span>or</span>
+                                            <a class="text-info" href="{% url 'account_login' %}">login</a> to save this
+                                            <span>information</span>
+                                        </div>
+                                    {% endif %}
                                 </div>
-                                {% endif %}
+                                <fieldset>
+                                    <legend class="fieldset-label px-1 w-auto">Your Details</legend>
+                                    {{ order_form.full_name|as_crispy_field }}
+                                    {{ order_form.email|as_crispy_field }}
+                                    {{ order_form.phone_number|as_crispy_field }}
+                                </fieldset>
+                                <fieldset>
+                                    <legend class="fieldset-label px-1 w-auto">Billing Address</legend>
+                                    {{ order_form.street_address1|as_crispy_field }}
+                                    {{ order_form.street_address2|as_crispy_field }}
+                                    {{ order_form.town_or_city|as_crispy_field }}
+                                    {{ order_form.postcode|as_crispy_field }}
+                                    {{ order_form.county|as_crispy_field }}
+                                    {{ order_form.country|as_crispy_field }}
+                                </fieldset>
                             </div>
-                            <fieldset>
-                                <legend class="fieldset-label px-1 w-auto">Your Details</legend>
-                                {{ order_form.full_name|as_crispy_field }}
-                                {{ order_form.email|as_crispy_field }}
-                                {{ order_form.phone_number|as_crispy_field }}
-                            </fieldset>
-                            <fieldset>
-                                <legend class="fieldset-label px-1 w-auto">Billing Address</legend>
-                                {{ order_form.street_address1|as_crispy_field }}
-                                {{ order_form.street_address2|as_crispy_field }}
-                                {{ order_form.town_or_city|as_crispy_field }}
-                                {{ order_form.postcode|as_crispy_field }}
-                                {{ order_form.county|as_crispy_field }}
-                                {{ order_form.country|as_crispy_field }}
-                            </fieldset>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Payment Form (Stripe) -->
-        <div class="col-12 col-md-6 offset-md-3 col-xl-4 offset-xl-0 order-3 mb-2 mb-xl-0">
-            <div class="card">
-                <div class="card-body d-flex flex-column align-items-center">
-                    <h2 id="cart-subtotal" class="card-title fs-5">Subtotal ({{ cart_items|length }}
-                        {% if care_items|length == 1 %} item{% else %} items{% endif %}): £<strong>{{ total }}</strong>
-                    </h2>
-                    <fieldset class="w-100">
-                        <legend class="fieldset-label text-black px-2 w-auto">Payment</legend>
-                        <div id="card-errors"></div>
-                        <div id="card-element">
-                            <div id="link-authentication-element">
-                                <!--Stripe.js injects the Link Authentication Element-->
+            <!-- Payment Form (Stripe) -->
+            <div class="col-12 col-md-6 offset-md-3 col-xl-4 offset-xl-0 order-3 mb-2 mb-xl-0">
+                <div class="card">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h2 id="cart-subtotal" class="card-title fs-5">
+                            Subtotal ({{ cart_items|length }}
+                            {% if care_items|length == 1 %}
+                                item
+                            {% else %}
+                                items
+                            {% endif %}
+                            ): £<strong>{{ total }}</strong>
+                        </h2>
+                        <fieldset class="w-100">
+                            <legend class="fieldset-label text-black px-2 w-auto">Payment</legend>
+                            <div id="card-errors"></div>
+                            <div id="card-element">
+                                <div id="link-authentication-element">
+                                    <!--Stripe.js injects the Link Authentication Element-->
+                                </div>
+                                <div id="payment-element">
+                                    <!--Stripe.js injects the Payment Element-->
+                                </div>
+                                <div id="payment-message" class="hidden"></div>
                             </div>
-                            <div id="payment-element">
-                                <!--Stripe.js injects the Payment Element-->
-                            </div>
-                            <div id="payment-message" class="hidden"></div>
-                        </div>
-                        <input type="hidden" name="client_secret" id="clientSecret" value="None">
-                        <input type="hidden" name="original_cart" id="originalCart" value="{{ list_cart }}">
-                    </fieldset>
-                    <p class="small text-danger mt-2">
-                        <span class="icon">
-                            <i class="fas fa-exclamation-circle"></i>
-                        </span>
-                        <span>Your card will be charged
-                            <strong>£{{ total|floatformat:2 }}</strong></span>
-                    </p>
-                    <div class="btn-group d-flex text-right mb-2">
-                        <a id="adjust-cart" role="button" href="{% url 'cart' %}" class="btn btn-outline-gamebox">
+                            <input type="hidden" name="client_secret" id="clientSecret" value="None">
+                            <input type="hidden"
+                                   name="original_cart"
+                                   id="originalCart"
+                                   value="{{ list_cart }}">
+                        </fieldset>
+                        <p class="small text-danger mt-2">
                             <span class="icon">
-                                <i class="fas fa-chevron-left"></i>
+                                <i class="fas fa-exclamation-circle"></i>
                             </span>
-                            <span class="font-weight-bold">Adjust Cart</span>
-                        </a>
-                        <button id="submit-button" class="btn btn-gamebox" type="submit">
-                            <span class="spinner hidden" id="spinner"></span>
-                            <span id="button-text">Pay Now <i class="fas fa-lock"></i></span>
-                        </button>
+                            <span>Your card will be charged
+                                <strong>£{{ total|floatformat:2 }}</strong></span>
+                        </p>
+                        <div class="btn-group d-flex text-right mb-2">
+                            <a id="adjust-cart"
+                               role="button"
+                               href="{% url 'cart' %}"
+                               class="btn btn-outline-gamebox">
+                                <span class="icon">
+                                    <i class="fas fa-chevron-left"></i>
+                                </span>
+                                <span class="font-weight-bold">Adjust Cart</span>
+                            </a>
+                            <button id="submit-button" class="btn btn-gamebox" type="submit">
+                                <span class="spinner hidden" id="spinner"></span>
+                                <span id="button-text">Pay Now <i class="fas fa-lock"></i></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 {% endblock %}
-
 {% block postloadjs %}
-{{ block.super }}
-<script>
-    // Stripe payment confirmation process
-    let form = document.getElementById('payment-form');
-    const stripe = Stripe('{{ stripe_public_key }}');
-    const options = {
-        appearance: {
-            theme: 'stripe'
-        },
-    };
-
-    const elements = stripe.elements(options);
-
-    var style = {
-        base: {
-            color: "#32325d",
-            fontFamily: 'Arial, sans-serif',
-            fontSmoothing: "antialiased",
-            fontSize: "16px",
-            "::placeholder": {
-                color: "#32325d"
-            }
-        },
-        invalid: {
-            fontFamily: 'Arial, sans-serif',
-            color: "#fa755a",
-            iconColor: "#fa755a"
-        }
-    };
-
-    // Create and mount the Payment Element
-    const cardElement = elements.create('card', {
-        hidePostalCode: true,
-        style: style
-    });
-    cardElement.mount('#card-element');
-
-    cardElement.addEventListener('change', (e) => {
-        let errorDiv = document.getElementById('card-errors');
-        if (e.error) {
-            let html = `
-                <span class="icon" role="alert">
-                    <i class="fas fa-times"></i>
-                </span>
-                <span>${e.error.message}</span>
-                `;
-            errorDiv.innerHTML = html
-            errorDiv.style.color = 'rgb(255, 0, 0)';
-        } else {
-            errorDiv.textContent = '';
-        }
-    });
-
-    (async () => {
-        const csrftoken = document.cookie.match(/csrftoken=([\w-]+)/)[1];
-        const createIntent = await fetch("{% url 'create_stripe_intent' %}", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken,
+    {{ block.super }}
+    <script>
+        // Stripe payment confirmation process
+        let form = document.getElementById('payment-form');
+        const stripe = Stripe('{{ stripe_public_key }}');
+        const options = {
+            appearance: {
+                theme: 'stripe'
             },
+        };
+
+        const elements = stripe.elements(options);
+
+        var style = {
+            base: {
+                color: "#32325d",
+                fontFamily: 'Arial, sans-serif',
+                fontSmoothing: "antialiased",
+                fontSize: "16px",
+                "::placeholder": {
+                    color: "#32325d"
+                }
+            },
+            invalid: {
+                fontFamily: 'Arial, sans-serif',
+                color: "#fa755a",
+                iconColor: "#fa755a"
+            }
+        };
+
+        // Create and mount the Payment Element
+        const cardElement = elements.create('card', {
+            hidePostalCode: true,
+            style: style
         });
-        const {
-            client_secret: clientSecret
-        } = await createIntent.json();
+        cardElement.mount('#card-element');
 
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            setLoading(true);
+        cardElement.addEventListener('change', (e) => {
+            let errorDiv = document.getElementById('card-errors');
+            if (e.error) {
+                let html = `
+                                <span class="icon" role="alert">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                                <span>${e.error.message}</span>
+                                `;
+                errorDiv.innerHTML = html
+                errorDiv.style.color = 'rgb(255, 0, 0)';
+            } else {
+                errorDiv.textContent = '';
+            }
+        });
 
-            let secretInput = document.querySelector("#clientSecret")
-            secretInput.value = clientSecret
-            // If the client secret was rendered server-side as a data-secret attribute
-            // on the <form> element, you can retrieve it here by calling `form.dataset.secret`
-            let saveInfo = Boolean(document.querySelector('#id-save-info'))
-            const updateIntent = fetch("{% url 'modify_stripe_intent' %}", {
+        (async () => {
+            const csrftoken = document.cookie.match(/csrftoken=([\w-]+)/)[1];
+            const createIntent = await fetch("{% url 'create_stripe_intent' %}", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken,
                 },
-                body: JSON.stringify({
-                    'client_secret': clientSecret,
-                    'save_info': saveInfo,
-                }),
-            }).then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok')
-                }
-            }).then(data => {
-                stripe.confirmCardPayment(clientSecret, {
-                    payment_method: {
-                        card: cardElement,
-                        billing_details: {
-                            name: form.full_name.value.trim(),
-                            phone: form.phone_number.value.trim(),
-                            email: form.email.value.trim(),
-                            address: {
-                                line1: form.street_address1.value.trim(),
-                                line2: form.street_address2.value.trim(),
-                                city: form.town_or_city.value.trim(),
-                                postal_code: form.postcode.value.trim(),
-                                country: form.country.value.trim(),
-                                state: form.county.value.trim()
-                            },
-                        }
-                    }
-                }).then(function (result) {
-                    if (result.error) {
-                        let errorDiv = document.getElementById('card-errors');
-
-                        let html = `
-                    <span class="icon" role="alert">
-                        <i class="fas fa-times"></i>
-                    </span>
-                    <span>${result.error.message}</span>
-                    `;
-                        errorDiv.innerHTML = html
-                        errorDiv.style.color = 'rgb(255, 0, 0)';
-                        setLoading(false);
-
-                    } else {
-                        if (result.paymentIntent.status === 'succeeded') {
-                            form.submit()
-                        }
-                    }
-                });
-            }).catch(error => {
-                location.reload();
             });
-        })
-    })();
+            const {
+                client_secret: clientSecret
+            } = await createIntent.json();
 
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                setLoading(true);
 
-    
-    function setLoading(isLoading) {
-        /*
-        *  Disable buttons and bring up loading overlay.
-        */
-        if (isLoading) {
-            document.querySelector("#submit-button").disabled = true;
-            document.querySelector("#spinner").classList.remove("hidden");
-            document.querySelector("#button-text").classList.add("hidden");
-            document.querySelector("#adjust-cart").classList.add("disabled");
-            document.querySelector("#loading-overlay").classList.remove("d-none");
-            document.querySelector("#loading-overlay").classList.add("d-flex")
-        } else {
-            document.querySelector("#submit-button").disabled = false;
-            document.querySelector("#spinner").classList.add("hidden");
-            document.querySelector("#button-text").classList.remove("hidden");
-            document.querySelector("#adjust-cart").classList.remove("disabled");
-            document.querySelector("#loading-overlay").classList.remove("d-flex");
-            document.querySelector("#loading-overlay").classList.add("d-none");
+                let secretInput = document.querySelector("#clientSecret")
+                secretInput.value = clientSecret
+                // If the client secret was rendered server-side as a data-secret attribute
+                // on the <form> element, you can retrieve it here by calling `form.dataset.secret`
+                let saveInfo = Boolean(document.querySelector('#id-save-info'))
+                const updateIntent = fetch("{% url 'modify_stripe_intent' %}", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken,
+                    },
+                    body: JSON.stringify({
+                        'client_secret': clientSecret,
+                        'save_info': saveInfo,
+                    }),
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok')
+                    }
+                }).then(data => {
+                    stripe.confirmCardPayment(clientSecret, {
+                        payment_method: {
+                            card: cardElement,
+                            billing_details: {
+                                name: form.full_name.value.trim(),
+                                phone: form.phone_number.value.trim(),
+                                email: form.email.value.trim(),
+                                address: {
+                                    line1: form.street_address1.value.trim(),
+                                    line2: form.street_address2.value.trim(),
+                                    city: form.town_or_city.value.trim(),
+                                    postal_code: form.postcode.value.trim(),
+                                    country: form.country.value.trim(),
+                                    state: form.county.value.trim()
+                                },
+                            }
+                        }
+                    }).then(function(result) {
+                        if (result.error) {
+                            let errorDiv = document.getElementById('card-errors');
+
+                            let html = `
+                                    <span class="icon" role="alert">
+                                        <i class="fas fa-times"></i>
+                                    </span>
+                                    <span>${result.error.message}</span>
+                                    `;
+                            errorDiv.innerHTML = html
+                            errorDiv.style.color = 'rgb(255, 0, 0)';
+                            setLoading(false);
+
+                        } else {
+                            if (result.paymentIntent.status === 'succeeded') {
+                                form.submit()
+                            }
+                        }
+                    });
+                }).catch(error => {
+                    location.reload();
+                });
+            })
+        })();
+
+        function setLoading(isLoading) {
+            /*
+             *  Disable buttons and bring up loading overlay.
+             */
+            if (isLoading) {
+                document.querySelector("#submit-button").disabled = true;
+                document.querySelector("#spinner").classList.remove("hidden");
+                document.querySelector("#button-text").classList.add("hidden");
+                document.querySelector("#adjust-cart").classList.add("disabled");
+                document.querySelector("#loading-overlay").classList.remove("d-none");
+                document.querySelector("#loading-overlay").classList.add("d-flex")
+            } else {
+                document.querySelector("#submit-button").disabled = false;
+                document.querySelector("#spinner").classList.add("hidden");
+                document.querySelector("#button-text").classList.remove("hidden");
+                document.querySelector("#adjust-cart").classList.remove("disabled");
+                document.querySelector("#loading-overlay").classList.remove("d-flex");
+                document.querySelector("#loading-overlay").classList.add("d-none");
+            }
         }
-    }
-</script>
+    </script>
 {% endblock %}
