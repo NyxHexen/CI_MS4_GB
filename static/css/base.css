@@ -1949,7 +1949,6 @@ h3>.media-edit-btn {
     #games-carousel .carousel-item button,
     #games-carousel .carousel-item a {
         padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x) !important;
-        float: right;
     }
 
     #games-carousel .carousel-item .carousel-caption {
