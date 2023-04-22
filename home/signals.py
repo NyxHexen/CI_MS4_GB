@@ -13,7 +13,9 @@ def media_control(instance, *args, **kwargs):
         _, new_file_extension = os.path.splitext(instance.file._file.name)
         new_file_extension = new_file_extension.replace(".", "")
 
-    if instance.file.name is not None and getattr(instance.file, 'name') not in [None, 0]:
+    if (instance.file.name is not None
+        and getattr(instance.file, 'name') not in [None, 0]
+        ):
         _, curr_file_extension = os.path.splitext(instance.file.name)
         curr_file_extension = curr_file_extension.replace(".", "")
 
@@ -29,10 +31,10 @@ def media_control(instance, *args, **kwargs):
     elif instance.media_ext is None:
         # There is no media extension.
         if instance.file and instance.file._file is not None:
-            # , but there is a new file coming in.
+            # but there is a new file coming in.
             instance.media_ext = new_file_extension
         elif getattr(instance.file, 'name') not in [None, 0]:
-            # , but there's a file already.
+            # but there's a file already.
             instance.media_ext = curr_file_extension
     elif instance.media_ext is not None and getattr(instance.file, 'name') in [None, 0]:
         # There is an extension but no file.
