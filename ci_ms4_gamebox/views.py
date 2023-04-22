@@ -13,4 +13,4 @@ def handler404(request, exception):
     return render(request, 'custom_errors/404.html', status=404)
 
 def handler500(request):
-    return render(request, status=500)
+    return render(request, status=500, template_name='custom_errors/500.html')
