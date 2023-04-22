@@ -12,6 +12,7 @@
 {% endblock %}
 
 {% block content %}
+<!-- Cart Table (if cart is not empty) -->
 <div class="container my-3 my-md-5">
     <div class="row justify-content-md-center justify-content-lg-start">
         {% if cart_items %}
@@ -49,6 +50,7 @@
             </div>
         </div>
         {% else %}
+        <!-- Emtpy cart image and speech bubble -->
         <div
             class="empty-cart col-12 col-xl-7 offset-xl-1 d-flex flex-column flex-md-row align-items-center py-2 order-1 order-md-0">
             <img src="{{ MEDIA_URL }}empty-cart-img.webp" alt="Artwork of the video game character GLaDOS">
@@ -69,6 +71,7 @@
             </div>
         </div>
     </div>
+    <!-- Text accompanying empty cart image -->
     {% if not cart_items %}
     <div class="col-12 col-xl-7 offset-xl-1 mt-2 order-2 order-md-0 mb-3">
         <small>
@@ -84,6 +87,7 @@
 {% block postloadjs %}
 {{ block.super }}
 <script>
+    // Get href from the table row use it as a redirect on click
     let rows = document.querySelectorAll('tr')
     rows.forEach(row => {
         if (row.hasAttribute('data-href')) {
@@ -94,6 +98,7 @@
     })
 </script>
 <script>
+    // Stripe Functionality
     const errorToast = `{% include 'includes/toasts/toast-error.html'%}`
     const successToast = `{% include 'includes/toasts/toast-success.html'%}`
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')

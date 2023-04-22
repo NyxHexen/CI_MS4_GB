@@ -7,6 +7,9 @@ from .models import Cart
 
 
 def cart_contents(request):
+    """
+    View to display cart contents to the user.
+    """
     cart_items = list()
     total = Decimal('0.00')
     item_count = 0

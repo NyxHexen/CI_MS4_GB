@@ -11,12 +11,22 @@ import json
 
 # Create your views here.
 def view_cart(request):
+    """
+    View to render cart page.
+
+    Path: /cart/
+    Reverse: 'cart'
+    """
     context = {
     }
     return render(request, 'cart/index.html', context)
 
 
 def cart_add(request, model_name, game_id):
+    """
+    Template-less view to handle the addition of a game
+    to the guest/user's cart.
+    """
     redirect_url = request.POST.get('redirect_url')
 
     try:
@@ -56,28 +66,32 @@ def cart_add(request, model_name, game_id):
 
 
 def cart_remove(request):
-        try:
-            data = json.loads(request.body.decode('utf-8'))
-            game = Game.objects.get(
-                id=data['game_id']
-                ) if data['model_name'] == 'game' else DLC.objects.get(
-                id=data['game_id']
+    """
+    Template-less view to handle removing items 
+    from cart asynchronously.
+    """
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        game = Game.objects.get(
+            id=data['game_id']
+            ) if data['model_name'] == 'game' else DLC.objects.get(
+            id=data['game_id']
+            )
+        if not request.user.is_authenticated:
+            cart = get_and_unsign_cart(request)
+            del cart[data['game_id']]
+            sign_and_set_cart(request, cart)
+        else:
+            cart = Cart.objects.get_or_create(
+                user=request.user
                 )
-            if not request.user.is_authenticated:
-                cart = get_and_unsign_cart(request)
-                del cart[data['game_id']]
-                sign_and_set_cart(request, cart)
+            cart_items = cart[0].cartitems.all()
+            if game.model_name() == 'game':
+                cart_items.get(game=game).delete()
             else:
-                cart = Cart.objects.get_or_create(
-                    user=request.user
-                    )
-                cart_items = cart[0].cartitems.all()
-                if game.model_name() == 'game':
-                    cart_items.get(game=game).delete()
-                else:
-                    cart_items.get(dlc=game).delete()
-        except Exception:
-            messages.error(request, 'We couldn\'t remove this game from your cart. \
-                            Please try again later!')
-            return JsonResponse({'success': False})
-        return JsonResponse({'success': True})
+                cart_items.get(dlc=game).delete()
+    except Exception:
+        messages.error(request, 'We couldn\'t remove this game from your cart. \
+                        Please try again later!')
+        return JsonResponse({'success': False})
+    return JsonResponse({'success': True})

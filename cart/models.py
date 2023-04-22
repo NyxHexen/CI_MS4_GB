@@ -17,6 +17,12 @@ class Cart(models.Model):
         return self.user.username
     
     def total_in_cart(self):
+        """
+        Calculate the total value of all items in the cart.
+
+        Returns:
+            float: The total value of all items in the cart.
+        """
         if self.cartitems.count() > 0:
             return round(self.cartitems.aggregate(Sum('price'))['price__sum'], 2)
         else:
@@ -32,6 +38,14 @@ class CartItem(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
 
     def clean(self):
+        """
+        Ensure that either a game or a DLC is specified, but not both, and not neither.
+
+        Returns:
+            dict: The cleaned data.
+        Raises:
+            ValidationError: If neither a game nor a DLC is specified, or if both a game and a DLC are specified.
+        """
         if not self.game and not self.dlc:
             raise ValidationError("Either game or dlc must be specified.")
         if self.game and self.dlc:
