@@ -4,250 +4,322 @@
 {% load promo_tags %}
 {% load tags %}
 
-{% block page_header %}
-{% endblock %}
+{% block page_header %}{% endblock %}
 
 {% block content %}
-<div class="promo-header">
-    <img class="" src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}" alt="{{ promo.media.description }}">
-    <div class="promo-info w-100 px-2 py-2 d-flex flex-column align-items-center justify-content-center">
-        <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }} </h1>
-        <p class="d-md-none short-description card-text">{{ promo.short_description }}</p>
-        <p class="d-none d-md-block long-description card-text">{{ promo.long_description }}</p>
+    <div class="promo-header">
+        <img src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}"
+             alt="{{ promo.media.description }}">
+        <div class="promo-info w-100 px-2 py-2 d-flex flex-column align-items-center justify-content-center">
+            <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }}</h1>
+            <p class="d-md-none short-description card-text">{{ promo.short_description }}</p>
+            <p class="d-none d-md-block long-description card-text">{{ promo.long_description }}</p>
+        </div>
     </div>
-</div>
-<div id="promo-carousel" class="container__shadow position-relative">
-    {% if user.is_staff %}
-    <div class="admin-btns text-bg-light rounded p-2 d-flex align-items-center justify-content-center">
-        {% if promo.active %}
-        <span class="text-success mx-1">Online</span>
-        {% else %}
-        <span class="text-danger mx-1">Offline</span>
+    <div id="promo-carousel" class="container__shadow position-relative">
+        {% if user.is_staff %}
+            <div class="admin-btns text-bg-light rounded p-2 d-flex align-items-center justify-content-center">
+                {% if promo.active %}
+                    <span class="text-success mx-1">Online</span>
+                {% else %}
+                    <span class="text-danger mx-1">Offline</span>
+                {% endif %}
+                {% if '/edit/' in request.path %}
+                    <button role="button"
+                            class="btn btn-sm btn-gamebox-alt mx-1"
+                            data-bs-toggle="modal"
+                            data-bs-target="#promoEdit">Open Edit Form</button>
+                    <a class="btn btn-sm btn-gamebox mx-1" href="{% url 'promo' promo.id %}">View Live Page</a>
+                {% elif 'promo/add/' in request.path %}
+                    <button role="button"
+                            class="btn btn-sm btn-gamebox-alt mx-1"
+                            data-bs-toggle="modal"
+                            data-bs-target="#promoAdd">Edit Promo Details</button>
+                {% else %}
+                    <a class="btn btn-gamebox-alt btn-sm mx-1"
+                       href="{% url 'promo_edit' promo.id %}">Edit Promo</a>
+                    <button type="button"
+                            class="btn btn-sm btn-danger mx-1"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal">Delete Promo</button>
+                {% endif %}
+            </div>
         {% endif %}
-        {% if '/edit/' in request.path %}
-        <button role="button" class="btn btn-sm btn-gamebox-alt mx-1" data-bs-toggle="modal" data-bs-target="#promoEdit">
-            Open Edit Form
-        </button>
-        <a class="btn btn-sm btn-gamebox mx-1" href="{% url 'promo' promo.id %}">
-            View Live Page
-        </a>
-        {% elif 'promo/add/' in request.path %}
-        <button role="button" class="btn btn-sm btn-gamebox-alt mx-1" data-bs-toggle="modal" data-bs-target="#promoAdd">
-            Edit Promo Details
-        </button>
-        {% else %}
-        <a class="btn btn-gamebox-alt btn-sm mx-1" href="{% url 'promo_edit' promo.id %}">
-            Edit Promo
-        </a>
-        <button type="button" class="btn btn-sm btn-danger mx-1" data-bs-toggle="modal" data-bs-target="#deleteModal">
-            Delete Promo
-          </button>
-        {% endif %}
-    </div>
-    {% endif %}
-    <div class="container mb-5">
-        <div class="row justify-content-center">
-            <div class="col-10">
-                <h2 class="mt-4">Get 'em while you can</h2>
-                <hr>
-                <div id="promo-carousel-inner" class="carousel slide" data-bs-ride="true">
-                    <div class="carousel-indicators">
-                        {% for slide in game_list|slide_split:request %} {% if forloop.first %}
-                        <button type="button" data-bs-target="#promo-carousel-inner" data-bs-slide-to="0" class="active"
-                            aria-current="true" aria-label="Slide {{ forloop.counter}}"></button>
-                        {% else %}
-                        <button type="button" data-bs-target="#promo-carousel-inner"
-                            data-bs-slide-to="{{ forloop.counter|add:'-1' }}" aria-current="false"
-                            aria-label="Slide {{ forloop.counter}}"></button>
-                        {% endif %} {% endfor %}
-                    </div>
-                    <div class="carousel-inner">
-                        {% for slide in game_list|slide_split:request %}
-                        {% if forloop.first %}
-                        <div class="carousel-item active">
-                            {% else %}
-                            <div class="carousel-item">
+        <div class="container mb-5">
+            <div class="row justify-content-center">
+                <div class="col-10">
+                    <h2 class="mt-4">Get 'em while you can</h2>
+                    <hr>
+                    <div id="promo-carousel-inner" class="carousel slide" data-bs-ride="true">
+                        <div class="carousel-indicators">
+                            {% for slide in game_list|slide_split:request %}
+                                {% if forloop.first %}
+                                    <button type="button"
+                                            data-bs-target="#promo-carousel-inner"
+                                            data-bs-slide-to="0"
+                                            class="active"
+                                            aria-current="true"
+                                            aria-label="Slide {{ forloop.counter }}"></button>
+                                {% else %}
+                                    <button type="button"
+                                            data-bs-target="#promo-carousel-inner"
+                                            data-bs-slide-to="{{ forloop.counter|add:'-1' }}"
+                                            aria-current="false"
+                                            aria-label="Slide {{ forloop.counter }}"></button>
                                 {% endif %}
-                                <div class="d-flex row w-100">
-                                    {% for game in slide %}
-                                    <div class="card-holder col col-md-4 col-lg-3 pt-1 pb-3 px-0">
-                                        <div class="card d-flex mx-1">
-                                            <a target="_blank" href="{% url 'game' game.model_name game.id %}" class="card-img-top">
-                                                <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" class=""
-                                                    alt="{{ game|use_media:'LANDING.descr' }}">
-                                            </a>
-                                            <span class="card-title ps-2 pt-1">
-                                                {{ game.name }}
-                                            </span>
-                                            <div class="card-body d-flex align-items-center justify-content-end p-1">
-                                                <div class="promo-discount me-2">
-                                                    -{{ game.promo_percentage }}%
+                            {% endfor %}
+                        </div>
+                        <div class="carousel-inner">
+                            {% for slide in game_list|slide_split:request %}
+                                {% if forloop.first %}
+                                    <div class="carousel-item active">
+                                    {% else %}
+                                        <div class="carousel-item">
+                                        {% endif %}
+                                        <div class="d-flex row w-100">
+                                            {% for game in slide %}
+                                                <div class="card-holder col col-md-4 col-lg-3 pt-1 pb-3 px-0">
+                                                    <div class="card d-flex mx-1">
+                                                        <a target="_blank"
+                                                           href="{% url 'game' game.model_name game.id %}"
+                                                           class="card-img-top">
+                                                            <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}"
+                                                                 class=""
+                                                                 alt="{{ game|use_media:'LANDING.descr' }}">
+                                                        </a>
+                                                        <span class="card-title ps-2 pt-1">{{ game.name }}</span>
+                                                        <div class="card-body d-flex align-items-center justify-content-end p-1">
+                                                            <div class="promo-discount me-2">-{{ game.promo_percentage }}%</div>
+                                                            <div class="game-price">
+                                                                £
+                                                                {{ game.final_price }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="game-price">£
-                                                    {{ game.final_price }}
-                                                </div>
-                                            </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
-                                    {% endfor %}
-                                </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}
+                            <button class="carousel-control-prev"
+                                    type="button"
+                                    data-bs-target="#promo-carousel-inner"
+                                    data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next"
+                                    type="button"
+                                    data-bs-target="#promo-carousel-inner"
+                                    data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#promo-carousel-inner"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#promo-carousel-inner"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div id="promo-table" class="container__background py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="card col-12 col-md-10 col-lg-8 p-0 py-md-2">
-                <div class="card-body px-0 p-md-1">
-                    <h2 class="mt-2 ps-3 ps-md-auto">Hottest Offers</h2>
-                    <hr class="mb-2">
-                    <div class="my-1 d-flex flex-column flex-lg-row justify-content-end align-items-center">
-                        <div id="promo-table-pagination" class="col-6 card-body d-flex align-items-center justify-content-center">
-                            {% if filter_dict %}
-                            <a class="btn {% if not page.has_previous %}disabled{% endif %}"
-                                href="{% if page.has_previous %}?{{ filter_dict }}&page={{ page.previous_page_number }}{% else %}#{% endif %}"
-                                aria-label="Previous Page">
-                                {% else %}
-                                <a class="btn {% if not page.has_previous %}disabled{% endif %}"
-                                    href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}#{% endif %}"
-                                    aria-label="Previous">
-                                    {% endif %}
-                                    <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span>
-                                </a>
-                                <div class="col-2">
-                                    <label for="page-input" class="visually-hidden form-label">Page Number</label>
-                                    <input type="number" class="form-control text-center" id="page-input"
-                                        placeholder="{{ page.number }}">
-                                </div>
-                                <span class="px-2 py-1">of</span>
-                                <span class="px-2 py-1">{{ page.paginator.num_pages }}</span>
+    <div id="promo-table" class="container__background py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="card col-12 col-md-10 col-lg-8 p-0 py-md-2">
+                    <div class="card-body px-0 p-md-1">
+                        <h2 class="mt-2 ps-3 ps-md-auto">Hottest Offers</h2>
+                        <hr class="mb-2">
+                        <div class="my-1 d-flex flex-column flex-lg-row justify-content-end align-items-center">
+                            <div id="promo-table-pagination"
+                                 class="col-6 card-body d-flex align-items-center justify-content-center">
                                 {% if filter_dict %}
-                                <a class="btn {% if not page.has_next %}disabled{% endif %}"
-                                    href="{% if page.has_next %}?{{ filter_dict }}&page={{ page.next_page_number }}{% else %}#{% endif %}"
-                                    aria-label="Next Page">
+                                    <a class="btn {% if not page.has_previous %}disabled{% endif %}"
+                                       href="{% if page.has_previous %}?{{ filter_dict }}&page={{ page.previous_page_number }}{% else %}#{% endif %}"
+                                       aria-label="Previous Page">
                                     {% else %}
-                                    <a class="btn {% if not page.has_next %}disabled{% endif %}"
-                                        href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
-                                        aria-label="Next Page">
+                                        <a class="btn {% if not page.has_previous %}disabled{% endif %}"
+                                           href="{% if page.has_previous %}?page={{ page.previous_page_number }}{% else %}#{% endif %}"
+                                           aria-label="Previous">
                                         {% endif %}
-                                        <span aria-hidden="true">
-                                            <i class="fa-solid fa-chevron-right"></i>
-                                        </span>
+                                        <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span>
                                     </a>
-                        </div>
-                        <div class="game-list-sort">
-                            <span>Sort by: </span>
-                            <a href="{% url 'promo' promo.id %}{% if not 'title_asc' in filter_dict %}?sort_by=title_asc{% else %}{% endif %}"
-                                class="btn btn-gamebox{% if 'title_asc' in filter_dict %}-alt{% endif%} p-0 px-1 mx-1">Name</a>
-                            <a href="{% url 'promo' promo.id %}{% if not 'discount_desc' in filter_dict %}?sort_by=discount_desc{% else %}{% endif %}"
-                                class="btn btn-gamebox{% if 'discount_desc' in filter_dict %}-alt{% endif%} p-0 px-1 mx-1">Discount</a>
-                            <a href="{% url 'promo' promo.id %}{% if not 'price_desc' in filter_dict %}?sort_by=price_desc{% else %}{% endif %}"
-                                class="btn btn-gamebox{% if 'price_desc' in filter_dict %}-alt{% endif%} p-0 px-1 mx-1">Price</a>
+                                    <div class="col-2">
+                                        <label for="page-input" class="visually-hidden form-label">Page Number</label>
+                                        <input type="number"
+                                               class="form-control text-center"
+                                               id="page-input"
+                                               placeholder="{{ page.number }}">
+                                    </div>
+                                    <span class="px-2 py-1">of</span>
+                                    <span class="px-2 py-1">{{ page.paginator.num_pages }}</span>
+                                    {% if filter_dict %}
+                                        <a class="btn {% if not page.has_next %}disabled{% endif %}"
+                                           href="{% if page.has_next %}?{{ filter_dict }}&page={{ page.next_page_number }}{% else %}#{% endif %}"
+                                           aria-label="Next Page">
+                                        {% else %}
+                                            <a class="btn {% if not page.has_next %}disabled{% endif %}"
+                                               href="{% if page.has_next %}?page={{ page.next_page_number }}{% else %}#{% endif %}"
+                                               aria-label="Next Page">
+                                            {% endif %}
+                                            <span aria-hidden="true">
+                                                <i class="fa-solid fa-chevron-right"></i>
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="game-list-sort">
+                                        <span>Sort by:</span>
+                                        <a href="{% url 'promo' promo.id %}{% if not 'title_asc' in filter_dict %}?sort_by=title_asc{% else %}{% endif %}"
+                                           class="btn btn-gamebox{% if 'title_asc' in filter_dict %}-alt{% endif %} p-0 px-1 mx-1">Name</a>
+                                        <a href="{% url 'promo' promo.id %}{% if not 'discount_desc' in filter_dict %}?sort_by=discount_desc{% else %}{% endif %}"
+                                           class="btn btn-gamebox{% if 'discount_desc' in filter_dict %}-alt{% endif %} p-0 px-1 mx-1">Discount</a>
+                                        <a href="{% url 'promo' promo.id %}{% if not 'price_desc' in filter_dict %}?sort_by=price_desc{% else %}{% endif %}"
+                                           class="btn btn-gamebox{% if 'price_desc' in filter_dict %}-alt{% endif %} p-0 px-1 mx-1">Price</a>
+                                    </div>
+                                </div>
+                                <table class="table mt-3 table-hover mb-1 w-100 align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Discount</th>
+                                            <th scope="col">Now</th>
+                                            <th scope="col" class="d-none d-md-cell">Was</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for game in page %}
+                                            <tr data-href="{% url 'game' game.model_name game.id %}">
+                                                <td>
+                                                    <img class="cart-image"
+                                                         src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
+                                                         alt="{{ game|use_media:'COVER.descr' }}">
+                                                </td>
+                                                <td>{{ game.name }}</td>
+                                                <td>
+                                                    <span class="promo-discount fs-6">-{{ game.promo_percentage }}%</span>
+                                                </td>
+                                                <td>£{{ game.final_price }}</td>
+                                                <td class="d-none d-md-cell">
+                                                    <s>£{{ game.base_price }}</s>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <table class="table mt-3 table-hover mb-1 w-100 align-middle">
-                        <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Discount</th>
-                                <th scope="col">Now</th>
-                                <th scope="col" class="d-none d-md-cell">Was</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for game in page %}
-                            <tr data-href="{% url 'game' game.model_name game.id %}">
-                                <td><img class="cart-image" src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
-                                        alt="{{ game|use_media:'COVER.descr' }}"></td>
-                                <td>{{ game.name }}</td>
-                                <td><span class="promo-discount fs-6">-{{ game.promo_percentage }}%</span></td>
-                                <td>£{{ game.final_price }}</td>
-                                <td class="d-none d-md-cell"><s>£{{ game.base_price }}</s></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-{% if 'add' in request.path %}
-    {% include 'promo/includes/promo_add.html' %}
-{% elif 'edit' in request.path %}
-    {% include 'promo/includes/promo_edit.html' %}
-{% endif %}
-{% if user.is_staff %}
-    {% include 'includes/modals/delete-modal.html' %}
-{% endif %}
-{% endblock %}
+            {% if 'add' in request.path %}
+                {% include 'promo/includes/promo_add.html' %}
+            {% elif 'edit' in request.path %}
+                {% include 'promo/includes/promo_edit.html' %}
+            {% endif %}
+            {% if user.is_staff %}
+                {% include 'includes/modals/delete-modal.html' %}
+            {% endif %}
+        {% endblock %}
+        {% block postloadjs %}
+            {{ block.super }}
+            <!-- Popperjs -->
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous">
+            </script>
+            <!-- Tempus Dominus JavaScript -->
+            <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/js/tempus-dominus.min.js"
+                    crossorigin="anonymous"></script>
+            <!-- Tempus Dominus Styles -->
+            <link rel="stylesheet"
+                  href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/css/tempus-dominus.min.css"
+                  crossorigin="anonymous">
+            <script>
+                let rows = document.querySelectorAll('tr')
+                rows.forEach(row => {
+                    if (row.hasAttribute('data-href')) {
+                        row.style.cursor = 'pointer';
+                        row.addEventListener('click', e => {
+                            window.location.href = row.dataset.href
+                        })
+                    }
+                })
+            </script>
+            {% if request.path == '/promo/add/' or "/edit/" in request.path %}
+                <script>
+                    const toggleEditButton = document.querySelector('button[data-bs-target="#promoEdit"]')
+                    const toggleAddButton = document.querySelector('button[data-bs-target="#promoAdd"]')
+                    window.addEventListener('load', () => {
+                        if (window.location.href.includes('add')) {
+                            toggleAddButton.click()
+                        } else if (window.location.href.includes('edit')) {
+                            toggleEditButton.click()
+                        }
+                    })
 
-{% block postloadjs %}
-{{ block.super }}
-<!-- Popperjs -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous">
-</script>
-<!-- Tempus Dominus JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/js/tempus-dominus.min.js"
-    crossorigin="anonymous"></script>
-<!-- Tempus Dominus Styles -->
-<link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/css/tempus-dominus.min.css"
-    crossorigin="anonymous">
-<script>
-    let rows = document.querySelectorAll('tr')
-    rows.forEach(row => {
-        if (row.hasAttribute('data-href')) {
-            row.style.cursor = 'pointer';
-            row.addEventListener('click', e => {
-                window.location.href = row.dataset.href
-            })
-        }
-    })
-</script>
-{% if request.path == '/promo/add/' or "/edit/" in request.path %}
-<script>
-    const toggleEditButton = document.querySelector('button[data-bs-target="#promoEdit"]')
-    const toggleAddButton = document.querySelector('button[data-bs-target="#promoAdd"]')
-    window.addEventListener('load', () => {
-        if (window.location.href.includes('add')) {
-        toggleAddButton.click()
-    } else if (window.location.href.includes('edit')) {
-        toggleEditButton.click()
-    }
-    })
+                    const startDateField = document.getElementById('id_start_date')
+                    const endDateField = document.getElementById('id_end_date')
+                    const pickerStart = new tempusDominus.TempusDominus(startDateField, {
+                        localization: {
+                            format: 'yyyy-MM-dd HH:mm:ss',
+                            hourCycle: 'h23',
+                        }
+                    });
+                    const pickerEnd = new tempusDominus.TempusDominus(endDateField, {
+                        localization: {
+                            format: 'yyyy-MM-dd HH:mm:ss',
+                            hourCycle: 'h23',
+                        }
+                    });
+                </script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+                {% if request.path == '/promo/add/' %}
+                    <script>
+                        $(".modal").draggable();
+                        $("#promo-form").on('change', () => {
+                            $("#promo_activate").attr("disabled", true)
+                            $("#promo_save").attr("disabled", true)
+                            $("#promo_cont").attr("disabled", true)
+                            $("#promo_preview").removeClass('btn-dark').addClass('btn-warning')
+                        })
+                        $("#promo_activate").on("click", e => {
+                            $("#submit_option").val("activate");
+                        })
+                        $("#promo_save").on("click", e => {
+                            $("#submit_option").val("save");
+                        })
+                        $("#promo_cont").on("click", e => {
+                            $("#submit_option").val("cont");
+                        })
 
-    const startDateField = document.getElementById('id_start_date')
-    const endDateField = document.getElementById('id_end_date')
-    const pickerStart = new tempusDominus.TempusDominus(startDateField, {
-        localization: {
-            format: 'yyyy-MM-dd HH:mm:ss',
-            hourCycle: 'h23',
-        }
-    });
-    const pickerEnd = new tempusDominus.TempusDominus(endDateField, {
-        localization: {
-            format: 'yyyy-MM-dd HH:mm:ss',
-            hourCycle: 'h23',
-        }
-    });
-</script>
-{% endif %}
-{% endblock %}
+                        $(".game-discount").each((index, element) => {
+                            $(element).change(() => {
+                                let basePrice = (parseFloat($(element).siblings(".game-base-price").text())).toFixed(2);
+                                let discount = $(element).children('input').val();
+                                $(element).siblings(".game-final-price").text((basePrice - basePrice * (discount / 100))
+                                    .toFixed(2));
+                            });
+                        });
+                    </script>
+                {% endif %}
+                {% if 'edit/' in request.path %}
+                    <script type="text/javascript">
+                        $(".modal").draggable();
+                        $("#promo-form").on('change', () => {
+                            $("#promo_save").attr("disabled", true)
+                        })
+                        $("#promo_save").on("click", e => {
+                            $("#submit_option").val("save");
+                        })
+
+                        $(".game-discount").each((index, element) => {
+                            $(element).change(() => {
+                                let basePrice = (parseFloat($(element).siblings(".game-base-price").text())).toFixed(2);
+                                let discount = $(element).children('input').val();
+                                $(element).siblings(".game-final-price").text((basePrice - basePrice * (discount / 100))
+                                    .toFixed(2));
+                            });
+                        });
+                    </script>
+                {% endif %}
+            {% endif %}
+        {% endblock %}

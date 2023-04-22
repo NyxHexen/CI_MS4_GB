@@ -1,17 +1,26 @@
-<div class="modal fade" id="promoEdit" data-bs-backdrop="static" tabindex="-1" aria-labelledby="promoEditLabel"
-    aria-hidden="true">
+<!-- Edit Form Modal -->
+<div class="modal fade"
+     id="promoEdit"
+     data-bs-backdrop="static"
+     tabindex="-1"
+     aria-labelledby="promoEditLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
-        <form class="modal-content" action="{% url 'promo_edit' promo.id %}" method="POST" id="promo-form">
+        <form class="modal-content"
+              action="{% url 'promo_edit' promo.id %}"
+              method="post"
+              id="promo-form">
             {% csrf_token %}
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="promoEditLabel">Edit Promo</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
             <div class="modal-body flex-column justify-content-start">
                 <div class="col">
-                    {% for field in form %}
-                    {{ field|as_crispy_field }}
-                    {% endfor %}
+                    {% for field in form %}{{ field|as_crispy_field }}{% endfor %}
                     <table class="table">
                         <thead>
                             <tr class="text-center">
@@ -24,15 +33,18 @@
                         </thead>
                         <tbody>
                             {% for game in game_list %}
-                            <tr>
-                                <td class="col text-center">{{ game.id }}</td>
-                                <td class="col">{{ game.name }}</td>
-                                <td class="col-1 game-discount"><input type="number"
-                                        name="game_discount-{{game.model_name}}_{{ game.id }}"
-                                        class="form-control text-center" value="{{ game.promo_percentage }}"></td>
-                                <td class="col text-center game-base-price">{{ game.base_price }}</td>
-                                <td class="col text-center game-final-price">{{ game.final_price }}</th>
-                            </tr>
+                                <tr>
+                                    <td class="col text-center">{{ game.id }}</td>
+                                    <td class="col">{{ game.name }}</td>
+                                    <td class="col-1 game-discount">
+                                        <input type="number"
+                                               name="game_discount-{{ game.model_name }}_{{ game.id }}"
+                                               class="form-control text-center"
+                                               value="{{ game.promo_percentage }}">
+                                    </td>
+                                    <td class="col text-center game-base-price">{{ game.base_price }}</td>
+                                    <td class="col text-center game-final-price">{{ game.final_price }}</td>
+                                </tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -48,32 +60,3 @@
         </form>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-<script>
-    $(".modal").draggable();
-    $("#promo-form").on('change', () => {
-        $("#promo_activate").attr("disabled", true)
-        $("#promo_save").attr("disabled", true)
-        $("#promo_cont").attr("disabled", true)
-        $("#promo_preview").removeClass('btn-dark').addClass('btn-warning')
-    })
-    $("#promo_activate").on("click", e => {
-        $("#submit_option").val("activate");
-    })
-    $("#promo_save").on("click", e => {
-        $("#submit_option").val("save");
-    })
-    $("#promo_cont").on("click", e => {
-        $("#submit_option").val("cont");
-    })
-
-    $(".game-discount").each((index, element) => {
-        $(element).change(() => {
-            let basePrice = (parseFloat($(element).siblings(".game-base-price").text())).toFixed(2);
-            let discount = $(element).children('input').val();
-            $(element).siblings(".game-final-price").text((basePrice - basePrice * (discount / 100))
-                .toFixed(2));
-        });
-    });
-</script>
