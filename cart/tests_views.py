@@ -72,13 +72,14 @@ class CartViewTests(TestCase):
         self.client.post(add_item_url,
                          {'quantity': 1, 'redirect_url': '/games/'})
         del_item_url = reverse('cart_remove')
-        del_response = self.client.post(del_item_url,
-                                        content_type='application/json',
-                                        data=json.dumps(
-                                            {'game_id': f'{self.game.id}',
-                                                'model_name': 'game'}
-                                            )
-                                        )
+        del_response = self.client.post(
+            del_item_url,
+            content_type='application/json',
+            data=json.dumps(
+                {'game_id': f'{self.game.id}',
+                    'model_name': 'game'}
+                )
+            )
         self.assertEqual(get_user(self.client).is_authenticated, False)
         self.assertEqual(del_response.json(), {'success': True})
         cart = self.client.session.get('cart')

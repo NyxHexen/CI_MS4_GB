@@ -27,7 +27,11 @@ def cart_add(request, model_name, game_id):
     redirect_url = request.POST.get('redirect_url')
 
     try:
-        game = Game.objects.get(id=game_id) if model_name == 'game' else DLC.objects.get(id=game_id)
+        game = (
+            Game.objects.get(id=game_id)
+            if model_name == 'game'
+            else DLC.objects.get(id=game_id)
+            )
     except Exception:
         messages.error(request, 'We couldn\'t add this game to your cart. \
                        Please try again later!')
@@ -41,21 +45,35 @@ def cart_add(request, model_name, game_id):
         if game_id in cart:
             cart[game_id]['quantity'] += quantity
         else:
-            cart[game_id] = {'model': model_name, 'quantity': quantity }
+            cart[game_id] = {
+                'model': model_name,
+                'quantity': quantity
+                }
 
         sign_and_set_cart(request, cart)
     else:
         cart = Cart.objects.get_or_create(user=request.user)
         cart_items = cart[0].cartitems.all()
         if game in [i.game or i.dlc for i in cart_items]:
-                item = cart_items.get(game=game) if model_name == 'game' else cart_items.get(dlc=game)
+                item = (cart_items.get(game=game)
+                        if model_name == 'game'
+                        else cart_items.get(dlc=game)
+                        )
                 item.quantity += quantity
                 item.save()
         else: 
             if game.model_name() == 'game':
-                cart[0].cartitems.create(game=game, quantity=quantity, price=game.final_price)
+                cart[0].cartitems.create(
+                    game=game, 
+                    quantity=quantity, 
+                    price=game.final_price
+                    )
             else:
-                cart[0].cartitems.create(dlc=game, quantity=quantity, price=game.final_price)
+                cart[0].cartitems.create(
+                    dlc=game, 
+                    quantity=quantity, 
+                    price=game.final_price
+                    )
         
     messages.success(request, f'{ game.name } x{ quantity } has been added to your cart!')
 
@@ -69,10 +87,10 @@ def cart_remove(request):
     """
     try:
         data = json.loads(request.body.decode('utf-8'))
-        game = Game.objects.get(
-            id=data['game_id']
-            ) if data['model_name'] == 'game' else DLC.objects.get(
-            id=data['game_id']
+        game = (
+            Game.objects.get(id=data['game_id'])
+            if data['model_name'] == 'game'
+            else DLC.objects.get(id=data['game_id'])
             )
         if not request.user.is_authenticated:
             cart = get_and_unsign_cart(request)

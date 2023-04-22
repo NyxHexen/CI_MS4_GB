@@ -18,7 +18,11 @@ def cart_contents(request):
         cart = get_and_unsign_cart(request)
         if bool(cart):
             for key, value in cart.items():
-                model = Game if value['model'] == 'game' else DLC
+                model = (
+                    Game
+                    if value['model'] == 'game'
+                    else DLC
+                    )
                 game = get_object_or_404(model, id=key)
                 cart_items.append({
                     'item': game,    
@@ -38,7 +42,11 @@ def cart_contents(request):
                     'quantity': item.quantity,
                     'item_id': item.game.id if model is Game else item.dlc.id
                 })
-                total += item.game.final_price * item.quantity if model is Game else item.dlc.final_price * item.quantity
+                total += (
+                    item.game.final_price * item.quantity
+                    if model is Game
+                    else item.dlc.final_price * item.quantity
+                    )
                 item_count += 1
     
             

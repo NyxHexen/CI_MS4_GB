@@ -25,11 +25,11 @@ def merge_cart(sender, request, user, **kwargs):
     for game_id in session_cart:
         model = session_cart[game_id]['model']
         quantity = session_cart[game_id]['quantity']
-        game = Game.objects.get(
-             id=game_id
-             ) if model == 'game' else DLC.objects.get(
-             id=game_id
-             )
+        game = (
+            Game.objects.get(id=game_id)
+            if model == 'game'
+            else DLC.objects.get(id=game_id)
+        )
         cart_items = db_cart[0].cartitems.all()
         if game in [i.game or i.dlc for i in cart_items]:
                 item = cart_items.get(game=game)
@@ -41,9 +41,11 @@ def merge_cart(sender, request, user, **kwargs):
                 db_cart[0].cartitems.create(
                      game=game,
                      quantity=quantity, 
-                     price=game.final_price)
+                     price=game.final_price,
+                     )
             else:
                 db_cart[0].cartitems.create(
                      dlc=game, 
                      quantity=quantity, 
-                     price=game.final_price)
+                     price=game.final_price,
+                     )
