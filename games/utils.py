@@ -8,9 +8,9 @@ def sort_by(sort_value, *args):
     # Sort the list based on the value of sort_value
     match sort_value:
         case "price_desc":
-            sorted_args.sort(key=lambda x: x.final_price)
-        case "price_asc":
             sorted_args.sort(key=lambda x: x.final_price, reverse=True)
+        case "price_asc":
+            sorted_args.sort(key=lambda x: x.final_price)
         case "discount_desc":
             sorted_args.sort(key=lambda x: x.promo_percentage, reverse=True)
         case "title_asc":
