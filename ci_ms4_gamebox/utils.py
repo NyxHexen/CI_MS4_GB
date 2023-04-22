@@ -7,14 +7,13 @@ def get_or_none(klass, *args, **kwargs):
 
     klass may be a Model, Manager, or QuerySet object. All other passed
     arguments and keyword arguments are used in the get() query.
-
-    Like with QuerySet.get(), MultipleObjectsReturned is raised if more than
-    one object is found.
     """
     queryset = _get_queryset(klass)
     if not hasattr(queryset, "get"):
         klass__name = (
-            klass.__name__ if isinstance(klass, type) else klass.__class__.__name__
+            klass.__name__
+            if isinstance(klass, type)
+            else klass.__class__.__name__
         )
         raise ValueError(
             "First argument to get_or_none() must be a Model, Manager, "
