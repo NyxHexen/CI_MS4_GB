@@ -41,6 +41,9 @@ class Order(models.Model):
         self.save()
 
     def save(self, *args, **kwargs):
+        """
+        Override save method to ensure order_number is not empty.
+        """
         if not self.order_number:
             self.order_number = self._generate_order_number()
         super().save(*args, **kwargs)
@@ -57,7 +60,15 @@ class OrderLineItem(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
 
     def save(self, *args, **kwargs):
-        self.price = self.game.final_price * self.quantity if self.game is not None else self.dlc.final_price * self.quantity
+        """
+        Override save method to calculate and set the price of a CartItem instance 
+        before saving it to the database.
+        """
+        self.price = (
+            self.game.final_price * self.quantity 
+            if self.game is not None 
+            else self.dlc.final_price * self.quantity
+            )
         return super().save(*args, **kwargs)
     
     def __str__(self):

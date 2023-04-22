@@ -13,9 +13,6 @@ import json
 def view_cart(request):
     """
     View to render cart page.
-
-    Path: /cart/
-    Reverse: 'cart'
     """
     context = {
     }

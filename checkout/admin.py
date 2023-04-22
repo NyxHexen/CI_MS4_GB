@@ -5,11 +5,17 @@ from .models import Order, OrderLineItem
 
 
 class OrderLineItemAdminInline(admin.TabularInline):
+    """
+    TabularInline class for the OrderLineItem inline in OrderAdmin.
+    """
     model = OrderLineItem
     readonly_fields = ("price",)
 
 
 class OrderAdmin(admin.ModelAdmin):
+    """
+    Admin class for the Order model.
+    """
     inlines = (OrderLineItemAdminInline,)
     readonly_fields = (
         "order_number",

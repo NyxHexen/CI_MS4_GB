@@ -27,6 +27,9 @@ import uuid
 
 # Create your views here.
 def checkout(request):
+    """
+    View to render 'checkout' page, and handle OrderForm().
+    """
     if not request.user.is_authenticated:
         cart = get_and_unsign_cart(request)
         if len(cart) == 0:
@@ -141,7 +144,7 @@ def checkout(request):
 
 def checkout_success(request, order_number):
     """
-    Handle successful checkouts
+    Handle successful checkouts.
     """
     save_info = request.session.get("save_info")
     order = get_object_or_404(Order, order_number=order_number)
@@ -230,6 +233,16 @@ def checkout_success(request, order_number):
 
 @require_POST
 def create_stripe_intent(request):
+    """
+    Creates a PaymentIntent object in Stripe for the total amount of the current cart.
+
+    Args:
+        request: An HttpRequest.
+    Returns:
+        A JsonResponse object containing the client secret.
+    Raises:
+        HttpResponse: If an error occurs while creating the PaymentIntent object.
+    """
     try:
         current_cart = cart_contents(request)
         amount = current_cart["total"]
@@ -255,6 +268,17 @@ def create_stripe_intent(request):
 
 @require_POST
 def modify_stripe_intent(request):
+    """
+    Modifies a PaymentIntent object in Stripe with additional metadata to include
+    the guest/user's billing information and cart in the Stripe intent.
+
+    Args:
+        request: An HttpRequest object.
+    Returns:
+        An HttpResponse object with a 200 status code.
+    Raises:
+        HttpResponse: An error occurred while modifying the PaymentIntent object.
+    """
     try:
         pid = json.loads(request.body)["client_secret"].split("_secret")[0]
         stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")

@@ -4,6 +4,7 @@
 
 {% block content %}
 <div class="container my-5 success-container">
+  <!-- Success Content incl. order number -->
   <div class="success-background">
   </div>
   <div class="row justify-content-center">
@@ -26,6 +27,7 @@
     </div>
   </div>
 </div>
+<!-- Suggested Games -->
 <div class="suggested-games text-bg-light pt-2 pb-5">
   <div class="container">
     <div class="row">
@@ -35,6 +37,7 @@
       </div>
     </div>
     <div class="row justify-content-center">
+    <!-- Game Cards -->
     {% if suggested_games|length != 0 %}
       {% for game in suggested_games %}
       <div
