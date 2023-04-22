@@ -50,18 +50,46 @@ class Media(CustomBaseModel):
         PREVIEW = "PREVIEW", ("Preview Media")
         OTHER = "OTHER", ("Other Media")
 
-    name = models.CharField(max_length=254, unique=True)
-    slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
-    url = models.URLField(null=True, blank=True)
-    file = models.ImageField(null=True, blank=True)
+    name = models.CharField(
+        max_length=254,
+        unique=True
+        )
+    slug = models.SlugField(
+        max_length=254,
+        unique=True,
+        null=True,
+        blank=True
+        )
+    url = models.URLField(
+        null=True,
+        blank=True
+        )
+    file = models.ImageField(
+        null=True,
+        blank=True
+        )
     media_type = models.CharField(
-        max_length=6, null=True, choices=[("image", "Image"), ("video", "Video")]
-    )
+        max_length=6,
+        null=True,
+        choices=[
+            ("image", "Image"),
+            ("video", "Video")
+            ]
+        )
     media_use = models.CharField(
-        max_length=24, default=MediaUseChoices.OTHER, choices=MediaUseChoices.choices
+        max_length=24,
+        default=MediaUseChoices.OTHER,
+        choices=MediaUseChoices.choices
     )
-    media_ext = models.CharField(max_length=6, null=True, blank=True)
-    description = models.CharField(null=True, max_length=526)
+    media_ext = models.CharField(
+        max_length=6,
+        null=True,
+        blank=True
+        )
+    description = models.CharField(
+        null=True,
+        max_length=526
+        )
 
     def __str__(self) -> str:
         return self.name

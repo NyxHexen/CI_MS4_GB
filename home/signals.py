@@ -21,7 +21,7 @@ def media_control(instance, *args, **kwargs):
         getattr(instance.file, 'name') not in [None, 0]
         and instance.media_ext is not None
         and instance.file._file is None
-    ):
+        ):
         # File exists, there is a media extension, and no new file is coming in.
         if curr_file_extension != instance.media_ext:
             # Auto-fill media extension.

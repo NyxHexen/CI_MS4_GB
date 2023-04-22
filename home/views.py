@@ -12,7 +12,9 @@ import random
 
 
 def index(request):
-    """A view to return the index page"""
+    """
+    A view to return the index page
+    """
     try:
         carousel = list(Game.objects.filter(carousel=True))
         carousel += list(DLC.objects.filter(carousel=True))
@@ -23,8 +25,15 @@ def index(request):
         is_featured = list(Game.objects.filter(is_featured=True))
         is_featured += list(DLC.objects.filter(is_featured=True))
         if len(is_featured) > 4:
-            cards_num = 5 if request.user_agent.is_pc else 4
-            is_featured = random.sample(is_featured, cards_num)
+            cards_num = (
+                5
+                if request.user_agent.is_pc
+                else 4
+                )
+            is_featured = random.sample(
+                is_featured,
+                cards_num
+                )
     except Exception:
         is_featured = []
     
@@ -34,23 +43,37 @@ def index(request):
         pass
 
     try:
-        dotd = list(Promo.objects.filter(active=True, landing_page=True))
+        dotd = list(Promo.objects.filter(
+            active=True,
+            landing_page=True
+            ))
         if len(dotd) < 4:
             dotd_topup = list(
                 Game.objects.filter(
-                    in_promo=True, promo__active=True, promo__landing_page=False
+                    in_promo=True,
+                    promo__active=True,
+                    promo__landing_page=False,
                 )
             )
             dotd_topup += list(
                 DLC.objects.filter(
-                    in_promo=True, promo__active=True, promo__landing_page=False
+                    in_promo=True,
+                    promo__active=True,
+                    promo__landing_page=False,
                 )
             )
-            dotd_topup = sorted(dotd_topup, key=lambda x: x.promo.end_date)
-            dotd = dotd + dotd_topup[: 4 - len(dotd)]
+            dotd_topup = sorted(
+                dotd_topup,
+                key=lambda x: x.promo.end_date
+                )
+            dotd = dotd + dotd_topup[:4 - len(dotd)]
     except Exception:
         dotd = []
-    context = {"carousel": carousel, "is_featured": is_featured, "dotd": dotd}
+    context = {
+        "carousel": carousel,
+        "is_featured": is_featured,
+        "dotd": dotd
+        }
     return render(request, "home/index.html", context)
 
 
@@ -58,16 +81,29 @@ def index(request):
 def media(request):
     if not request.user.is_staff:
         messages.info(request, '\
-                      Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+                      Super Secret Page of Awesomeness!\
+                      Unauthorized access prohibited!')
         return redirect("/")
-    game_lists = [list(qset) for qset in [Game.objects.all(), DLC.objects.all()]]
-    game_list = [item for sublist in game_lists for item in sublist]
-    filtered_game_list = [i for i in game_list if i.media.all().count() != 0]
+    game_lists = [
+        list(qset) for qset in [Game.objects.all(), DLC.objects.all()]
+        ]
+    game_list = [
+        item for sublist in game_lists for item in sublist
+        ]
+    filtered_game_list = [
+        i for i in game_list if i.media.all().count() != 0
+        ]
 
     assigned_media_list = [
-        item.id for sublist in [i.media.all() for i in filtered_game_list] for item in sublist]
+        item.id for sublist in [
+            i.media.all() for i in filtered_game_list
+            ] 
+        for item in sublist
+        ]
     
-    unassigned_media = Media.objects.exclude(id__in=assigned_media_list)
+    unassigned_media = Media.objects.exclude(
+        id__in=assigned_media_list
+        )
 
     context = {
         'filtered_game_list': filtered_game_list,
@@ -80,7 +116,9 @@ def media(request):
 def media_add(request):
     if not request.user.is_staff:
         messages.info(request, '\
-                      Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+                      Super Secret Page of Awesomeness!\
+                      Unauthorized access prohibited!'
+                      )
         return redirect("/")
     
     form = MediaForm()
@@ -90,10 +128,16 @@ def media_add(request):
         if f.is_valid():
             try:
                 media = f.save()
-                messages.success(request, f"{ media } has been saved successfully!")
+                messages.success(
+                    request,
+                    f"{ media } has been saved successfully!"
+                    )
                 return redirect(reverse('home'))
             except Exception as e:
-                messages.error(request, f'{e}')
+                messages.error(
+                    request,
+                    f'{e}'
+                    )
     context = {
         'form': form, 
     }
@@ -104,10 +148,14 @@ def media_add(request):
 def media_edit(request, media_id):
     if not request.user.is_staff:
         messages.info(request, '\
-                      Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+                      Super Secret Page of Awesomeness!\
+                      Unauthorized access prohibited!')
         return redirect("/")
     
-    media = get_object_or_404(Media, id=media_id)
+    media = get_object_or_404(
+        Media,
+        id=media_id
+        )
     form = MediaForm(instance=media)
 
     if request.method == "POST":
@@ -116,10 +164,16 @@ def media_edit(request, media_id):
             if f.has_changed():
                 try:
                     media = f.save()
-                    messages.success(request, f"{ media } has been edited successfully!")
+                    messages.success(
+                        request,
+                        f"{ media } has been edited successfully!"
+                        )
                     return redirect(reverse('media'))
                 except Exception as e:
-                    messages.error(request, f'{e}')
+                    messages.error(
+                        request,
+                        f'{e}'
+                        )
 
     context = {
         'form': form,
@@ -132,14 +186,21 @@ def media_edit(request, media_id):
 def media_delete(request, media_id):
     if not request.user.is_staff:
         messages.info(request, '\
-                      Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+                      Super Secret Page of Awesomeness!\
+                      Unauthorized access prohibited!')
         return redirect("/")
     try:
         media = Media.objects.get(id=media_id)
         media.delete()
-        messages.success(request, f"{media} has been deleted successfully!")
+        messages.success(
+            request,
+            f"{media} has been deleted successfully!"
+            )
     except Exception as e:
-        messages.error(request, f"{e}")
+        messages.error(
+            request,
+            f"{e}"
+            )
     return redirect(reverse('media'))
 
 
