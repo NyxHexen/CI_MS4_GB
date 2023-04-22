@@ -8,21 +8,39 @@ def sort_by(sort_value, *args):
     # Sort the list based on the value of sort_value
     match sort_value:
         case "price_desc":
-            sorted_args.sort(key=lambda x: x.final_price, reverse=True)
+            sorted_args.sort(
+                key=lambda x: x.final_price, reverse=True
+                )
         case "price_asc":
-            sorted_args.sort(key=lambda x: x.final_price)
+            sorted_args.sort(
+                key=lambda x: x.final_price
+                )
         case "discount_desc":
-            sorted_args.sort(key=lambda x: x.promo_percentage, reverse=True)
+            sorted_args.sort(
+                key=lambda x: x.promo_percentage,
+                reverse=True
+                )
         case "title_asc":
-            sorted_args.sort(key=lambda x: x.name)
+            sorted_args.sort(
+                key=lambda x: x.name
+                )
         case "title_desc":
-            sorted_args.sort(key=lambda x: x.name, reverse=True)
+            sorted_args.sort(
+                key=lambda x: x.name, reverse=True
+                )
         case "date_desc":
-            sorted_args.sort(key=lambda x: x.release_date)
+            sorted_args.sort(
+                key=lambda x: x.release_date
+                )
         case "date_asc":
-            sorted_args.sort(key=lambda x: x.release_date, reverse=True)
+            sorted_args.sort(
+                key=lambda x: x.release_date, reverse=True
+                )
         case "rating_desc":
-            sorted_args.sort(key=lambda x: x.ratingset.user_rating_calc(), reverse=True)
+            sorted_args.sort(
+                key=lambda x: x.ratingset.user_rating_calc(),
+                reverse=True
+                )
         case _:
             pass
     return sorted_args

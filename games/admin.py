@@ -4,9 +4,15 @@ from .models import *
 # Register your models here.
 class RatingSetAdminInline(admin.StackedInline):
     model = RatingSet
-    readonly_fields = ("game", "dlc")
+    readonly_fields = (
+        "game",
+        "dlc"
+        )
     can_delete = False
-    fields = ("esrb_rating", "pegi_rating")
+    fields = (
+        "esrb_rating",
+        "pegi_rating"
+        )
 
 
 class GameAdmin(admin.ModelAdmin):
@@ -121,7 +127,10 @@ class DLCAdmin(admin.ModelAdmin):
 
 
 class RatingSetAdmin(admin.ModelAdmin):
-    readonly_fields = ("game", "dlc")
+    readonly_fields = (
+        "game",
+        "dlc"
+        )
 
 
 admin.site.register(Game, GameAdmin)
