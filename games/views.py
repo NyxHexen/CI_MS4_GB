@@ -28,8 +28,6 @@ def games(request):
         if not games:
             raise EmptyResultSet
         dlcs = DLC.objects.all()
-        if not dlcs:
-            raise EmptyResultSet
     except Exception:
         messages.error(request, "System Malfunction! Please try again later!")
         return redirect("/")
