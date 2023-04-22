@@ -201,7 +201,6 @@ class UserRating(CustomBaseModel):
 class Platform(CustomBaseModel):
     name = models.CharField(max_length=254, unique=True)
     slug = models.SlugField(max_length=254, unique=True, null=True, blank=True)
-    icon = models.ImageField(null=True, blank=True)
     description = models.TextField(max_length=500, default='')
     official_site = models.URLField('Official Website')
     logo = models.ImageField(null=True)
