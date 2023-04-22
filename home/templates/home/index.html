@@ -60,15 +60,20 @@
       {% for item in carousel %}
       <div class="carousel-item{% if forloop.first %} active{% endif %}">
         <div class="overlay d-block d-sm-none"></div>
-        <a target="_blank" href="
+        <a target="_blank" 
           {% if item.model_name == 'game' or item.model_name == 'dlc' %}
-          {% url 'game' item.model_name item.id %}
+          href="{% url 'game' item.model_name item.id %}"
           {% elif item.model_name == 'promo'%}
-          {% url 'promo' item.id %}
+          href="{% url 'promo' item.id %}"
           {% endif %}
-          ">
+          >
+          {% if request.user_agent.is_tablet or request.user_agent.is_pc %}
           <img src="{{ MEDIA_URL }}{{ item|use_media:'LANDING.src' }}" class="d-block"
             alt="{{ item|use_media:'LANDING.descr' }}">
+          {% elif request.user_agent.is_mobile %}
+          <img src="{{ MEDIA_URL }}{{ item|use_media:'COVER.src' }}" class="d-block"
+          alt="{{ item|use_media:'COVER.descr' }}">
+          {% endif %}
         </a>
         <div class="carousel-caption px-5 py-4 d-flex flex-column justify-content-between align-items-end">
           <div class="col-12 item-info w-100">
