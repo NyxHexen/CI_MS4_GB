@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static tags %}
-{% block page_header %}{% endblock %}
+
 {% block content %}
     <section class="carousel-container">
         <svg id="game-box">
@@ -366,6 +366,7 @@
     </div>
 </section>
 {% endblock %}
+
 {% block extra_css %}
     <style>
   #top-side {
@@ -395,6 +396,7 @@
   }
     </style>
 {% endblock %}
+
 {% block postloadjs %}
     {{ block.super }}
     <script>
