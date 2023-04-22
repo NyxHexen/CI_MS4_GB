@@ -130,8 +130,8 @@ class Developer(CustomBaseModel):
 class RatingSet(CustomBaseModel):
     game = models.OneToOneField("Game", on_delete=models.CASCADE, null=True, blank=True)
     dlc = models.OneToOneField("DLC", on_delete=models.CASCADE, null=True, blank=True)
-    esrb_rating = models.ForeignKey("EsrbRating", null=True, on_delete=models.SET_NULL)
-    pegi_rating = models.ForeignKey("PegiRating", null=True, on_delete=models.SET_NULL)
+    esrb_rating = models.ForeignKey("EsrbRating", null=True, blank=True, on_delete=models.SET_NULL)
+    pegi_rating = models.ForeignKey("PegiRating", null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self) -> str:
         if self.game is None:
