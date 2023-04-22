@@ -2,40 +2,48 @@
 {% load static %}
 {% load tags %}
 {% load cart_tags %}
-
 {% block page_header %}
-<div class="container">
-    <div class="row">
-        <div class="col"></div>
-    </div>
-</div>
-{% endblock %}
-
-{% block content %}
-<div class="container my-5">
-    <div class="row">
-            {% if 'add' in request.path %}
-        <div id="media-add" class="col-11 mx-auto col-md-8 col-lg-6 offset-lg-3 card">
-                <form action="{% url 'media_add' %}" method="post" class="row card-body" enctype='multipart/form-data'>
-                <h2 class="text-center ui-font">Add New Media</h2>
-            {% elif 'edit' in request.path %}
-        <div id="media-edit" class="col-11 mx-auto col-md-8 col-lg-6 offset-lg-3 card">
-                <form action="{% url 'media_edit' media.id %}" method="post" class="row card-body" enctype='multipart/form-data'>
-                <h2 class="text-center ui-font">Edit Media</h2>
-            {% endif %}
-                    {% csrf_token %}
-                    <hr class="my-3">
-                    <fieldset class="col-12 col-md-6 col-xl-4 w-100" name="input">
-                        {{ form.name|as_crispy_field }}
-                        {{ form.url|as_crispy_field }}
-                        {{ form.file|as_crispy_field }}
-                        {{ form.media_type|as_crispy_field }}
-                        {{ form.media_use|as_crispy_field }}
-                        {{ form.description|as_crispy_field }}
-                    </fieldset>
-                    <button type="submit" class="btn btn-gamebox-alt">Save and Exit</button>
-                </form>
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
         </div>
     </div>
-</div>
+{% endblock %}
+{% block content %}
+    <div class="container my-5">
+        <div class="row">
+            {% if 'add' in request.path %}
+                <div id="media-add"
+                     class="col-11 mx-auto col-md-8 col-lg-6 offset-lg-3 card">
+                    <form action="{% url 'media_add' %}"
+                          method="post"
+                          class="row card-body"
+                          enctype='multipart/form-data'>
+                        <h2 class="text-center ui-font">Add New Media</h2>
+                    {% elif 'edit' in request.path %}
+                        <div id="media-edit"
+                             class="col-11 mx-auto col-md-8 col-lg-6 offset-lg-3 card">
+                            <form action="{% url 'media_edit' media.id %}"
+                                  method="post"
+                                  class="row card-body"
+                                  enctype='multipart/form-data'>
+                                <h2 class="text-center ui-font">Edit Media</h2>
+                            {% endif %}
+                            {% csrf_token %}
+                            <hr class="my-3">
+                            <fieldset class="col-12 col-md-6 col-xl-4 w-100" name="input">
+                                {{ form.name|as_crispy_field }}
+                                {{ form.url|as_crispy_field }}
+                                {{ form.file|as_crispy_field }}
+                                {{ form.media_type|as_crispy_field }}
+                                {{ form.media_use|as_crispy_field }}
+                                {{ form.description|as_crispy_field }}
+                            </fieldset>
+                            <button type="submit" class="btn btn-gamebox-alt">Save and Exit</button>
+                        </form>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}

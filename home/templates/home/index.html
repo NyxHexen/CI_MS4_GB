@@ -1,331 +1,373 @@
 {% extends "base.html" %}
 {% load static tags %}
-
-{% block page_header %}
-{% endblock %}
-
+{% block page_header %}{% endblock %}
 {% block content %}
-<section class="carousel-container">
-
-  <svg id="game-box">
-
-    <defs>
-      <linearGradient id="box-gradient-top" gradientTransform="rotate(90)">
-        <stop class="stop1" offset="0%" />
-        <stop class="stop2" offset="100%" />
-      </linearGradient>
-
-      <linearGradient id="box-gradient-left">
-        <stop class="stop1" offset="0%" />
-        <stop class="stop2" offset="100%" />
-      </linearGradient>
-
-      <linearGradient id="box-gradient-right">
-        <stop class="stop2" offset="0%" />
-        <stop class="stop1" offset="100%" />
-      </linearGradient>
-
-      <linearGradient id="box-gradient-bottom" gradientTransform="rotate(90)">
-        <stop class="stop2" offset="0%" />
-        <stop class="stop1" offset="100%" />
-      </linearGradient>
-    </defs>
-
-    <polygon id="top-side" />
-    <polygon id="top-side-blur" fill="none" stroke="#575757" stroke-width="20" />
-
-    <polygon id="left-side" />
-    <polygon id="left-side-blur" fill="none" stroke="#575757" stroke-width="20" />
-
-    <polygon id="right-side" />
-    <polygon id="right-side-blur" fill="none" stroke="#575757" stroke-width="20" />
-
-    <polygon id="bottom-side" />
-    <polygon id="bottom-side-blur" fill="none" stroke="#575757" stroke-width="20" />
-
-    <rect id="box-bottom" fill="#575757" />
-    <rect id="box-bottom-shadows" stroke="#404040" fill="none" stroke-width="20" />
-  </svg>
-
-  <div id="games-carousel" class="carousel slide container">
-    <div class="carousel-indicators">
-      {% for item in carousel %}
-      <button type="button" data-bs-target="#games-carousel" data-bs-slide-to="{{ forloop.counter|add:'-1' }}"
-        {% if forloop.first %} class="active" aria-current="true" {% endif %}
-        aria-label="Slide {{ forloop.counter|add:'-1' }}"></button>
-      {% endfor %}
-    </div>
-    <div class="carousel-inner">
-      {% if carousel|length != 0 %}
-      {% for item in carousel %}
-      <div class="carousel-item{% if forloop.first %} active{% endif %}">
-        <div class="overlay d-block d-sm-none"></div>
-        <a target="_blank" 
-          {% if item.model_name == 'game' or item.model_name == 'dlc' %}
-          href="{% url 'game' item.model_name item.id %}"
-          {% elif item.model_name == 'promo'%}
-          href="{% url 'promo' item.id %}"
-          {% endif %}
-          >
-          {% if request.user_agent.is_tablet or request.user_agent.is_pc %}
-          <img src="{{ MEDIA_URL }}{{ item|use_media:'LANDING.src' }}" class="d-block"
-            alt="{{ item|use_media:'LANDING.descr' }}">
-          {% elif request.user_agent.is_mobile %}
-          <img src="{{ MEDIA_URL }}{{ item|use_media:'COVER.src' }}" class="d-block"
-          alt="{{ item|use_media:'COVER.descr' }}">
-          {% endif %}
-        </a>
-        <div class="carousel-caption px-5 py-4 d-flex flex-column justify-content-between align-items-end">
-          <div class="col-12 item-info w-100">
-            <h3 class="text-start display-6">{{ item.name }}</h3>
-            {% if item.model_name == 'promo' %}
-            <p class="text-start">{{ item.short_description }}</p>
-            {% endif %}
-          </div>
-          {% if item.model_name == 'game' or item.model_name == 'dlc' %}
-          <form action="{% url 'cart_add' item.model_name item.id %}" method="POST"
-            class="d-flex text-bg-light rounded position-relative">
-            {% csrf_token %}
-            <div class="me-2 d-flex align-items-center justify-content-evenly text-black">
-              {% if item.in_promo and item.promo.active is True%}
-              <span class="promo-discount fs-5 ms-2">
-                -{{ item.promo_percentage }}%
-              </span>
-              {% endif %}
-              <div class="d-flex flex-column justify-content-end text-end ms-2">
-                <span class="fs-4">£{{item.final_price}}</span>
-              </div>
+    <section class="carousel-container">
+        <svg id="game-box">
+            <defs>
+            <linearGradient id="box-gradient-top" gradientTransform="rotate(90)">
+            <stop class="stop1" offset="0%" />
+            <stop class="stop2" offset="100%" />
+            </linearGradient>
+            <linearGradient id="box-gradient-left">
+            <stop class="stop1" offset="0%" />
+            <stop class="stop2" offset="100%" />
+            </linearGradient>
+            <linearGradient id="box-gradient-right">
+            <stop class="stop2" offset="0%" />
+            <stop class="stop1" offset="100%" />
+            </linearGradient>
+            <linearGradient id="box-gradient-bottom" gradientTransform="rotate(90)">
+            <stop class="stop2" offset="0%" />
+            <stop class="stop1" offset="100%" />
+            </linearGradient>
+            </defs>
+            <polygon id="top-side" />
+            <polygon id="top-side-blur" fill="none" stroke="#575757" stroke-width="20" />
+            <polygon id="left-side" />
+            <polygon id="left-side-blur" fill="none" stroke="#575757" stroke-width="20" />
+            <polygon id="right-side" />
+            <polygon id="right-side-blur" fill="none" stroke="#575757" stroke-width="20" />
+            <polygon id="bottom-side" />
+            <polygon id="bottom-side-blur" fill="none" stroke="#575757" stroke-width="20" />
+            <rect id="box-bottom" fill="#575757" />
+            <rect id="box-bottom-shadows" stroke="#404040" fill="none" stroke-width="20" />
+        </svg>
+        <div id="games-carousel" class="carousel slide container">
+            <div class="carousel-indicators">
+                {% for item in carousel %}
+                    <button type="button"
+                            data-bs-target="#games-carousel"
+                            data-bs-slide-to="{{ forloop.counter|add:'-1' }}"
+                            {% if forloop.first %}class="active" aria-current="true"{% endif %}
+                            aria-label="Slide {{ forloop.counter|add:'-1' }}"></button>
+                {% endfor %}
             </div>
-            <label for="id_qty_{{ game.model_name }}_{{ game.id }}" class="visually-hidden form-label">Quantity</label>
-            <input class="form-control" type="hidden" name="quantity" id="id_qty_{{ game.id }}" value="1" min="1"
-              max="99" data-game-id="{{ game.id }}">
-            <button type="submit" aria-label="Add to cart" class="add-to-cart fs-5 btn btn-lg py-3 px-4 float-end"><span
-                class="d-none d-sm-inline">Add to </span><i class="fa-solid fa-cart-plus"></i></button>
-            <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
-          </form>
-          {% elif item.model_name == 'promo' %}
-          <div class="promo-details d-flex align-items-center justify-content-end text-bg-light rounded">
-            <p class="fs-6 m-0 mx-3">Up to<br><span class="fs-5">-{{ item.max_promo_percentage }}%!</span></p>
-            <a target="_blank" href="{% url 'promo' item.id %}"
-              class="browse fs-5 btn btn-lg btn-gamebox-alt py-3 px-4 ms-md-none float-end">Browse</a>
-          </div>
-          {% endif %}
-        </div>
-      </div>
-      {% endfor %}
-      {% else %}
-      <div class="carousel-item active">
-        <div class="overlay d-block d-sm-none"></div>
-        <img src="{{ MEDIA_URL }}{{ item|use_media:'LANDING.src' }}" class="d-block"
-          alt="{{ item|use_media:'LANDING.descr' }}">
-        <div class="carousel-caption text-black">
-          <h2>There has been an error. Please refresh your page to try again!</h2>
-        </div>
-      </div>
+            <div class="carousel-inner">
+                {% if carousel|length != 0 %}
+                    {% for item in carousel %}
+                        <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                            <div class="overlay d-block d-sm-none"></div>
+                            <a target="_blank"
+                               {% if item.model_name == 'game' or item.model_name == 'dlc' %} href="{% url 'game' item.model_name item.id %}" {% elif item.model_name == 'promo' %} href="{% url 'promo' item.id %}" {% endif %}>
+                                {% if request.user_agent.is_tablet or request.user_agent.is_pc %}
+                                    <img src="{{ MEDIA_URL }}{{ item|use_media:'LANDING.src' }}"
+                                         class="d-block"
+                                         alt="{{ item|use_media:'LANDING.descr' }}">
+                                {% elif request.user_agent.is_mobile %}
+                                    <img src="{{ MEDIA_URL }}{{ item|use_media:'COVER.src' }}"
+                                         class="d-block"
+                                         alt="{{ item|use_media:'COVER.descr' }}">
+                                {% endif %}
+                            </a>
+                            <div class="carousel-caption px-5 py-4 d-flex flex-column justify-content-between align-items-end">
+                                <div class="col-12 item-info w-100">
+                                    <h3 class="text-start display-6">{{ item.name }}</h3>
+                                    {% if item.model_name == 'promo' %}<p class="text-start">{{ item.short_description }}</p>{% endif %}
+                                </div>
+                                {% if item.model_name == 'game' or item.model_name == 'dlc' %}
+                                    <form action="{% url 'cart_add' item.model_name item.id %}"
+                                          method="post"
+                                          class="d-flex text-bg-light rounded position-relative">
+                                        {% csrf_token %}
+                                        <div class="me-2 d-flex align-items-center justify-content-evenly text-black">
+                                            {% if item.in_promo and item.promo.active is True %}
+                                                <span class="promo-discount fs-5 ms-2">-{{ item.promo_percentage }}%</span>
+                                            {% endif %}
+                                            <div class="d-flex flex-column justify-content-end text-end ms-2">
+                                                <span class="fs-4">£{{ item.final_price }}</span>
+                                            </div>
+                                        </div>
+                                        <label for="id_qty_{{ game.model_name }}_{{ game.id }}"
+                                               class="visually-hidden form-label">Quantity</label>
+                                        <input class="form-control"
+                                               type="hidden"
+                                               name="quantity"
+                                               id="id_qty_{{ game.id }}"
+                                               value="1"
+                                               min="1"
+                                               max="99"
+                                               data-game-id="{{ game.id }}">
+                                        <button type="submit"
+                                                aria-label="Add to cart"
+                                                class="add-to-cart fs-5 btn btn-lg py-3 px-4 float-end">
+                                            <span class="d-none d-sm-inline">Add to</span><i class="fa-solid fa-cart-plus"></i>
+                                        </button>
+                                        <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
+                                    </form>
+                                {% elif item.model_name == 'promo' %}
+                                    <div class="promo-details d-flex align-items-center justify-content-end text-bg-light rounded">
+                                        <p class="fs-6 m-0 mx-3">
+                                            Up to
+                                            <br>
+                                            <span class="fs-5">-{{ item.max_promo_percentage }}%!</span>
+                                        </p>
+                                        <a target="_blank"
+                                           href="{% url 'promo' item.id %}"
+                                           class="browse fs-5 btn btn-lg btn-gamebox-alt py-3 px-4 ms-md-none float-end">Browse</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="carousel-item active">
+                        <div class="overlay d-block d-sm-none"></div>
+                        <img src="{{ MEDIA_URL }}{{ item|use_media:'LANDING.src' }}"
+                             class="d-block"
+                             alt="{{ item|use_media:'LANDING.descr' }}">
+                        <div class="carousel-caption text-black">
+                            <h2>There has been an error. Please refresh your page to try again!</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
-    </a>
-  </div>
-  {% endif %}
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#games-carousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <span class="carousel-control-prev hover-bg"></span>
-  <button class="carousel-control-next" type="button" data-bs-target="#games-carousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-  <span class="carousel-control-next hover-bg"></span>
-  </div>
+    <button class="carousel-control-prev"
+            type="button"
+            data-bs-target="#games-carousel"
+            data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <span class="carousel-control-prev hover-bg"></span>
+    <button class="carousel-control-next"
+            type="button"
+            data-bs-target="#games-carousel"
+            data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+    <span class="carousel-control-next hover-bg"></span>
+</div>
 </section>
 <section class="container mt-4 mb-5">
-  <h2 class="ps-3">Featured Games</h2>
-  <hr>
-  <div class="games row justify-content-center mt-3">
-    {% if is_featured|length != 0%}
-    {% for game in is_featured %}
-    <div
-      class="game col-6 col-md-3 col-lg-3 col-xl-2 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
-      <div class="game-cover--front">
-        <div class="game-cover-image">
-          {% if game|use_media:'COVER.src' is not None %}
-          <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" alt="{{ game|use_media:'COVER.descr' }}">
-          {% else %}
-          <img src="{{ MEDIA_URL }}noimage.jpg" alt="This game does not yet have a cover image!">
-          {% endif %}
-        </div>
-        <p class="game-title">{{ game.name }}</p>
-      </div>
-      <div class="game-cover--reverse d-flex justify-content-between align-items-end">
-        <form action="{% url 'cart_add' game.model_name game.id %}" method="POST" class="w-100 d-flex flex-row">
-          {% csrf_token %}
-          <label for="id_qty_{{ game.model_name }}_{{ game.id }}" class="visually-hidden form-label">Quantity</label>
-          <input class="form-control" type="number" name="quantity" id="id_qty_{{ game.id }}" value="1" min="1" max="99"
-            data-game-id="{{ game.id }}">
-          <button type="submit" aria-label="Add to cart" class="add-cart btn ms-2 py-0"><span
-              class="d-none d-md-inline">Add to </span><i class="fa-solid fa-cart-plus"></i></button>
-          <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
-        </form>
-      </div>
-      <a target="_blank" href="{% url 'game' game.model_name game.id %}"
-        class="game-back--front d-flex flex-column justify-content-around">
-        {% if not request.user_agent.is_mobile %}
-        <h2 class="game-title-back text-center">{{ game.name }}</h2>
+    <h2 class="ps-3">Featured Games</h2>
+    <hr>
+    <div class="games row justify-content-center mt-3">
+        {% if is_featured|length != 0 %}
+            {% for game in is_featured %}
+                <div class="game col-6 col-md-3 col-lg-3 col-xl-2 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
+                    <div class="game-cover--front">
+                        <div class="game-cover-image">
+                            {% if game|use_media:'COVER.src' is not None %}
+                                <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
+                                     alt="{{ game|use_media:'COVER.descr' }}">
+                            {% else %}
+                                <img src="{{ MEDIA_URL }}noimage.jpg"
+                                     alt="This game does not yet have a cover image!">
+                            {% endif %}
+                        </div>
+                        <p class="game-title">{{ game.name }}</p>
+                    </div>
+                    <div class="game-cover--reverse d-flex justify-content-between align-items-end">
+                        <form action="{% url 'cart_add' game.model_name game.id %}"
+                              method="post"
+                              class="w-100 d-flex flex-row">
+                            {% csrf_token %}
+                            <label for="id_qty_{{ game.model_name }}_{{ game.id }}"
+                                   class="visually-hidden form-label">Quantity</label>
+                            <input class="form-control"
+                                   type="number"
+                                   name="quantity"
+                                   id="id_qty_{{ game.id }}"
+                                   value="1"
+                                   min="1"
+                                   max="99"
+                                   data-game-id="{{ game.id }}">
+                            <button type="submit" aria-label="Add to cart" class="add-cart btn ms-2 py-0">
+                                <span class="d-none d-md-inline">Add to</span><i class="fa-solid fa-cart-plus"></i>
+                            </button>
+                            <input type="hidden" name="redirect_url" value="{{ request.get_full_path }}">
+                        </form>
+                    </div>
+                    <a target="_blank"
+                       href="{% url 'game' game.model_name game.id %}"
+                       class="game-back--front d-flex flex-column justify-content-around">
+                        {% if not request.user_agent.is_mobile %}<h2 class="game-title-back text-center">{{ game.name }}</h2>{% endif %}
+                        <div class="game-info">
+                            <div class="genres-box m-1">
+                                <h3>Genre</h3>
+                                <hr>
+                                <p>
+                                    {% for genre in game.genres.all %}
+                                        {{ genre.name }}
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="tags-box m-1">
+                                <h3>Tags</h3>
+                                <hr>
+                                <p>
+                                    {% for tag in game.tags.all %}
+                                        {{ tag.name }}
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="features-box m-1">
+                                <h3>Features</h3>
+                                <hr>
+                                <p>
+                                    {% for feature in game.features.all %}
+                                        {{ feature.name }}
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="rating-stars d-flex justify-content-center">
+                            {% if request.user_agent.is_mobile %}
+                                <span class="star d-flex justify-content-center align-items-center">
+                                    <i class="fa-solid fa-star active"></i>
+                                </span>
+                            {% else %}
+                                <span class="star d-flex justify-content-center align-items-center">
+                                    {% if game.ratingset.user_rating_calc > 0 and game.ratingset.user_rating_calc <= 0.5 %}
+                                        <i class="fa-solid fa-star-half-stroke active"></i>
+                                    {% elif game.ratingset.user_rating_calc > 0.5 %}
+                                        <i class="fa-solid fa-star active"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-star"></i>
+                                    {% endif %}
+                                </span>
+                                <span class="star d-flex justify-content-center align-items-center">
+                                    {% if game.ratingset.user_rating_calc > 1 and game.ratingset.user_rating_calc <= 1.5 %}
+                                        <i class="fa-solid fa-star-half-stroke active"></i>
+                                    {% elif game.ratingset.user_rating_calc > 1.5 %}
+                                        <i class="fa-solid fa-star active"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-star"></i>
+                                    {% endif %}
+                                </span>
+                                <span class="star d-flex justify-content-center align-items-center">
+                                    {% if game.ratingset.user_rating_calc > 2 and game.ratingset.user_rating_calc <= 2.5 %}
+                                        <i class="fa-solid fa-star-half-stroke active"></i>
+                                    {% elif game.ratingset.user_rating_calc > 2.5 %}
+                                        <i class="fa-solid fa-star active"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-star"></i>
+                                    {% endif %}
+                                </span>
+                                <span class="star d-flex justify-content-center align-items-center">
+                                    {% if game.ratingset.user_rating_calc > 3 and game.ratingset.user_rating_calc <= 3.5 %}
+                                        <i class="fa-solid fa-star-half-stroke active"></i>
+                                    {% elif game.ratingset.user_rating_calc > 3.5 %}
+                                        <i class="fa-solid fa-star active"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-star"></i>
+                                    {% endif %}
+                                </span>
+                                <span class="star d-flex justify-content-center align-items-center">
+                                    {% if game.ratingset.user_rating_calc > 4 and game.ratingset.user_rating_calc <= 4.5 %}
+                                        <i class="fa-solid fa-star-half-stroke active"></i>
+                                    {% elif game.ratingset.user_rating_calc > 4.5 %}
+                                        <i class="fa-solid fa-star active"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-star"></i>
+                                    {% endif %}
+                                </span>
+                            {% endif %}
+                            <span class="ms-1">{{ game.ratingset.user_rating_calc }}</span>
+                        </div>
+                    </a>
+                    <div class="game-back--reverse d-flex justify-content-end align-items-end">
+                        {% if game.in_promo and game.promo.active is True %}
+                            <div class="promo-discount">-{{ game.promo_percentage }}%</div>
+                        {% endif %}
+                        <div class="game-price">
+                            £
+                            {% if game.in_promo and game.promo.active is True %}
+                                {{ game.final_price }}
+                            {% else %}
+                                {{ game.base_price }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="card col col-lg-8 col-xl-6">
+                <div class="card-body">
+                    <h2 class="text-center">There has been an error. Please refresh your page to try again!</h2>
+                </div>
+            </div>
         {% endif %}
-        <div class="game-info">
-          <div class="genres-box m-1">
-            <h3 class="">Genre</h3>
-            <hr>
-            <p>{% for genre in game.genres.all %}{{ genre.name }}{% if not forloop.last %},
-              {% endif %}{% endfor %}</p>
-          </div>
-          <div class="tags-box m-1">
-            <h3>Tags</h3>
-            <hr>
-            <p>{% for tag in game.tags.all %}{{ tag.name }}{% if not forloop.last %},
-              {% endif %}{% endfor %}</p>
-          </div>
-          <div class="features-box m-1">
-            <h3>Features</h3>
-            <hr>
-            <p>{% for feature in game.features.all %}{{ feature.name }}{% if not forloop.last %},
-              {% endif %}{% endfor %}</p>
-          </div>
-        </div>
-        <div class="rating-stars d-flex justify-content-center">
-          {% if request.user_agent.is_mobile %}
-          <span class="star d-flex justify-content-center align-items-center">
-            <i class="fa-solid fa-star active"></i>
-          </span>
-          {% else %}
-          <span class="star d-flex justify-content-center align-items-center">
-            {% if game.ratingset.user_rating_calc > 0 and game.ratingset.user_rating_calc <= 0.5 %}
-            <i class="fa-solid fa-star-half-stroke active"></i>
-            {% elif game.ratingset.user_rating_calc > 0.5 %}
-            <i class="fa-solid fa-star active"></i>
-            {% else %}
-            <i class="fa-regular fa-star"></i>
-            {% endif %}
-          </span>
-          <span class="star d-flex justify-content-center align-items-center">
-            {% if game.ratingset.user_rating_calc > 1 and game.ratingset.user_rating_calc <= 1.5 %}
-            <i class="fa-solid fa-star-half-stroke active"></i>
-            {% elif game.ratingset.user_rating_calc > 1.5 %}
-            <i class="fa-solid fa-star active"></i>
-            {% else %}
-            <i class="fa-regular fa-star"></i>
-            {% endif %}
-          </span>
-          <span class="star d-flex justify-content-center align-items-center">
-            {% if game.ratingset.user_rating_calc > 2 and game.ratingset.user_rating_calc <= 2.5 %}
-            <i class="fa-solid fa-star-half-stroke active"></i>
-            {% elif game.ratingset.user_rating_calc > 2.5 %}
-            <i class="fa-solid fa-star active"></i>
-            {% else %}
-            <i class="fa-regular fa-star"></i>
-            {% endif %}
-          </span>
-          <span class="star d-flex justify-content-center align-items-center">
-            {% if game.ratingset.user_rating_calc > 3 and game.ratingset.user_rating_calc <= 3.5 %}
-            <i class="fa-solid fa-star-half-stroke active"></i>
-            {% elif game.ratingset.user_rating_calc > 3.5 %}
-            <i class="fa-solid fa-star active"></i>
-            {% else %}
-            <i class="fa-regular fa-star"></i>
-            {% endif %}
-          </span>
-          <span class="star d-flex justify-content-center align-items-center">
-            {% if game.ratingset.user_rating_calc > 4 and game.ratingset.user_rating_calc <= 4.5 %}
-            <i class="fa-solid fa-star-half-stroke active"></i>
-            {% elif game.ratingset.user_rating_calc > 4.5 %}
-            <i class="fa-solid fa-star active"></i>
-            {% else %}
-            <i class="fa-regular fa-star"></i>
-            {% endif %}
-          </span>
-          {% endif %}
-          <span class="ms-1">{{ game.ratingset.user_rating_calc }}</span>
-        </div>
-      </a>
-      <div class="game-back--reverse d-flex justify-content-end align-items-end">
-        {% if game.in_promo and game.promo.active is True%}
-        <div class="promo-discount">
-          -{{ game.promo_percentage }}%
-        </div>
-        {% endif %}
-        <div class="game-price">£
-          {% if game.in_promo and game.promo.active is True%}{{game.final_price}}{% else %}{{ game.base_price }}{% endif %}
-        </div>
-      </div>
     </div>
-    {% endfor %}
-    {% else %}
-    <div class="card col col-lg-8 col-xl-6">
-      <div class="card-body">
-        <h2 class="text-center">There has been an error. Please refresh your page to try again!</h2>
-      </div>
-    </div>
-    {% endif %}
-  </div>
 </section>
 <section class="deals pt-2 pb-0 pb-lg-5">
-  <div class="container mt-4">
-    <h2 class="ps-3">Deals of The Day</h2>
-    <hr>
-    <div class="row justify-content-center mt-5">
-      {% if dotd|length != 0 %}
-      {% for deal in dotd %}
-      <div class="countdown col-7 col-xs-6 col-md-4 col-lg-3">
-        <a target="_blank" {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
-          href="{% url 'game' deal.model_name deal.id %}" {% else %} href="{% url 'promo' deal.id %}" {% endif %}
-          class="content-overlay d-flex flex-column">
-          <div class="content-overlay__name-wrapper d-flex flex-column justify-content-center align-items-center">
-            <h3 class="px-3 text-center">{{ deal.name }} {% if deal.model_name == 'dlc' %}<span
-                class="badge bg-warning text-black fs-6">DLC</span>{% endif %}</h3>
-          </div>
-          <div class="content-overlay__discount-wrapper d-flex flex-column justify-content-center align-items-center">
-            <p class="deal-discount text-align-center fs-2">
-              {% if deal.model_name == 'promo' %}
-              Up to <br>
-              <span class="display-2">-{{ deal.max_promo_percentage }}%</span>
-              {% else %}
-              <span class="display-2">-{{ deal.promo_percentage }}%</span>
-              {% endif %}
-            </p>
-            {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
-            <div class="btn-group d-flex align-items-center" role="group" aria-label="Deal prices">
-              <span class="btn btn-dark base-price"><s>£ {{ deal.base_price }}</s></span>
-              <span class="btn btn-dark final-price">£ {{ deal.final_price }}</span>
-            </div>
+    <div class="container mt-4">
+        <h2 class="ps-3">Deals of The Day</h2>
+        <hr>
+        <div class="row justify-content-center mt-5">
+            {% if dotd|length != 0 %}
+                {% for deal in dotd %}
+                    <div class="countdown col-7 col-xs-6 col-md-4 col-lg-3">
+                        <a target="_blank"
+                           {% if deal.model_name == 'game' or deal.model_name == 'dlc' %} href="{% url 'game' deal.model_name deal.id %}" {% else %} href="{% url 'promo' deal.id %}" {% endif %}
+                           class="content-overlay d-flex flex-column">
+                            <div class="content-overlay__name-wrapper d-flex flex-column justify-content-center align-items-center">
+                                <h3 class="px-3 text-center">
+                                    {{ deal.name }}
+                                    {% if deal.model_name == 'dlc' %}<span class="badge bg-warning text-black fs-6">DLC</span>{% endif %}
+                                </h3>
+                            </div>
+                            <div class="content-overlay__discount-wrapper d-flex flex-column justify-content-center align-items-center">
+                                <p class="deal-discount text-align-center fs-2">
+                                    {% if deal.model_name == 'promo' %}
+                                        Up to
+                                        <br>
+                                        <span class="display-2">-{{ deal.max_promo_percentage }}%</span>
+                                    {% else %}
+                                        <span class="display-2">-{{ deal.promo_percentage }}%</span>
+                                    {% endif %}
+                                </p>
+                                {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
+                                    <div class="btn-group d-flex align-items-center"
+                                         role="group"
+                                         aria-label="Deal prices">
+                                        <span class="btn btn-dark base-price"><s>£ {{ deal.base_price }}</s></span>
+                                        <span class="btn btn-dark final-price">£ {{ deal.final_price }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="content-overlay__bottom-wrapper d-flex flex-column justify-content-center align-items-center">
+                                {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
+                                    <p class="fs-5 countdown-timer"
+                                       data-end-time="{{ deal.promo.end_date|date:'Y-m-d H:i' }}"></p>
+                                    <button class="btn btn-light" role="button">
+                                        <strong>Add to Cart</strong>
+                                    </button>
+                                {% elif deal.model_name == 'promo' %}
+                                    <p class="fs-5 countdown-timer"
+                                       data-end-time="{{ deal.end_date|date:'Y-m-d H:i' }}"></p>
+                                    <button class="btn btn-light" role="button">
+                                        <strong>Browse Deals</strong>
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </a>
+                        <img src="{{ MEDIA_URL }}{{ deal|use_media:'COVER.src' }}"
+                             alt="{{ deal|use_media:'COVER.descr' }}">
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="dotd-empty d-flex flex-column align-items-center">
+                    <img src="{{ MEDIA_URL }}empty-dotd.png"
+                         alt="Hand-written 'That's all folks!'">
+                    <p class="text-center">
+                        <small>Please check back later!</small>
+                    </p>
+                </div>
             {% endif %}
-          </div>
-          <div class="content-overlay__bottom-wrapper d-flex flex-column justify-content-center align-items-center">
-            {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
-            <p class="fs-5 countdown-timer" data-end-time="{{ deal.promo.end_date|date:'Y-m-d H:i' }}"></p>
-            <button class="btn btn-light" role="button"><strong>Add to Cart</strong></button>
-            {% elif deal.model_name == 'promo' %}
-            <p class="fs-5 countdown-timer" data-end-time="{{ deal.end_date|date:'Y-m-d H:i' }}"></p>
-            <button class="btn btn-light" role="button"><strong>Browse Deals</strong></button>
-            {% endif %}
-          </div>
-        </a>
-        <img src="{{ MEDIA_URL }}{{ deal|use_media:'COVER.src'}}" alt="{{ deal|use_media:'COVER.descr' }}">
-      </div>
-      {% endfor %}
-      {% else %}
-      <div class="dotd-empty d-flex flex-column align-items-center">
-        <img src="{{ MEDIA_URL }}empty-dotd.png" alt="Hand-written 'That's all folks!'">
-        <p class="text-center"><small>Please check back later!</small></p>
-      </div>
-      {% endif %}
+        </div>
     </div>
-  </div>
 </section>
 {% endblock %}
-
 {% block extra_css %}
-<style>
+    <style>
   #top-side {
     fill: url(#box-gradient-top);
   }
@@ -351,153 +393,152 @@
     stop-color: black;
     stop-opacity: .8;
   }
-</style>
+    </style>
 {% endblock %}
-
 {% block postloadjs %}
-{{ block.super }}
-<script>
-  const carouselContainer = document.querySelector('.carousel-container');
-  const gamesCarousel = document.querySelector('#games-carousel');
+    {{ block.super }}
+    <script>
+        const carouselContainer = document.querySelector('.carousel-container');
+        const gamesCarousel = document.querySelector('#games-carousel');
 
-  const svgObject = document.getElementById('game-box');
-  const sides = {
-    top: document.getElementById('top-side'),
-    left: document.getElementById('left-side'),
-    right: document.getElementById('right-side'),
-    bottom: document.getElementById('bottom-side'),
-  };
+        const svgObject = document.getElementById('game-box');
+        const sides = {
+            top: document.getElementById('top-side'),
+            left: document.getElementById('left-side'),
+            right: document.getElementById('right-side'),
+            bottom: document.getElementById('bottom-side'),
+        };
 
-  svgObject.setAttribute('height', Math.floor(carouselContainer.offsetHeight));
+        svgObject.setAttribute('height', Math.floor(carouselContainer.offsetHeight));
 
-  // Polygons - sides of box
+        // Polygons - sides of box
 
-  // Height of polygons for top and bottom
-  const ySideWidth = Math.floor((carouselContainer.offsetHeight - gamesCarousel.offsetHeight) / 2 - (gamesCarousel
-    .offsetHeight * 0.025));
+        // Height of polygons for top and bottom
+        const ySideWidth = Math.floor((carouselContainer.offsetHeight - gamesCarousel.offsetHeight) / 2 - (gamesCarousel
+            .offsetHeight * 0.025));
 
-  // Width of polygons for left and right
-  const xSideHeight = Math.floor((carouselContainer.offsetWidth - gamesCarousel.offsetWidth) / 2 - (gamesCarousel
-    .offsetWidth * 0.025));
+        // Width of polygons for left and right
+        const xSideHeight = Math.floor((carouselContainer.offsetWidth - gamesCarousel.offsetWidth) / 2 - (gamesCarousel
+            .offsetWidth * 0.025));
 
-  // Generate points for top side based on screen size
-  const topPointA = "0,0";
-  const topPointB = `${carouselContainer.offsetWidth},0`;
-  const topPointC = `${Math.floor(xSideHeight + gamesCarousel.offsetWidth * 1.05)},${ySideWidth}`;
-  const topPointD = `${xSideHeight},${ySideWidth}`;
+        // Generate points for top side based on screen size
+        const topPointA = "0,0";
+        const topPointB = `${carouselContainer.offsetWidth},0`;
+        const topPointC = `${Math.floor(xSideHeight + gamesCarousel.offsetWidth * 1.05)},${ySideWidth}`;
+        const topPointD = `${xSideHeight},${ySideWidth}`;
 
-  // Generate points for left side based on screen size
-  const leftPointA = `0,${carouselContainer.offsetHeight}`;
-  const leftPointB = "0,0";
-  const leftPointC = topPointD;
-  const leftPointD = `${xSideHeight},${Math.floor(ySideWidth + gamesCarousel.offsetHeight * 1.08)}`;
+        // Generate points for left side based on screen size
+        const leftPointA = `0,${carouselContainer.offsetHeight}`;
+        const leftPointB = "0,0";
+        const leftPointC = topPointD;
+        const leftPointD = `${xSideHeight},${Math.floor(ySideWidth + gamesCarousel.offsetHeight * 1.08)}`;
 
-  // Generate points for right side based on screen size
-  const rightPointA =
-    `${Math.floor(xSideHeight + gamesCarousel.offsetWidth * 1.05)},${Math.floor(ySideWidth + gamesCarousel.offsetHeight * 1.08)}`;
-  const rightPointB = topPointC;
-  const rightPointC = topPointB;
-  const rightPointD = `${carouselContainer.offsetWidth},${carouselContainer.offsetHeight}`;
+        // Generate points for right side based on screen size
+        const rightPointA =
+            `${Math.floor(xSideHeight + gamesCarousel.offsetWidth * 1.05)},${Math.floor(ySideWidth + gamesCarousel.offsetHeight * 1.08)}`;
+        const rightPointB = topPointC;
+        const rightPointC = topPointB;
+        const rightPointD = `${carouselContainer.offsetWidth},${carouselContainer.offsetHeight}`;
 
-  // Generate points for bottom side based on screen size
-  // We already have most of the points calculated, so we just assign a variable as value
-  const bottomPointA = leftPointA;
-  const bottomPointB = rightPointD;
-  const bottomPointC = rightPointA;
-  const bottomPointD = leftPointD;
+        // Generate points for bottom side based on screen size
+        // We already have most of the points calculated, so we just assign a variable as value
+        const bottomPointA = leftPointA;
+        const bottomPointB = rightPointD;
+        const bottomPointC = rightPointA;
+        const bottomPointD = leftPointD;
 
-  // Find dash-array value by finding the length of the side (diagonal) polygon sides.
-  const dashArrayValue = Math.sqrt(Math.pow(xSideHeight, 2) + Math.pow(carouselContainer.offsetWidth - ySideWidth, 2));
+        // Find dash-array value by finding the length of the side (diagonal) polygon sides.
+        const dashArrayValue = Math.sqrt(Math.pow(xSideHeight, 2) + Math.pow(carouselContainer.offsetWidth - ySideWidth, 2));
 
-  // Collect and format all points before feeding to setPoints()
-  const points = {
-    top: `${topPointA} ${topPointB} ${topPointC} ${topPointD}`,
-    left: `${leftPointA} ${leftPointB} ${leftPointC} ${leftPointD}`,
-    right: `${rightPointA} ${rightPointB} ${rightPointC} ${rightPointD}`,
-    bottom: `${bottomPointA} ${bottomPointB} ${bottomPointC} ${bottomPointD}`,
-  };
+        // Collect and format all points before feeding to setPoints()
+        const points = {
+            top: `${topPointA} ${topPointB} ${topPointC} ${topPointD}`,
+            left: `${leftPointA} ${leftPointB} ${leftPointC} ${leftPointD}`,
+            right: `${rightPointA} ${rightPointB} ${rightPointC} ${rightPointD}`,
+            bottom: `${bottomPointA} ${bottomPointB} ${bottomPointC} ${bottomPointD}`,
+        };
 
 
-  const boxBottom = document.getElementById('box-bottom');
-  const boxBottomBlur = document.getElementById('box-bottom-shadows');
+        const boxBottom = document.getElementById('box-bottom');
+        const boxBottomBlur = document.getElementById('box-bottom-shadows');
 
-  [boxBottom, boxBottomBlur].forEach(element => {
-    element.setAttribute('x', xSideHeight);
-    element.setAttribute('y', ySideWidth)
-    element.setAttribute('width', Math.floor(gamesCarousel.offsetWidth * 1.05))
-    element.setAttribute('height', Math.floor(gamesCarousel.offsetHeight * 1.08));
-  })
+        [boxBottom, boxBottomBlur].forEach(element => {
+            element.setAttribute('x', xSideHeight);
+            element.setAttribute('y', ySideWidth)
+            element.setAttribute('width', Math.floor(gamesCarousel.offsetWidth * 1.05))
+            element.setAttribute('height', Math.floor(gamesCarousel.offsetHeight * 1.08));
+        })
 
-  function setPoints(side) {
-    let element = sides[side];
-    let elementBlur = document.getElementById(`${side}-side-blur`);
-    let elementPoints = points[side];
-    element.setAttribute('points', elementPoints);
-    // Some of the element points have been swapped around 
-    // in the blur polygons (shadow effect) to make it easier to reuse vars
-    // so we do some small tweaks as efficiently as possible.
-    if (side == "right") {
-      const pointsArray = elementPoints.match(/[\d,]+/g); // Extract points as an array
-      const reorderedArray = [pointsArray[2], pointsArray[3], pointsArray[0], pointsArray[1]]; // Reorder array
-      elementPoints = reorderedArray; // reassign array
-    } else if (side == "bottom") {
-      const pointsArray = elementPoints.match(/[\d,]+/g); // Extract points as an array
-      const reorderedArray = [pointsArray[1], pointsArray[0], pointsArray[3], pointsArray[2]]; // Reorder array
-      elementPoints = reorderedArray; // reassign array
-    }
-    elementBlur.setAttribute('points', elementPoints);
-    elementBlur.setAttribute('stroke-dasharray', `${dashArrayValue} ${carouselContainer.offsetWidth}`);
-    if (side == "top" || side == "bottom") {
-      elementBlur.setAttribute('stroke-dashoffset', -Math.abs(carouselContainer.offsetWidth));
-    } else {
-      elementBlur.setAttribute('stroke-dashoffset', -Math.abs(carouselContainer.offsetHeight));
-    }
-  }
+        function setPoints(side) {
+            let element = sides[side];
+            let elementBlur = document.getElementById(`${side}-side-blur`);
+            let elementPoints = points[side];
+            element.setAttribute('points', elementPoints);
+            // Some of the element points have been swapped around 
+            // in the blur polygons (shadow effect) to make it easier to reuse vars
+            // so we do some small tweaks as efficiently as possible.
+            if (side == "right") {
+                const pointsArray = elementPoints.match(/[\d,]+/g); // Extract points as an array
+                const reorderedArray = [pointsArray[2], pointsArray[3], pointsArray[0], pointsArray[1]]; // Reorder array
+                elementPoints = reorderedArray; // reassign array
+            } else if (side == "bottom") {
+                const pointsArray = elementPoints.match(/[\d,]+/g); // Extract points as an array
+                const reorderedArray = [pointsArray[1], pointsArray[0], pointsArray[3], pointsArray[2]]; // Reorder array
+                elementPoints = reorderedArray; // reassign array
+            }
+            elementBlur.setAttribute('points', elementPoints);
+            elementBlur.setAttribute('stroke-dasharray', `${dashArrayValue} ${carouselContainer.offsetWidth}`);
+            if (side == "top" || side == "bottom") {
+                elementBlur.setAttribute('stroke-dashoffset', -Math.abs(carouselContainer.offsetWidth));
+            } else {
+                elementBlur.setAttribute('stroke-dashoffset', -Math.abs(carouselContainer.offsetHeight));
+            }
+        }
 
-  setPoints("top");
-  setPoints("left");
-  setPoints("right");
-  setPoints("bottom");
+        setPoints("top");
+        setPoints("left");
+        setPoints("right");
+        setPoints("bottom");
 
-  let dotdCountdowns = document.querySelectorAll('.countdown-timer');
+        let dotdCountdowns = document.querySelectorAll('.countdown-timer');
 
-  var _second = 1000;
-  var _minute = _second * 60;
-  var _hour = _minute * 60;
-  var _day = _hour * 24;
+        var _second = 1000;
+        var _minute = _second * 60;
+        var _hour = _minute * 60;
+        var _day = _hour * 24;
 
-  function updateCountdown(element) {
-    var end = new Date(element.getAttribute('data-end-time'));
-    var now = new Date();
-    var distance = end - now;
-    if (distance < 0) {
-      element.innerHTML = 'EXPIRED!';
-      return;
-    }
-    var days = Math.floor(distance / _day);
-    var hours = Math.floor((distance % _day) / _hour);
-    var minutes = Math.floor((distance % _hour) / _minute);
-    var seconds = Math.floor((distance % _minute) / _second);
+        function updateCountdown(element) {
+            var end = new Date(element.getAttribute('data-end-time'));
+            var now = new Date();
+            var distance = end - now;
+            if (distance < 0) {
+                element.innerHTML = 'EXPIRED!';
+                return;
+            }
+            var days = Math.floor(distance / _day);
+            var hours = Math.floor((distance % _day) / _hour);
+            var minutes = Math.floor((distance % _hour) / _minute);
+            var seconds = Math.floor((distance % _minute) / _second);
 
-    if (window.innerWidth < 1200) {
-      element.innerHTML = `${days}<span>D </span>`;
-      element.innerHTML += `${hours}<span>H </span>`;
-      element.innerHTML += `${minutes}<span>M </span>`;
-      element.innerHTML += `${seconds}<span>S</span>`;
-    } else {
-      element.innerHTML = `${days}<span> Days </span>`;
-      element.innerHTML += `${hours}<span> Hours </span>`;
-      element.innerHTML += `${minutes}<span> Mins </span>`;
-      element.innerHTML += `${seconds}<span> Secs</span>`;
-    }
+            if (window.innerWidth < 1200) {
+                element.innerHTML = `${days}<span>D</span>`;
+                element.innerHTML += `${hours}<span>H</span>`;
+                element.innerHTML += `${minutes}<span>M</span>`;
+                element.innerHTML += `${seconds}<span>S</span>`;
+            } else {
+                element.innerHTML = `${days}<span>Days</span>`;
+                element.innerHTML += `${hours}<span>Hours</span>`;
+                element.innerHTML += `${minutes}<span>Mins</span>`;
+                element.innerHTML += `${seconds}<span>Secs</span>`;
+            }
 
-    setTimeout(function () {
-      updateCountdown(element);
-    }, 1000 - (now % 1000));
-  }
+            setTimeout(function() {
+                updateCountdown(element);
+            }, 1000 - (now % 1000));
+        }
 
-  dotdCountdowns.forEach(element => {
-    updateCountdown(element);
-  })
-</script>
+        dotdCountdowns.forEach(element => {
+            updateCountdown(element);
+        })
+    </script>
 {% endblock %}

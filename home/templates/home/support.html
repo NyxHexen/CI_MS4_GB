@@ -1,171 +1,196 @@
 {% extends "base.html" %}
 {% load static %}
 {% load tags %}
-
-{% block page_header %}
-{% endblock %}
-
+{% block page_header %}{% endblock %}
 {% block content %}
-<div id="support" class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-8">
-            <div class="card">
-                <div class="card-header text-bg-dark">
-                    <h1 class="text-center m-0">frequently Asked questions</h1>
-                </div>
-                <div class="card-body d-flex flex-row justify-content-center align-items-center">
-                    <div class="carousel-indicators flex-column col-auto align-items-start mx-3">
-                        <button type="button" data-bs-target="#faq-slides" data-bs-slide-to="1" class="faq-buttons my-1"
-                            aria-current="true" aria-label="How do I buy a game?">How do
-                            I buy a game?
-                        </button>
-                        <button type="button" data-bs-target="#faq-slides" data-bs-slide-to="2" class="faq-buttons my-1"
-                            aria-label="I cannot log in. What can I do?">I cannot log in. What can I do?</button>
-                        <button type="button" data-bs-target="#faq-slides" data-bs-slide-to="3" class="faq-buttons my-1"
-                            aria-label="How do I reset my password?">How do I reset my password?
-                        </button>
+    <div id="support" class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-header text-bg-dark">
+                        <h1 class="text-center m-0">frequently Asked questions</h1>
                     </div>
-                    <div class="carousel-indicators flex-column col-auto align-items-start mx-3">
-                        <button type="button" data-bs-target="#faq-slides" data-bs-slide-to="4" class="faq-buttons my-1"
-                            aria-label="How can I change my currency?">How can I change my currency?
-                        </button>
-                        <button type="button" data-bs-target="#faq-slides" data-bs-slide-to="5" class="faq-buttons my-1"
-                            aria-label="How can I change my billing address?">How can I change my billing address?
-                        </button>
-                        <button type="button" data-bs-target="#faq-slides" data-bs-slide-to="6" class="faq-buttons my-1"
-                            aria-label="How do I download my purchased items?">How do I download my purchased items?
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center mt-4">
-        <div class="col-6">
-            <div id="faq-slides" class="carousel slide">
-                <div class="carousel-inner">
-                    <div class="carousel-item active px-1">
-                    </div>
-                    <div class="carousel-item px-1">
-                        <div class="card">
-                            <div class="card-header text-bg-gamebox text-dark">
-                                <h2 class="h3 text-center m-0">How do I buy a game?</h2>
-                            </div>
-                            <div class="card-body">
-                                <p>
-                                    It's super-easy. First, you need to add the game to your cart. You can do it in two
-                                    places:
-                                </p>
-                                <ul>
-                                    <li>the <a target="_blank" href="{% url 'games' %}">Browse</a> page, by clicking on
-                                        the 'Add to Cart' button, or</li>
-                                    <li>the product page (like <a target="_blank"
-                                            href="{% url 'game' 'game' '1' %}">this one</a>), by clicking on the 'Add to
-                                        Cart' button.</li>
-                                </ul>
-                                <p>
-                                    Once you've got one or more items in your Cart, click on the Cart icon in the
-                                    upper-right corner of the screen, and select "Proceed to Checkout".
-                                </p>
-                                <p>
-                                    Once in Checkout, you will have to enter your billing address and card details and,
-                                    after all data is entered, click on "Pay Now" button.
-                                </p>
-                            </div>
+                    <div class="card-body d-flex flex-row justify-content-center align-items-center">
+                        <div class="carousel-indicators flex-column col-auto align-items-start mx-3">
+                            <button type="button"
+                                    data-bs-target="#faq-slides"
+                                    data-bs-slide-to="1"
+                                    class="faq-buttons my-1"
+                                    aria-current="true"
+                                    aria-label="How do I buy a game?">
+                                How do
+                                I buy a game?
+                            </button>
+                            <button type="button"
+                                    data-bs-target="#faq-slides"
+                                    data-bs-slide-to="2"
+                                    class="faq-buttons my-1"
+                                    aria-label="I cannot log in. What can I do?">
+                                I cannot log in. What can I do?
+                            </button>
+                            <button type="button"
+                                    data-bs-target="#faq-slides"
+                                    data-bs-slide-to="3"
+                                    class="faq-buttons my-1"
+                                    aria-label="How do I reset my password?">How do I reset my password?</button>
                         </div>
-                    </div>
-                    <div class="carousel-item px-1">
-                        <div class="card">
-                            <div class="card-header text-bg-gamebox text-dark">
-                                <h2 class="h3 text-center m-0">I cannot log in. What can I do?</h2>
-                            </div>
-                            <div class="card-body">
-                                <p class="m-0">
-                                    If you've already tried resetting your password and are still having trouble
-                                    accessing your
-                                    account, please don't hesitate to reach out to us at <a
-                                        href="mailto:info@gamebox.com">info@gamebox.com</a>.</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item px-1">
-                        <div class="card">
-                            <div class="card-header text-bg-gamebox text-dark">
-                                <h2 class="h3 text-center m-0">How do I reset my password?</h2>
-                            </div>
-                            <div class="card-body">
-                                <p class="m-0">If you happen to forget your password, simply go to our "Sign In" page
-                                    and click on
-                                    the "Forgotten Password" link. From there, you'll need to enter your email address
-                                    and click on the "Reset My Password" button. We will then email you a reset link
-                                    that you can use to create a new password.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item px-1">
-                        <div class="card">
-                            <div class="card-header text-bg-gamebox text-dark">
-                                <h2 class="h3 text-center m-0">How can I change my currency?</h2>
-                            </div>
-                            <div class="card-body">
-                                <p class="m-0">Currently, our games are only offered in GBP. However, we are working on
-                                    making them available in other currencies as well. Once this feature is implemented,
-                                    we will send an email to all of our account holders to let them know. So, if you
-                                    haven't already signed up, it might be a good idea to do so! <small
-                                        class="text-muted">(Hint, hint.)</small>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item px-1">
-                        <div class="card">
-                            <div class="card-header text-bg-gamebox text-dark">
-                                <h2 class="h3 text-center m-0">How can I change my currency?</h2>
-                            </div>
-                            <div class="card-body">
-                                <p>
-                                    If you're not currently logged in, there's no need to worry about providing your
-                                    billing address until you decide to make a purchase. At that point, we'll request
-                                    the necessary information from you.
-                                </p>
-                                <p class="mb-0">
-                                    However, if you're logged in and want to change your default billing address, simply
-                                    go to "My Profile" in the navigation bar. From there, you can update your billing
-                                    address and save it as your new default by checking the "Save as default billing
-                                    address" box. If you'd like to use a different billing address for a specific
-                                    purchase, you can leave that box unchecked and enter the new details during
-                                    checkout.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item px-1">
-                        <div class="card">
-                            <div class="card-header text-bg-gamebox text-dark">
-                                <h2 class="h3 text-center m-0">How do I download my purchased items?</h2>
-                            </div>
-                            <div class="card-body">
-                                <p>
-                                    After you've completed your purchase, we'll send an email to your inbox with a
-                                    detailed description of your order and a unique serial key for each item you've
-                                    purchased. To redeem your game, simply copy the serial key and follow the link
-                                    provided in the email to our partner's website.
-                                </p>
-                                <p>On our partner's website, you'll be prompted to enter the serial key and verify your
-                                    account information. Once you've completed these steps, your new game will be added
-                                    to your account and you'll be able to start playing right away.</p>
-                                <p class="mb-0">We understand that this redemption process may seem unusual, but we assure you that
-                                    it's a reliable and secure way to ensure that you receive your game as quickly as
-                                    possible. If you have any questions or concerns about the process, please don't
-                                    hesitate to reach out to our customer support team for assistance.</p>
-                            </div>
+                        <div class="carousel-indicators flex-column col-auto align-items-start mx-3">
+                            <button type="button"
+                                    data-bs-target="#faq-slides"
+                                    data-bs-slide-to="4"
+                                    class="faq-buttons my-1"
+                                    aria-label="How can I change my currency?">How can I change my currency?</button>
+                            <button type="button"
+                                    data-bs-target="#faq-slides"
+                                    data-bs-slide-to="5"
+                                    class="faq-buttons my-1"
+                                    aria-label="How can I change my billing address?">
+                                How can I change my billing address?
+                            </button>
+                            <button type="button"
+                                    data-bs-target="#faq-slides"
+                                    data-bs-slide-to="6"
+                                    class="faq-buttons my-1"
+                                    aria-label="How do I download my purchased items?">
+                                How do I download my purchased items?
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-6">
+                <div id="faq-slides" class="carousel slide">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active px-1"></div>
+                        <div class="carousel-item px-1">
+                            <div class="card">
+                                <div class="card-header text-bg-gamebox text-dark">
+                                    <h2 class="h3 text-center m-0">How do I buy a game?</h2>
+                                </div>
+                                <div class="card-body">
+                                    <p>
+                                        It's super-easy. First, you need to add the game to your cart. You can do it in two
+                                        places:
+                                    </p>
+                                    <ul>
+                                        <li>
+                                            the <a target="_blank" href="{% url 'games' %}">Browse</a> page, by clicking on
+                                            the 'Add to Cart' button, or
+                                        </li>
+                                        <li>
+                                            the product page (like <a target="_blank" href="{% url 'game' 'game' '1' %}">this one</a>), by clicking on the 'Add to
+                                            Cart' button.
+                                        </li>
+                                    </ul>
+                                    <p>
+                                        Once you've got one or more items in your Cart, click on the Cart icon in the
+                                        upper-right corner of the screen, and select "Proceed to Checkout".
+                                    </p>
+                                    <p>
+                                        Once in Checkout, you will have to enter your billing address and card details and,
+                                        after all data is entered, click on "Pay Now" button.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item px-1">
+                            <div class="card">
+                                <div class="card-header text-bg-gamebox text-dark">
+                                    <h2 class="h3 text-center m-0">I cannot log in. What can I do?</h2>
+                                </div>
+                                <div class="card-body">
+                                    <p class="m-0">
+                                        If you've already tried resetting your password and are still having trouble
+                                        accessing your
+                                        account, please don't hesitate to reach out to us at <a href="mailto:info@gamebox.com">info@gamebox.com</a>.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item px-1">
+                            <div class="card">
+                                <div class="card-header text-bg-gamebox text-dark">
+                                    <h2 class="h3 text-center m-0">How do I reset my password?</h2>
+                                </div>
+                                <div class="card-body">
+                                    <p class="m-0">
+                                        If you happen to forget your password, simply go to our "Sign In" page
+                                        and click on
+                                        the "Forgotten Password" link. From there, you'll need to enter your email address
+                                        and click on the "Reset My Password" button. We will then email you a reset link
+                                        that you can use to create a new password.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item px-1">
+                            <div class="card">
+                                <div class="card-header text-bg-gamebox text-dark">
+                                    <h2 class="h3 text-center m-0">How can I change my currency?</h2>
+                                </div>
+                                <div class="card-body">
+                                    <p class="m-0">
+                                        Currently, our games are only offered in GBP. However, we are working on
+                                        making them available in other currencies as well. Once this feature is implemented,
+                                        we will send an email to all of our account holders to let them know. So, if you
+                                        haven't already signed up, it might be a good idea to do so! <small class="text-muted">(Hint, hint.)</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item px-1">
+                            <div class="card">
+                                <div class="card-header text-bg-gamebox text-dark">
+                                    <h2 class="h3 text-center m-0">How can I change my currency?</h2>
+                                </div>
+                                <div class="card-body">
+                                    <p>
+                                        If you're not currently logged in, there's no need to worry about providing your
+                                        billing address until you decide to make a purchase. At that point, we'll request
+                                        the necessary information from you.
+                                    </p>
+                                    <p class="mb-0">
+                                        However, if you're logged in and want to change your default billing address, simply
+                                        go to "My Profile" in the navigation bar. From there, you can update your billing
+                                        address and save it as your new default by checking the "Save as default billing
+                                        address" box. If you'd like to use a different billing address for a specific
+                                        purchase, you can leave that box unchecked and enter the new details during
+                                        checkout.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item px-1">
+                            <div class="card">
+                                <div class="card-header text-bg-gamebox text-dark">
+                                    <h2 class="h3 text-center m-0">How do I download my purchased items?</h2>
+                                </div>
+                                <div class="card-body">
+                                    <p>
+                                        After you've completed your purchase, we'll send an email to your inbox with a
+                                        detailed description of your order and a unique serial key for each item you've
+                                        purchased. To redeem your game, simply copy the serial key and follow the link
+                                        provided in the email to our partner's website.
+                                    </p>
+                                    <p>
+                                        On our partner's website, you'll be prompted to enter the serial key and verify your
+                                        account information. Once you've completed these steps, your new game will be added
+                                        to your account and you'll be able to start playing right away.
+                                    </p>
+                                    <p class="mb-0">
+                                        We understand that this redemption process may seem unusual, but we assure you that
+                                        it's a reliable and secure way to ensure that you receive your game as quickly as
+                                        possible. If you have any questions or concerns about the process, please don't
+                                        hesitate to reach out to our customer support team for assistance.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 {% endblock %}
