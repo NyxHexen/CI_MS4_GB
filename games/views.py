@@ -100,12 +100,12 @@ def games(request):
         filtered_results = sort_by(
             request.GET.get("sort_by"), filtered_games, filtered_dlcs
         )
-        paginator = Paginator(filtered_results, 20)
+        paginator = Paginator(filtered_results, 12)
     else:
         if "sort_by" in request.GET:
             filter_dict.update({f"sort_by": f'{request.GET.get("sort_by")}'})
         sorted_games = sort_by(request.GET.get("sort_by"), games, dlcs)
-        paginator = Paginator(sorted_games, 20)
+        paginator = Paginator(sorted_games, 12)
 
     page_number = request.GET.get("page")
 
