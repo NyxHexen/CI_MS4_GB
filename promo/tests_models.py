@@ -93,7 +93,7 @@ class PromoTestCase(TestCase):
         )
         end_date = timezone.now().replace(
             microsecond=0,
-            econd=0
+            second=0
         ) + timedelta(days=1)
 
         promo = Promo(

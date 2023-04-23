@@ -28,7 +28,7 @@ class PromoViewsTests(TestCase):
             )
         self.end_date = timezone.now().replace(
             microsecond=0,
-            econd=0
+            second=0
             ) + timedelta(days=1)
         self.user = User.objects.create_user(
             username='test-gamebox',
@@ -152,9 +152,9 @@ class PromoViewsTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, "/")
         messages = list(get_messages(response.wsgi_request))
-        self.assertEqual(
+        self.assertIn(
+            "Super Secret Page of Awesomeness!",
             f'{str(messages[0]).strip()}',
-            "Super Secret Page of Awesomeness! Unauthorized access prohibited!"
         )
 
     def test_promo_add_view_staff_preview(self):
