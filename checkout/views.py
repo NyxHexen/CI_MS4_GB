@@ -228,11 +228,10 @@ def checkout_success(request, order_number):
             [request.user.email, ]
         )
     except Exception as e:
-        print(e)
         messages.error(
             request,
             f"There has been an issue with your email confirmation.\
-        Please contact us to resolve this error.",
+        Please contact us to resolve this error. ({e})",
         )
 
     if not request.user.is_authenticated:
