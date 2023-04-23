@@ -9,6 +9,7 @@ from home.models import Media
 
 register = template.Library()
 
+
 @register.filter
 def use_media(set, media_use):
     img_type, img_attr = media_use.split('.')
@@ -19,12 +20,12 @@ def use_media(set, media_use):
             media = set.media.filter(
                 media_use=img_type
                 ).first()
-            
+
         if img_attr == 'src':
             return media.file.name
         elif img_attr == 'descr':
             return media.description
-    except:
+    except Exception:
         media = Media.objects.get(
             slug=f'no-image-{img_type.lower()}'
             )

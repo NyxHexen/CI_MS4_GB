@@ -17,14 +17,14 @@ from games.models import *
 class MediaModelTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
-            username='test-gamebox', 
+            username='test-gamebox',
             password='gamebox-pwd',
             first_name="Test",
             last_name="Test",
             email="test@test.com"
             )
         self.super_user = User.objects.create_superuser(
-            username='test-super-gamebox', 
+            username='test-super-gamebox',
             password='gamebox-pwd',
             first_name="Test",
             last_name="Test",
@@ -61,7 +61,7 @@ class MediaModelTest(TestCase):
             "Super Secret Page of Awesomeness!",
             f'{str(messages[0]).strip()}',
         )
-    
+
     def test_media_view_staff(self):
         self.client.login(
             username='test-super-gamebox',
@@ -134,7 +134,7 @@ class MediaModelTest(TestCase):
             "Super Secret Page of Awesomeness!",
             f'{str(messages[0]).strip()}',
         )
-        
+
     def test_media_edit_view_staff(self):
         self.client.login(
             username='test-super-gamebox',
@@ -159,7 +159,10 @@ class MediaModelTest(TestCase):
         url = reverse('media_delete', kwargs={'media_id': '1'})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, "/accounts/login/?next=/media/1/delete/")
+        self.assertRedirects(
+            response,
+            "/accounts/login/?next=/media/1/delete/"
+            )
 
     def test_media_delete_view_non_staff(self):
         self.client.login(

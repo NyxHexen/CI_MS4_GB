@@ -15,7 +15,8 @@ import os
 @receiver(pre_save, sender=Media)
 def media_control(instance, *args, **kwargs):
     """
-    Signal receiver to handle the correct assignment of the Media media_ext field.
+    Signal receiver to handle the correct assignment of the Media media_ext
+    field.
 
     Args:
         pre_save (signal): Signal on which the receiver activates.
@@ -30,17 +31,16 @@ def media_control(instance, *args, **kwargs):
         new_file_extension = new_file_extension.replace(".", "")
 
     if (instance.file.name is not None
-        and getattr(instance.file, 'name') not in [None, 0]
-        ):
+            and getattr(instance.file, 'name') not in [None, 0]):
         _, curr_file_extension = os.path.splitext(instance.file.name)
         curr_file_extension = curr_file_extension.replace(".", "")
 
     if (
         getattr(instance.file, 'name') not in [None, 0]
-        and instance.media_ext is not None
-        and instance.file._file is None
-        ):
-        # File exists, there is a media extension, and no new file is coming in.
+            and instance.media_ext is not None
+            and instance.file._file is None):
+        # File exists, there is a media extension,
+        # and no new file is coming in.
         if curr_file_extension != instance.media_ext:
             # Auto-fill media extension.
             instance.media_ext = curr_file_extension
@@ -52,7 +52,8 @@ def media_control(instance, *args, **kwargs):
         elif getattr(instance.file, 'name') not in [None, 0]:
             # but there's a file already.
             instance.media_ext = curr_file_extension
-    elif instance.media_ext is not None and getattr(instance.file, 'name') in [None, 0]:
+    elif (instance.media_ext is not None
+          and getattr(instance.file, 'name') in [None, 0]):
         # There is an extension but no file.
         instance.media_ext = None
     elif instance.media_ext is not None and instance.file._file is not None:

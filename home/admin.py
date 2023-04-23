@@ -7,6 +7,7 @@ from django.contrib import admin
 from .models import Media
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 class MediaAdmin(admin.ModelAdmin):
     """
     ModelAdmin class for Media model
@@ -18,5 +19,5 @@ class MediaAdmin(admin.ModelAdmin):
         'description'
     )
 
-# Register your models here.
+
 admin.site.register(Media, MediaAdmin)

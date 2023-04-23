@@ -35,4 +35,3 @@ class MediaFormTest(TestCase):
         form = MediaForm(data=self.bad_data)
         self.assertFalse(form.is_valid())
         self.assertNotEqual(len(form.errors), 0)
-

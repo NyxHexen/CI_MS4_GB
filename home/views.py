@@ -30,7 +30,7 @@ def index(request):
     except Exception:
         carousel = []
 
-    try: 
+    try:
         is_featured = list(Game.objects.filter(is_featured=True))
         is_featured += list(DLC.objects.filter(is_featured=True))
         if len(is_featured) > 4:
@@ -45,7 +45,7 @@ def index(request):
                 )
     except Exception:
         is_featured = []
-    
+
     try:
         carousel += list(Promo.objects.filter(carousel=True))
     except Exception:
@@ -109,10 +109,10 @@ def media(request):
     assigned_media_list = [
         item.id for sublist in [
             i.media.all() for i in filtered_game_list
-            ] 
+            ]
         for item in sublist
         ]
-    
+
     unassigned_media = Media.objects.exclude(
         id__in=assigned_media_list
         )
@@ -135,7 +135,7 @@ def media_add(request):
                       Unauthorized access prohibited!'
                       )
         return redirect("/")
-    
+
     form = MediaForm()
 
     if request.method == "POST":
@@ -154,7 +154,7 @@ def media_add(request):
                     f'{e}'
                     )
     context = {
-        'form': form, 
+        'form': form,
     }
     return render(request, "media/media_crud.html", context)
 
@@ -169,7 +169,7 @@ def media_edit(request, media_id):
                       Super Secret Page of Awesomeness!\
                       Unauthorized access prohibited!')
         return redirect("/")
-    
+
     media = get_object_or_404(
         Media,
         id=media_id
@@ -227,6 +227,7 @@ def media_delete(request, media_id):
 
 def about_page(request):
     return render(request, 'home/about.html')
+
 
 def support_page(request):
     return render(request, 'home/support.html')

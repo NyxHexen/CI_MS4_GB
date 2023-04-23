@@ -23,7 +23,7 @@ class CustomBaseModel(models.Model):
             "slug" in self.__dict__
             ) and (
             self.slug is None or self.slug != slugify(self.name)
-            ):
+                ):
             self.slug = slugify(self.name)
         if "final_price" in self.__dict__ and self.final_price == 0:
             self.final_price = self.base_price
@@ -34,7 +34,7 @@ class CustomBaseModel(models.Model):
             "slug" in self.__dict__
             ) and (
             self.slug is None or self.slug != slugify(self.name)
-            ):
+                ):
             self.slug = slugify(self.name)
         if (
             "final_price" in self.__dict__
