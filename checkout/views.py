@@ -219,15 +219,16 @@ def checkout_success(request, order_number):
         """
 
         send_mail(
-            f"""
-            [GameBOX] Thank you for your purchase! Enjoy!\
-            Order #: {order.order_number}
+            f"""\
+            [GameBOX] Thank you for your purchase!\
+            Enjoy! Order #: {order.order_number}\
             """,
             message,
             "info@gamebox.com",
             [request.user.email, ]
         )
-    except Exception:
+    except Exception as e:
+        print(e)
         messages.error(
             request,
             f"There has been an issue with your email confirmation.\
