@@ -4,7 +4,11 @@
 {% load promo_tags %}
 {% load tags %}
 
-{% block page_header %}{% endblock %}
+{% block extra_title %}| {{ promo.name }}{% endblock %}
+
+{% block page_header %}
+<h1 class="visually-hidden">{{ promo.name }} Promo Page</h1>
+{% endblock %}
 
 {% block content %}
     <div class="promo-header">

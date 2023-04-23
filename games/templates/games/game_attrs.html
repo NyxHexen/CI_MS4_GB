@@ -2,9 +2,13 @@
 {% load static %}
 {% load tags %}
 {% load cart_tags %}
+
+{% block extra_title %}| {{ attr.name }}{% endblock %}
+
 {% block page_header %}
-<h1 class="visually-hidden">Content by {{ attr.name }}</h1>
+<h1 class="visually-hidden">Games by {{ attr.name }}</h1>
 {% endblock %}
+
 {% block content %}
     <div class="container pt-5 pb-3">
         <div class="row">

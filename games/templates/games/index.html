@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% load static %}
 {% load tags %}
-{% block page_header %}{% endblock %}
+
+{% block extra_title %}| Browse {% endblock %}
+
+{% block page_header %}
+<h1 class="visually-hidden">Browse Games</h1>
+{% endblock %}
+
 {% block content %}
     <div class="container my-3 my-md-5">
         <div class="row justify-content-evenly align-items-start">

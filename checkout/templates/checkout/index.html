@@ -2,13 +2,13 @@
 {% load static %}
 {% load tags %}
 {% load cart_tags %}
+
+{% block extra_title %}| Checkout{% endblock %}
+
 {% block page_header %}
-    <div class="container">
-        <div class="row">
-            <div class="col"></div>
-        </div>
-    </div>
+<h1 class="visually-hidden">Checkout Page</h1>
 {% endblock %}
+
 {% block content %}
     <!-- Loading Screen -->
     <div id="loading-overlay"

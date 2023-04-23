@@ -2,13 +2,13 @@
 {% load static %}
 {% load tags %}
 {% load cart_tags %}
+
+{% block extra_title %}| My Cart{% endblock %}
+
 {% block page_header %}
-    <div class="container">
-        <div class="row">
-            <div class="col"></div>
-        </div>
-    </div>
+<h1 class="visually-hidden">Cart Page</h1>
 {% endblock %}
+
 {% block content %}
     <!-- Cart Table (if cart is not empty) -->
     <div class="container my-3 my-md-5">

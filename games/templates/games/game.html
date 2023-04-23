@@ -3,6 +3,8 @@
 {% load tags %}
 {% load cart_tags %}
 
+{% block extra_title %}| {{ game.name }}{% endblock %}
+
 {% block page_header %}
 <h1 class="visually-hidden">Page for {{ game.model_name }}{{ game.name }}</h1>
 {% endblock %}
