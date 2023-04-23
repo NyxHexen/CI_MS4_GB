@@ -16,9 +16,9 @@
         <div class="container__blur position-absolute">
             <div class="container game-detail-title d-flex flex-column justify-content-end">
                 <div class="row">
-                    <div class="col offset-md-3 offset-xl-2 pt-3">
+                    <div class="col offset-md-3 offset-xl-2 pt-3 pb-1">
                         <h2 class="display-3">{{ game.name }}</h2>
-                        <h3 class="fs-5 text-muted">{{ game.release_date }}</h3>
+                        <a class="fs-5 text-bg-gamebox px-1 rounded">{{ game.release_date }}</a>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                         {% if game.in_promo and game.promo.active is True %}
                             <span class="promo-discount fs-5">-{{ game.promo_percentage }}%</span>
                         {% endif %}
-                        <div class="d-flex flex-column justify-content-end text-end">
+                        <div class="d-flex flex-column justify-content-end text-end text-bg-light rounded p-1">
                             {% if game.in_promo and game.promo.active is True %}
                                 <span class="fs-5 text-muted"><s>£{{ game.base_price }}</s></span>
                             {% endif %}
