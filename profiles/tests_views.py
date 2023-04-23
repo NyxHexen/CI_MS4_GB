@@ -14,7 +14,7 @@ from home.models import Media
 class MediaModelTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
-            username='test-gamebox', 
+            username='test-gamebox',
             password='gamebox-pwd',
             first_name="Test",
             last_name="Test",
@@ -30,7 +30,7 @@ class MediaModelTest(TestCase):
             description='No Image COVER',
             media_type='image'
         )
-        
+
     def test_myprofile_view_unauth(self):
         url = reverse('profile')
         response = self.client.get(url)
@@ -56,7 +56,10 @@ class MediaModelTest(TestCase):
         url = reverse('billing_address')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, '/accounts/login/?next=/myprofile/billing/')
+        self.assertRedirects(
+            response,
+            '/accounts/login/?next=/myprofile/billing/'
+            )
 
     def test_billing_address_view_auth(self):
         url = reverse('billing_address')
@@ -82,7 +85,7 @@ class MediaModelTest(TestCase):
         user = User.objects.get(id=self.user.id)
         self.assertEqual(user.userprofile.default_phone_number, "9876543210")
         self.assertRedirects(response, '/myprofile/billing/')
-    
+
     def test_newsletter_sub_unauth(self):
         url = reverse('newsletter_sub')
         response = self.client.post(url, data={

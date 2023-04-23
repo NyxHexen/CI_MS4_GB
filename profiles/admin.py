@@ -19,4 +19,5 @@ class UserProfileAdmin(admin.ModelAdmin):
         'default_country'
     )
 
+
 admin.site.register(UserProfile, UserProfileAdmin)

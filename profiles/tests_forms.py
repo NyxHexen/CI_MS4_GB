@@ -12,7 +12,7 @@ from .forms import BillingAddressForm, NewsletterForm
 class ProfilesFormsTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
-            username='test-gamebox', 
+            username='test-gamebox',
             password='gamebox-pwd',
             first_name="Test",
             last_name="Test",
@@ -26,7 +26,7 @@ class ProfilesFormsTests(TestCase):
             'default_postcode': '12345',
             'default_country': 'GB',
         }
-        
+
     def test_form_valid_data(self):
         form = BillingAddressForm(self.form_data)
         self.assertTrue(form.is_valid())
@@ -37,7 +37,8 @@ class ProfilesFormsTests(TestCase):
         }
         form = NewsletterForm(data=form_data)
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.cleaned_data['subscription_email'], 'correct@example.com')
+        self.assertEqual(
+            form.cleaned_data['subscription_email'], 'correct@example.com')
 
     def test_form_bad_data(self):
         form_data = {

@@ -55,5 +55,6 @@ class NewsletterForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['subscription_email'].widget.attrs["placeholder"] = 'Email Address'
+        self.fields[
+            'subscription_email'].widget.attrs["placeholder"] = 'Email Address'
         self.fields['subscription_email'].label = False

@@ -59,20 +59,38 @@ def billing_address(request):
             "System Malfunction! Please try again later."
             )
         return redirect('profile')
-    
+
     form = BillingAddressForm(instance=profile)
 
     if request.method == "POST":
         form_data = {
-            "default_phone_number": request.POST.get("default_phone_number", ""),
-            "default_country": request.POST.get("default_country", ""),
-            "default_postcode": request.POST.get("default_postcode", ""),
-            "default_town_or_city": request.POST.get("default_town_or_city", ""),
-            "default_street_address1": request.POST.get("default_street_address1", ""),
-            "default_street_address2": request.POST.get("default_street_address2", ""),
+            "default_phone_number": request.POST.get(
+                "default_phone_number",
+                ""
+                ),
+            "default_country": request.POST.get(
+                "default_country",
+                ""
+                ),
+            "default_postcode": request.POST.get(
+                "default_postcode",
+                ""
+                ),
+            "default_town_or_city": request.POST.get(
+                "default_town_or_city",
+                ""
+                ),
+            "default_street_address1": request.POST.get(
+                "default_street_address1",
+                ""
+                ),
+            "default_street_address2": request.POST.get(
+                "default_street_address2",
+                ""
+                ),
             "default_county": request.POST.get("default_county", ""),
         }
-        
+
         f = BillingAddressForm(
             form_data,
             initial=form.initial
@@ -105,6 +123,7 @@ def billing_address(request):
     }
     return render(request, 'profiles/default_address.html', context)
 
+
 @require_POST
 def newsletter_sub(request):
     """
@@ -124,13 +143,14 @@ def newsletter_sub(request):
             email=form.cleaned_data['subscription_email']
             )
         if (user is not None
-            and request.user == user
-            ):
+                and request.user == user):
             if request.user.userprofile.newsletter_sub:
                 messages.info(
                     request,
                     "You are already subscribed!\
-                        If you are not receiving our emails, please reach out to us!")
+                        If you are not receiving our emails,\
+                        please reach out to us!"
+                    )
             else:
                 user.userprofile.newsletter_sub = True
                 user.userprofile.save()
@@ -141,17 +161,19 @@ def newsletter_sub(request):
         elif user is not None and request.user != user:
             messages.error(
                 request,
-                'This e-mail address is already associated with another account.'
+                'This e-mail address is already associated\
+                with another account.'
                 )
         elif user is None:
-            # https://stackoverflow.com/questions/2053258/how-do-i-output-html-in-a-message-in-the-new-django-messages-framework
+            # https://stackoverflow.com/questions/2053258/how-do-i-output-html
+            # -in-a-message-in-the-new-django-messages-framework
             messages.info(
                 request,
                 "Newsletter can only be sent to your primary e-mail address.\
                     If you wish to change your primary address, click\
-                    <a class=\"text-light\" href=\"{% url \'accounts:email\'%}\">here</a>.",
-                    extra_tags='safe'
-                    )
+        <aclass=\"text-light\" href=\"{% url \'accounts:email\'%}\">here</a>.",
+                extra_tags='safe'
+                )
 
     redirect_url = request.POST.get('newsletter_redirect')
     return redirect(redirect_url)
