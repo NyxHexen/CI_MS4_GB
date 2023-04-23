@@ -12,6 +12,9 @@ from .models import Promo
 
 
 class PromoForm(forms.ModelForm):
+    """
+    ModelForm for Promo model.
+    """
     class Meta:
         model = Promo
         fields = (

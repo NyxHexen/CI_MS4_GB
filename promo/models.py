@@ -98,7 +98,9 @@ class Promo(CustomBaseModel):
 
 
     def clean(self):
-        # Check if end date is before start date
+        """
+        Override clean method to ensure End date is not before Start date.
+        """
         if self.start_date and self.end_date and self.start_date > self.end_date:
             raise ValidationError(
                 "End date cannot be before start date.",
@@ -108,6 +110,10 @@ class Promo(CustomBaseModel):
 
 
     def save(self, *args, **kwargs):
+        """
+        Override save to ensure that games/dlcs are changed only
+        when the Promo is active.
+        """
         # Self contains no information about its fields, query the database instead.
         if self.landing_page and self.media is None:
             self.media = Media.objects.get(slug="no-image-landing")
@@ -137,6 +143,10 @@ class Promo(CustomBaseModel):
 
 
     def delete(self, using=None, keep_parents=False):
+        """
+        Override delete method to ensure discount is removed
+        from game/dlc when Promo is deleted.
+        """
         remove_discount(self)
         return super().delete(using=using, keep_parents=keep_parents)
 
@@ -148,6 +158,10 @@ class Promo(CustomBaseModel):
 
     # Manage status on adding/removing from M2M field.
     def _update_promo_items(self, **kwargs):
+        """
+        Method used with Pre-Save/Post-Save/Pre-Delete/Post-Delete actions
+        to ensure games/dlcs are updated as added to apply to game/dlc field.
+        """
         match kwargs["action"]:
             case 'pre_remove':
                 self.pre_remove = set(self.apply_to_game.all())
@@ -194,6 +208,10 @@ class Promo(CustomBaseModel):
             
 
     def max_promo_percentage(self):
+        """
+        Method to return the maximum discount percentage of
+        all items in Promo.
+        """
         promo_games = (
             self.apply_to_game.all()
             .aggregate(Max("promo_percentage"))
@@ -217,7 +235,10 @@ class Promo(CustomBaseModel):
     
     @staticmethod
     def check_dupe(instance, game):
-        """If the game passed in is already in another Promo - remove it from this Promo"""
+        """
+        Static method to ensure no duplicates.
+        If the game passed in is already in another Promo - remove it from this Promo
+        """
         game_dupes = Promo.objects.filter(
             apply_to_game__id=game.id
             ).exclude(
@@ -231,6 +252,9 @@ class Promo(CustomBaseModel):
 
 
     def total_in_promo(self):
+        """
+        Method to return the total amount of games/dlcs in the Promo.
+        """
         return (len(self.apply_to_game.all())
                 + len(self.apply_to_dlc.all())
                 )

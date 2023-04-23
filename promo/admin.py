@@ -16,7 +16,14 @@ import re
 
 
 class PromoAdminModel(admin.ModelAdmin):
+    """
+    Custom ModelAdmin class to use with PromoAdmin.
+    """
     def save_model(self, request, *args, **kwargs):
+        """
+        Overriding the save_model to ensure that custom
+        added lines are correctly updated.
+        """
         if request.method == "POST":
             for key, value in request.POST.items():
                 if re.match(r"gamedata-\d+_[a-zA-Z0-9_]+", key):
@@ -43,6 +50,9 @@ class PromoAdminModel(admin.ModelAdmin):
 
 
 class PromoAdmin(PromoAdminModel):
+    """
+    ModelAdmin class for Promo Model
+    """
     change_form_template = "admin/promo_template.html"
     filter_horizontal = [
         'apply_to_game',

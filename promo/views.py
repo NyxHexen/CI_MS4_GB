@@ -29,6 +29,9 @@ import datetime as dt
 
 
 def promo(request, promo_id):
+    """
+    View to handle displaying of an individual Promo object.
+    """
     promo = get_object_or_404(
         Promo,
         id=promo_id
@@ -84,6 +87,9 @@ def promo(request, promo_id):
 
 @login_required
 def promo_add(request):
+    """
+    View to handle adding new Promo objects via PromoForm.
+    """
     if not request.user.is_staff:
         messages.info(
             request,
@@ -211,6 +217,9 @@ def promo_add(request):
 
 @login_required
 def promo_edit(request, promo_id):
+    """
+    View to handle editing of Promo objects via PromoForm.
+    """
     if not request.user.is_staff:
         messages.info(
             request,
@@ -332,6 +341,9 @@ def promo_edit(request, promo_id):
 
 @login_required
 def promo_delete(request, promo_id):
+    """
+    Template-less view to handle Promo object deletion.
+    """
     if not request.user.is_staff:
         messages.info(
             request,
