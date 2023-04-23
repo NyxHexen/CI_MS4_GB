@@ -69,7 +69,7 @@ def cart_contents(request):
                 "quantity": item["quantity"],
             }
         )
-        list_cart["cart_total"] += float(item["item"].final_price)
+        list_cart["cart_total"] += float(item["item"].final_price) * item["quantity"]
 
     context = {
         "cart_items": cart_items,
