@@ -1788,7 +1788,7 @@ h3>.media-edit-btn {
 }
 
 #faq-slides .carousel-item {
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 #support .faq-buttons {
