@@ -58,7 +58,7 @@ def checkout(request):
             form_data = {
                 "full_name": (
                     f'{billing_addr.user.first_name}' +
-                    f'{billing_addr.user.last_name}'
+                    f' {billing_addr.user.last_name}'
                 ),
                 "email": billing_addr.user.email,
                 "phone_number": billing_addr.default_phone_number,
