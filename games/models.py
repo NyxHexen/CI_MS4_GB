@@ -167,7 +167,6 @@ class DLC(CustomBaseModel):
         default=0
         )
 
-
     def __str__(self) -> str:
         return self.name
 

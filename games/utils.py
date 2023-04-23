@@ -5,7 +5,8 @@ def sort_by(sort_value, *args):
     Sorts the given arguments (querysets) based on `sort_value`.
 
     Args:
-        sort_value (str): The value based on which the arguments will be sorted.
+        sort_value (str): The value based on which the arguments
+                          will be sorted.
         *args: Any number of querysets that get passed in.
 
     Returns:

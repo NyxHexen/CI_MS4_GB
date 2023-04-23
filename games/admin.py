@@ -149,7 +149,8 @@ class RatingSetAdmin(admin.ModelAdmin):
         'game',
         'dlc'
     )
-    
+
+
 class DeveloperAdmin(admin.ModelAdmin):
     list_display = (
         'name',
@@ -157,12 +158,14 @@ class DeveloperAdmin(admin.ModelAdmin):
         'country',
     )
 
+
 class PlatformAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'official_site',
         'country',
     )
+
 
 class PublisherAdmin(admin.ModelAdmin):
     list_display = (

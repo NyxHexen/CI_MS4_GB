@@ -31,7 +31,8 @@ import json
 
 def games(request):
     """
-    View for displaying all games and DLCs available for purchase, with filtering and sorting.
+    View for displaying all games and DLCs available for purchase,
+    with filtering and sorting.
     """
     try:
         games = Game.objects.all()
@@ -46,11 +47,13 @@ def games(request):
 
     if "filter" in request.GET:
         """
-        Lambda is an anonymous function, by defining a dictionary which holds a query key as a key received via request.GET
-        passed on from the filter form and a value which is a function, it allows us to easily filter sets
-        by running them through a for loop and using value(queryset, param) to apply the filter.
-        The dictionary structure of the filter also improves readability, so long lambda functions are kept simple,
-        and maintainability.
+        Lambda is an anonymous function, by defining a dictionary which holds
+        a query key as a key received via request.GET passed on from the filter
+        form and a value which is a function, it allows us to easily filter
+        sets by running them through a for loop and using
+        value(queryset, param) to apply the filter. The dictionary structure of
+        the filter also improves readability, so long lambda functions are kept
+        simple, and maintainable.
         """
         filter_condition = {
             "sale_only": lambda queryset, *args: queryset.filter(
@@ -183,7 +186,7 @@ def games(request):
 
     if "filter" in request.GET or "sort_by" in request.GET:
         context["filter_dict"] = urlencode(filter_dict)
-    
+
     return render(request, "games/index.html", context)
 
 
@@ -196,7 +199,7 @@ def game(request, model_name, game_id):
         if model_name == 'game'
         else get_object_or_404(DLC, id=game_id)
     )
-    
+
     media = game.media.exclude(
         name__icontains='COVER'
         )
@@ -238,7 +241,9 @@ def set_game_rating(request, model_name, game_id):
                 content=e,
                 status=500
                 )
-        user_rating = game.ratingset.userrating_set.get_or_create(user=request.user)
+        user_rating = game.ratingset.userrating_set.get_or_create(
+            user=request.user
+            )
         user_rating[0].value = json.loads(request.body)["rating"]
         user_rating[0].save()
         return JsonResponse(
@@ -249,7 +254,7 @@ def set_game_rating(request, model_name, game_id):
         return JsonResponse(
             {'error': 'guest'}
             )
-    
+
 
 @login_required
 def game_add(request, model_name):
@@ -261,12 +266,12 @@ def game_add(request, model_name):
                       Super Secret Page of Awesomeness!\
                       Unauthorized access prohibited!')
         return redirect("/")
-    
+
     if model_name == 'game':
         game_form = GameForm()
     else:
         game_form = DLCForm()
-        
+
     rating_form = RatingForm()
 
     if request.method == 'POST':
@@ -324,28 +329,31 @@ def game_add(request, model_name):
     }
     return render(request, "games/game_crud.html", context)
 
+
 @login_required
 def game_edit(request, model_name, game_id):
     """
     View for displaying all games and DLCs available for purchase.
     """
     if not request.user.is_staff:
-        messages.info(request, '\
-                      Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+        messages.info(
+            request,
+            'Super Secret Page of Awesomeness! Unauthorized access prohibited!'
+            )
         return redirect("/")
     game = (get_object_or_404(Game, id=game_id)
             if model_name == 'game'
             else get_object_or_404(DLC, id=game_id)
             )
-    
+
     rating_set = get_object_or_404(RatingSet, id=game.ratingset.id)
-    
+
     game_form = (
         GameForm(instance=game)
         if model_name == "game"
         else DLCForm(instance=game)
         )
-    
+
     rating_form = RatingForm(
         instance=rating_set
         )
@@ -360,23 +368,26 @@ def game_edit(request, model_name, game_id):
             game = game_form.save(commit=False)
             discount = game.promo_percentage
             game.final_price = (
-                round(game.base_price - game.base_price * (Decimal(discount) / 100), 2)
+                round(
+                    game.base_price
+                    - game.base_price
+                    * (Decimal(discount) / 100), 2)
                 )
             try:
                 game.save()
                 rating_form_data = {
-                'game': (
-                    game
-                    if game.model_name() == 'game'
-                    else {}
-                    ),
-                'dlc': (
-                    game
-                    if game.model_name() == 'dlc'
-                    else {}
-                    ),
-                'esrb_rating': request.POST.get('esrb_rating', {}),
-                'pegi_rating': request.POST.get('pegi_rating', {}),
+                    'game': (
+                        game
+                        if game.model_name() == 'game'
+                        else {}
+                        ),
+                    'dlc': (
+                        game
+                        if game.model_name() == 'dlc'
+                        else {}
+                        ),
+                    'esrb_rating': request.POST.get('esrb_rating', {}),
+                    'pegi_rating': request.POST.get('pegi_rating', {}),
                 }
                 rating_form = RatingForm(
                     rating_form_data,
@@ -387,10 +398,10 @@ def game_edit(request, model_name, game_id):
                     return redirect(
                         reverse('game',
                                 kwargs={
-                        'model_name': game.model_name(),
-                        'game_id': game.id}
-                        )
-                    )
+                                    'model_name': game.model_name(),
+                                    'game_id': game.id}
+                                )
+                            )
             except Exception as e:
                 messages.error(request, f'{e}')
 
@@ -401,6 +412,7 @@ def game_edit(request, model_name, game_id):
         'rating_form': rating_form,
     }
     return render(request, "games/game_crud.html", context)
+
 
 @login_required
 def game_delete(request, model_name, game_id):
@@ -417,7 +429,7 @@ def game_delete(request, model_name, game_id):
             Game.objects.get(id=game_id)
             if model_name == "game"
             else DLC.objects.get(id=game_id)
-            )       
+            )
         game.delete()
         messages.success(request, f"{game} has been deleted successfully!")
     except Exception as e:

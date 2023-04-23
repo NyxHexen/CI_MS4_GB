@@ -63,7 +63,7 @@ class DLCForm(forms.ModelForm):
             'carousel',
             'base_price',
         )
-    
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['description'].widget.attrs = {'rows': 5, 'cols': 40}

@@ -19,14 +19,14 @@ class TestGamesViews(TestCase):
     def setUp(self):
         self.games_url = reverse('games')
         self.user = User.objects.create_user(
-            username='test-gamebox', 
+            username='test-gamebox',
             password='gamebox-pwd',
             first_name="Test",
             last_name="Test",
             email="test@test.com"
             )
         self.super_user = User.objects.create_superuser(
-            username='test-super-gamebox', 
+            username='test-super-gamebox',
             password='gamebox-pwd',
             first_name="Test",
             last_name="Test",
@@ -109,15 +109,23 @@ class TestGamesViews(TestCase):
         response_1 = self.client.get(self.games_url, data={'filter': 'on'})
         self.assertTrue('filter_dict' in response_1.context)
 
-        response_2 = self.client.get(self.games_url, data={'filter': 'on', 'hide_extras': 'on'})
+        response_2 = self.client.get(
+            self.games_url,
+            data={'filter': 'on', 'hide_extras': 'on'}
+            )
         self.assertEqual(len(response_2.context['page'].object_list), 1)
 
-        response_3 = self.client.get("/games/?filter=true&genres_filter=shooter")
+        response_3 = self.client.get(
+            "/games/?filter=true&genres_filter=shooter"
+            )
         self.assertEqual(len(response_3.context['page'].object_list), 1)
-        self.assertEqual(response_3.context['page'].object_list, [self.dlc,])
+        self.assertEqual(response_3.context['page'].object_list, [self.dlc, ])
 
     def test_games_view_sorting(self):
-        response = self.client.get(self.games_url, data={'sort_by': 'title_desc'})
+        response = self.client.get(
+            self.games_url,
+            data={'sort_by': 'title_desc'}
+            )
         self.assertEqual(response.context['page'].object_list[0], self.dlc)
 
     def test_games_view_pagination(self):
@@ -125,11 +133,15 @@ class TestGamesViews(TestCase):
         self.assertEqual(len(response.context['page'].object_list), 2)
 
     def test_game_view_bad_game_id(self):
-        response = self.client.get(reverse('game', kwargs={'model_name': 'game', 'game_id': '3'}))
+        response = self.client.get(
+            reverse('game', kwargs={'model_name': 'game', 'game_id': '3'})
+            )
         self.assertEqual(response.status_code, 404)
 
     def test_game_view_guest(self):
-        response = self.client.get(reverse('game', kwargs={'model_name': 'game', 'game_id': '1'}))
+        response = self.client.get(
+            reverse('game', kwargs={'model_name': 'game', 'game_id': '1'})
+            )
         self.assertEqual(response.status_code, 200)
         self.assertIn('media', response.context)
         self.assertIn('rating_count', response.context)
@@ -142,7 +154,9 @@ class TestGamesViews(TestCase):
             username='test-gamebox',
             password='gamebox-pwd'
             )
-        response = self.client.get(reverse('game', kwargs={'model_name': 'dlc', 'game_id': '1'}))
+        response = self.client.get(
+            reverse('game', kwargs={'model_name': 'dlc', 'game_id': '1'})
+            )
         self.assertEqual(response.status_code, 200)
         self.assertIn('media', response.context)
         self.assertIn('rating_count', response.context)
@@ -182,7 +196,10 @@ class TestGamesViews(TestCase):
             )
         response = self.client.post(url, content_type='application/json',
                                     data={'rating': '5'})
-        self.assertEqual(response.json(), {'new_game_rating': self.dlc.ratingset.user_rating_calc(), 'error': ''})
+        self.assertEqual(response.json(), {
+            'new_game_rating': self.dlc.ratingset.user_rating_calc(),
+            'error': ''
+        })
 
     def test_game_add_view_guest(self):
         url = reverse('game_add', kwargs={
@@ -224,14 +241,14 @@ class TestGamesViews(TestCase):
             'name': 'GameForm Test',
             'description': 'Test Description',
             'storyline': 'Test Storyline',
-            'genres': [self.genre_1.id,],
-            'publishers': [self.publisher.id,],
-            'developers': [self.developer.id,],
+            'genres': [self.genre_1.id, ],
+            'publishers': [self.publisher.id, ],
+            'developers': [self.developer.id, ],
             'release_date': date(2007, 5, 13),
-            'platforms': [self.platform.id,],
-            'tags': [self.tag.id,],
-            'features': [self.feature.id,],
-            'media': [self.media_1.id, self.media_2.id,],
+            'platforms': [self.platform.id, ],
+            'tags': [self.tag.id, ],
+            'features': [self.feature.id, ],
+            'media': [self.media_1.id, self.media_2.id, ],
             'is_featured': True,
             'carousel': True,
             'base_price': round(Decimal(49.99), 2),
@@ -250,7 +267,10 @@ class TestGamesViews(TestCase):
         })
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, "/accounts/login/?next=/games/game/1/edit")
+        self.assertRedirects(
+            response,
+            "/accounts/login/?next=/games/game/1/edit"
+            )
 
     def test_game_edit_view_non_staff(self):
         self.client.login(
@@ -286,14 +306,14 @@ class TestGamesViews(TestCase):
             'name': 'GameForm Test EDIT',
             'description': 'Test Description',
             'storyline': 'Test Storyline',
-            'genres': [self.genre_1.id,],
-            'publishers': [self.publisher.id,],
-            'developers': [self.developer.id,],
+            'genres': [self.genre_1.id, ],
+            'publishers': [self.publisher.id, ],
+            'developers': [self.developer.id, ],
             'release_date': date(2007, 5, 13),
-            'platforms': [self.platform.id,],
-            'tags': [self.tag.id,],
-            'features': [self.feature.id,],
-            'media': [self.media_1.id, self.media_2.id,],
+            'platforms': [self.platform.id, ],
+            'tags': [self.tag.id, ],
+            'features': [self.feature.id, ],
+            'media': [self.media_1.id, self.media_2.id, ],
             'is_featured': False,
             'carousel': False,
             'base_price': round(Decimal(33.99), 2),
@@ -312,8 +332,11 @@ class TestGamesViews(TestCase):
         })
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, "/accounts/login/?next=/games/game/1/delete/")
-    
+        self.assertRedirects(
+            response,
+            "/accounts/login/?next=/games/game/1/delete/"
+            )
+
     def test_game_delete_view_non_staff(self):
         self.client.login(
             username='test-gamebox',
@@ -388,10 +411,8 @@ class TestGamesViews(TestCase):
 
     def test_game_attrs_view_sort(self):
         self.dlc.publishers.add(self.publisher)
-        url="/games/publishers/1/?filter=true&sort_by=title_desc"
+        url = "/games/publishers/1/?filter=true&sort_by=title_desc"
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['page'].object_list[0], self.dlc)
         self.assertIn('filter_dict', response.context)
-
-

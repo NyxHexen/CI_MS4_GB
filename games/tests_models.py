@@ -17,7 +17,7 @@ class TestGamesModels(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(
-            username='test-gamebox', 
+            username='test-gamebox',
             password='gamebox-pwd',
             first_name="Test",
             last_name="Test",
@@ -76,5 +76,3 @@ class TestGamesModels(TestCase):
         )
         self.assertEqual(rating_set.user_rating_calc(), 5)
         self.assertEqual(rating_set.__str__(), self.game.name)
-
-
