@@ -1,28 +1,32 @@
-from django.shortcuts import render, redirect
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.urls import reverse
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.conf import settings
-from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
 
+# Local
 from ci_ms4_gamebox.utils import get_or_none
 from cart.utils import get_and_unsign_cart
 from cart.models import Cart
 from cart.contexts import cart_contents
 from games.models import Game, DLC
 from profiles.models import UserProfile
-
 from .models import Order, OrderLineItem
 from .forms import OrderForm
 
+# Third-party
 import os
 import stripe
 import random
 import json
 import uuid
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 # Create your views here.

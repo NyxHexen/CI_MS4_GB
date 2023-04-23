@@ -1,16 +1,17 @@
 # Imports
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 3rd party:
+# Django
 from django.test import TestCase
 from django.core.signing import Signer
 from django.contrib.messages import get_messages
 from django.contrib.auth.models import User
 from django.urls import reverse
-
 from decimal import Decimal
+
+# Third-party
 import json
 
-# Internal:
+# Local
 from .models import Order
 from home.models import Media
 from games.models import Game
@@ -19,6 +20,7 @@ from checkout.forms import OrderForm
 from profiles.models import UserProfile
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 
 class TestCheckoutViews(TestCase):

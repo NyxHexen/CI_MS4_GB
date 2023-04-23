@@ -224,6 +224,7 @@
             }
         });
 
+        // Once the user clicks pay, get and update the payment intent
         (async () => {
             const csrftoken = document.cookie.match(/csrftoken=([\w-]+)/)[1];
             const createIntent = await fetch("{% url 'create_stripe_intent' %}", {

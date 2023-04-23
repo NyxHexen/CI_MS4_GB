@@ -1,17 +1,19 @@
 # Imports
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# 3rd party:
+# Django
 from django.test import TestCase
 from django.contrib.auth.models import User
-
 from decimal import Decimal
+
+# Third-party
 import uuid
 
-# Internal:
+# Local
 from games.models import Game
 from checkout.models import Order, OrderLineItem
 from profiles.models import UserProfile
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 
 class TestOrderModel(TestCase):

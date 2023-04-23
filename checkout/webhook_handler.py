@@ -1,13 +1,19 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 
+# Local
 from .models import Order, OrderLineItem
 from cart.models import Cart
 from games.models import Game, DLC
 
+# Third-party
 import stripe
 import json
 import time
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 class StripeWH_Handler:

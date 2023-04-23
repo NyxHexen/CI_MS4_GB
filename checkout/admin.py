@@ -1,7 +1,11 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.contrib import admin
-from .models import Order, OrderLineItem
 
-# Register your models here.
+# Local
+from .models import Order, OrderLineItem
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 class OrderLineItemAdminInline(admin.TabularInline):
