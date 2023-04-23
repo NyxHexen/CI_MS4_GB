@@ -19,6 +19,7 @@ class CartItemsInline(admin.TabularInline):
         )
     can_delete = False
 
+
 class CartAdmin(admin.ModelAdmin):
     """
     Admin class for the Cart model.
@@ -35,5 +36,6 @@ class CartAdmin(admin.ModelAdmin):
         'created_date',
         'updated_date'
     )
+
 
 admin.site.register(Cart, CartAdmin)

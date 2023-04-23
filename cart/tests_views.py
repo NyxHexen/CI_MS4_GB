@@ -139,8 +139,6 @@ class CartViewTests(TestCase):
         response = self.client.get('/')
         self.assertEqual(response.context['total'], self.game.final_price * 2)
 
-        
-
     def test_cart_remove_user(self):
         """
         Test Registered User remove from cart functionality.

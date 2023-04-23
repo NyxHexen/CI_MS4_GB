@@ -12,6 +12,7 @@ from .utils import *
 from games.models import Game, DLC
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 def cart_contents(request):
     """
     View to display cart contents to the user.
@@ -31,20 +32,20 @@ def cart_contents(request):
                     )
                 game = get_object_or_404(model, id=key)
                 cart_items.append({
-                    'item': game,    
+                    'item': game,
                     'quantity': value['quantity'],
                     'item_id': key
                 })
                 final_price = Decimal(game.final_price)
                 total += final_price
                 item_count += 1
-    else: 
+    else:
         cart = Cart.objects.get_or_create(user=request.user)
         if bool(cart[0].cartitems.all()):
             for item in cart[0].cartitems.all():
                 model = Game if item.game else DLC
                 cart_items.append({
-                    'item': item.game if model is Game else item.dlc,    
+                    'item': item.game if model is Game else item.dlc,
                     'quantity': item.quantity,
                     'item_id': item.game.id if model is Game else item.dlc.id
                 })
@@ -54,8 +55,7 @@ def cart_contents(request):
                     else item.dlc.final_price * item.quantity
                     )
                 item_count += 1
-    
-            
+
     list_cart = {
         "line_items": [],
         "cart_total": float(),
@@ -73,8 +73,8 @@ def cart_contents(request):
 
     context = {
         "cart_items": cart_items,
-        "total" : total,
-        "item_count" : item_count,
+        "total": total,
+        "item_count": item_count,
         "list_cart": list_cart,
     }
 

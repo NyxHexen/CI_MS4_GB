@@ -8,7 +8,6 @@ import json
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-
 def sign_and_set_cart(request, cart):
     """
     Cache the cart data for the user and sign it
@@ -26,6 +25,7 @@ def sign_and_set_cart(request, cart):
         }
     return cart_signed
 
+
 def get_and_unsign_cart(request):
     """
     Retrieve and unsign the cached cart data for the user
@@ -39,7 +39,7 @@ def get_and_unsign_cart(request):
         cart_signed = cart_signed['cart_signed']
     if bool(cart_signed):
         signer = Signer()
-        try: 
+        try:
             cart = signer.unsign(cart_signed)
             cart = json.loads(cart)
         except BadSignature:
@@ -47,4 +47,3 @@ def get_and_unsign_cart(request):
     else:
         cart = {}
     return cart
-

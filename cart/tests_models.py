@@ -53,9 +53,9 @@ class CartItemTestCase(TestCase):
             base_price=round(Decimal(12.34), 2)
         )
         self.cart_item = CartItem.objects.create(
-            cart=self.cart, 
-            game=self.game, 
-            quantity=2, 
+            cart=self.cart,
+            game=self.game,
+            quantity=2,
             price=round(Decimal(24.68), 2)
         )
 
@@ -75,7 +75,7 @@ class CartItemTestCase(TestCase):
         self.assertEqual(self.cart_item.cart.user.username, "test-gamebox")
         self.assertEqual(self.cart_item.game.name, "Test Game")
         self.assertEqual(self.cart_item.quantity, 2)
-        self.assertEqual(self.cart_item.price, round(Decimal(24.68),2))
+        self.assertEqual(self.cart_item.price, round(Decimal(24.68), 2))
 
     def test_clean_method(self):
         """
@@ -91,7 +91,8 @@ class CartItemTestCase(TestCase):
             base_price=Decimal(12.34)
         )
 
-        # Test that CartItem raises a ValidationError if neither game nor dlc is specified.
+        # Test that CartItem raises a ValidationError if neither game nor dlc
+        # is specified.
         cart_item = CartItem(
             cart=self.cart_item.cart,
             quantity=1,
@@ -109,10 +110,9 @@ class CartItemTestCase(TestCase):
         cart_item.dlc = dlc
         cart_item.clean()
 
-        # Test that CartItem raises a ValidationError if both game and dlc are specified.
+        # Test that CartItem raises a ValidationError if both game and dlc
+        # are specified.
         cart_item.game = game
         cart_item.dlc = dlc
         with self.assertRaises(ValidationError):
             cart_item.clean()
-        
-        

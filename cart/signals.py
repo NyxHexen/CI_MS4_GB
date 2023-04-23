@@ -40,20 +40,20 @@ def merge_cart(sender, request, user, **kwargs):
         )
         cart_items = db_cart[0].cartitems.all()
         if game in [i.game or i.dlc for i in cart_items]:
-                item = cart_items.get(game=game)
-                if not item.quantity == quantity:
-                    item.quantity = quantity
-                item.save()
-        else: 
+            item = cart_items.get(game=game)
+            if not item.quantity == quantity:
+                item.quantity = quantity
+            item.save()
+        else:
             if game.model_name() == 'game':
                 db_cart[0].cartitems.create(
                      game=game,
-                     quantity=quantity, 
+                     quantity=quantity,
                      price=game.final_price,
                      )
             else:
                 db_cart[0].cartitems.create(
-                     dlc=game, 
-                     quantity=quantity, 
+                     dlc=game,
+                     quantity=quantity,
                      price=game.final_price,
                      )

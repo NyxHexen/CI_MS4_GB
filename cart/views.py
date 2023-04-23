@@ -15,7 +15,6 @@ import json
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-
 # Create your views here.
 def view_cart(request):
     """
@@ -43,7 +42,7 @@ def cart_add(request, model_name, game_id):
         messages.error(request, 'We couldn\'t add this game to your cart. \
                        Please try again later!')
         return redirect(redirect_url)
-         
+
     quantity = int(request.POST.get('quantity'))
 
     if not request.user.is_authenticated:
@@ -62,34 +61,35 @@ def cart_add(request, model_name, game_id):
         cart = Cart.objects.get_or_create(user=request.user)
         cart_items = cart[0].cartitems.all()
         if game in [i.game or i.dlc for i in cart_items]:
-                item = (cart_items.get(game=game)
-                        if model_name == 'game'
-                        else cart_items.get(dlc=game)
-                        )
-                item.quantity += quantity
-                item.save()
-        else: 
+            item = (cart_items.get(game=game)
+                    if model_name == 'game'
+                    else cart_items.get(dlc=game)
+                    )
+            item.quantity += quantity
+            item.save()
+        else:
             if game.model_name() == 'game':
                 cart[0].cartitems.create(
-                    game=game, 
-                    quantity=quantity, 
+                    game=game,
+                    quantity=quantity,
                     price=game.final_price
                     )
             else:
                 cart[0].cartitems.create(
-                    dlc=game, 
-                    quantity=quantity, 
+                    dlc=game,
+                    quantity=quantity,
                     price=game.final_price
                     )
-        
-    messages.success(request, f'{ game.name } x{ quantity } has been added to your cart!')
+
+    messages.success(request, f'{ game.name } x{ quantity } has\
+    been added to your cart!')
 
     return redirect(redirect_url)
 
 
 def cart_remove(request):
     """
-    Template-less view to handle removing items 
+    Template-less view to handle removing items
     from cart asynchronously.
     """
     try:
@@ -113,7 +113,7 @@ def cart_remove(request):
             else:
                 cart_items.get(dlc=game).delete()
     except Exception:
-        messages.error(request, 'We couldn\'t remove this game from your cart. \
+        messages.error(request, 'We couldn\'t remove this game from your cart.\
                         Please try again later!')
         return JsonResponse({'success': False})
     return JsonResponse({'success': True})
