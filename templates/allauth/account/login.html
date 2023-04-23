@@ -20,7 +20,7 @@
           <p class="text-center">{% blocktrans with site.name as site_name %}<a href="{{ signup_url }}">Sign up</a>
             for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
-          <form class="login w-100 d-flex flex-column px-3" method="POST" action="{% url 'account_login' %}">
+          <form class="login w-100 d-flex flex-column px-3" method="post" action="{% url 'account_login' %}">
             {% csrf_token %}
             {{ form|crispy }}
             <button class="primaryAction btn btn-warning" type="submit">{% trans "Sign In" %}</button>
