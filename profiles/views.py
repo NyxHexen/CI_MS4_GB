@@ -19,6 +19,9 @@ from .forms import BillingAddressForm, NewsletterForm
 
 @login_required
 def myprofile(request):
+    """
+    View to display User information stored in DB.
+    """
     profile = UserProfile.objects.get(
         user=request.user
         )
@@ -44,6 +47,10 @@ def myprofile(request):
 
 @login_required
 def billing_address(request):
+    """
+    View to display billing details for UserProfile model stored in DB
+    and handle BillingAddressForm submission.
+    """
     try:
         profile = UserProfile.objects.get(user=request.user)
     except Exception:
@@ -100,6 +107,9 @@ def billing_address(request):
 
 @require_POST
 def newsletter_sub(request):
+    """
+    View to handle Newsletter form and update the databse.
+    """
     if not request.user.is_authenticated:
         messages.error(
             request,

@@ -12,5 +12,7 @@ from .models import UserProfile
 
 @receiver(post_save, sender=User)
 def get_or_add(sender, instance, **kwargs):
-    """ If there is one, get it, if not create it """
+    """
+    Receiver to handle UserProfile creation.
+    """
     return UserProfile.objects.get_or_create(user=instance)

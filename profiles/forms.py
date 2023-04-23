@@ -8,6 +8,9 @@ from .models import UserProfile
 
 
 class BillingAddressForm(forms.ModelForm):
+    """
+    ModelForm for BIlling Address collection.
+    """
     class Meta:
         model = UserProfile
         fields = (
@@ -41,6 +44,9 @@ class BillingAddressForm(forms.ModelForm):
 
 
 class NewsletterForm(forms.Form):
+    """
+    ModelForm for newsletter subscription.
+    """
     subscription_email = forms.EmailField(
         label='Email: *',
         max_length=320,
