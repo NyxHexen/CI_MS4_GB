@@ -150,10 +150,10 @@
                                 <a class="nav-link" aria-current="page" href="{% url 'games' %}">browse</a>
                             </li>
                             <li class="list-group-item {% if request.path == '/about/' %}active" aria-current="page" {% else %}" {% endif %}>
-                                <a class="nav-link" href="#">About</a>
+                                <a class="nav-link" href="{% url 'about' %}">About</a>
                             </li>
                             <li class="list-group-item {% if request.path == '/support/' %}active" aria-current="page" {% else %}" {% endif %}>
-                                <a class="nav-link" href="#">support</a>
+                                <a class="nav-link" href="{% url 'support' %}">support</a>
                             </li>
                         </ul>
                     </div>
