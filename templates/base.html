@@ -53,6 +53,7 @@
                             aria-controls="mobile-menu"
                             aria-label="Open Navigation Menu">
                         <span class="navbar-toggler-icon"></span>
+                        <span class="visually-hidden">Open Navigation Menu</span>
                     </button>
                     <!-- Default Responsive Nav -->
                     <div class="collapse navbar-collapse" id="navbarNav">
@@ -76,7 +77,8 @@
                                         <button type="button"
                                                 class="btn btn-sm btn-dark dropdown-toggle dropdown-toggle-split"
                                                 data-bs-toggle="dropdown"
-                                                aria-expanded="false">
+                                                aria-expanded="false"
+                                                aria-label="Toggle Dropdown">
                                             <span class="visually-hidden">Toggle Dropdown</span>
                                         </button>
                                         <ul class="dropdown-menu">
@@ -115,7 +117,8 @@
                         <ul class="navbar-nav align-items-center">
                             {% if user.is_authenticated %}
                                 <li class="nav-item">
-                                    <a class="cart-nav nav-link {% if request.path == '/cart/' %}active" aria-current="page" {% else %}" {% endif %} href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping fs-5"></i></a>
+                                    <a class="cart-nav nav-link {% if request.path == '/cart/' %}active" aria-current="page" {% else %}" {% endif %} href="{% url 'cart' %}">
+                                        <span class="visually-hidden">shopping cart</span> <i class="fa-solid fa-cart-shopping fs-5"></i></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="cart-nav nav-link {% if request.path == '/myprofile/' %}active" aria-current="page" {% else %}" {% endif %} href="{% url 'profile' %}">my profile</a>
@@ -125,7 +128,7 @@
                                 </li>
                             {% else %}
                                 <li class="nav-item">
-                                    <a class="cart-nav nav-link" href="{% url 'cart' %}"> <i class="fa-solid fa-cart-shopping fs-5"></i> </a>
+                                    <a class="cart-nav nav-link" href="{% url 'cart' %}"> <span class="visually-hidden">shopping cart</span> <i class="fa-solid fa-cart-shopping fs-5"></i> </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {% if request.path == '/accounts/signup/' %}active" aria-current="page" {% else %}" {% endif %} href="{% url 'account_signup' %}">sign up</a>
@@ -222,7 +225,7 @@
                             </a>
                             <a target="_blank"
                                href="https://www.twitter.com/"
-                               class="fs-1 text-info mx-1">
+                               class="fs-1 text-primary mx-1">
                                 <i class="fa-brands fa-square-twitter"></i>
                                 <span class="visually-hidden">Gamebox Twitter Page</span>
                             </a>
@@ -265,7 +268,8 @@
                                 </li>
                             </ul>
                             <ul class="navbar-nav ms-4 col-6">
-                            <li class="nav-item {% if request.path == '/cart/' %}active" aria-current="page" {% else %}" {% endif %}> <a class="cart-nav nav-link" href="{% url 'cart' %}"> Shopping Cart <i class="fa-solid fa-caret-right"></i> </a>
+                            <li class="nav-item {% if request.path == '/cart/' %}active" aria-current="page" {% else %}" {% endif %}>
+                                <a class="cart-nav nav-link" href="{% url 'cart' %}">Shopping Cart<i class="fa-solid fa-caret-right"></i></a>
                         </li>
                         {% if user.is_authenticated %}
                             <li class="nav-item {% if request.path == '/myprofile/' %}active" aria-current="page" {% else %}" {% endif %}>
