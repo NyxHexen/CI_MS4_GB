@@ -225,7 +225,7 @@ def checkout_success(request, order_number):
             """,
             message,
             "info@gamebox.com",
-            [request.user.email, ]
+            [order.email, ]
         )
     except Exception as e:
         messages.error(
