@@ -304,7 +304,7 @@
                     </script>
                 {% endif %}
                 {% if request.path == '/promo/add/' %}
-                    <script type="text/javascript">
+                    <script>
                         $(".modal").draggable();
                         $("#promo-form").on('change', () => {
                             $("#promo_save").attr("disabled", true)
