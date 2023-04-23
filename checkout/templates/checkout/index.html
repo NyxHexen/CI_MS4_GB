@@ -212,12 +212,12 @@
             let errorDiv = document.getElementById('card-errors');
             if (e.error) {
                 let html = `
-                                <span class="icon" role="alert">
-                                    <i class="fas fa-times"></i>
-                                </span>
-                                <span>${e.error.message}</span>
-                                `;
-                errorDiv.innerHTML = html
+                <span class="icon" role="alert">
+                    <i class="fas fa-times"></i>
+                </span>
+                <span>${e.error.message}</span>
+                `;
+                errorDiv.innerHTML = html;
                 errorDiv.style.color = 'rgb(255, 0, 0)';
             } else {
                 errorDiv.textContent = '';
@@ -242,12 +242,12 @@
                 e.preventDefault();
                 setLoading(true);
 
-                let secretInput = document.querySelector("#clientSecret")
-                secretInput.value = clientSecret
+                let secretInput = document.querySelector("#clientSecret");
+                secretInput.value = clientSecret;
                 // If the client secret was rendered server-side as a data-secret attribute
                 // on the <form> element, you can retrieve it here by calling `form.dataset.secret`
-                let saveInfo = Boolean(document.querySelector('#id-save-info'))
-                const updateIntent = fetch("{% url 'modify_stripe_intent' %}", {
+                let saveInfo = Boolean(document.querySelector('#id-save-info'));
+                fetch("{% url 'modify_stripe_intent' %}", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
@@ -259,7 +259,16 @@
                     }),
                 }).then(response => {
                     if (!response.ok) {
-                        throw new Error('Network response was not ok')
+                        let errorDiv = document.getElementById('card-errors');
+                        let html = `
+                                <span class="icon" role="alert">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                                <span>${response.error.message}</span>
+                                `;
+                        errorDiv.innerHTML = html;
+                        errorDiv.style.color = 'rgb(255, 0, 0)';
+                        setLoading(false);
                     }
                 }).then(data => {
                     stripe.confirmCardPayment(clientSecret, {
@@ -289,20 +298,19 @@
                                     </span>
                                     <span>${result.error.message}</span>
                                     `;
-                            errorDiv.innerHTML = html
+                            errorDiv.innerHTML = html;
                             errorDiv.style.color = 'rgb(255, 0, 0)';
                             setLoading(false);
-
                         } else {
                             if (result.paymentIntent.status === 'succeeded') {
-                                form.submit()
+                                form.submit();
                             }
                         }
                     });
                 }).catch(error => {
                     location.reload();
                 });
-            })
+            });
         })();
 
         function setLoading(isLoading) {
@@ -315,7 +323,7 @@
                 document.querySelector("#button-text").classList.add("hidden");
                 document.querySelector("#adjust-cart").classList.add("disabled");
                 document.querySelector("#loading-overlay").classList.remove("d-none");
-                document.querySelector("#loading-overlay").classList.add("d-flex")
+                document.querySelector("#loading-overlay").classList.add("d-flex");
             } else {
                 document.querySelector("#submit-button").disabled = false;
                 document.querySelector("#spinner").classList.add("hidden");

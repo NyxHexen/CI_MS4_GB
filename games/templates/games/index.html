@@ -272,31 +272,31 @@
             {{ block.super }}
             <script>
                 // Price Slider Init and Config
-                let gamesFilter = document.getElementById('games-filter')
-                let filterOpenBtn = document.getElementById('filter-open')
-                let filterCloseBtn = document.getElementById('filter-close')
+                let gamesFilter = document.getElementById('games-filter');
+                let filterOpenBtn = document.getElementById('filter-open');
+                let filterCloseBtn = document.getElementById('filter-close');
                 filterOpenBtn.addEventListener('click', e => {
-                    gamesFilter.classList.add('show')
-                })
+                    gamesFilter.classList.add('show');
+                });
                 filterCloseBtn.addEventListener('click', e => {
-                    gamesFilter.classList.remove('show')
-                })
+                    gamesFilter.classList.remove('show');
+                });
             </script>
             <script>
                 let priceSlider = document.getElementById('price-slider');
                 let priceNodes = [
                     document.getElementById('price-slider__from'),
                     document.getElementById('price-slider__to'),
-                ]
+                ];
 
-                let priceSliderCeiling = Number("{{price_slider_ceil}}")
-                let filterDict = "{{ filter_dict }}"
+                let priceSliderCeiling = Number("{{price_slider_ceil}}");
+                let filterDict = "{{ filter_dict }}";
                 let filterDictPrice, filterDictDate;
 
                 if (filterDict.includes('price_range') == true) {
-                    filterDictPrice = filterDict.match(/price_range=([^&]+)/)[1].split('%2C')
+                    filterDictPrice = filterDict.match(/price_range=([^&]+)/)[1].split('%2C');
                 } else if (filterDict.includes('date_range')) {
-                    filterDictDate = filterDict.match(/date_range=([^&]+)/)[1].split('%2C')
+                    filterDictDate = filterDict.match(/date_range=([^&]+)/)[1].split('%2C');
                 }
 
                 noUiSlider.create(priceSlider, {
@@ -316,7 +316,7 @@
                 });
 
                 priceSlider.noUiSlider.on('update', function(values, handle) {
-                    priceNodes[handle].value = values[handle]
+                    priceNodes[handle].value = values[handle];
                 });
 
                 priceNodes[0].addEventListener('change', function() {
@@ -332,7 +332,7 @@
                 let dateNodes = [
                     document.getElementById('release-date-slider__from'),
                     document.getElementById('release-date-slider__to'),
-                ]
+                ];
 
                 noUiSlider.create(releaseDateSlider, {
                     start: [1980, new Date().getFullYear()],
@@ -348,7 +348,7 @@
                 });
 
                 releaseDateSlider.noUiSlider.on('update', function(values, handle) {
-                    dateNodes[handle].value = values[handle]
+                    dateNodes[handle].value = values[handle];
                 });
 
                 dateNodes[0].addEventListener('change', function() {
@@ -367,17 +367,17 @@
                 let form = document.getElementById('game-filter-form');
 
                 form.querySelector('#filter_reset').addEventListener('click', (event) => {
-                    window.location.replace("{% url 'games'%}")
-                })
+                    window.location.replace("{% url 'games'%}");
+                });
 
                 form.addEventListener('submit', function(event) {
-                    initFilter(price, "price");
-                    initFilter(genres, "genres");
-                    initFilter(tags, "tags");
-                    initFilter(platforms, "platforms");
-                    initFilter(features, "features");
-                    initFilter(date, "date");
-                    return true
+                    initFilter("price");
+                    initFilter("genres");
+                    initFilter("tags");
+                    initFilter("platforms");
+                    initFilter("features");
+                    initFilter("date");
+                    return true;
                 });
 
                 /**
@@ -388,7 +388,7 @@
                  * @param {string} filter_name - The name of the filter to be initialized.
                  * @returns {void}
                 **/
-                function initFilter(filter_group, filter_name) {
+                function initFilter(filter_name) {
                     if (filter_name == "price") {
                         let sliders = Array.from(document.querySelectorAll(
                                 `fieldset[id="${filter_name}"] input:not([type=hidden])`))
@@ -396,7 +396,7 @@
                         if (sliders.length != 0 && (sliders[0] != initialFromPrice || sliders[1] != initialToPrice)) {
                             form.querySelector(`input[name="${filter_name}_range"]`).value = sliders;
                         } else {
-                            form.querySelector(`input[name="${filter_name}_range"]`).removeAttribute('name')
+                            form.querySelector(`input[name="${filter_name}_range"]`).removeAttribute('name');
                         }
                     } else if (filter_name == "date") {
                         let sliders = Array.from(document.querySelectorAll(
@@ -405,7 +405,7 @@
                         if (sliders.length != 0 && (sliders[0] !== initialFromDate || sliders[1] !== initialToDate)) {
                             form.querySelector(`input[name="${filter_name}_range"]`).value = sliders;
                         } else {
-                            form.querySelector(`input[name="${filter_name}_range"]`).removeAttribute('name')
+                            form.querySelector(`input[name="${filter_name}_range"]`).removeAttribute('name');
                         }
                     } else {
                         let checkboxes = Array.from(document.querySelectorAll(`fieldset[id="${filter_name}"] input:checked`))
@@ -413,7 +413,7 @@
                         if (checkboxes.length != 0) {
                             form.querySelector(`input[name="${filter_name}_filter"]`).value = checkboxes;
                         } else {
-                            form.querySelector(`input[name="${filter_name}_filter"]`).removeAttribute('name')
+                            form.querySelector(`input[name="${filter_name}_filter"]`).removeAttribute('name');
                         }
                     }
                 }
@@ -436,15 +436,15 @@
                 }
 
                 pageInput.addEventListener('blur', e => {
-                    goToPage(e)
+                    goToPage(e);
                 });
                 pageInput.addEventListener('keyup', e => {
-                    goToPage(e)
-                })
+                    goToPage(e);
+                });
             </script>
             <script>
                 // Sort On Change event handler.
-                let gamesSort = document.querySelector('#games_sort')
+                let gamesSort = document.querySelector('#games_sort');
 
                 gamesSort.addEventListener('change', (e) => {
                     let select = e.target;

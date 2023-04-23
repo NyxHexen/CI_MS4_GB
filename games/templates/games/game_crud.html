@@ -101,11 +101,11 @@
                         $(elem).select2({
                             theme: 'bootstrap-5'
                         });
-                    })
+                    });
                 });
             </script>
             <script>
-                const releaseDateField = document.getElementById('id_release_date')
+                const releaseDateField = document.getElementById('id_release_date');
                 const pickerReleaseDate = new tempusDominus.TempusDominus(releaseDateField, {
                     localization: {
                         format: 'yyyy-MM-dd',

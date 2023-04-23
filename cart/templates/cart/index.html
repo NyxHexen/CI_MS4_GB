@@ -112,36 +112,36 @@
     {{ block.super }}
     <script>
         // Get href from the table row use it as a redirect on click
-        let rows = document.querySelectorAll('tr')
+        let rows = document.querySelectorAll('tr');
         rows.forEach(row => {
             if (row.hasAttribute('data-href')) {
                 row.addEventListener('click', e => {
-                    window.location.href = row.dataset.href
-                })
+                    window.location.href = row.dataset.href;
+                });
             }
-        })
+        });
     </script>
     <script>
-        const errorToast = `{% include 'includes/toasts/toast-error.html'%}`
-        const successToast = `{% include 'includes/toasts/toast-success.html'%}`
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+        const errorToast = `{% include 'includes/toasts/toast-error.html'%}`;
+        const successToast = `{% include 'includes/toasts/toast-success.html'%}`;
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
-        let removeItemBtns = document.querySelectorAll('.remove-item__btn')
+        let removeItemBtns = document.querySelectorAll('.remove-item__btn');
 
         removeItemBtns.forEach(btn => {
-            let btnParentRow = btn.parentNode.parentNode
-            let gameId = btn.dataset.id
-            let gameType = btn.dataset.game
+            let btnParentRow = btn.parentNode.parentNode;
+            let gameId = btn.dataset.id;
+            let gameType = btn.dataset.game;
             btn.addEventListener('click', function(event) {
                 removeCartItem(gameId, gameType, btnParentRow);
-            })
+            });
             btn.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter' || event.key === ' ') {
                     removeCartItem(gameId, gameType, btnParentRow);
                 }
             });
-        })
+        });
         // Async function to handle removing items from cart
         function removeCartItem(gameId, model_name, row) {
             const csrftoken = document.cookie.match(/csrftoken=([\w-]+)/)[1];
@@ -151,11 +151,9 @@
                 'model_name': model_name,
             };
 
-            const url = "{% url 'cart_remove' %}";
-
-            let newToastNode = document.createElement('div')
-            let messageDiv = document.querySelector('.message-container')
-            messageDiv.insertBefore(newToastNode, messageDiv.firstChild)
+            let newToastNode = document.createElement('div');
+            let messageDiv = document.querySelector('.message-container');
+            messageDiv.insertBefore(newToastNode, messageDiv.firstChild);
 
             fetch('/cart/_remove/', {
                     method: 'POST',
@@ -168,48 +166,54 @@
                 })
                 .then(response => {
                     if (!response.ok) {
-                        newToastNode.outerHTML = errorToast
-                        messageDiv.children[0].children[0].children[0].innerHTML = "\
-                            System malfunction! Please try again later."
+                        newToastNode.outerHTML = errorToast;
+                        messageDiv.children[0].children[0].children[0].innerHTML = `
+                            System malfunction! Please try again later.`;
                     }
                     return response.json();
                 })
                 .then(data => {
                     let table = document.querySelector('#cart-items');
-                    let tableParent = table.parentNode
-                    let subtotalHeader = document.querySelector('#cart-subtotal strong')
-                    let gameName = row.children[1].children[0].innerHTML
+                    let tableParent = table.parentNode;
+                    let subtotalHeader = document.querySelector('#cart-subtotal strong');
+                    let gameName = row.children[1].children[0].innerHTML;
 
                     subtotalHeader.innerText = (parseFloat(subtotalHeader.innerText) - parseFloat(row.children[3].innerText))
-                        .toFixed(2)
+                        .toFixed(2);
                     row.remove();
 
                     // Bootstrap Tooltips break when deleting rows, so we have to remove them manually.
-                    let strayTooltips = document.querySelectorAll("[id^='tooltip']")
+                    let strayTooltips = document.querySelectorAll("[id^='tooltip']");
                     strayTooltips.forEach(tip => {
-                        tip.remove()
-                    })
+                        tip.remove();
+                    });
 
-                    newToastNode.outerHTML = successToast
-                    messageDiv.children[0].children[0].children[0].innerHTML = `\
-                            ${gameName} has been removed from your cart!`
+                    newToastNode.outerHTML = successToast;
+                    messageDiv.children[0].children[0].children[0].innerHTML = `
+                            ${gameName} has been removed from your cart!`;
 
-                    const toastElList = document.querySelectorAll('.toast')
-                    const new_toast = new bootstrap.Toast(toastElList[0])
-                    new_toast.show()
+                    const toastElList = document.querySelectorAll('.toast');
+                    const new_toast = new bootstrap.Toast(toastElList[0]);
+                    new_toast.show();
 
                     if (table.querySelectorAll('tbody tr').length == 0) {
-                        table.remove()
+                        table.remove();
                         tableParent.innerHTML = `
                             <div class='card-body d-flex flex-column align-items-center'>
                                 <h2 class='cart-title ui-font'>uh-oh!</h2>
                                 <h3 class='cart-title text-center'>Your cart appears to be empty. Looks like you'll have to find some games to add!</h3>
                                 <a href="/games/" class="btn btn-outline-gamebox my-2">BROWSE GAMES</a>
-                            </div>`
+                            </div>`;
                     }
                 })
                 .catch(error => {
-                    console.error('There was an error:', error);
+                    newToastNode.outerHTML = errorToast;
+                    messageDiv.children[0].children[0].children[0].innerHTML = `
+                            There has been an error: ${error}`;
+
+                    const toastElList = document.querySelectorAll('.toast');
+                    const new_toast = new bootstrap.Toast(toastElList[0]);
+                    new_toast.show();
                 });
         }
     </script>

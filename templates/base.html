@@ -300,11 +300,11 @@
 {% block postloadjs %}
     <script src="{% static 'js/games.js' %}"></script>
     <script>
-        const toastElList = document.querySelectorAll('.toast')
+        const toastElList = document.querySelectorAll('.toast');
         toastElList.forEach(toast => {
-            const new_toast = new bootstrap.Toast(toast)
-            new_toast.show()
-        })
+            const new_toast = new bootstrap.Toast(toast);
+            new_toast.show();
+        });
     </script>
 {% endblock %}
 </body>

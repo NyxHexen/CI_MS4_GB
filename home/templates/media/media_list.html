@@ -134,14 +134,14 @@
     {{ block.super }}
     <script>
         // Initialize and configure delete buttons
-        const confirmDelBtn = document.querySelector('#media-delete')
-        const deleteButtons = document.querySelectorAll('.media-del-btn')
+        const confirmDelBtn = document.querySelector('#media-delete');
+        const deleteButtons = document.querySelectorAll('.media-del-btn');
 
         deleteButtons.forEach(button => {
             button.addEventListener('click', e => {
-                let href = e.target.dataset.href
-                confirmDelBtn.setAttribute('href', href)
-            })
-        })
+                let href = e.target.dataset.href;
+                confirmDelBtn.setAttribute('href', href);
+            });
+        });
     </script>
 {% endblock %}

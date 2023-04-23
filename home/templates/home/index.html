@@ -464,10 +464,10 @@
 
         [boxBottom, boxBottomBlur].forEach(element => {
             element.setAttribute('x', xSideHeight);
-            element.setAttribute('y', ySideWidth)
-            element.setAttribute('width', Math.floor(gamesCarousel.offsetWidth * 1.05))
+            element.setAttribute('y', ySideWidth);
+            element.setAttribute('width', Math.floor(gamesCarousel.offsetWidth * 1.05));
             element.setAttribute('height', Math.floor(gamesCarousel.offsetHeight * 1.08));
-        })
+        });
 
         function setPoints(side) {
             let element = sides[side];
@@ -500,7 +500,8 @@
         setPoints("left");
         setPoints("right");
         setPoints("bottom");
-
+    </script>
+    <script>
         let dotdCountdowns = document.querySelectorAll('.countdown-timer');
 
         var _second = 1000;
@@ -547,6 +548,6 @@
 
         dotdCountdowns.forEach(element => {
             updateCountdown(element);
-        })
+        });
     </script>
 {% endblock %}
