@@ -67,8 +67,8 @@
                                       method="post"
                                       class="w-100 d-flex flex-row">
                                     {% csrf_token %}
-                                    <label class="visually-hidden" for="id_qty_suggested_{{ game.model_name }}_{{ game.id }}"
-                                           class="form-label">
+                                    <label for="id_qty_suggested_{{ game.model_name }}_{{ game.id }}"
+                                           class="form-label visually-hidden">
                                            Quantity
                                     </label>
                                     <input class="form-control"
