@@ -369,37 +369,39 @@
 
 {% block extra_css %}
     <style>
-  #top-side {
-    fill: url(#box-gradient-top);
-  }
+        /* Configure 3D box styles */
+        #top-side {
+            fill: url(#box-gradient-top);
+        }
 
-  #left-side {
-    fill: url(#box-gradient-left);
-  }
+        #left-side {
+            fill: url(#box-gradient-left);
+        }
 
-  #right-side {
-    fill: url(#box-gradient-right);
-  }
+        #right-side {
+            fill: url(#box-gradient-right);
+        }
 
-  #bottom-side {
-    fill: url(#box-gradient-bottom);
-  }
+        #bottom-side {
+            fill: url(#box-gradient-bottom);
+        }
 
-  .stop1 {
-    stop-color: black;
-    stop-opacity: .1;
-  }
+        .stop1 {
+            stop-color: black;
+            stop-opacity: .1;
+        }
 
-  .stop2 {
-    stop-color: black;
-    stop-opacity: .8;
-  }
+        .stop2 {
+            stop-color: black;
+            stop-opacity: .8;
+        }
     </style>
 {% endblock %}
 
 {% block postloadjs %}
     {{ block.super }}
     <script>
+        // 3D box background
         const carouselContainer = document.querySelector('.carousel-container');
         const gamesCarousel = document.querySelector('#games-carousel');
 
@@ -497,6 +499,7 @@
             }
         }
 
+        // Initialize 3D box effect points
         setPoints("top");
         setPoints("left");
         setPoints("right");
@@ -509,6 +512,13 @@
         var _hour = _minute * 60;
         var _day = _hour * 24;
 
+        // https://www.w3schools.com/howto/howto_js_countdown.asp
+        /**
+         * Creates and updates countdown timers for DOTD section.
+         * 
+         * @param element {HTMLElement}: Element to update.
+         * @returns {void}
+        **/
         function updateCountdown(element) {
             var end = new Date(element.getAttribute('data-end-time'));
             var now = new Date();

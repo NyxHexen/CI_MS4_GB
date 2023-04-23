@@ -5,9 +5,11 @@
 {% load humanize %}
 
 {% block content %}
+<!-- Media Overview -->
     <div class="container my-5">
         <div class="row justify-content-center">
             <div class="media-display col-11 col-md-auto text-bg-light rounded mx-auto mx-md-2 pb-2 mb-3 h-100">
+                <!-- Assigned Media -->
                 <h2 class="p-3 m-0 text-center ui-font">Assigned Media</h2>
                 <div class="scroll-div">
                     {% for game in filtered_game_list %}
@@ -73,6 +75,7 @@
                     {% endfor %}
                 </div>
             </div>
+            <!-- Unassigned Media -->
             <div class="media-display col-11 col-md-5 col-lg-5 pb-3 text-bg-light rounded mx-auto mx-md-2 h-100">
                 <h2 class="pt-3 text-center ui-font">unassigned Media</h2>
                 {% if unassigned_media|length != 0 %}
@@ -130,6 +133,7 @@
 {% block postloadjs %}
     {{ block.super }}
     <script>
+        // Initialize and configure delete buttons
         const confirmDelBtn = document.querySelector('#media-delete')
         const deleteButtons = document.querySelectorAll('.media-del-btn')
 
