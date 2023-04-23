@@ -1,15 +1,24 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 
+# Internal
 from games.models import Game, DLC
 from home.models import Media
+
+# Local
 from .models import Promo
 
+# Included
 from decimal import Decimal
 from datetime import date, timedelta
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 class PromoViewsTests(TestCase):
     def setUp(self):

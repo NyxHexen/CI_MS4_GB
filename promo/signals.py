@@ -1,9 +1,17 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.dispatch import receiver
 from django.db.models.signals import m2m_changed, pre_save
 
+# Internal
 from ci_ms4_gamebox.utils import get_or_none
+
+# Local
 from .models import Promo
 from .utils import apply_discount, remove_discount
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 # Controls actions that occur when a Promo becomes active/offline.
 @receiver(pre_save, sender=Promo)

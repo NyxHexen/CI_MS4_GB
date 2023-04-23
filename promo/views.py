@@ -1,21 +1,32 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import QueryDict
 from django.core.paginator import Paginator, EmptyPage
-from urllib.parse import urlencode
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from decimal import Decimal
 
+# Third Party
+from urllib.parse import urlencode
+
+# Internal
 from ci_ms4_gamebox.utils import get_or_none
 from games.views import sort_by
 from home.models import Media
 from games.models import Game, DLC
 from promo.models import Promo
+
+# Local
 from .forms import PromoForm
 
+# Included
+from decimal import Decimal
 import random
 import datetime as dt
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 def promo(request, promo_id):
     promo = get_object_or_404(

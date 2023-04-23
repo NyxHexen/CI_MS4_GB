@@ -1,13 +1,21 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.test import TestCase
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 
+# Internal
 from games.models import Game, DLC
 from home.models import Media
+
+# Local
 from .models import Promo
 
+# Included
 from decimal import Decimal
 from datetime import date, timedelta
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 class PromoTestCase(TestCase):
     def setUp(self):

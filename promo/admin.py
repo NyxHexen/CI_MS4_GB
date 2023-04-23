@@ -1,11 +1,19 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.contrib import admin, messages
+
+# Internal
 from ci_ms4_gamebox.utils import get_or_none
 from games.models import Game, DLC
+
+# Local
 from .models import Promo
 
+# Included
 import re
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Register your models here.
 
 class PromoAdminModel(admin.ModelAdmin):
     def save_model(self, request, *args, **kwargs):

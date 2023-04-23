@@ -1,7 +1,13 @@
-from datetime import datetime, time, timedelta
-
-from decimal import Decimal
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.utils import timezone
+
+# Included
+from datetime import datetime, time, timedelta
+from decimal import Decimal
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 def default_start_datetime():
     now = timezone.now()

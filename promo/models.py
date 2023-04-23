@@ -1,13 +1,22 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.db import models
 from django.db.models import Max
 from django.core.exceptions import ValidationError
-from decimal import Decimal
 
+# Internal
+from ci_ms4_gamebox.utils import get_or_none
 from games.models import CustomBaseModel, DLC, Game
 from home.models import Media
-from ci_ms4_gamebox.utils import get_or_none
+
+# Local
 from .utils import (default_start_datetime, default_end_datetime,
                     remove_discount)
+
+# Included
+from decimal import Decimal
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 class Promo(CustomBaseModel):

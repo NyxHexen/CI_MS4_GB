@@ -1,7 +1,14 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django import forms
 
+# Internal
 from games.models import Game, DLC
+
+# Local
 from .models import Promo
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 class PromoForm(forms.ModelForm):
@@ -25,7 +32,8 @@ class PromoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         """
-        Add better placeholders and ensure that only games shown are either in this Promo
+        Add better placeholders and ensure that
+        only games shown are either in this Promo
         or not in one at all.
         """
         super().__init__(*args, **kwargs)
