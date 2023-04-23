@@ -213,7 +213,7 @@ def checkout_success(request, order_number):
             "info@gamebox.com",
             [request.user.email,]
         )
-    except Exception as e:
+    except Exception:
         messages.error(
         request,
         f"There has been an issue with your email confirmation.\
@@ -228,7 +228,7 @@ def checkout_success(request, order_number):
         try:
             cart = Cart.objects.get(user=request.user)
             cart.delete()
-        except Exception as e:
+        except Exception:
             messages.info(
                 request,
                 "Woops! Our server had an accident. \
