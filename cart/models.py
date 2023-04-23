@@ -82,3 +82,10 @@ class CartItem(models.Model):
         if self.game and self.dlc:
             raise ValidationError("Only one of game or dlc can be specified.")
         return super().clean()
+    
+    # https://stackoverflow.com/questions/1737017/django-auto-now-and-auto-now-add
+    def save(self, *args, **kwargs):
+        """ On save, update timestamps """
+        self.cart.updated_date = timezone.now()
+        self.cart.save()
+        return super().save(*args, **kwargs)
