@@ -1210,7 +1210,6 @@ footer {
 	--bs-btn-line-height: 0;
 	padding: 5px;
 	height: 100%;
-	max-width: calc(40px + 2 * 5);
 }
 
 .footer-nav ul:first-child {
@@ -2096,10 +2095,6 @@ h3>.media-edit-btn {
 		scrollbar-width: none;
 		scroll-snap-type: x mandatory;
 		scroll-behavior: smooth;
-	}
-
-	.deals .row:has(.dotd-empty) {
-		justify-content: center !important;
 	}
 }
 
