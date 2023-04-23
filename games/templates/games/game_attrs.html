@@ -19,7 +19,7 @@
                     {% if attr.logo.file is not None %}
                         <img src="{{ MEDIA_URL }}{{ attr.logo.file }}" 
                              alt="The logo on {{ attr.name }}"
-                             class="d-block w-100">
+                             class="attr-logo d-block w-100">
                     {% endif %}
                 </div>
                 <p>{{ attr.description }}</p>

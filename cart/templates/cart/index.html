@@ -48,6 +48,7 @@
                                         <td>{{ item.item.final_price|multiply:item.quantity }}</td>
                                         <td class="remove-item">
                                             <button type="button"
+                                                    aria-label="Remove game from cart"
                                                     data-id="{{ item.item.id }}"
                                                     data-game="{{ item.item.model_name }}"
                                                     class="remove-item__btn btn btn-sm btn-danger"
