@@ -10,7 +10,7 @@
 {% block content %}
 <!-- Page Header -->
     <div class="game-header w-100">
-        <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" width="250" height="250"
+        <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}" 
              class="w-100"
              alt="{{ game|use_media:'LANDING.descr' }}">
         <div class="container__blur position-absolute">
@@ -28,7 +28,7 @@
         <div class="container">
             <div class="game-detail-info row justify-content-center justify-content-md-start">
                 <div class="game-detail-cover col-8 col-sm-5 col-md-3 col-xl-2 my-3 d-flex flex-column align-items-center">
-                    <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" width="250" height="250"
+                    <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" 
                          alt="{{ game|use_media:'COVER.descr' }}">
                     <form action="{% url 'cart_add' game.model_name game.id %}"
                           method="post"
@@ -169,7 +169,7 @@
                                             {% if forloop.last and not media|length|divisibleby:2 and not forloop.first %}
                                             {% elif forloop.counter|divisibleby:2 %}
                                                 <div class="col-6 carousel-image px-1 position-relative">
-                                                    <img src="{{ MEDIA_URL }}{{ item.file.name }}" width="250" height="250"
+                                                    <img src="{{ MEDIA_URL }}{{ item.file.name }}" 
                                                          class="d-block w-100"
                                                          alt="{{ item.description }}">
                                                     {% if item.media_type == 'video' %}
@@ -192,7 +192,7 @@
                                                 {% endif %}
                                             {% else %}
                                                 <div class="col-6 carousel-image px-1 position-relative">
-                                                    <img src="{{ MEDIA_URL }}{{ item.file.name }}" width="250" height="250"
+                                                    <img src="{{ MEDIA_URL }}{{ item.file.name }}" 
                                                          class="d-block w-100"
                                                          alt="{{ item.description }}">
                                                     {% if item.media_type == 'video' %}
@@ -210,7 +210,7 @@
                                             {% endif %}
                                         {% else %}
                                             <div class="col-12 carousel-image px-1 position-relative">
-                                                <img src="{{ MEDIA_URL }}{{ item.file.name }}" width="250" height="250"
+                                                <img src="{{ MEDIA_URL }}{{ item.file.name }}" 
                                                      class="d-block w-100"
                                                      alt="{{ item.description }}">
                                                 {% if item.media_type == 'video' %}
@@ -272,7 +272,7 @@
                                    href="{% url 'game' dlc.model_name dlc.id %}"
                                    class="col dlc position-relative mx-1">
                                     <span class="h5 position-absolute text-center">{{ dlc }}</span>
-                                    <img class="img-fluid w-100" width="250" height="250"
+                                    <img class="img-fluid w-100" 
                                          src="{{ MEDIA_URL }}{{ dlc|use_media:'COVER.src' }}"
                                          alt="{{ dlc|use_media:'COVER.descr' }}">
                                 </a>
@@ -284,7 +284,7 @@
                                    href="{% url 'game' game.required_game.model_name game.required_game.id %}"
                                    class="col dlc position-relative mx-1">
                                     <span class="h5 position-absolute text-center">{{ game.required_game.name }}</span>
-                                    <img class="img-fluid w-100" width="250" height="250"
+                                    <img class="img-fluid w-100" 
                                          src="{{ MEDIA_URL }}{{ game.required_game|use_media:'COVER.src' }}"
                                          alt="{{ dlc|use_media:'COVER.descr' }}">
                                 </a>
@@ -361,11 +361,11 @@
                     <h2 class="ui-font h4 mt-3">age rating</h2>
                     <div class="ratings-list d-flex flex-column ps-4">
                         <div class="ratings-list-inner d-flex align-items-center">
-                            <img class="img-fluid mx-1" width="250" height="250"
+                            <img class="img-fluid mx-1" 
                                  src="{{ MEDIA_URL }}{{ game.ratingset.esrb_rating.image }}"
                                  alt="{{ game.ratingset.esrb_rating }}"
                                  title="ESRB Rating: {{ game.ratingset.esrb_rating }}">
-                            <img class="img-fluid mx-1" width="250" height="250"
+                            <img class="img-fluid mx-1" 
                                  src="{{ MEDIA_URL }}{{ game.ratingset.pegi_rating.image }}"
                                  alt="{{ game.ratingset.pegi_rating }}"
                                  title="PEGI Rating: {{ game.ratingset.pegi_rating }}">

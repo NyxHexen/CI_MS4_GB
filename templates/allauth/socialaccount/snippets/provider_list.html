@@ -17,7 +17,7 @@
 <li>
   <a title="{{provider.name}}" class="d-flex btn btn-large btn-outline-gamebox socialaccount_provider {{provider.id}}" 
   href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
-  <img class="google-logo me-2" width="250" height="250" src="{{ MEDIA_URL }}google__g__logo.png" alt="Google Logo">{{provider.name}}</a>
+  <img class="google-logo me-2"  src="{{ MEDIA_URL }}google__g__logo.png" alt="Google Logo">{{provider.name}}</a>
 </li>
 {% else %}
 <li>

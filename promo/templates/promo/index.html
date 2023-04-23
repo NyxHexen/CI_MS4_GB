@@ -8,7 +8,7 @@
 
 {% block content %}
     <div class="promo-header">
-        <img src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}" width="250" height="250"
+        <img src="{{ MEDIA_URL }}{{ promo|use_media:'LANDING.src' }}" 
              alt="{{ promo.media.description }}">
         <div class="promo-info w-100 px-2 py-2 d-flex flex-column align-items-center justify-content-center">
             <h1 id="promo-name" class="display-4 text-center">{{ promo.name|lower }}</h1>
@@ -84,7 +84,7 @@
                                                            href="{% url 'game' game.model_name game.id %}"
                                                            class="card-img-top">
                                                             <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}"
-                                                                width="250" height="250"
+                                                                
                                                                 alt="{{ game|use_media:'LANDING.descr' }}">
                                                         </a>
                                                         <span class="card-title ps-2 pt-1">{{ game.name }}</span>
@@ -192,7 +192,7 @@
                                         {% for game in page %}
                                             <tr data-href="{% url 'game' game.model_name game.id %}">
                                                 <td>
-                                                    <img class="cart-image" width="250" height="250"
+                                                    <img class="cart-image" 
                                                          src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
                                                          alt="{{ game|use_media:'COVER.descr' }}">
                                                 </td>

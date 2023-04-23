@@ -105,10 +105,10 @@
                                         <div class="game-cover-image">
                                             {% if game|use_media:'COVER.src' is not None %}
                                                 <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
-                                                     alt="{{ game|use_media:'COVER.descr' }}" width="250" height="250">
+                                                     alt="{{ game|use_media:'COVER.descr' }}" >
                                             {% else %}
                                                 <img src="{{ MEDIA_URL }}noimage.jpg"
-                                                     alt="This game does not yet have a cover image!" width="250" height="250">
+                                                     alt="This game does not yet have a cover image!" >
                                             {% endif %}
                                         </div>
                                         <p class="game-title">{{ game.name }}</p>

@@ -13,7 +13,7 @@
                 <h2>{{ attr.name }}</h2>
                 <div class="col-4 my-3">
                     {% if attr.logo.file is not None %}
-                        <img src="{{ MEDIA_URL }}{{ attr.logo.file }}" width="250" height="250"
+                        <img src="{{ MEDIA_URL }}{{ attr.logo.file }}" 
                              alt="The logo on {{ attr.name }}"
                              class="d-block w-100">
                     {% endif %}
@@ -100,7 +100,7 @@
                                         {% for game in page %}
                                             <tr data-href="{% url 'game' game.model_name game.id %}">
                                                 <td>
-                                                    <img class="cart-image" width="250" height="250"
+                                                    <img class="cart-image" 
                                                          src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
                                                          alt="{{ game|use_media:'COVER.descr' }}">
                                                 </td>

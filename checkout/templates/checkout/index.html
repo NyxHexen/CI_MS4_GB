@@ -51,7 +51,7 @@
                             {% for item in cart_items %}
                                 <tr>
                                     <td>
-                                        <img class="cart-image" width="250" height="250"
+                                        <img class="cart-image" 
                                              src="{{ MEDIA_URL }}{{ item.item|use_media:'COVER.src' }}"
                                              alt="{{ item.item|use_media:'COVER.descr' }}">
                                     </td>
