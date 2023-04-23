@@ -1,7 +1,13 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.contrib import admin
-from .models import *
 
-# Register your models here.
+# Local
+from .models import *
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 class RatingSetAdminInline(admin.StackedInline):
     model = RatingSet
     readonly_fields = (

@@ -1,10 +1,17 @@
-from django.test import TestCase
-
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# 3rd party:
 from decimal import Decimal
 from datetime import date
 
+# Django:
+from django.test import TestCase
+
+# Internal:
+from .forms import DLCForm, GameForm, RatingForm
 from .models import *
-from .forms import GameForm, DLCForm, RatingForm
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 class TestGamesForms(TestCase):
     def setUp(self):

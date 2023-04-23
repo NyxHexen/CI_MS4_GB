@@ -1,13 +1,18 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.db import models
 from django.db.models import Avg
 from django.contrib.auth.models import User
 
+# Third-party
 from django_countries.fields import CountryField
 
+# Local
 from home.models import CustomBaseModel, Media
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-# Create your models here.
 class Game(CustomBaseModel):
     name = models.CharField(
         max_length=254,

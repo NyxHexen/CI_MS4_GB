@@ -1,12 +1,18 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 
+# Local
+from .models import *
+
+# Third-party
 from decimal import Decimal
 from datetime import date
-
-from .models import *
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 class TestGamesViews(TestCase):

@@ -1,3 +1,6 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import QueryDict, JsonResponse, HttpResponse
 from django.urls import reverse
@@ -6,9 +9,12 @@ from django.core.exceptions import EmptyResultSet
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from urllib.parse import urlencode
 from django.contrib import messages
 
+# Third-party
+from urllib.parse import urlencode
+
+# Local
 from ci_ms4_gamebox.utils import get_or_none
 from games.models import (Game, Genre,
                           Tag, Platform, Feature, DLC,
@@ -16,15 +22,16 @@ from games.models import (Game, Genre,
 from .utils import sort_by
 from .forms import GameForm, DLCForm, RatingForm
 
+# Built-in
 from decimal import Decimal
 from datetime import datetime
-
 import json
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 def games(request):
     """
-    View for displaying all games and DLCs available for purchase.
+    View for displaying all games and DLCs available for purchase, with filtering and sorting.
     """
     try:
         games = Game.objects.all()
@@ -181,6 +188,9 @@ def games(request):
 
 
 def game(request, model_name, game_id):
+    """
+    View for displaying individual game information.
+    """
     game = (
         get_object_or_404(Game, id=game_id)
         if model_name == 'game'
@@ -213,6 +223,9 @@ def game(request, model_name, game_id):
 @csrf_exempt
 @require_POST
 def set_game_rating(request, model_name, game_id):
+    """
+    View to set game rating for a game/dlc from user.
+    """
     if request.user.is_authenticated:
         try:
             game = (
@@ -240,6 +253,9 @@ def set_game_rating(request, model_name, game_id):
 
 @login_required
 def game_add(request, model_name):
+    """
+    View with form for adding new games/dlcs.
+    """
     if not request.user.is_staff:
         messages.info(request, '\
                       Super Secret Page of Awesomeness!\
@@ -310,6 +326,9 @@ def game_add(request, model_name):
 
 @login_required
 def game_edit(request, model_name, game_id):
+    """
+    View for displaying all games and DLCs available for purchase.
+    """
     if not request.user.is_staff:
         messages.info(request, '\
                       Super Secret Page of Awesomeness! Unauthorized access prohibited!')
@@ -385,6 +404,9 @@ def game_edit(request, model_name, game_id):
 
 @login_required
 def game_delete(request, model_name, game_id):
+    """
+    View to handle game/dlc deletion.
+    """
     if not request.user.is_staff:
         messages.info(request, '\
                       Super Secret Page of Awesomeness!\
@@ -404,6 +426,9 @@ def game_delete(request, model_name, game_id):
 
 
 def game_attrs(request, attr_id):
+    """
+    View for displaying platforms/developers/publishers.
+    """
     game_attr = request.path.split('/')
     game_attr = [i for i in game_attr if i != ''][1]
 

@@ -1,9 +1,17 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django import forms
 
+# Local
 from .models import Game, DLC, RatingSet
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 class GameForm(forms.ModelForm):
+    """
+    ModelForm class for Games
+    """
     class Meta:
         model = Game
         fields = (
@@ -32,6 +40,9 @@ class GameForm(forms.ModelForm):
 
 
 class DLCForm(forms.ModelForm):
+    """
+    ModelForm class for DLCs
+    """
     class Meta:
         model = DLC
         fields = (
@@ -60,6 +71,9 @@ class DLCForm(forms.ModelForm):
 
 
 class RatingForm(forms.ModelForm):
+    """
+    ModelForm class for RatingSet
+    """
     class Meta:
         model = RatingSet
         fields = (

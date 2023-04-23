@@ -1,9 +1,16 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.test import TestCase
-from decimal import Decimal
-
 from django.contrib.auth.models import User
+
+# Local
 from .models import *
+
+# Third-party
+from decimal import Decimal
 from datetime import date
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 class TestGamesModels(TestCase):

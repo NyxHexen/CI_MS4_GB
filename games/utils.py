@@ -1,6 +1,19 @@
 
 
 def sort_by(sort_value, *args):
+    """
+    Sorts the given arguments (querysets) based on `sort_value`.
+
+    Args:
+        sort_value (str): The value based on which the arguments will be sorted.
+        *args: Any number of querysets that get passed in.
+
+    Returns:
+        A combined flat, sorted, list of the passed in args.
+
+    Raises:
+        None.
+    """
     # Convert each argument to a list
     sorted_args = [list(arg) for arg in args]
     # Flatten the list of lists into a single list
