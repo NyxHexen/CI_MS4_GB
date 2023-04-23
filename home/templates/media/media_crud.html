@@ -3,6 +3,18 @@
 {% load tags %}
 {% load cart_tags %}
 
+{% block extra_title %}| Add/Edit Media{% endblock %}
+
+{% block page_header %}
+<h1 class="visually-hidden">Media 
+    {% if 'add' in request.path %}
+    Add
+    {% else %}
+    Edit
+    {% endif %}
+    Page</h1>
+{% endblock %}
+
 {% block content %}
 <!-- Media Add Form -->
 <div class="container my-5">
@@ -27,6 +39,7 @@
                             {% csrf_token %}
                             <hr class="my-3">
                             <fieldset class="col-12 col-md-6 col-xl-4 w-100" name="input">
+                                <legend class="visually-hidden">Media Information</legend>
                                 {{ form.name|as_crispy_field }}
                                 {{ form.url|as_crispy_field }}
                                 {{ form.file|as_crispy_field }}

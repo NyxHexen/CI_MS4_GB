@@ -139,6 +139,14 @@
 
 /* ------------------------------------------------------------------------------------ CUSTOM BOOTSTRAP */
 
+.text-muted {
+	color: #474D52 !important;
+}
+
+.text-bg-dark .text-muted {
+	color: #B0B5BA !important;
+}
+
 .btn-gamebox {
 	--bs-btn-color: #fff;
 	--bs-btn-bg: var(--primary-color);
@@ -630,7 +638,7 @@ svg * {
 	z-index: 1;
 }
 
-#games-carousel .carousel-caption h3 {
+#games-carousel .carousel-caption h2 {
 	font-weight: 700;
 	text-shadow: 0 0 5px var(--dark-bg-color), 0 0 6px var(--dark-bg-color), 0 0 7px var(--dark-bg-color), 0 0 10px var(--dark-bg-color);
 }
@@ -1014,8 +1022,8 @@ svg * {
 }
 
 #game-filter-form [type=reset] {
-	background-color: rgb(133, 133, 133);
-	border: 1px solid rgb(133, 133, 133);
+	background-color: rgb(99, 99, 99) !important;
+	border: 1px solid rgb(99, 99, 99) !important;
 }
 
 #games-filter .accordion-button:not(.collapsed) {
@@ -1412,6 +1420,7 @@ a.socialaccount_provider.google {
 .star,
 .star:hover {
 	color: var(--dark-bg-color);
+	cursor: pointer;
 }
 
 /* ------------------------------------------------------------------------------------ Deals */

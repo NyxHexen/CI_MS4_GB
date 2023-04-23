@@ -46,11 +46,14 @@
                      aria-labelledby="panelsStayOpen-headingOne">
                     <div class="accordion-body">
                         <fieldset id="price">
+                            <legend class="visually-hidden">Price Range</legend>
                             <input type="hidden" name="price_range">
                             <div id="price-slider"></div>
                             <div class="priceInput input-group mt-3">
+                                <label for="price-slider__from" class="visually-hidden">Price From</label>
                                 <input class="form-control" id="price-slider__from">
                                 <span class="input-group-text">to</span>
+                                <label for="price-slider__to" class="visually-hidden">Price To</label>
                                 <input class="form-control" id="price-slider__to">
                             </div>
                         </fieldset>
@@ -71,6 +74,7 @@
                      aria-labelledby="panelsStayOpen-headingTwo">
                     <div class="accordion-body">
                         <fieldset id="genres">
+                            <legend class="visually-hidden">Genres</legend>
                             <input type="hidden" name="genres_filter">
                             {% for genre in genres %}
                                 <div class="form-check ms-3">
@@ -100,6 +104,7 @@
                      aria-labelledby="panelsStayOpen-headingThree">
                     <div class="accordion-body">
                         <fieldset id="tags">
+                            <legend class="visually-hidden">Tags</legend>
                             <input type="hidden" name="tags_filter">
                             {% for tag in tags %}
                                 <div class="form-check ms-3">
@@ -129,6 +134,7 @@
                      aria-labelledby="panelsStayOpen-headingFour">
                     <div class="accordion-body">
                         <fieldset id="platforms">
+                            <legend class="visually-hidden">Platforms</legend>
                             <input type="hidden" name="platforms_filter">
                             {% for platform in platforms %}
                                 <div class="form-check ms-3">
@@ -158,6 +164,7 @@
                      aria-labelledby="panelsStayOpen-headingFive">
                     <div class="accordion-body">
                         <fieldset id="features">
+                            <legend class="visually-hidden">Features</legend>
                             <input type="hidden" name="features_filter">
                             {% for feature in features %}
                                 <div class="form-check ms-3">
@@ -187,11 +194,14 @@
                      aria-labelledby="panelsStayOpen-headingSix">
                     <div class="accordion-body">
                         <fieldset id="date">
+                            <legend class="visually-hidden">Date</legend>
                             <input type="hidden" name="date_range">
                             <div id="release-date-slider"></div>
                             <div class="release-dateInput input-group mt-3">
+                                <label for="release-date-slider__from" class="visually-hidden">Year From</label>
                                 <input class="form-control" id="release-date-slider__from">
                                 <span class="input-group-text">to</span>
+                                <label for="release-date-slider__to" class="visually-hidden">Year To</label>
                                 <input class="form-control" id="release-date-slider__to">
                             </div>
                         </fieldset>

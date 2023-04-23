@@ -24,9 +24,9 @@
         {% if user.is_staff %}
             <div class="admin-btns text-bg-light rounded p-2 d-flex align-items-center justify-content-center">
                 {% if promo.active %}
-                    <span class="text-success mx-1">Online</span>
+                    <span class="text-bg-success mx-1 rounded p-1">Online</span>
                 {% else %}
-                    <span class="text-danger mx-1">Offline</span>
+                    <span class="text-bg-danger mx-1 rounded p-1">Offline</span>
                 {% endif %}
                 {% if '/edit/' in request.path %}
                     <button type="button"
@@ -185,7 +185,7 @@
                                 <table class="table mt-3 table-hover mb-1 w-100 align-middle">
                                     <thead>
                                         <tr>
-                                            <th scope="col"></th>
+                                            <td scope="col"></td>
                                             <th scope="col">Name</th>
                                             <th scope="col">Discount</th>
                                             <th scope="col">Now</th>

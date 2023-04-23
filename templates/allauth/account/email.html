@@ -20,12 +20,12 @@
           <form action="{% url 'account_email' %}" class="w-100 email_list" method="post">
             {% csrf_token %}
             <fieldset class="blockLabels">
-
+              <legend class="visually-hidden">E-mail Addresses</legend>
               <div class="table-responsive">
                 <table class="table">
                   <thead class="text-center">
                     <tr>
-                      <th scope="col"></th>
+                      <td scope="col"></td>
                       <th scope="col">E-mail</th>
                       <th scope="col">Status</th>
                       <th scope="col">Use</th>
@@ -36,7 +36,9 @@
                     <tr>
                       <td>
                         <label for="email_radio_{{forloop.counter}}"
-                          class="{% if emailaddress.primary %}primary_email{%endif%} form-check-label"></label>
+                          class="{% if emailaddress.primary %}primary_email{%endif%} form-check-label visually-hidden">
+                          {{ forloop.counter }}
+                        </label>
                           <input id="email_radio_{{forloop.counter}}" type="radio" name="email" class="form-check-input"
                             {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"
                             {%endif %} value="{{emailaddress.email}}">
@@ -70,11 +72,12 @@
           <form method="post" action="{% url 'account_email' %}" class="mt-3 w-100 add_email">
             <fieldset>
               {% csrf_token %}
+              <legend class="visually-hidden">Add New Email</legend>
               {% for field in form %}
               <div class="input-group mb-3">
                 <input name="{{ field.name }}" id="{{ field.name }}" type="email" class="form-control" placeholder="Add New Email Address"
                   aria-label="Email">
-                <label for="{{ field.name }} visually-hidden">{% trans field.label %}</label>
+                <label for="{{ field.name }}" class="visually-hidden">{% trans field.label %}</label>
                 <button name="action_add" type="submit"
                   class="btn input-group-text btn-outline-gamebox">{% trans "Add" %}</button>
               </div>

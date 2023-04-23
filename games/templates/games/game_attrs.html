@@ -95,7 +95,7 @@
                                 <table class="table table-hover mt-3 mb-1 w-100">
                                     <thead class="text-center">
                                         <tr>
-                                            <th scope="col"></th>
+                                            <td scope="col"></td>
                                             <th scope="col">Name</th>
                                             <th scope="col">Price</th>
                                         </tr>
@@ -111,11 +111,11 @@
                                                 <td>{{ game.name }}</td>
                                                 <td class="text-center">
                                                     <div class="d-flex align-items-center justify-content-center">
+                                                        {% if game.in_promo %}
                                                         <span class="promo-discount fs-6">
-                                                            {% if game.in_promo %}
                                                                 -{{ game.promo_percentage }}%
-                                                            {% endif %}
                                                         </span>
+                                                        {% endif %}
                                                         <div class="d-flex flex-column ms-3">
                                                             {% if game.in_promo %}<s class="text-muted">£{{ game.base_price }}</s>{% endif %}
                                                             £{{ game.final_price }}

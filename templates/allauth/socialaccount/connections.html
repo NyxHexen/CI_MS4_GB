@@ -23,6 +23,7 @@
                         {% csrf_token %}
 
                         <fieldset class="d-flex flex-column align-items-center">
+                            <legend class="visually-hidden">Connected Accounts</legend>
                             {% if form.non_field_errors %}
                             <div id="errorMsg">{{ form.non_field_errors }}</div>
                             {% endif %}
@@ -30,7 +31,7 @@
                             <table class="table table-responsive">
                                 <thead>
                                     <tr>
-                                        <th scope="col"></th>
+                                        <td scope="col"></td>
                                         <th scope="col">Provider</th>
                                         <th scope="col">Account Name</th>
                                     </tr>
