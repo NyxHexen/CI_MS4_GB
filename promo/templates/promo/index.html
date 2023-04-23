@@ -272,7 +272,7 @@
                 </script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-                {% if request.path == '/promo/add/' %}
+                {% if '/edit/' in request.path %}
                     <script>
                         $(".modal").draggable();
                         $("#promo-form").on('change', () => {
@@ -301,7 +301,7 @@
                         });
                     </script>
                 {% endif %}
-                {% if 'edit/' in request.path %}
+                {% if request.path == '/promo/add/' %}
                     <script type="text/javascript">
                         $(".modal").draggable();
                         $("#promo-form").on('change', () => {
