@@ -1,10 +1,16 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Python:
 from decimal import Decimal
+
+# Django:
 from django.shortcuts import get_object_or_404
 
-from games.models import Game, DLC
-from .utils import *
+# Local:
 from .models import Cart
-
+from .utils import *
+from games.models import Game, DLC
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def cart_contents(request):
     """

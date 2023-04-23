@@ -1,10 +1,18 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+
+# Third Party Libraries
 from allauth.account.signals import user_logged_in
 
+# Local
 from .utils import get_and_unsign_cart
 from games.models import Game, DLC
 from .models import Cart
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 @receiver(user_logged_in, sender=User)
 def merge_cart(sender, request, user, **kwargs):

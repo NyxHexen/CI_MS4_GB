@@ -1,7 +1,13 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django:
 from django.contrib import admin
-from .models import *
 
-# Register your models here.
+# Internal:
+from .models import *
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 class CartItemsInline(admin.TabularInline):
     """
     Admin class forr the CartItem inline in CartAdmin.

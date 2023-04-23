@@ -1,11 +1,20 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.test import TestCase
 from django.core.signing import Signer
 from django.urls import reverse
 from django.contrib.auth import get_user
 from django.contrib.auth.models import User
+
+# Python
 from decimal import Decimal
-from games.models import Game, DLC
+
+# Local
+from games.models import Game
 from cart.models import Cart, CartItem
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 import json
 

@@ -122,7 +122,6 @@
         })
     </script>
     <script>
-        // Stripe Functionality
         const errorToast = `{% include 'includes/toasts/toast-error.html'%}`
         const successToast = `{% include 'includes/toasts/toast-success.html'%}`
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -143,7 +142,7 @@
                 }
             });
         })
-
+        // Async function to handle removing items from cart
         function removeCartItem(gameId, model_name, row) {
             const csrftoken = document.cookie.match(/csrftoken=([\w-]+)/)[1];
 

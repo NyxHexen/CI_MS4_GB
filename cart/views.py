@@ -1,12 +1,19 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib import messages
 
+# Local
 from games.models import Game, DLC
 from .models import Cart
 from .utils import sign_and_set_cart, get_and_unsign_cart
 
+# Python
 import json
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 
 # Create your views here.
