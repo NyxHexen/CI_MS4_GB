@@ -1,3 +1,4 @@
+// Game/DLC card animation event handling
 let gameCards = document.querySelectorAll('.game')
 
 gameCards.forEach(card => {
