@@ -57,6 +57,7 @@ class OrderAdmin(admin.ModelAdmin):
 
     ordering = ("-date",)
 
+
 class OrderLineItemAdmin(admin.ModelAdmin):
     list_display = (
         'game',

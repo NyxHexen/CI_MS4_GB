@@ -99,8 +99,16 @@ class StripeWH_Handler:
                         )
                         order_line_item = OrderLineItem(
                             order=order,
-                            game=game if item_data["model"] == "game" else None,
-                            dlc=game if item_data["model"] == "dlc" else None,
+                            game=(
+                                game
+                                if item_data["model"] == "game"
+                                else None
+                                ),
+                            dlc=(
+                                game
+                                if item_data["model"] == "dlc"
+                                else None
+                                ),
                             quantity=item_data["quantity"],
                         )
                         order_line_item.save()
@@ -108,10 +116,10 @@ class StripeWH_Handler:
                     cart = Cart.objects.get(user=username)
                     for i in cart.cartitems.all():
                         order_line_item = OrderLineItem(
-                                order = order,
-                                game = i.game or None,
-                                dlc = i.dlc or None,
-                                quantity = i.quantity,
+                                order=order,
+                                game=i.game or None,
+                                dlc=i.dlc or None,
+                                quantity=i.quantity,
                             )
                         order_line_item.save()
             except Exception as e:
@@ -123,7 +131,8 @@ class StripeWH_Handler:
                 )
 
         return HttpResponse(
-            content=f'Webhook received: {event["type"]} | SUCCESS: Created order in webhook',
+            content=f'Webhook received: {event["type"]} | SUCCESS: Created\
+            order in webhook',
             status=200
             )
 

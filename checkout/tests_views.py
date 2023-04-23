@@ -22,7 +22,6 @@ from profiles.models import UserProfile
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-
 class TestCheckoutViews(TestCase):
     """
     A class for testing checkout views
@@ -30,13 +29,13 @@ class TestCheckoutViews(TestCase):
     def setUp(self):
         self.signer = Signer()
         self.user = User.objects.create_user(
-            username='test-gamebox', 
+            username='test-gamebox',
             password='gamebox-pwd',
             first_name="Test",
             last_name="Test",
             email="test@test.com"
             )
-        
+
         self.user.userprofile.default_phone_number = "0123456789"
         self.user.userprofile.default_street_address1 = "Test Address 1"
         self.user.userprofile.default_street_address2 = "Test Address 2"
@@ -45,19 +44,19 @@ class TestCheckoutViews(TestCase):
         self.user.userprofile.default_country = "GB"
         self.user.userprofile.default_county = ""
         self.user.userprofile.save()
-        
+
         self.cart = Cart.objects.create(
             user=self.user
             )
-        
+
         self.order = Order.objects.create(
-            user = self.user,
-            full_name = "Test User",
-            email = "info@example.com",
-            phone_number = "0123456789",
-            country = "GB",
-            town_or_city = "Test City",
-            street_address1 = "Test Address 1",
+            user=self.user,
+            full_name="Test User",
+            email="info@example.com",
+            phone_number="0123456789",
+            country="GB",
+            town_or_city="Test City",
+            street_address1="Test Address 1",
         )
 
         self.game = Game.objects.create(
@@ -79,10 +78,10 @@ class TestCheckoutViews(TestCase):
             media_type='image'
         )
 
-        self.user.userprofile.default_phone_number='0123456789',
-        self.user.userprofile.default_country='GB',
-        self.user.userprofile.default_town_or_city='Test City',
-        self.user.userprofile.default_street_address1='Test Street 1',
+        self.user.userprofile.default_phone_number = '0123456789'
+        self.user.userprofile.default_country = 'GB'
+        self.user.userprofile.default_town_or_city = 'Test City'
+        self.user.userprofile.default_street_address1 = 'Test Street 1'
 
     def tearDown(self):
         User.objects.all().delete()
@@ -113,7 +112,6 @@ class TestCheckoutViews(TestCase):
             "You cannot checkout with an empty cart!"
         )
 
-
     def test_checkout_guest(self):
         url = reverse('checkout')
         add_item_url = reverse('cart_add', kwargs={
@@ -121,7 +119,7 @@ class TestCheckoutViews(TestCase):
             'game_id': f'{self.game.id}'}
             )
         self.client.post(add_item_url,
-                    {'quantity': 1, 'redirect_url': '/games/'})
+                         {'quantity': 1, 'redirect_url': '/games/'})
         response = self.client.get(url)
         self.assertIsInstance(response.context['order_form'], OrderForm)
 
@@ -131,18 +129,22 @@ class TestCheckoutViews(TestCase):
             password='gamebox-pwd'
             )
         url = reverse('checkout')
-        self.cart.cartitems.create(game_id=1, quantity=2, price=round(Decimal(19.98),2))
+        self.cart.cartitems.create(
+            game_id=1,
+            quantity=2,
+            price=round(Decimal(19.98), 2))
         response = self.client.get(url)
         self.assertIsInstance(response.context['order_form'], OrderForm)
 
     def test_checkout_success(self):
         order = Order.objects.create(user=self.user)
-        url = reverse('checkout_success', kwargs={'order_number': order.order_number})
+        url = reverse('checkout_success',
+                      kwargs={'order_number': order.order_number})
         self.client.login(
             username='test-gamebox',
-            password='gamebox-pwd'
+            password='gamebox-pwd',
             )
-        
+
         response = self.client.get(url)
         messages = list(get_messages(response.wsgi_request))
         self.assertIn(
@@ -153,9 +155,13 @@ class TestCheckoutViews(TestCase):
 
     def test_cart_deleted_guest(self):
         order = Order.objects.create(user=self.user)
-        url = reverse('checkout_success', kwargs={'order_number': order.order_number})
+        url = reverse('checkout_success',
+                      kwargs={'order_number': order.order_number})
         session_cart = self.client.session.get('cart', {})
-        session_cart[f'{self.game.id}'] = {'model': self.game.model_name(), 'quantity': 1 }
+        session_cart[f'{self.game.id}'] = {
+            'model': self.game.model_name(),
+            'quantity': 1
+        }
         cart = json.dumps(session_cart)
         signer = Signer()
         cart_signed = signer.sign(cart)
@@ -169,17 +175,18 @@ class TestCheckoutViews(TestCase):
             username='test-gamebox',
             password='gamebox-pwd'
             )
-        
+
         self.cart.cartitems.create(
             game_id=1,
             quantity=2,
-            price=round(Decimal(19.98),2)
+            price=round(Decimal(19.98), 2)
             )
-        url = reverse('checkout_success', kwargs={'order_number': self.order.order_number})
+        url = reverse('checkout_success',
+                      kwargs={'order_number': self.order.order_number})
         response = self.client.get(url)
         with self.assertRaises(Cart.DoesNotExist):
             self.cart.refresh_from_db()
-        
+
     def test_post_method_guest(self):
         form_data = {
             "full_name": "Test Test",
@@ -194,14 +201,22 @@ class TestCheckoutViews(TestCase):
             'model_name': 'game',
             'game_id': f'{self.game.id}'}
             )
-        response = self.client.post(add_item_url,
-                    {'quantity': 1, 'redirect_url': '/games/'})
-        self.client.post(reverse('checkout'), data=form_data)
+        response = self.client.post(
+            add_item_url,
+            {'quantity': 1, 'redirect_url': '/games/'}
+            )
+        self.client.post(
+            reverse('checkout'),
+            data=form_data
+            )
         order = Order.objects.get(stripe_pid="test")
-        self.assertNotEqual(self.user.userprofile.default_country, form_data.get('country'))
+        self.assertNotEqual(
+            self.user.userprofile.default_country,
+            form_data.get('country')
+            )
         self.assertIsNotNone(order.original_cart)
         self.assertNotEqual(order.lineitems.count(), 0)
-    
+
     def test_post_method_user(self):
         form_data = {
             "save-info": 'on',
@@ -221,8 +236,10 @@ class TestCheckoutViews(TestCase):
             'model_name': 'game',
             'game_id': f'{self.game.id}'}
             )
-        add_response = self.client.post(add_item_url,
-                    {'quantity': 1, 'redirect_url': '/games/'})
+        add_response = self.client.post(
+            add_item_url,
+            {'quantity': 1, 'redirect_url': '/games/'}
+            )
         chk_response = self.client.post(reverse('checkout'), data=form_data)
         user = User.objects.get(username=self.user.username)
         order = Order.objects.get(stripe_pid="test")
@@ -236,11 +253,11 @@ class TestCheckoutViews(TestCase):
             username='test-gamebox',
             password='gamebox-pwd'
             )
-        
+
         url = reverse('create_stripe_intent')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 405)
-        
+
     def test_create_stripe_intent_post(self):
         url = reverse('create_stripe_intent')
         response = self.client.post(url)
@@ -249,8 +266,10 @@ class TestCheckoutViews(TestCase):
             'model_name': 'game',
             'game_id': f'{self.game.id}'}
             )
-        add_response = self.client.post(add_item_url,
-                    {'quantity': 1, 'redirect_url': '/games/'})
+        add_response = self.client.post(
+            add_item_url,
+            {'quantity': 1, 'redirect_url': '/games/'}
+        )
         response = self.client.post(url)
         self.assertEqual(response.status_code, 200)
         self.assertIn('client_secret', response.json())
@@ -260,7 +279,7 @@ class TestCheckoutViews(TestCase):
             username='test-gamebox',
             password='gamebox-pwd'
             )
-            
+
         url = reverse('modify_stripe_intent')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 405)
@@ -270,7 +289,7 @@ class TestCheckoutViews(TestCase):
             username='test-gamebox',
             password='gamebox-pwd'
             )
-        
+
         url = reverse('create_stripe_intent')
 
         response = self.client.post(url)
@@ -280,14 +299,16 @@ class TestCheckoutViews(TestCase):
             'model_name': 'game',
             'game_id': f'{self.game.id}'}
             )
-        add_response = self.client.post(add_item_url,
-                    {'quantity': 1, 'redirect_url': '/games/'})
+        add_response = self.client.post(
+            add_item_url,
+            {'quantity': 1, 'redirect_url': '/games/'}
+            )
         response = self.client.post(url)
         client_secret = response.json()["client_secret"]
 
-        response = self.client.post(url, 
-                                    body={'client_secret': client_secret, 'save-info': True},
-                                    content_type="application/json")
+        response = self.client.post(
+            url,
+            body={'client_secret': client_secret, 'save-info': True},
+            content_type="application/json"
+            )
         self.assertEqual(response.status_code, 200)
-        
-

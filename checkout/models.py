@@ -14,7 +14,6 @@ import uuid
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-
 class Order(models.Model):
     user = models.ForeignKey(
         User,
@@ -97,7 +96,7 @@ class Order(models.Model):
         if not self.order_number:
             self.order_number = self._generate_order_number()
         super().save(*args, **kwargs)
-        
+
     def __str__(self):
         return self.order_number
 
@@ -109,7 +108,8 @@ class OrderLineItem(models.Model):
         related_name='lineitems'
         )
     game = models.ForeignKey(
-        Game,null=True,
+        Game,
+        null=True,
         blank=True,
         on_delete=models.CASCADE
         )
@@ -129,15 +129,15 @@ class OrderLineItem(models.Model):
 
     def save(self, *args, **kwargs):
         """
-        Override save method to calculate and set the price of a CartItem instance 
-        before saving it to the database.
+        Override save method to calculate and set the price of a CartItem
+        instance before saving it to the database.
         """
         self.price = (
-            self.game.final_price * self.quantity 
-            if self.game is not None 
+            self.game.final_price * self.quantity
+            if self.game is not None
             else self.dlc.final_price * self.quantity
             )
         return super().save(*args, **kwargs)
-    
+
     def __str__(self):
         return self.order.order_number[:6]

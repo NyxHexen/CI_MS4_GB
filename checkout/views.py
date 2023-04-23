@@ -57,8 +57,8 @@ def checkout(request):
         if billing_addr is not None:
             form_data = {
                 "full_name": (
-                f'{billing_addr.user.first_name}' + 
-                f'{billing_addr.user.last_name}'
+                    f'{billing_addr.user.first_name}' +
+                    f'{billing_addr.user.last_name}'
                 ),
                 "email": billing_addr.user.email,
                 "phone_number": billing_addr.default_phone_number,
@@ -70,7 +70,7 @@ def checkout(request):
                 "county": billing_addr.default_county,
             }
             order_form = OrderForm(form_data)
-    else: 
+    else:
         billing_addr = None
         order_form = OrderForm()
 
@@ -89,9 +89,11 @@ def checkout(request):
                                 order_form.cleaned_data[data]
                                 )
                             billing_addr.save()
-            
+
             order = order_form.save(commit=False)
-            order.stripe_pid = request.POST.get('client_secret').split('_secret')[0]
+            order.stripe_pid = request.POST.get(
+                'client_secret'
+                ).split('_secret')[0]
             order.original_cart = json.dumps(
                 cart_contents(request)['list_cart']
                 )
@@ -106,8 +108,16 @@ def checkout(request):
                         )
                         order_line_item = OrderLineItem(
                             order=order,
-                            game=game if item_data["model"] == "game" else None,
-                            dlc=game if item_data["model"] == "dlc" else None,
+                            game=(
+                                game
+                                if item_data["model"] == "game"
+                                else None
+                                ),
+                            dlc=(
+                                game
+                                if item_data["model"] == "dlc"
+                                else None
+                                ),
                             quantity=item_data["quantity"],
                         )
                         order_line_item.save()
@@ -115,9 +125,9 @@ def checkout(request):
                         messages.error(
                             request,
                             (
-                                "Uh-oh. One of the products has gone missing. "
-                                "Please try again later, and if the issue persists \
-                                don't hesitate to contact us!"
+                                "Uh-oh. One of the products has gone missing. \
+                                Please try again later, and if the issue \
+                                persists don't hesitate to contact us!"
                             ),
                         )
                         order.delete()
@@ -138,7 +148,7 @@ def checkout(request):
                         request,
                         (
                             "Uh-oh. One of the products has gone missing. "
-                            "Please try again later, and if the issue persists \
+                            "Please try again later, and if the issue persists\
                             don't hesitate to contact us!"
                         ),
                     )
@@ -146,7 +156,9 @@ def checkout(request):
                     return redirect(reverse("view_cart"))
 
             request.session["save_info"] = "save-info" in request.POST
-            return redirect(reverse("checkout_success", args=[order.order_number]))
+            return redirect(
+                reverse("checkout_success", args=[order.order_number])
+                )
         else:
             messages.error(
                 request,
@@ -187,38 +199,40 @@ def checkout_success(request, order_number):
                 Name: {game}
                 Price: {price}
                 Serial Number: {serial}
-                
+
                 """
             order_items += item_info
-            
+
         message = f"""
         Hi {order.full_name},
 
-        Thank you for your purchase! Below you will find your complete order details:
-        
+        Thank you for your purchase! Below you will find your complete order
+        details:
+
         {order_items}
-        
-        Should you have any questions, please do not hesitate to contact us via e-mail
-        at info@gamebox.com.
-        
+
+        Should you have any questions, please do not hesitate to contact us
+        via e-mail at info@gamebox.com.
+
         Sincerely,
         The GameBOX team
         """
 
         send_mail(
             f"""
-            [GameBOX] Thank you for your purchase! Enjoy! Order #: {order.order_number}
+            [GameBOX] Thank you for your purchase! Enjoy!\
+            Order #: {order.order_number}
             """,
             message,
             "info@gamebox.com",
-            [request.user.email,]
+            [request.user.email, ]
         )
     except Exception:
         messages.error(
-        request,
-        f"There has been an issue with your email confirmation.\
-          Please contact us to resolve this error.",
-    )
+            request,
+            f"There has been an issue with your email confirmation.\
+        Please contact us to resolve this error.",
+        )
 
     if not request.user.is_authenticated:
         if "cart" in request.session:
@@ -239,7 +253,7 @@ def checkout_success(request, order_number):
     try:
         games = Game.objects.all()
         dlcs = DLC.objects.all()
-    except:
+    except Exception:
         messages.error(
             request,
             "Some of our games have escaped! \
@@ -247,7 +261,7 @@ def checkout_success(request, order_number):
 
     purchased_games = [i.game or i.dlc for i in order.lineitems.all()]
     unowned_games = (
-        [game for game in games if game not in purchased_games] + 
+        [game for game in games if game not in purchased_games] +
         [dlc for dlc in dlcs if dlc not in purchased_games]
     )
     samples_num = (
@@ -265,14 +279,16 @@ def checkout_success(request, order_number):
 @require_POST
 def create_stripe_intent(request):
     """
-    Creates a PaymentIntent object in Stripe for the total amount of the current cart.
+    Creates a PaymentIntent object in Stripe for the total amount of the
+    current cart.
 
     Args:
         request: An HttpRequest.
     Returns:
         A JsonResponse object containing the client secret.
     Raises:
-        HttpResponse: If an error occurs while creating the PaymentIntent object.
+        HttpResponse: If an error occurs while creating the PaymentIntent
+                      object.
     """
     try:
         current_cart = cart_contents(request)
@@ -292,9 +308,9 @@ def create_stripe_intent(request):
     except Exception as e:
         messages.error(
             request,
-            "We're experiencing some technical difficulties with the card payment system. \
-            Please try again later, and if the issue persists, please contact customer \
-            support for assistance.",
+            "We're experiencing some technical difficulties with the card\
+            payment system. Please try again later, and if the issue persists,\
+            please contact customer support for assistance.",
         )
         return HttpResponse(content=e, status=400)
 
@@ -302,15 +318,16 @@ def create_stripe_intent(request):
 @require_POST
 def modify_stripe_intent(request):
     """
-    Modifies a PaymentIntent object in Stripe with additional metadata to include
-    the guest/user's billing information and cart in the Stripe intent.
+    Modifies a PaymentIntent object in Stripe with additional metadata to
+    include the guest/user's billing information and cart in the Stripe intent.
 
     Args:
         request: An HttpRequest object.
     Returns:
         An HttpResponse object with a 200 status code.
     Raises:
-        HttpResponse: An error occurred while modifying the PaymentIntent object.
+        HttpResponse: An error occurred while modifying the PaymentIntent
+                      object.
     """
     try:
         pid = json.loads(request.body)["client_secret"].split("_secret")[0]

@@ -34,6 +34,3 @@ class TestCheckoutForms(TestCase):
         form = OrderForm(self.form_data)
         self.assertFalse(form.is_valid())
         self.assertIn("country", form.errors)
-
-
-    
