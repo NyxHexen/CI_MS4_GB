@@ -22,16 +22,16 @@
             <stop class="stop1" offset="100%" />
             </linearGradient>
             </defs>
-            <polygon id="top-side" />
-            <polygon id="top-side-blur" fill="none" stroke="#575757" stroke-width="20" />
-            <polygon id="left-side" />
-            <polygon id="left-side-blur" fill="none" stroke="#575757" stroke-width="20" />
-            <polygon id="right-side" />
-            <polygon id="right-side-blur" fill="none" stroke="#575757" stroke-width="20" />
-            <polygon id="bottom-side" />
-            <polygon id="bottom-side-blur" fill="none" stroke="#575757" stroke-width="20" />
-            <rect id="box-bottom" fill="#575757" />
-            <rect id="box-bottom-shadows" stroke="#404040" fill="none" stroke-width="20" />
+            <polygon id="top-side" points="0 0 0 0" />
+            <polygon id="top-side-blur" points="0 0 0 0" fill="none" stroke="#575757" stroke-width="20" />
+            <polygon id="left-side" points="0 0 0 0" />
+            <polygon id="left-side-blur" points="0 0 0 0" fill="none" stroke="#575757" stroke-width="20" />
+            <polygon id="right-side" points="0 0 0 0" />
+            <polygon id="right-side-blur" points="0 0 0 0" fill="none" stroke="#575757" stroke-width="20" />
+            <polygon id="bottom-side" points="0 0 0 0" />
+            <polygon id="bottom-side-blur" points="0 0 0 0" fill="none" stroke="#575757" stroke-width="20" />
+            <rect id="box-bottom" fill="#575757" height="0" width="0"/>
+            <rect id="box-bottom-shadows" stroke="#404040" height="0" width="0" fill="none" stroke-width="20" />
         </svg>
         <div id="games-carousel" class="carousel slide container">
             <div class="carousel-indicators">
@@ -78,16 +78,12 @@
                                                 <span class="fs-4">£{{ item.final_price }}</span>
                                             </div>
                                         </div>
-                                        <label for="id_qty_{{ game.model_name }}_{{ game.id }}"
-                                               class="visually-hidden form-label">Quantity</label>
                                         <input class="form-control"
                                                type="hidden"
                                                name="quantity"
-                                               id="id_qty_{{ game.id }}"
+                                               id="id_qty_carousel_{{ item.model_name }}_{{ item.id }}"
                                                value="1"
-                                               min="1"
-                                               max="99"
-                                               data-game-id="{{ game.id }}">
+                                               data-game-id="{{ item.id }}">
                                         <button type="submit"
                                                 aria-label="Add to cart"
                                                 class="add-to-cart fs-5 btn btn-lg py-3 px-4 float-end">
@@ -166,15 +162,15 @@
                               method="post"
                               class="w-100 d-flex flex-row">
                             {% csrf_token %}
-                            <label for="id_qty_{{ game.model_name }}_{{ game.id }}"
-                                   class="visually-hidden form-label">Quantity</label>
+                            <label for="id_qty_featured_{{ game.model_name }}_{{ game.id }}"
+                                   class="form-label">
+                                   <span class="visually-hidden ">Quantity</span>
+                            </label>
                             <input class="form-control"
                                    type="number"
                                    name="quantity"
-                                   id="id_qty_{{ game.id }}"
                                    value="1"
-                                   min="1"
-                                   max="99"
+                                   id="id_qty_featured_{{ game.model_name }}_{{ game.id }}"
                                    data-game-id="{{ game.id }}">
                             <button type="submit" aria-label="Add to cart" class="add-cart btn ms-2 py-0">
                                 <span class="d-none d-md-inline">Add to</span><i class="fa-solid fa-cart-plus"></i>
@@ -337,15 +333,15 @@
                                 {% if deal.model_name == 'game' or deal.model_name == 'dlc' %}
                                     <p class="fs-5 countdown-timer"
                                        data-end-time="{{ deal.promo.end_date|date:'Y-m-d H:i' }}"></p>
-                                    <button class="btn btn-light" role="button">
+                                    <span class="btn btn-light">
                                         <strong>Add to Cart</strong>
-                                    </button>
+                                    </span>
                                 {% elif deal.model_name == 'promo' %}
                                     <p class="fs-5 countdown-timer"
                                        data-end-time="{{ deal.end_date|date:'Y-m-d H:i' }}"></p>
-                                    <button class="btn btn-light" role="button">
+                                    <span class="btn btn-light">
                                         <strong>Browse Deals</strong>
-                                    </button>
+                                    </span>
                                 {% endif %}
                             </div>
                         </a>

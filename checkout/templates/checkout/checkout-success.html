@@ -63,15 +63,15 @@
                                       method="post"
                                       class="w-100 d-flex flex-row">
                                     {% csrf_token %}
-                                    <label for="id_qty_{{ game.model_name }}_{{ game.id }}"
-                                           class="visually-hidden form-label">Quantity</label>
+                                    <label for="id_qty_suggested_{{ game.model_name }}_{{ game.id }}"
+                                           class="form-label">
+                                           <span class="visually-hidden ">Quantity</span>
+                                    </label>
                                     <input class="form-control"
                                            type="number"
                                            name="quantity"
-                                           id="id_qty_{{ game.model_name }}_{{ game.id }}"
+                                           id="id_qty_suggested_{{ game.model_name }}_{{ game.id }}"
                                            value="1"
-                                           min="1"
-                                           max="99"
                                            data-game-id="{{ game.id }}">
                                     <button type="submit" aria-label="Add to cart" class="add-cart btn ms-2 py-0">
                                         <span class="d-none d-md-inline">Add to</span><i class="fa-solid fa-cart-plus"></i>
