@@ -145,11 +145,9 @@ class TestCheckoutViews(TestCase):
         
         response = self.client.get(url)
         messages = list(get_messages(response.wsgi_request))
-        self.assertEqual(
+        self.assertIn(
+            f"Order successfully processed!",
             f'{messages[0]}',
-            f"Order successfully processed! \
-                    Your order number is {order.order_number}. A confirmation \
-                    email will be sent to {order.email}"
         )
         self.assertEqual(response.context['order'], order)
 

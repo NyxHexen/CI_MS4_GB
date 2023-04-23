@@ -10,9 +10,12 @@ from django.contrib.auth.models import User
 # Python
 from decimal import Decimal
 
-# Local
+# Internal
 from games.models import Game
-from cart.models import Cart, CartItem
+from home.models import Media
+
+# Local
+from .models import Cart, CartItem
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -41,6 +44,17 @@ class CartViewTests(TestCase):
         self.cart = Cart.objects.create(
             user=self.user
             )
+        Media.objects.create(
+            name='No Image LANDING',
+            description='No Image LANDING',
+            media_type='image'
+        )
+
+        Media.objects.create(
+            name='No Image COVER',
+            description='No Image COVER',
+            media_type='image'
+        )
 
     def tearDown(self):
         """

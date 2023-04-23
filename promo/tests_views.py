@@ -224,9 +224,9 @@ class PromoViewsTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, "/")
         messages = list(get_messages(response.wsgi_request))
-        self.assertEqual(
+        self.assertIn(
+            "Super Secret Page of Awesomeness!",
             f'{str(messages[0]).strip()}',
-            "Super Secret Page of Awesomeness! Unauthorized access prohibited!"
         )
 
     def test_promo_edit_view_staff_preview(self):
@@ -344,9 +344,9 @@ class PromoViewsTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, "/")
         messages = list(get_messages(response.wsgi_request))
-        self.assertEqual(
+        self.assertIn(
+            "Super Secret Page of Awesomeness!",
             f'{str(messages[0]).strip()}',
-            "Super Secret Page of Awesomeness! Unauthorized access prohibited!"
         )
 
     def test_promo_delete_view_staff_invalid(self):

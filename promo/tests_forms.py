@@ -51,7 +51,6 @@ class PromoFormTest(TestCase):
         }
 
         form = PromoForm(data=form_data)
-        print(form.errors)
         self.assertTrue(form.is_valid())
         promo = form.save()
         self.assertEquals(timezone.now().replace(microsecond=0, second=0), promo.start_date)

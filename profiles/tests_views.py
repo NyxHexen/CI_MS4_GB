@@ -5,6 +5,9 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
+
+# Internal
+from home.models import Media
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -17,6 +20,16 @@ class MediaModelTest(TestCase):
             last_name="Test",
             email="test@test.com"
             )
+        Media.objects.create(
+            name='No Image LANDING',
+            description='No Image LANDING',
+            media_type='image',
+        )
+        Media.objects.create(
+            name='No Image COVER',
+            description='No Image COVER',
+            media_type='image'
+        )
         
     def test_myprofile_view_unauth(self):
         url = reverse('profile')
