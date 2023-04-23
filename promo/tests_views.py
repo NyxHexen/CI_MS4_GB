@@ -22,17 +22,23 @@ from datetime import date, timedelta
 
 class PromoViewsTests(TestCase):
     def setUp(self):
-        self.start_date = timezone.now().replace(microsecond=0, second=0)
-        self.end_date = timezone.now().replace(microsecond=0, second=0) + timedelta(days=1)
+        self.start_date = timezone.now().replace(
+            microsecond=0,
+            second=0
+            )
+        self.end_date = timezone.now().replace(
+            microsecond=0,
+            econd=0
+            ) + timedelta(days=1)
         self.user = User.objects.create_user(
-            username='test-gamebox', 
+            username='test-gamebox',
             password='gamebox-pwd',
             first_name="Test",
             last_name="Test",
-            email="test@test.com"
+            email="test@test.com",
             )
         self.super_user = User.objects.create_superuser(
-            username='test-super-gamebox', 
+            username='test-super-gamebox',
             password='gamebox-pwd',
             first_name="Test",
             last_name="Test",
@@ -175,7 +181,7 @@ class PromoViewsTests(TestCase):
         })
         self.assertEqual(response.status_code, 200)
         self.assertFalse(Promo.objects.filter(id=2).exists())
-        self.assertEqual(response.context['real_game_list'], [self.game_1,])
+        self.assertEqual(response.context['real_game_list'], [self.game_1, ])
 
     def test_promo_add_view_staff_save(self):
         self.client.login(
@@ -257,7 +263,10 @@ class PromoViewsTests(TestCase):
             f'game_discount-game_{self.game_2.id}': 40,
         })
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['game_list'], [self.game_2, self.dlc_1,])
+        self.assertEqual(
+            response.context['game_list'],
+            [self.game_2, self.dlc_1, ]
+            )
         self.assertNotEqual(self.promo.name, "TEST PROMO EDIT")
 
     def test_promo_edit_view_staff_save(self):
@@ -330,7 +339,10 @@ class PromoViewsTests(TestCase):
         })
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, "/accounts/login/?next=/promo/1/delete/")
+        self.assertRedirects(
+            response,
+            "/accounts/login/?next=/promo/1/delete/"
+            )
 
     def test_promo_delete_view_non_staff(self):
         self.client.login(

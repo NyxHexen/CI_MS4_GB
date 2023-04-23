@@ -43,7 +43,7 @@ def promo(request, promo_id):
                 Please try again later or contact us for further assistance!'
                 )
         return redirect("/")
-    
+
     # Convert each argument to a list
     game_lists = [
         list(qset) for qset in [
@@ -82,8 +82,9 @@ def promo(request, promo_id):
 
     if "sort_by" in request.GET:
         context["filter_dict"] = urlencode(filter_dict)
-    
+
     return render(request, 'promo/index.html', context)
+
 
 @login_required
 def promo_add(request):
@@ -93,7 +94,8 @@ def promo_add(request):
     if not request.user.is_staff:
         messages.info(
             request,
-            'Super Secret Page of Awesomeness! Unauthorized access prohibited!')
+            'Super Secret Page of Awesomeness!\
+            Unauthorized access prohibited!')
         return redirect("/")
     game_list = list()
     real_game_list = list()
@@ -127,15 +129,18 @@ def promo_add(request):
                             'id': 1000,
                             'active': request.POST.get('active') or None,
                             'name': request.POST.get('name') or None,
-                            'short_description': request.POST.get('short_description') or None,
-                            'long_description': request.POST.get('long_description') or None,
+                            'short_description': request.POST.get(
+                                'short_description') or None,
+                            'long_description': request.POST.get(
+                                'long_description') or None,
                             'media': get_or_none(Media, id=media),
                         }
-                    
+
                     for id in request.POST.getlist('apply_to_game'):
                         game = Game.objects.get(id=id)
                         discount = request.POST.get(
-                            f'game_discount-game_{id}') or game.promo_percentage                    
+                            (f'game_discount-game_{id}')
+                            or game.promo_percentage)
                         if not game.in_promo:
                             game.promo_percentage = discount
                             game.final_price = round(
@@ -177,19 +182,27 @@ def promo_add(request):
                     for id in post_copy.getlist('apply_to_game', {}):
                         game = Game.objects.filter(id=id)
                         game.update(
-                            in_promo=True, 
-                            promo=new_promo, 
-                            promo_percentage=post_copy.get(f'game_discount-game_{game[0].id}'))
+                            in_promo=True,
+                            promo=new_promo,
+                            promo_percentage=post_copy.get(
+                                f'game_discount-game_{game[0].id}'
+                                )
+                            )
                         new_promo.apply_to_game.add(game[0])
                     for id in post_copy.getlist('apply_to_dlc', {}):
                         dlc = DLC.objects.filter(id=id)
                         dlc.update(
-                            in_promo=True, 
-                            promo=new_promo, 
-                            promo_percentage=post_copy.get(f'game_discount-dlc_{dlc[0].id}'))
+                            in_promo=True,
+                            promo=new_promo,
+                            promo_percentage=post_copy.get(
+                                f'game_discount-dlc_{dlc[0].id}'
+                                )
+                            )
                         new_promo.apply_to_dlc.add(dlc[0])
                     new_promo.save()
-                    return redirect(reverse('promo', kwargs={'promo_id': new_promo.id}))
+                    return redirect(
+                        reverse('promo', kwargs={'promo_id': new_promo.id})
+                        )
                 except Exception as e:
                     messages.error(request, f'{e}')
     else:
@@ -205,7 +218,6 @@ def promo_add(request):
     except EmptyPage:
         dummy_page = paginator.get_page(paginator.num_pages)
 
-
     context = {
         'game_list': game_list,
         'real_game_list': real_game_list,
@@ -214,6 +226,7 @@ def promo_add(request):
         'form': form,
     }
     return render(request, 'promo/index.html', context)
+
 
 @login_required
 def promo_edit(request, promo_id):
@@ -252,16 +265,18 @@ def promo_edit(request, promo_id):
                 for id in request.POST.getlist('apply_to_game', {}):
                     game = Game.objects.filter(id=id)
                     game.update(
-                        in_promo=True, 
-                        promo=promo, 
-                        promo_percentage=request.POST.get(f'game_discount-game_{game[0].id}', 0)
+                        in_promo=True,
+                        promo=promo,
+                        promo_percentage=request.POST.get(
+                            f'game_discount-game_{game[0].id}', 0)
                     )
                 for id in request.POST.getlist('apply_to_dlc', {}):
                     dlc = DLC.objects.filter(id=id)
                     dlc.update(
-                        in_promo=True, 
-                        promo=promo, 
-                        promo_percentage=request.POST.get(f'game_discount-dlc_{dlc[0].id}', 0)
+                        in_promo=True,
+                        promo=promo,
+                        promo_percentage=request.POST.get(
+                            f'game_discount-dlc_{dlc[0].id}', 0)
                     )
             else:
                 post_copy = request.POST.copy()
@@ -273,7 +288,7 @@ def promo_edit(request, promo_id):
                 for id in request.POST.getlist('apply_to_game'):
                     game = Game.objects.get(id=id)
                     discount = request.POST.get(
-                        f'game_discount-game_{id}') or game.promo_percentage                    
+                        f'game_discount-game_{id}') or game.promo_percentage
                     if not game.in_promo:
                         game.promo_percentage = discount
                         game.final_price = round(
@@ -306,13 +321,12 @@ def promo_edit(request, promo_id):
         end_date = promo.end_date.replace(tzinfo=None)
         now = dt.datetime.now().replace(microsecond=0)
 
-        
         if (start_date.__le__(now) and now.__lt__(end_date)
             ) and (
             submit_option == 'activate'
-            ) and (
+                ) and (
             promo.apply_to_game.count() != 0 or promo.apply_to_dlc.count() != 0
-            ):
+                ):
             promo.active = True
             promo.save()
             return redirect(
@@ -320,7 +334,7 @@ def promo_edit(request, promo_id):
         elif submit_option == 'save':
             return redirect(
                 reverse('promo', kwargs={'promo_id': promo_id}))
-        
+
     paginator = Paginator(game_list, 8)
 
     page_number = request.GET.get("page")
@@ -351,7 +365,7 @@ def promo_delete(request, promo_id):
                 Unauthorized access prohibited!')
         return redirect("/")
     try:
-        promo = Promo.objects.get(id=promo_id) 
+        promo = Promo.objects.get(id=promo_id)
         promo.delete()
         messages.success(
             request,

@@ -92,55 +92,57 @@ class Promo(CustomBaseModel):
         blank=True
         )
 
-
     def __str__(self) -> str:
         return self.name
-
 
     def clean(self):
         """
         Override clean method to ensure End date is not before Start date.
         """
-        if self.start_date and self.end_date and self.start_date > self.end_date:
+        if (self.start_date
+            and self.end_date
+                and self.start_date > self.end_date):
             raise ValidationError(
                 "End date cannot be before start date.",
                 code="invalid",
                 params={"end_date": "End date"},
             )
 
-
     def save(self, *args, **kwargs):
         """
         Override save to ensure that games/dlcs are changed only
         when the Promo is active.
         """
-        # Self contains no information about its fields, query the database instead.
+        # Self contains no information about its fields,
+        # query the database instead.
         if self.landing_page and self.media is None:
             self.media = Media.objects.get(slug="no-image-landing")
         super().save(*args, **kwargs)
         promo = Promo.objects.get(id=self.id)
         if self.active and self.id is not None:
-            for queryset in [promo.apply_to_game.all(), promo.apply_to_dlc.all()]:
+            for queryset in [
+                promo.apply_to_game.all(), promo.apply_to_dlc.all()
+                    ]:
                 for game in queryset:
                     game.in_promo = True
                     game.promo = self
                     game.final_price = Decimal(
                         round(
                             game.base_price
-                            * (1 + (Decimal(game.promo_percentage) / 100 * -1)),
-                            2,
-                        )
+                            * (1 + (Decimal(game.promo_percentage) / 100 * -1)
+                               ), 2)
                     )
                     game.save()
         elif not self.active and self.id is not None:
-            for queryset in [promo.apply_to_game.all(), promo.apply_to_dlc.all()]:
+            for queryset in [
+                promo.apply_to_game.all(), promo.apply_to_dlc.all()
+                    ]:
                 for game in queryset:
                     game.in_promo = False
                     game.promo = None
                     game.promo_percentage = 0
                     game.final_price = game.base_price
                     game.save()
-
 
     def delete(self, using=None, keep_parents=False):
         """
@@ -149,7 +151,6 @@ class Promo(CustomBaseModel):
         """
         remove_discount(self)
         return super().delete(using=using, keep_parents=keep_parents)
-
 
     pre_add = None
     post_add = None
@@ -205,7 +206,6 @@ class Promo(CustomBaseModel):
                     game.save()
             case _:
                 return
-            
 
     def max_promo_percentage(self):
         """
@@ -224,20 +224,20 @@ class Promo(CustomBaseModel):
         )
         highest_promo_percentage = max(
             (promo_games
-            if promo_games is not None
-            else 0),
+                if promo_games is not None
+                else 0),
             (promo_dlc
-            if promo_dlc is not None
-            else 0),
+                if promo_dlc is not None
+                else 0),
         )
         return highest_promo_percentage
-    
-    
+
     @staticmethod
     def check_dupe(instance, game):
         """
         Static method to ensure no duplicates.
-        If the game passed in is already in another Promo - remove it from this Promo
+        If the game passed in is already in another Promo - remove it from
+        this Promo
         """
         game_dupes = Promo.objects.filter(
             apply_to_game__id=game.id
@@ -249,7 +249,6 @@ class Promo(CustomBaseModel):
                 instance.apply_to_game.remove(game)
             else:
                 instance.apply_to_dlc.remove(game)
-
 
     def total_in_promo(self):
         """

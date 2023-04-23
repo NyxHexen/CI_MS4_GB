@@ -17,6 +17,7 @@ from decimal import Decimal
 from datetime import date, timedelta
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 class PromoTestCase(TestCase):
     def setUp(self):
         self.media_1 = Media.objects.create(
@@ -61,8 +62,14 @@ class PromoTestCase(TestCase):
         )
 
     def test_clean_method_invalid(self):
-        start_date = timezone.now().replace(microsecond=0, second=0)
-        end_date = timezone.now().replace(microsecond=0, second=0) - timedelta(days=1)
+        start_date = timezone.now().replace(
+            microsecond=0,
+            second=0
+            )
+        end_date = timezone.now().replace(
+            microsecond=0,
+            second=0
+            ) - timedelta(days=1)
 
         promo = Promo(
             active=True,
@@ -80,8 +87,14 @@ class PromoTestCase(TestCase):
             promo.clean()
 
     def test_clean_method_valid(self):
-        start_date = timezone.now().replace(microsecond=0, second=0)
-        end_date = timezone.now().replace(microsecond=0, second=0) + timedelta(days=1)
+        start_date = timezone.now().replace(
+            microsecond=0,
+            second=0
+        )
+        end_date = timezone.now().replace(
+            microsecond=0,
+            econd=0
+        ) + timedelta(days=1)
 
         promo = Promo(
             active=True,
@@ -179,7 +192,7 @@ class PromoTestCase(TestCase):
         promo_1.apply_to_game.remove(self.game_1)
         promo_1.apply_to_game.remove(self.game_2)
         promo_1.save()
-        
+
         game_1 = Game.objects.get(id=self.game_1.id)
         self.assertEqual(game_1.promo_percentage, 0)
         self.assertFalse(game_1.in_promo)

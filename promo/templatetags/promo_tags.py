@@ -1,8 +1,15 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django import template
 from promo.models import Promo
+
+# Included
 from decimal import Decimal
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 register = template.Library()
+
 
 @register.filter
 def promo_games(name):
@@ -21,16 +28,16 @@ def promo_games(name):
     except Exception as e:
         return None
 
+
 @register.filter
 def calc_promo_price(price, increase):
     try:
         promo_calc = round(
-            price * (1 + (Decimal(increase) / 100 * -1 ))
-            , 2)
+            price * (1 + (Decimal(increase) / 100 * - 1)), 2)
         return promo_calc
     except Exception:
         return None
-    
+
 
 @register.filter
 def slide_split(iter, request):

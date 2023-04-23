@@ -1,13 +1,21 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.test import TestCase
 from django.utils import timezone
 
+# Internal
 from games.models import Game
 from home.models import Media
+
+# Local
 from .models import Promo
 from .forms import PromoForm
 
+# Included
 from decimal import Decimal
 from datetime import date, timedelta
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 class PromoFormTest(TestCase):
@@ -41,8 +49,14 @@ class PromoFormTest(TestCase):
         form_data = {
             'active': True,
             'name': "TEST PROMO",
-            'start_date': timezone.now().replace(microsecond=0, second=0),
-            'end_date': timezone.now().replace(microsecond=0, second=0) + timedelta(days=1),
+            'start_date': timezone.now().replace(
+                microsecond=0,
+                second=0
+                ),
+            'end_date': timezone.now().replace(
+                microsecond=0,
+                second=0
+                ) + timedelta(days=1),
             'landing_page': True,
             'is_featured': False,
             'carousel': False,
@@ -53,9 +67,16 @@ class PromoFormTest(TestCase):
         form = PromoForm(data=form_data)
         self.assertTrue(form.is_valid())
         promo = form.save()
-        self.assertEquals(timezone.now().replace(microsecond=0, second=0), promo.start_date)
-        self.assertEquals(timezone.now().replace(microsecond=0, second=0) + timedelta(days=1), promo.end_date)
-
+        self.assertEquals(
+            timezone.now().replace(
+                microsecond=0,
+                second=0
+                ), promo.start_date)
+        self.assertEquals(
+            timezone.now().replace(
+                microsecond=0,
+                second=0
+                ) + timedelta(days=1), promo.end_date)
 
     def test_promo_form_with_instance(self):
         promo = Promo.objects.create(
@@ -72,8 +93,7 @@ class PromoFormTest(TestCase):
         promo = Promo.objects.get(name=promo.name)
         form = PromoForm(instance=promo)
         self.assertQuerysetEqual(
-            form.fields['apply_to_game'].queryset, 
+            form.fields['apply_to_game'].queryset,
             promo.apply_to_game.all(),
             ordered=False
             )
-        

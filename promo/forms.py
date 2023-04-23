@@ -43,7 +43,7 @@ class PromoForm(forms.ModelForm):
 
         self.fields['apply_to_game'].label = 'Available Games'
         self.fields['apply_to_dlc'].label = 'Available DLCs'
-        
+
         promo_instance = kwargs.get('instance', None)
         if promo_instance:
             try:
@@ -59,5 +59,3 @@ class PromoForm(forms.ModelForm):
                 self.fields['apply_to_dlc'].queryset = dlcs
             except Exception:
                 pass
-
-

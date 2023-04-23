@@ -37,8 +37,8 @@ def promo_price_apply(instance, *args, **kwargs):
          if current < updated
          else remove_discount(instance)
          if current > updated
-         else None
-        )
+         else None)
+
 
 @receiver(m2m_changed, sender=Promo.apply_to_game.through)
 def game_change(instance, *args, **kwargs):

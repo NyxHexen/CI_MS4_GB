@@ -74,4 +74,5 @@ class PromoAdmin(PromoAdminModel):
         'slug',
         ]
 
+
 admin.site.register(Promo, PromoAdmin)
