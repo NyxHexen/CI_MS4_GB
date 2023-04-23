@@ -1,10 +1,15 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.db import models
 from django.utils.text import slugify
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 class CustomBaseModel(models.Model):
     """
-    DRY!
+    Custom Model to help follow DRY rules by
+    overriding Model methods in once place.
     """
 
     class Meta:

@@ -1,19 +1,28 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+# Internal
 from games.models import Game, DLC
 from promo.models import Promo
+
+# Local
 from .models import Media
 from .forms import MediaForm
 
+# Included
 import random
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 def index(request):
     """
-    A view to return the index page
+    A view to render the site home page, including carousel,
+    featured games and deals of the day.
     """
     try:
         carousel = list(Game.objects.filter(carousel=True))
@@ -79,6 +88,9 @@ def index(request):
 
 @login_required
 def media(request):
+    """
+    A view to display all available assigned/unassigned media.
+    """
     if not request.user.is_staff:
         messages.info(request, '\
                       Super Secret Page of Awesomeness!\
@@ -114,6 +126,9 @@ def media(request):
 
 @login_required
 def media_add(request):
+    """
+    A view to handle adding new media via MediaForm.
+    """
     if not request.user.is_staff:
         messages.info(request, '\
                       Super Secret Page of Awesomeness!\
@@ -146,6 +161,9 @@ def media_add(request):
 
 @login_required
 def media_edit(request, media_id):
+    """
+    A view to handle editing of a Media object.
+    """
     if not request.user.is_staff:
         messages.info(request, '\
                       Super Secret Page of Awesomeness!\
@@ -184,6 +202,9 @@ def media_edit(request, media_id):
 
 @login_required
 def media_delete(request, media_id):
+    """
+    A view to handle deletion of Media objects.
+    """
     if not request.user.is_staff:
         messages.info(request, '\
                       Super Secret Page of Awesomeness!\

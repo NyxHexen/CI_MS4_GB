@@ -1,13 +1,29 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
+# Local
 from .models import Media
 
+# Internal
 import os
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 @receiver(pre_save, sender=Media)
 def media_control(instance, *args, **kwargs):
+    """
+    Signal receiver to handle the correct assignment of the Media media_ext field.
+
+    Args:
+        pre_save (signal): Signal on which the receiver activates.
+        sender (model): Model which sends this signal.
+
+    Returns:
+        None
+    """
 
     if instance.file._file is not None:  # If a file is being uploaded
         _, new_file_extension = os.path.splitext(instance.file._file.name)
