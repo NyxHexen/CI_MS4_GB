@@ -3,8 +3,12 @@ from .models import UserProfile
 
 # Register your models here.
 
-# class ProfilesAdmin(admin.ModelAdmin):
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'newsletter_sub',
+        'default_postcode',
+        'default_country'
+    )
 
-
-
-admin.site.register(UserProfile)
+admin.site.register(UserProfile, UserProfileAdmin)

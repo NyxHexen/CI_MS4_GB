@@ -53,6 +53,14 @@ class OrderAdmin(admin.ModelAdmin):
 
     ordering = ("-date",)
 
+class OrderLineItemAdmin(admin.ModelAdmin):
+    list_display = (
+        'game',
+        'dlc',
+        'quantity',
+        'price'
+    )
+
 
 admin.site.register(Order, OrderAdmin)
-admin.site.register(OrderLineItem)
+admin.site.register(OrderLineItem, OrderLineItemAdmin)

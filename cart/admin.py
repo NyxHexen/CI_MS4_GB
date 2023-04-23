@@ -4,7 +4,7 @@ from .models import *
 # Register your models here.
 class CartItemsInline(admin.TabularInline):
     """
-    Admin class fr the CartItem inline in CartAdmin.
+    Admin class forr the CartItem inline in CartAdmin.
     """
     model = CartItem
     readonly_fields = (
@@ -24,5 +24,10 @@ class CartAdmin(admin.ModelAdmin):
         'updated_date',
         'total_in_cart',
         )
+    readonly_fields = (
+        'user',
+        'created_date',
+        'updated_date'
+    )
 
 admin.site.register(Cart, CartAdmin)

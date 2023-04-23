@@ -18,7 +18,7 @@ class Cart(models.Model):
         default=timezone.now,
         )
     updated_date = models.DateTimeField(
-        auto_now=True,
+        auto_now_add=True,
         )
 
     def __str__(self):

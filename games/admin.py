@@ -131,17 +131,50 @@ class RatingSetAdmin(admin.ModelAdmin):
         "game",
         "dlc"
         )
+    list_display = (
+        'esrb_rating',
+        'pegi_rating',
+        'game',
+        'dlc'
+    )
+    list_display_links = (
+        'esrb_rating',
+        'pegi_rating',
+        'game',
+        'dlc'
+    )
+    
+class DeveloperAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'official_site',
+        'country',
+    )
+
+class PlatformAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'official_site',
+        'country',
+    )
+
+class PublisherAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'official_site',
+        'country',
+    )
 
 
 admin.site.register(Game, GameAdmin)
 admin.site.register(DLC, DLCAdmin)
 admin.site.register(Genre)
-admin.site.register(Publisher)
-admin.site.register(Developer)
+admin.site.register(Publisher, PublisherAdmin)
+admin.site.register(Developer, DeveloperAdmin)
 admin.site.register(RatingSet, RatingSetAdmin)
 admin.site.register(EsrbRating)
 admin.site.register(PegiRating)
 admin.site.register(UserRating)
-admin.site.register(Platform)
+admin.site.register(Platform, PlatformAdmin)
 admin.site.register(Feature)
 admin.site.register(Tag)
