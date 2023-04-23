@@ -51,11 +51,11 @@
                             <a target="_blank"
                                {% if item.model_name == 'game' or item.model_name == 'dlc' %} href="{% url 'game' item.model_name item.id %}" {% elif item.model_name == 'promo' %} href="{% url 'promo' item.id %}" {% endif %}>
                                 {% if request.user_agent.is_tablet or request.user_agent.is_pc %}
-                                    <img src="{{ MEDIA_URL }}{{ item|use_media:'LANDING.src' }}"
+                                    <img src="{{ MEDIA_URL }}{{ item|use_media:'LANDING.src' }}" width="250" height="250"
                                          class="d-block"
                                          alt="{{ item|use_media:'LANDING.descr' }}">
                                 {% elif request.user_agent.is_mobile %}
-                                    <img src="{{ MEDIA_URL }}{{ item|use_media:'COVER.src' }}"
+                                    <img src="{{ MEDIA_URL }}{{ item|use_media:'COVER.src' }}" width="250" height="250"
                                          class="d-block"
                                          alt="{{ item|use_media:'COVER.descr' }}">
                                 {% endif %}
@@ -109,7 +109,7 @@
                 {% else %}
                     <div class="carousel-item active">
                         <div class="overlay d-block d-sm-none"></div>
-                        <img src="{{ MEDIA_URL }}{{ item|use_media:'LANDING.src' }}"
+                        <img src="{{ MEDIA_URL }}{{ item|use_media:'LANDING.src' }}" width="250" height="250"
                              class="d-block"
                              alt="{{ item|use_media:'LANDING.descr' }}">
                         <div class="carousel-caption text-black">
@@ -148,10 +148,10 @@
                     <div class="game-cover--front">
                         <div class="game-cover-image">
                             {% if game|use_media:'COVER.src' is not None %}
-                                <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
+                                <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}" width="250" height="250"
                                      alt="{{ game|use_media:'COVER.descr' }}">
                             {% else %}
-                                <img src="{{ MEDIA_URL }}noimage.jpg"
+                                <img src="{{ MEDIA_URL }}noimage.jpg" width="250" height="250"
                                      alt="This game does not yet have a cover image!">
                             {% endif %}
                         </div>
@@ -345,13 +345,13 @@
                                 {% endif %}
                             </div>
                         </a>
-                        <img src="{{ MEDIA_URL }}{{ deal|use_media:'COVER.src' }}"
+                        <img src="{{ MEDIA_URL }}{{ deal|use_media:'COVER.src' }}" width="250" height="250"
                              alt="{{ deal|use_media:'COVER.descr' }}">
                     </div>
                 {% endfor %}
             {% else %}
                 <div class="dotd-empty d-flex flex-column align-items-center">
-                    <img src="{{ MEDIA_URL }}empty-dotd.png"
+                    <img src="{{ MEDIA_URL }}empty-dotd.png" width="250" height="250"
                          alt="Hand-written 'That's all folks!'">
                     <p class="text-center">
                         <small>Please check back later!</small>

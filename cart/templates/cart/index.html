@@ -33,7 +33,7 @@
                                         <td>
                                             <a target="_blank"
                                                href="{% url 'game' item.item.model_name item.item.id %}">
-                                                <img class="cart-image"
+                                                <img class="cart-image" width="250" height="250"
                                                      src="{{ MEDIA_URL }}{{ item.item|use_media:'COVER.src' }}"
                                                      alt="{{ item.item|use_media:'COVER.descr' }}">
                                             </a>
@@ -63,7 +63,7 @@
             {% else %}
                 <!-- Emtpy cart image and speech bubble -->
                 <div class="empty-cart col-12 col-xl-7 offset-xl-1 d-flex flex-column flex-md-row align-items-center py-2 order-1 order-md-0">
-                    <img src="{{ MEDIA_URL }}empty-cart-img.webp"
+                    <img src="{{ MEDIA_URL }}empty-cart-img.webp" width="250" height="250"
                          alt="Artwork of the video game character GLaDOS">
                     <div class="bubble pt-2 pb-1 px-3 mt-3 ms-md-4 d-flex flex-column align-items-center">
                         <h2 class="fs-2">
