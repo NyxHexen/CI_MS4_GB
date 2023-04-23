@@ -66,10 +66,10 @@
                 <div class="col-12 col-md-8 offset-xl-2 col-xl-7 pt-3">
                     {% if user.is_staff %}
                         <div class="admin-btns mb-2 d-flex align-items-center justify-content-center">
-                            <a class="btn btn-gamebox-alt"
+                            <a class="mx-1 btn btn-gamebox-alt"
                                href="{% url 'game_edit' game.model_name game.id %}">Edit Game</a>
                             <button type="button"
-                                    class="btn btn-danger"
+                                    class="mx-1 btn btn-danger"
                                     data-bs-toggle="modal"
                                     data-bs-target="#deleteModal">Delete Game</button>
                         </div>
