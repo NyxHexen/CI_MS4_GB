@@ -17,17 +17,20 @@
 {% endblock %}
 
 {% block page_header %}
-    <div class="container">
-        <div class="row">
-            <div class="col"></div>
-        </div>
-    </div>
+<h1 class="visually-hidden">Game 
+    {% if 'add' in request.path %}
+    Add
+    {% else %}
+    Edit
+    {% endif %}
+    Page</h1>
 {% endblock %}
 
 {% block content %}
     <div class="container my-5">
         <div class="row">
             {% if 'add' in request.path %}
+            <!-- Add New Game/DLC Form -->
                 <div id="game-add" class="col-11 col-lg-8 offset-lg-2 card mx-auto">
                     <form action="{% url 'game_add' model_name %}"
                           method="post"
@@ -92,6 +95,7 @@
                   href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/css/tempus-dominus.min.css"
                   crossorigin="anonymous">
             <script>
+                // Initialize and configure date pickers
                 $(document).ready(function() {
                     $('.selectmultiple').each((index, elem) => {
                         $(elem).select2({

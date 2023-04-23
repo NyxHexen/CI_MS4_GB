@@ -8,6 +8,7 @@
             {% include './includes/filter.html' %}
             <div id="games-list" class="col-8plus">
                 <div id="games-header" class="row card mb-2 d-flex flex-row">
+                    <!-- Mobile 'Modal' Games Filter -->
                     <div class="col-12 col-md-auto col-lg-12 d-flex align-items-center justify-content-end">
                         <button id="filter-open"
                                 type="button"
@@ -15,6 +16,7 @@
                             <i class="fa-solid fa-filter"></i> Filter
                         </button>
                     </div>
+                    <!-- Pagination -->
                     <div id="pagination"
                          class="col-6 col-md-3 col-lg-6 card-body d-flex align-items-center">
                         {% if filter_dict %}
@@ -94,6 +96,7 @@
                             </div>
                         </div>
                         <div class="games row">
+                            <!-- Game Cards -->
                             {% for game in page %}
                                 <div class="game col-6 col-md-3 col-lg-4 col-xl-3 {% if game.in_promo and game.promo.active is True %}sale{% endif %}">
                                     <div class="game-cover--front">
@@ -240,28 +243,33 @@
                 </div>
             </div>
         {% endblock %}
+
         {% block corecss %}
             <link href="{% static 'css/nouislider.css' %}" rel="stylesheet">
             {{ block.super }}
         {% endblock %}
+
         {% block corejs %}
             <script src="{% static 'js/nouislider.js' %}"></script>
             <script src="{% static 'js/wNumb.min.js' %}"></script>
             {{ block.super }}
         {% endblock %}
+
         {% block postloadcss %}
             <style>
-    #price-slider__from,
-    #price-slider__to {
-        padding: 7px;
-        margin: 15px 5px 5px;
-        width: 70px;
-    }
+                #price-slider__from,
+                #price-slider__to {
+                    padding: 7px;
+                    margin: 15px 5px 5px;
+                    width: 70px;
+                }
             </style>
         {% endblock %}
+
         {% block postloadjs %}
             {{ block.super }}
             <script>
+                // Price Slider Init and Config
                 let gamesFilter = document.getElementById('games-filter')
                 let filterOpenBtn = document.getElementById('filter-open')
                 let filterCloseBtn = document.getElementById('filter-close')
@@ -317,6 +325,7 @@
                     priceSlider.noUiSlider.set([null, this.value]);
                 });
 
+                // Dates Slider Init and Config
                 let releaseDateSlider = document.getElementById('release-date-slider');
                 let dateNodes = [
                     document.getElementById('release-date-slider__from'),
@@ -369,6 +378,14 @@
                     return true
                 });
 
+                /**
+                 * Initializes filter values based on the filter name. Controls what is 
+                 * passed as POST parameters, consolidating multiple options into one field.
+                 * 
+                 * @param {HTMLElement} filter_group - A DOM element that contains filter options.
+                 * @param {string} filter_name - The name of the filter to be initialized.
+                 * @returns {void}
+                **/
                 function initFilter(filter_group, filter_name) {
                     if (filter_name == "price") {
                         let sliders = Array.from(document.querySelectorAll(
@@ -400,8 +417,14 @@
                 }
             </script>
             <script>
+                // Pagination Input Field Functionality
                 let pageInput = document.getElementById('page-input');
 
+                /**
+                 * Redirect user to page # on Enter/Numpad Enter, or focus loss.
+                 * @param {Event} e - Event object.
+                 * @returns {void}
+                **/
                 function goToPage(e) {
                     if (e.type === 'blur' || e.code === "Enter" || e.code === "NumpadEnter") {
                         if (pageInput.value != "" && pageInput.value != pageInput.placeholder) {
@@ -418,6 +441,7 @@
                 })
             </script>
             <script>
+                // Sort On Change event handler.
                 let gamesSort = document.querySelector('#games_sort')
 
                 gamesSort.addEventListener('change', (e) => {

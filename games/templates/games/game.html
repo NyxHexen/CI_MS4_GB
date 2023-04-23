@@ -2,14 +2,13 @@
 {% load static %}
 {% load tags %}
 {% load cart_tags %}
+
 {% block page_header %}
-    <div class="container">
-        <div class="row">
-            <div class="col"></div>
-        </div>
-    </div>
+<h1 class="visually-hidden"></h1>
 {% endblock %}
+
 {% block content %}
+<!-- Page Header -->
     <div class="game-header w-100">
         <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}"
              class="w-100"
@@ -107,6 +106,7 @@
                         <p>{{ game.description }}</p>
                     </div>
                 </div>
+                <!-- Game Rating -->
                 <div class="col-8 col-md-4 col-xl-3 mt-3 position-relative">
                     <div class="card">
                         <div class="card-body game-detail-rating p-3 m-3 mb-0 align-self-center">
@@ -153,6 +153,7 @@
             </div>
         </div>
     </div>
+    <!-- Media Content Carousel -->
     <div class="container__color text-bg-gamebox-alt position-relative my-3">
         <div class="container">
             <div class="game-detail-media row">
@@ -254,6 +255,7 @@
             </div>
         </div>
     </div>
+    <!-- Game Details -->
     <div class="container mb-5">
         <div class="row">
             <div class="col mt-4 col-sm-8 col-md-10 col-lg-8">
@@ -378,8 +380,10 @@
         {% include 'includes/modals/delete-modal.html' %}
     {% endif %}
 {% endblock %}
+
 {% block postloadjs %}
     {{ block.super }}
+    <!-- Video Player Config and Init -->
     <script>
         let modal = document.querySelector('#gameMediaPlayer')
         let videoPlayer = document.getElementById('video-player')
@@ -406,6 +410,7 @@
             videoPlayer.setAttribute("src", src)
         })
     </script>
+    <!-- Rating Async Functionality and Init -->
     <script>
         const RATING_LEVELS = {
             0: ["", "Neutral"],
@@ -425,6 +430,11 @@
         const ratingMessage = gameRating[1];
         let ratingScoreFloat = parseFloat(gameRating[0].innerHTML);
 
+        /**
+         * Set game rating message and color based on rating.
+         * 
+         * @returns {void}
+        **/
         function setGameRating() {
             if (ratingScoreFloat >= 0 && ratingScoreFloat < 1) {
                 ratingMessage.innerText = "Neutral";
@@ -445,6 +455,11 @@
         const starsMessage = document.querySelector('.stars-message')
         let userRatingFloat = parseFloat("{{ user_rating }}");
 
+        /**
+         * Set user rating star color and message after voting.
+         * 
+         * @returns {void}
+        **/
         function setUserRating() {
             if (userRatingFloat) {
                 for (let i = 1; i <= 5; i++) {
@@ -460,6 +475,7 @@
             }
         }
 
+        // Rating Functionality
         ratingStars.forEach(star => {
             const starNumber = star.dataset.id
             const sliceStars = Object.entries(ratingStars).slice(0, starNumber)
@@ -503,6 +519,12 @@
         const errorToast = `{% include 'includes/toasts/toast-error.html'%}`
         const successToast = `{% include 'includes/toasts/toast-success.html'%}`
 
+        /**
+         * Post new game rating to server and update user and game ratings.
+         * 
+         * @param {HTMLElement} star - The clicked star element.
+         * @returns {void}
+        **/
         async function postRating(star) {
             const postRating = await fetch("{% url 'set_game_rating' game.model_name game.id %}", {
                 method: "POST",
