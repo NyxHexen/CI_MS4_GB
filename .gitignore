@@ -2,6 +2,7 @@
 node_modules
 package*.json
 db.sqlite3.backup
+/media/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
