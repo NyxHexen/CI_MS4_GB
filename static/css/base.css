@@ -1787,6 +1787,10 @@ h3>.media-edit-btn {
 	margin: 0;
 }
 
+#faq-slides .carousel-item {
+	overflow-y: scroll;
+}
+
 #support .faq-buttons {
 	width: initial;
 	height: initial;
