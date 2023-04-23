@@ -8,7 +8,7 @@
 <!-- Media Overview -->
     <div class="container my-5">
         <div class="row justify-content-center">
-            <div class="media-display col-11 col-md-auto text-bg-light rounded mx-auto mx-md-2 pb-2 mb-3 h-100">
+            <div class="media-display col-11 col-md-6 text-bg-light rounded mx-auto mx-md-2 mx-lg-0 pb-2 mb-3 h-100">
                 <!-- Assigned Media -->
                 <h2 class="p-3 m-0 text-center ui-font">Assigned Media</h2>
                 <div class="scroll-div">
@@ -23,21 +23,21 @@
                                 {% for media in game.media.all %}
                                     <div class="accordion-item">
                                         <h2 class="accordion-header"
-                                            id="heading{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}">
+                                            id="heading{{ game.model_name|title }}{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}">
                                             <button class="accordion-button collapsed text-bg-dark p-2"
                                                     type="button"
                                                     data-bs-toggle="collapse"
-                                                    data-bs-target="#collapse{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}"
+                                                    data-bs-target="#collapse{{ game.model_name|title }}{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}"
                                                     aria-expanded="false"
-                                                    aria-controls="collapse{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}">
-                                                <h3 class="h6 m-0">{{ media.name }}</h3>
+                                                    aria-controls="collapse{{ game.model_name|title }}{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}">
+                                                <span class="h6 m-0">{{ media.name }}</span>
                                                 <span class="text-muted ms-3"><small>{{ media.media_type|title }}</small></span>
                                             </button>
                                         </h2>
-                                        <div id="collapse{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}"
+                                        <div id="collapse{{ game.model_name|title }}{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}"
                                              class="accordion-collapse collapse"
-                                             aria-labelledby="heading{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}"
-                                             data-bs-parent="#mediaCards{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}">
+                                             aria-labelledby="heading{{ game.model_name|title }}{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}"
+                                             data-bs-parent="#mediaCards{{ game.model_name|title }}{{ game.id|apnumber|title }}{{ forloop.counter|apnumber|title }}">
                                             <div class="accordion-body border py-1 px-3">
                                                 <a href="{% url 'media_edit' media.id %}"
                                                    class="media-edit-btn btn btn-gamebox text-small me-1">EDIT</a>

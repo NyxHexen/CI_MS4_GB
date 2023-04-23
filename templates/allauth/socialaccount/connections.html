@@ -29,19 +29,21 @@
 
                             <table class="table table-responsive">
                                 <thead>
-                                    <th></th>
-                                    <th>Provider</th>
-                                    <th>Account Name</th>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Provider</th>
+                                        <th scope="col">Account Name</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     {% for base_account in form.accounts %}
                                     {% with base_account.get_provider_account as account %}
                                     <tr>
                                         <td>
-                                            <label class="visually-hidden"
-                                                for="id_account_{{ base_account.id }}">{{ account }}</label>
+                                            <label
+                                                for="id_account_{{ base_account.id }}"><span class="visually-hidden">{{ account }}</span></label>
                                             <input id="id_account_{{ base_account.id }}" type="radio" name="account"
-                                                value="{{ base_account.id }}" />
+                                                value="{{ base_account.id }}">
                                         </td>
                                         <td>
                                             <span

@@ -25,13 +25,13 @@
                     <span class="text-danger mx-1">Offline</span>
                 {% endif %}
                 {% if '/edit/' in request.path %}
-                    <button role="button"
+                    <button type="button"
                             class="btn btn-sm btn-gamebox-alt mx-1"
                             data-bs-toggle="modal"
                             data-bs-target="#promoEdit">Open Edit Form</button>
                     <a class="btn btn-sm btn-gamebox mx-1" href="{% url 'promo' promo.id %}">View Live Page</a>
                 {% elif 'promo/add/' in request.path %}
-                    <button role="button"
+                    <button type="button"
                             class="btn btn-sm btn-gamebox-alt mx-1"
                             data-bs-toggle="modal"
                             data-bs-target="#promoAdd">Edit Promo Details</button>

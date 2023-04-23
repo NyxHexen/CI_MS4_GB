@@ -4,7 +4,7 @@
 {% load cart_tags %}
 
 {% block page_header %}
-<h1 class="visually-hidden"></h1>
+<h1 class="visually-hidden">Page for {{ game.model_name }}{{ game.name }}</h1>
 {% endblock %}
 
 {% block content %}
@@ -12,7 +12,7 @@
     <div class="game-header w-100">
         <img src="{{ MEDIA_URL }}{{ game|use_media:'LANDING.src' }}"
              class="w-100"
-             alt="{{ game|use_media:'LANDING.descr' }}" />
+             alt="{{ game|use_media:'LANDING.descr' }}">
         <div class="container__blur position-absolute">
             <div class="container game-detail-title d-flex flex-column justify-content-end">
                 <div class="row">
@@ -29,7 +29,7 @@
             <div class="game-detail-info row justify-content-center justify-content-md-start">
                 <div class="game-detail-cover col-8 col-sm-5 col-md-3 col-xl-2 my-3 d-flex flex-column align-items-center">
                     <img src="{{ MEDIA_URL }}{{ game|use_media:'COVER.src' }}"
-                         alt="{{ game|use_media:'COVER.descr' }}" />
+                         alt="{{ game|use_media:'COVER.descr' }}">
                     <form action="{% url 'cart_add' game.model_name game.id %}"
                           method="post"
                           class="w-100 d-flex flex-row mt-2">
