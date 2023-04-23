@@ -1,8 +1,15 @@
+# Imports
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Django
 from django.conf import settings
+
+# Third Party
 from storages.backends.s3boto3 import S3Boto3Storage
 
+# Included
 import uuid
 import os
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 class StaticStorage(S3Boto3Storage):
