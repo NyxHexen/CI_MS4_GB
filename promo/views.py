@@ -20,6 +20,7 @@ from promo.models import Promo
 
 # Local
 from .forms import PromoForm
+from .utils import remove_discount
 
 # Included
 from decimal import Decimal
@@ -369,6 +370,7 @@ def promo_delete(request, promo_id):
         return redirect("/")
     try:
         promo = Promo.objects.get(id=promo_id)
+        remove_discount(promo)
         promo.delete()
         messages.success(
             request,
