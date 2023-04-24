@@ -194,8 +194,7 @@
                                 <hr>
                                 <p>
                                     {% for genre in game.genres.all %}
-                                        {{ genre.name }}
-                                        {% if not forloop.last %},{% endif %}
+                                        {{ genre.name }}{% if not forloop.last %},{% endif %}
                                     {% endfor %}
                                 </p>
                             </div>
@@ -204,8 +203,7 @@
                                 <hr>
                                 <p>
                                     {% for tag in game.tags.all %}
-                                        {{ tag.name }}
-                                        {% if not forloop.last %},{% endif %}
+                                        {{ tag.name }}{% if not forloop.last %},{% endif %}
                                     {% endfor %}
                                 </p>
                             </div>
@@ -214,8 +212,7 @@
                                 <hr>
                                 <p>
                                     {% for feature in game.features.all %}
-                                        {{ feature.name }}
-                                        {% if not forloop.last %},{% endif %}
+                                        {{ feature.name }}{% if not forloop.last %},{% endif %}
                                     {% endfor %}
                                 </p>
                             </div>
@@ -340,13 +337,13 @@
                                     <p class="fs-5 countdown-timer"
                                        data-end-time="{{ deal.promo.end_date|date:'Y-m-d H:i' }}"></p>
                                     <span class="btn btn-light">
-                                        <strong>Add to Cart</strong>
+                                        <strong>View</strong>
                                     </span>
                                 {% elif deal.model_name == 'promo' %}
                                     <p class="fs-5 countdown-timer"
                                        data-end-time="{{ deal.end_date|date:'Y-m-d H:i' }}"></p>
                                     <span class="btn btn-light">
-                                        <strong>Browse Deals</strong>
+                                        <strong>Explore</strong>
                                     </span>
                                 {% endif %}
                             </div>

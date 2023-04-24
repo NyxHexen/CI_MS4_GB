@@ -177,8 +177,9 @@
                                     <a class="nav-link" href="{% url 'account_logout' %}">sign out</a>
                                 </li>
                             {% else %}
-                                <li class="list-group-item {% if request.path == '/cart/' %}active" aria-current="page" {% else %}" {% endif %}>
-                                    <a class="cart-nav nav-link" href="{% url 'cart' %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                            <li class="list-group-item {% if request.path == '/cart/' %}active" aria-current="page" {% else %}" {% endif %}>
+                                <a class="cart-nav nav-link" href="{% url 'cart' %}">shopping cart</a>
+                            </li>
                                 <li class="list-group-item  {% if request.path == '/myprofile/' %}active" aria-current="page" {% else %}" {% endif %}>
                                     <a class="nav-link" href="{% url 'account_login' %}">sign in</a>
                                 </li>
