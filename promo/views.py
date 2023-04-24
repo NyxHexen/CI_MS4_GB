@@ -138,9 +138,10 @@ def promo_add(request):
 
                     for id in request.POST.getlist('apply_to_game'):
                         game = Game.objects.get(id=id)
-                        discount = request.POST.get(
-                            (f'game_discount-game_{id}')
-                            or game.promo_percentage)
+                        discount = (request.POST.get(
+                            f'game_discount-dlc_{id}'
+                                ) or game.promo_percentage
+                            )
                         if not game.in_promo:
                             game.promo_percentage = discount
                             game.final_price = round(
@@ -156,8 +157,10 @@ def promo_add(request):
 
                     for id in request.POST.getlist('apply_to_dlc'):
                         game = DLC.objects.get(id=id)
-                        discount = request.POST.get(
-                            f'game_discount-dlc_{id}') or game.promo_percentage
+                        discount = (request.POST.get(
+                            f'game_discount-dlc_{id}'
+                                ) or game.promo_percentage
+                            )
                         if not game.in_promo:
                             game.promo_percentage = discount
                             game.final_price = round(
