@@ -477,9 +477,9 @@ def game_attrs(request, attr_id):
             request.GET.get("sort_by"),
             game_list
             )
-        paginator = Paginator(sorted_games, 2)
+        paginator = Paginator(sorted_games, 5)
     else:
-        paginator = Paginator(game_list, 2)
+        paginator = Paginator(game_list, 5)
 
     page_number = request.GET.get("page")
 
