@@ -189,7 +189,7 @@
                                             <th scope="col" class="text-center">Name</th>
                                             <th scope="col" class="text-center">{% if request.user_agent.is_mobile %}%{% else %}Discount{% endif %}</th>
                                             <th scope="col" class="text-center">Now</th>
-                                            <th scope="col" class="d-none d-md-cell">Was</th>
+                                            <th scope="col" class="d-none d-md-cell text-center">Was</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -204,8 +204,8 @@
                                                 <td class="text-center">
                                                     <span class="promo-discount fs-6">-{{ game.promo_percentage }}%</span>
                                                 </td>
-                                                <td>£{{ game.final_price }}</td>
-                                                <td class="d-none d-md-cell">
+                                                <td class="text-center">£{{ game.final_price }}</td>
+                                                <td class="d-none d-md-cell text-center">
                                                     <s>£{{ game.base_price }}</s>
                                                 </td>
                                             </tr>
