@@ -264,9 +264,11 @@ def checkout_success(request, order_number):
         [game for game in games if game not in purchased_games] +
         [dlc for dlc in dlcs if dlc not in purchased_games]
     )
+
+    sample_size = 4 if request.user_agent.is_tablet else 5
     samples_num = (
-        5
-        if len(unowned_games) > 5
+        sample_size
+        if len(unowned_games) > sample_size
         else len(unowned_games)
         )
     suggested_games = random.sample(unowned_games, samples_num)
