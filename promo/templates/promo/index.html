@@ -186,9 +186,9 @@
                                     <thead>
                                         <tr>
                                             <td scope="col"></td>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Discount</th>
-                                            <th scope="col">Now</th>
+                                            <th scope="col" class="text-center">Name</th>
+                                            <th scope="col" class="text-center">{% if request.user_agent.is_mobile %}%{% else %}Discount{% endif %}</th>
+                                            <th scope="col" class="text-center">Now</th>
                                             <th scope="col" class="d-none d-md-cell">Was</th>
                                         </tr>
                                     </thead>
@@ -201,7 +201,7 @@
                                                          alt="{{ game|use_media:'COVER.descr' }}">
                                                 </td>
                                                 <td>{{ game.name }}</td>
-                                                <td>
+                                                <td class="text-center">
                                                     <span class="promo-discount fs-6">-{{ game.promo_percentage }}%</span>
                                                 </td>
                                                 <td>£{{ game.final_price }}</td>
