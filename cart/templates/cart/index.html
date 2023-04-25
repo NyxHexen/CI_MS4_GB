@@ -81,7 +81,7 @@
                 <div class="card">
                     <div class="card-body d-flex flex-column">
                         <h2 id="cart-subtotal" class="card-title fs-5">
-                            Subtotal ({{ cart_items|length }}
+                            Subtotal (<span>{{ cart_items|length }}</span>
                             {% if care_items|length == 1 %}
                                 item
                             {% else %}
@@ -178,10 +178,12 @@
                 .then(data => {
                     let table = document.querySelector('#cart-items');
                     let tableParent = table.parentNode;
-                    let subtotalHeader = document.querySelector('#cart-subtotal strong');
+                    let subtotalHeaderItemCount = document.querySelector('#cart-subtotal span');
+                    let subtotalHeaderPrice = document.querySelector('#cart-subtotal strong');
                     let gameName = row.children[1].children[0].innerHTML;
-
-                    subtotalHeader.innerText = (parseFloat(subtotalHeader.innerText) - parseFloat(row.children[3].innerText))
+                    
+                    subtotalHeaderItemCount.innerText = document.querySelectorAll('.remove-item__btn').length - 1
+                    subtotalHeaderPrice.innerText = (parseFloat(subtotalHeaderPrice.innerText) - parseFloat(row.children[3].innerText))
                         .toFixed(2);
                     row.remove();
 
