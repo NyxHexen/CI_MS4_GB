@@ -21,34 +21,6 @@
         </div>
     </div>
     <div id="promo-carousel" class="container__shadow position-relative">
-        {% if user.is_staff %}
-            <div class="admin-btns text-bg-light rounded p-2 d-flex align-items-center justify-content-center">
-                {% if promo.active %}
-                    <span class="text-bg-success mx-1 rounded p-1">Online</span>
-                {% else %}
-                    <span class="text-bg-danger mx-1 rounded p-1">Offline</span>
-                {% endif %}
-                {% if '/edit/' in request.path %}
-                    <button type="button"
-                            class="btn btn-sm btn-gamebox-alt mx-1"
-                            data-bs-toggle="modal"
-                            data-bs-target="#promoEdit">Open Edit Form</button>
-                    <a class="btn btn-sm btn-gamebox mx-1" href="{% url 'promo' promo.id %}">View Live Page</a>
-                {% elif 'promo/add/' in request.path %}
-                    <button type="button"
-                            class="btn btn-sm btn-gamebox-alt mx-1"
-                            data-bs-toggle="modal"
-                            data-bs-target="#promoAdd">Edit Promo Details</button>
-                {% else %}
-                    <a class="btn btn-gamebox-alt btn-sm mx-1"
-                       href="{% url 'promo_edit' promo.id %}">Edit Promo</a>
-                    <button type="button"
-                            class="btn btn-sm btn-danger mx-1"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deleteModal">Delete Promo</button>
-                {% endif %}
-            </div>
-        {% endif %}
         <div class="container mb-5">
             <div class="row justify-content-center">
                 <div class="col-10">
@@ -217,27 +189,9 @@
                     </div>
                 </div>
             </div>
-            {% if 'add' in request.path %}
-                {% include 'promo/includes/promo_add.html' %}
-            {% elif 'edit' in request.path %}
-                {% include 'promo/includes/promo_edit.html' %}
-            {% endif %}
-            {% if user.is_staff %}
-                {% include 'includes/modals/delete-modal.html' %}
-            {% endif %}
         {% endblock %}
         {% block postloadjs %}
             {{ block.super }}
-            <!-- Popperjs -->
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" crossorigin="anonymous">
-            </script>
-            <!-- Tempus Dominus JavaScript -->
-            <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/js/tempus-dominus.min.js"
-                    crossorigin="anonymous"></script>
-            <!-- Tempus Dominus Styles -->
-            <link rel="stylesheet"
-                  href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/css/tempus-dominus.min.css"
-                  crossorigin="anonymous">
             <script>
                 let rows = document.querySelectorAll('tr');
                 rows.forEach(row => {
@@ -249,83 +203,4 @@
                     }
                 });
             </script>
-            {% if request.path == '/promo/add/' or "/edit/" in request.path %}
-                <script>
-                    const toggleEditButton = document.querySelector('button[data-bs-target="#promoEdit"]');
-                    const toggleAddButton = document.querySelector('button[data-bs-target="#promoAdd"]');
-                    window.addEventListener('load', () => {
-                        if (window.location.href.includes('add')) {
-                            toggleAddButton.click();
-                        } else if (window.location.href.includes('edit')) {
-                            toggleEditButton.click();
-                        }
-                    });
-
-                    const startDateField = document.getElementById('id_start_date');
-                    const endDateField = document.getElementById('id_end_date');
-                    const pickerStart = new tempusDominus.TempusDominus(startDateField, {
-                        localization: {
-                            format: 'yyyy-MM-dd HH:mm:ss',
-                            hourCycle: 'h23',
-                        }
-                    });
-                    const pickerEnd = new tempusDominus.TempusDominus(endDateField, {
-                        localization: {
-                            format: 'yyyy-MM-dd HH:mm:ss',
-                            hourCycle: 'h23',
-                        }
-                    });
-                </script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-                {% if '/edit/' in request.path %}
-                    <script>
-                        $(".modal").draggable();
-                        $("#promo-form").on('change', () => {
-                            $("#promo_activate").attr("disabled", true);
-                            $("#promo_save").attr("disabled", true);
-                            $("#promo_cont").attr("disabled", true);
-                            $("#promo_preview").removeClass('btn-dark').addClass('btn-warning');
-                        });
-                        $("#promo_activate").on("click", e => {
-                            $("#submit_option").val("activate");
-                        });
-                        $("#promo_save").on("click", e => {
-                            $("#submit_option").val("save");
-                        });
-                        $("#promo_cont").on("click", e => {
-                            $("#submit_option").val("cont");
-                        });
-
-                        $(".game-discount").each((index, element) => {
-                            $(element).change(() => {
-                                let basePrice = (parseFloat($(element).siblings(".game-base-price").text())).toFixed(2);
-                                let discount = $(element).children('input').val();
-                                $(element).siblings(".game-final-price").text((basePrice - basePrice * (discount / 100))
-                                    .toFixed(2));
-                            });
-                        });
-                    </script>
-                {% endif %}
-                {% if request.path == '/promo/add/' %}
-                    <script>
-                        $(".modal").draggable();
-                        $("#promo-form").on('change', () => {
-                            $("#promo_save").attr("disabled", true);
-                        });
-                        $("#promo_save").on("click", e => {
-                            $("#submit_option").val("save");
-                        });
-
-                        $(".game-discount").each((index, element) => {
-                            $(element).change(() => {
-                                let basePrice = (parseFloat($(element).siblings(".game-base-price").text())).toFixed(2);
-                                let discount = $(element).children('input').val();
-                                $(element).siblings(".game-final-price").text((basePrice - basePrice * (discount / 100))
-                                    .toFixed(2));
-                            });
-                        });
-                    </script>
-                {% endif %}
-            {% endif %}
         {% endblock %}

@@ -23,10 +23,6 @@
                   <a class="btn btn-danger" href="{% url 'game_delete' game.model_name game.id %}">
                       Delete Game
                   </a>
-                  {% elif promo %}
-                  <a class="btn btn-danger" href="{% url 'promo_delete' promo.id %}">
-                      Delete Promo
-                  </a>
                   {% elif 'media/' in request.path %}
                   <a id="media-delete" href="#" class="btn btn-danger text-small me-1">
                       Delete Media
