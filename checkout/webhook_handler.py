@@ -59,7 +59,7 @@ class StripeWH_Handler:
                     country__iexact=billing_details.address.country,
                     town_or_city__iexact=billing_details.address.city,
                     street_address1__iexact=billing_details.address.line1,
-                    order_total__iexact=grand_total,
+                    order_total=grand_total,
                     original_cart=cart,
                     stripe_pid=pid,
                 )
