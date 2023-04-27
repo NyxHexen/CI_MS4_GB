@@ -5,9 +5,9 @@
 
 Automatic testing on forms, models, and views has been conducted using Django's built-in test command and the third-party library "Coverage" which was used to measure testing completion.
 
-![Coverage Report](validation/unit-testing/django-test.png)
+![Coverage Report](/readme/testing/unit-testing/django-test.png)
 
-![Coverage Report](validation/unit-testing/coverage-report.png)
+![Coverage Report](readme/testing/unit-testing/coverage-report.png)
 
 # Compatibility Testing
 
@@ -36,7 +36,7 @@ B2. As a potential/new user, I want to be able to register for a new account.
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-1.png">
+<img src="readme/testing/user-stories/us-1.png">
 </details>
 
 A2. As an admin/site owner, I want existing users to be able to login.
@@ -50,7 +50,7 @@ C1. As an existing user, I want to be able to login.
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-2.png">
+<img src="readme/testing/user-stories/us-2.png">
 </details>
 
 A3. As an admin/site owner, I want existing users to be able to change their password.
@@ -63,7 +63,7 @@ C2. As an existing user, I want to be able to change my password.
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-3.png">
+<img src="readme/testing/user-stories/us-3.png">
 </details>
 
 A4. As an admin/site owner, I want existing users to be able to recover their password if forgotten/lost.
@@ -76,7 +76,7 @@ C3. As an existing user, I want to be able to recover my password if forgotten/l
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-4.png">
+<img src="readme/testing/user-stories/us-4.png">
 </details>
 
 A5. As an admin/site owner, I want existing users to be able to store their default billing details on the website.
@@ -90,7 +90,7 @@ C5. As an existing user, I want to be able to be able to edit my billing informa
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-5.png">
+<img src="readme/testing/user-stories/us-5.png">
 </details>
 
 A6. As an admin/site owner, I want potential users to be able to sign-up with their third-party vendor login details.
@@ -103,7 +103,7 @@ A7. As an existing user, I want to be able to manage my third-party authenticati
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-6.png">
+<img src="readme/testing/user-stories/us-6.png">
 </details>
 
 A7. As an admin/site owner, I want all users to be able to contact us via e-mail.
@@ -117,7 +117,7 @@ C9. As an existing user, I want to be able to contact the site owners/admins.
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-7.png">
+<img src="readme/testing/user-stories/us-7.png">
 </details>
 
 A8. As an admin/site owner, I want all users to be able to receive support through a FAQ page.
@@ -129,7 +129,7 @@ A8. As an admin/site owner, I want all users to be able to receive support throu
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-8.png">
+<img src="readme/testing/user-stories/us-8.png">
 </details>
 
 A9. As an admin/site owner, I want potential users to know from the start what the purpose of the website is.
@@ -142,7 +142,7 @@ B1. As a potential/new user, I want to know the site's purpose from the moment I
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-9.png">
+<img src="readme/testing/user-stories/us-9.png">
 </details>
 
 A10. As an admin/site owner, I want all users to be able to browse our products.
@@ -154,7 +154,7 @@ A10. As an admin/site owner, I want all users to be able to browse our products.
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-10.png">
+<img src="readme/testing/user-stories/us-10.png">
 </details>
 
 A11. As an admin/site owner, I want all users to be able to explore our promotions (sales).
@@ -168,7 +168,7 @@ C11. As an existing user, I want to be able to explore the available promotions 
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-11.png">
+<img src="readme/testing/user-stories/us-11.png">
 </details>
 
 A12. As an admin/site owner, I want all users to be able to view our company story/mission.
@@ -181,7 +181,7 @@ B4. As a potential/new user, I want to be able to find out more about the compan
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-12.png">
+<img src="readme/testing/user-stories/us-12.png">
 </details>
 
 A13. As an admin/site owner, I want all users to be able to filter products.
@@ -195,7 +195,7 @@ C14. As a potential/new user, I want to be able to filter products by different 
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-13.png">
+<img src="readme/testing/user-stories/us-13.png">
 </details>
 
 A14. As an admin/site owner, I want all users to be able to find information about a specific product through a dedicated page.
@@ -210,7 +210,7 @@ C18. As an existing user, I want to be able to view details of a product.
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-14.png">
+<img src="readme/testing/user-stories/us-14.png">
 </details>
 
 A15. As an admin/site owner, I want to be able to add new Media content through the main website.
@@ -222,7 +222,7 @@ A15. As an admin/site owner, I want to be able to add new Media content through 
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-15.png">
+<img src="readme/testing/user-stories/us-15.png">
 </details>
 
 A16. As an admin/site owner, I want to be able to edit Media content through the main website.
@@ -234,7 +234,7 @@ A16. As an admin/site owner, I want to be able to edit Media content through the
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-16.png">
+<img src="readme/testing/user-stories/us-16.png">
 </details>
 
 A17. As an admin/site owner, I want to be able to delete Media content through the main website.
@@ -246,7 +246,7 @@ A17. As an admin/site owner, I want to be able to delete Media content through t
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-17.png">
+<img src="readme/testing/user-stories/us-17.png">
 </details>
 
 A18. As an admin/site owner, I want to be able to add new Game/DLC content through the main website.
@@ -258,7 +258,7 @@ A18. As an admin/site owner, I want to be able to add new Game/DLC content throu
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-18.png">
+<img src="readme/testing/user-stories/us-18.png">
 </details>
 
 A19. As an admin/site owner, I want to be able to edit Game/DLC content through the main website.
@@ -270,7 +270,7 @@ A19. As an admin/site owner, I want to be able to edit Game/DLC content through 
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-19.png">
+<img src="readme/testing/user-stories/us-19.png">
 </details>
 
 A20. As an admin/site owner, I want to be able to delete Game/DLC content through the main website.
@@ -282,7 +282,7 @@ A20. As an admin/site owner, I want to be able to delete Game/DLC content throug
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-20.png">
+<img src="readme/testing/user-stories/us-20.png">
 </details>
 
 A21. As an admin/site owner, I want existing users to be able to rate the game/DLC products.
@@ -298,7 +298,7 @@ C15. As an existing user, I want to be able to leave a rating for a product.
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-21.png">
+<img src="readme/testing/user-stories/us-21.png">
 </details>
 
 C6. As an existing user, I want to be able to add or remove additional e-mail addresses to my account.
@@ -310,7 +310,7 @@ C6. As an existing user, I want to be able to add or remove additional e-mail ad
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-22.png">
+<img src="readme/testing/user-stories/us-22.png">
 </details>
 
 C8. As an existing user, I want the website to store my shopping cart and contents between logins.
@@ -329,7 +329,7 @@ C13. As an existing user, I want to be able to sort products by different criter
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-23.png">
+<img src="readme/testing/user-stories/us-23.png">
 </details>
 
 B13. As an potential/new user, I want to be able to view images and videos for a product.
@@ -342,7 +342,7 @@ C17. As an existing user, I want to be able to view images and videos for a prod
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-24.png">
+<img src="readme/testing/user-stories/us-24.png">
 </details>
 
 B10. As an potential/new user, I want to be able to browse and search for games that are associated with a specific publisher, developer, or platform, so that I can discover and access the games that interest me.
@@ -355,7 +355,7 @@ C19. As an existing user, I want to be able to browse and search for games that 
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-25.png">
+<img src="readme/testing/user-stories/us-25.png">
 </details>
 
 C12. As an existing user, I want to be able to sign up for the site's newsletter to receive notifications.
@@ -367,7 +367,7 @@ C12. As an existing user, I want to be able to sign up for the site's newsletter
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-26.png">
+<img src="readme/testing/user-stories/us-26.png">
 </details>
 
 | Feature | Action | Expected Result | Actual Result
@@ -377,5 +377,5 @@ C12. As an existing user, I want to be able to sign up for the site's newsletter
 <details>
 <summary> Supporting Images </summary>
 
-<img src="user-stories/us-27.png">
+<img src="readme/testing/user-stories/us-27.png">
 </details>

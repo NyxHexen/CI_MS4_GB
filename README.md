@@ -4,7 +4,7 @@ A fully responsive full-stack e-commerce website selling video games and downloa
 
 <br>
 
-![Responsiveness Display](design/responsive-design.png)
+![Responsiveness Display](readme/design/responsive-design.png)
 
 - [User Experience](#user-experience)
   * [Strategy](#strategy)
@@ -314,8 +314,8 @@ There are 20 models in total split across the 6 apps. They are as follows:
 Below image displays all models stored in the database as well as the relationships between each model. As the image itself is quite large I've included both it and a link to it in this repo.
 
 
-[Physical Database Model](design/physical-database-model-lg.png)
-![Physical Database Model](design/physical-database-model-lg.png)
+[Physical Database Model Large Image](readme/design/database-models/physical-database-model-lg.png)
+![Physical Database Model](readme/design/database-models/physical-database-model-sm.png)
 
 #### Forms
 For the form rendering, at least for the most part, I have used django-crispy-forms with the bootstrap5 theme which allows for easier form rendering and pre-defined styling.
@@ -395,10 +395,10 @@ These are the Wireframes used when creating the website. Not all pages which exi
 
 |Wireframes 
 |-------------------
-|<details><summary>1. Home Page</summary><img src="design/wireframes/home-index.png"></details>
-|<details><summary>2. Promo Page</summary><img src="design/wireframes/promo-index.png"></details>
-|<details><summary>3. Browse Page</summary><img src="design/wireframes/games-browse.png"></details>
-|<details><summary>4. Game Details Page</summary><img src="design/wireframes/games-game.png"></details>
+|<details><summary>1. Home Page</summary><img src="readme/design/wireframes/home-index.png"></details>
+|<details><summary>2. Promo Page</summary><img src="readme/design/wireframes/promo-index.png"></details>
+|<details><summary>3. Browse Page</summary><img src="readme/design/wireframes/games-browse.png"></details>
+|<details><summary>4. Game Details Page</summary><img src="readme/design/wireframes/games-game.png"></details>
 
 ## Surface
 
@@ -408,17 +408,17 @@ The palette used in this project consists of two primary colors and two backgrou
 
 - Color Palette
 
-![Color Palette](design/color-palette.png)
+![Color Palette](readme/design/color-palette.png)
 
 ### Typography
 
 - The font used for the brand logo, navigation items, and headers is called "Major Mono Display" and is imported from Google Fonts library. It uses sans-serif as a fallback font.
 
-!["Major Mono Display"](design/typography-font-a.png)
+!["Major Mono Display"](readme/design/typography-font-a.png)
 
 - The font used for remaining content is called "Jost", also imported from Google Fonts library. It uses sans-serif as a fallback font.
 
-!["Jost"](design/typography-font-b.png)
+!["Jost"](readme/design/typography-font-b.png)
 
 # Features
 
@@ -429,9 +429,9 @@ Features have been split into pages or sections, as some pages are a feature of 
 ### Feature 0 - Authentication and AllAuth
 Every page provided by allauth has been styled to fit the website theme, however as they aren't features I have created I am not necessarily counting them towards the total feature list.
 
-<details><summary>1. AllAuth login with functioning* Google OAuth capabilities.</summary><img src="features/auth-login.png"></details>
-<details><summary>2. Sign-up Form</summary><img src="features/auth-signup-form.png"></details>
-<details><summary>3. Sign-out Prompt</summary><img src="features/auth-signout-prompt.png"></details>
+<details><summary>1. AllAuth login with functioning* Google OAuth capabilities.</summary><img src="readme/features/auth-login.png"></details>
+<details><summary>2. Sign-up Form</summary><img src="readme/features/auth-signup-form.png"></details>
+<details><summary>3. Sign-out Prompt</summary><img src="readme/features/auth-signout-prompt.png"></details>
 
 ### Feature 0.33 - Navigation Bar
 
@@ -440,41 +440,41 @@ Simple navigation bar which is displayed on all pages.
 When a staff member is logged in the Admin button redirects them to `/admin/` while the button dropdown offers the ability to add games/dlcs, view media and add media.
 
 - Navigation Bar - Desktop
-<details><summary>Logged in as Staff</summary><img src="features/navbar-desktop-staff.png"></details>
-<details><summary>Logged in as User</summary><img src="features/navbar-desktop-user.png"></details>
-<details><summary>Visiting as Guest</summary><img src="features/navbar-desktop-guest.png"></details>
+<details><summary>Logged in as Staff</summary><img src="readme/features/navbar-desktop-staff.png"></details>
+<details><summary>Logged in as User</summary><img src="readme/features/navbar-desktop-user.png"></details>
+<details><summary>Visiting as Guest</summary><img src="readme/features/navbar-desktop-guest.png"></details>
 
 - Navigation Bar - Tablet and Mobile
-<details><summary>Guest/User</summary><img src="features/navbar-tablet-any.png"></details>
+<details><summary>Guest/User</summary><img src="readme/features/navbar-tablet-any.png"></details>
 
 - Burger Menu - Tablet and Mobile
-<details><summary>Logged in as Staff</summary><img src="features/burger-menu-mobile.png"></details>
-<details><summary>Guest/User</summary><img src="features/burger-menu-mobile-staff.png"></details>
+<details><summary>Logged in as Staff</summary><img src="readme/features/burger-menu-mobile.png"></details>
+<details><summary>Guest/User</summary><img src="readme/features/burger-menu-mobile-staff.png"></details>
 
 ### Feature 0.66 - Footer
 
 The footer offers a newsletter form which is hooked up to the back-end and stores a boolean value once the user submits their e-mail address in the form, as well as social links and a secondary navigation links section.
 
-<details><summary>Desktop</summary><img src="features/footer-desktop-any.png"></details>
-<details><summary>Tablet</summary><img src="features/footer-tablet-any.png"></details>
-<details><summary>Mobile</summary><img src="features/footer-mobile-any.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/footer-desktop-any.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/footer-tablet-any.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/footer-mobile-any.png"></details>
 
 ### Feature 1 - Carousel with 3D Box effect (Home Page)
 
 The carousel is capable of displaying games, DLCs and promotions. Each carousel item is an anchor and clicking on the image itself opens a new tab with the game or promotion's dedicated page. To ensure the user is not accidentally navigated away while trying to add an item to their cart the anchor element is not applied to the carousel section.
 
 - Carousel - Desktop
-<details><summary>Game/DLC</summary><img src="features/feature-1-3d-box-carousel-desktop.png"></details>
-<details><summary>Game/DLC in Promo</summary><img src="features/feature-1-3d-box-carousel-desktop-sale.png"></details>
-<details><summary>Promo</summary><img src="features/feature-1-3d-box-carousel-desktop-promo.png"></details>
+<details><summary>Game/DLC</summary><img src="readme/features/feature-1-3d-box-carousel-desktop.png"></details>
+<details><summary>Game/DLC in Promo</summary><img src="readme/features/feature-1-3d-box-carousel-desktop-sale.png"></details>
+<details><summary>Promo</summary><img src="readme/features/feature-1-3d-box-carousel-desktop-promo.png"></details>
 
 - Carousel - Tablet (Layout)
-<details><summary>Game/DLC</summary><img src="features/feature-1-3d-box-carousel-tablet.png"></details>
+<details><summary>Game/DLC</summary><img src="readme/features/feature-1-3d-box-carousel-tablet.png"></details>
 
 - Carousel - Mobile
-<details><summary>Game/DLC</summary><img src="features/feature-1-3d-box-carousel-mobile-game-dlc.png"></details>
-<details><summary>Game/DLC in Promo</summary><img src="features/feature-1-3d-box-carousel-mobile-sale.png"></details>
-<details><summary>Promo</summary><img src="features/feature-1-3d-box-carousel-mobile-promo.png"></details>
+<details><summary>Game/DLC</summary><img src="readme/features/feature-1-3d-box-carousel-mobile-game-dlc.png"></details>
+<details><summary>Game/DLC in Promo</summary><img src="readme/features/feature-1-3d-box-carousel-mobile-sale.png"></details>
+<details><summary>Promo</summary><img src="readme/features/feature-1-3d-box-carousel-mobile-promo.png"></details>
 
 ### Feature 2 - Featured Games (Home Page)
 
@@ -482,9 +482,9 @@ Displayed featured games are picked from a pool of selected games/DLCs and diffe
 
 In tablet and mobile the displayed cards are limited down to 4 to fit layout.
 
-<details><summary>Desktop</summary><img src="features/feature-2-featured-games-desktop.png"></details>
-<details><summary>Tablet</summary><img src="features/feature-2-featured-games-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-2-featured-games-mobile.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/feature-2-featured-games-desktop.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/feature-2-featured-games-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-2-featured-games-mobile.png"></details>
 
 ### Feature 3 - Deals of the Day (Home Page)
 
@@ -492,9 +492,9 @@ This feature displays the promotions which are expiring next, and are organized 
 
 In mobile this feature turns into a side scroll and the countdown timer format moves from Days, Hours, etc. to the shorter D/M/Y/H/S.
 
-<details><summary>Desktop</summary><img src="features/feature-3-dotd-desktop.png"></details>
-<details><summary>Tablet</summary><img src="features/feature-3-dotd-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-3-dotd-mobile.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/feature-3-dotd-desktop.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/feature-3-dotd-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-3-dotd-mobile.png"></details>
 
 ### Feature 4 - Games Page (Browse)
 
@@ -502,18 +502,18 @@ This is the primary page via which the user would be looking through games. It o
 
 - Full Page view
 
-<details><summary>Desktop</summary><img src="features/feature-4-games-filter-and-sort.png"></details>
-<details><summary>Tablet</summary><img src="features/feature-4-games-filter-and-sort-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-4-games-filter-and-sort-mobile.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/feature-4-games-filter-and-sort.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/feature-4-games-filter-and-sort-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-4-games-filter-and-sort-mobile.png"></details>
 
 - Games Filter
 
-<details><summary>Desktop</summary><img src="features/feature-4a-games-filter.png"></details>
-<details><summary>Tablet</summary><img src="features/feature-4a-games-filter-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-4a-games-filter-mobile.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/feature-4a-games-filter.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/feature-4a-games-filter-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-4a-games-filter-mobile.png"></details>
 
 - Sorting dropdown
-<details><summary>Any Device</summary><img src="features/feature-4b-sorting.png"></details>
+<details><summary>Any Device</summary><img src="readme/features/feature-4b-sorting.png"></details>
 
 A sub-feature of the game page are the cards themselves. They are a 3D object which was achieved using CSS' `transform-style: preserve-3d` and `transform: transalateZ()`. The animation is applied through JavaScript by adding the class `.flip` to the game object. Once the animation is at least halfway through the back card becomes an anchor which is the user can use to navigate to the specific game's details page.
 
@@ -523,10 +523,10 @@ A sub-feature of the game page are the cards themselves. They are a 3D object wh
   * In desktop the rating shows all 5 stars, while in mobile it only shows 1 star to fit the size of the card.
   * In mobile the add to cart button has it's text removed and replaced with the cart icon only.
 
-<details><summary>Pre-flip</summary><img src="features/feature-4c-game-cards-front.png"></details>
-<details><summary>Pre-flip (Sale)</summary><img src="features/feature-4c-game-cards-sale-front.png"></details>
-<details><summary>Post-flip (Desktop)</summary><img src="features/feature-4c-game-cards-back.png"></details>
-<details><summary>Post-flip (Mobile)</summary><img src="features/feature-4c-game-cards-back-mobile.png"></details>
+<details><summary>Pre-flip</summary><img src="readme/features/feature-4c-game-cards-front.png"></details>
+<details><summary>Pre-flip (Sale)</summary><img src="readme/features/feature-4c-game-cards-sale-front.png"></details>
+<details><summary>Post-flip (Desktop)</summary><img src="readme/features/feature-4c-game-cards-back.png"></details>
+<details><summary>Post-flip (Mobile)</summary><img src="readme/features/feature-4c-game-cards-back-mobile.png"></details>
 
 ### Feature 5 - Game Page
 
@@ -538,34 +538,34 @@ The Game page is consists of 3 sub-features.
 - Each Platform anchor item opens the Game Attributes dedicated page.
 - Each Genre anchor item redirects the user to the Browse page with the appropriate filter pre-set.
 
-<details><summary>Desktop</summary><img src="features/feature-5-game-page-1.png"></details>
-<details><summary>Tablet</summary><img src="features/feature-5-game-page-1-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-5-game-page-1-mobile.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/feature-5-game-page-1.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/feature-5-game-page-1-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-5-game-page-1-mobile.png"></details>
 
 2. Game Media Carousel
 - The Game Media carousel is able to display images as well as videos. 
   * The videos are displayed using a modal. The video is loaded by default, so when the user opens the modal it's going to have it's url set. As modals are simply hidden from screen and not inexistent, once the video is closed normally the video would continue playing until the page is refreshed. To prevent that, I have created a function which on modal close removes the iframe url, waits a second, and then adds it back, so the user can watch the video again if they wish.
   * The carousel shows 1 image at a time on mobile and tablet, and two in Desktop.
 
-<details><summary>Desktop (Both)</summary><img src="features/feature-5-game-page-2-desktop-video-slide.png"></details>
-<details><summary>Desktop (Modal)</summary><img src="features/feature-5-game-page-2-desktop-video-player.png"></details>
+<details><summary>Desktop (Both)</summary><img src="readme/features/feature-5-game-page-2-desktop-video-slide.png"></details>
+<details><summary>Desktop (Modal)</summary><img src="readme/features/feature-5-game-page-2-desktop-video-player.png"></details>
 <br>
-<details><summary>Tablet (Image)</summary><img src="features/feature-5-game-page-2-tablet-image.png"></details>
-<details><summary>Tablet (Video)</summary><img src="features/feature-5-game-page-2-tablet-video-slide.png"></details>
-<details><summary>Tablet (Modal)</summary><img src="features/feature-5-game-page-2-desktop-video-player.png"></details>
+<details><summary>Tablet (Image)</summary><img src="readme/features/feature-5-game-page-2-tablet-image.png"></details>
+<details><summary>Tablet (Video)</summary><img src="readme/features/feature-5-game-page-2-tablet-video-slide.png"></details>
+<details><summary>Tablet (Modal)</summary><img src="readme/features/feature-5-game-page-2-desktop-video-player.png"></details>
 <br>
-<details><summary>Mobile (Image)</summary><img src="features/feature-5-game-page-2-mobile-image.png"></details>
-<details><summary>Mobile (Video)</summary><img src="features/feature-5-game-page-2-mobile-video-slide.png"></details>
-<details><summary>Mobile (Modal)</summary><img src="features/feature-5-game-page-2-mobile-video-player.png"></details>
+<details><summary>Mobile (Image)</summary><img src="readme/features/feature-5-game-page-2-mobile-image.png"></details>
+<details><summary>Mobile (Video)</summary><img src="readme/features/feature-5-game-page-2-mobile-video-slide.png"></details>
+<details><summary>Mobile (Modal)</summary><img src="readme/features/feature-5-game-page-2-mobile-video-player.png"></details>
 
 3. Game Information
 - Each Developer and Publisher anchor item opens the Game Attributes dedicated page.
 - Each Tag and Feature anchor item redirects the user to the Browse page with the appropriate filter pre-set.
 - Related content shows any DLCs that the game may have, or the game the DLC requires to be played, that are offered on the website. On click, opens a new tab and loads the specific game page.
 
-<details><summary>Desktop</summary><img src="features/feature-5-game-page-3-desktop.png"></details>
-<details><summary>Tablet</summary><img src="features/feature-5-game-page-3-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-5-game-page-3-mobile.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/feature-5-game-page-3-desktop.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/feature-5-game-page-3-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-5-game-page-3-mobile.png"></details>
 
 ### Feature 6 - Game Attribute Page
 
@@ -573,23 +573,23 @@ This page displays a company's page. Each attribute has it's own logo, a short i
 - Any Developer, Publish, or Platform item redirects the user to this page.
 - Games are displayed in a table and paginated with up to 5 games per page, as well as lite sorting functionality based on Name, Discount, or Price.
 
-<details><summary>Any Device</summary><img src="features/feature-6-game-attr-any.png"></details>
+<details><summary>Any Device</summary><img src="readme/features/feature-6-game-attr-any.png"></details>
 
 ### Feature 7 - About Page
 
 About page is static and is used to provide the users with a short introduction to the business' goals, values, and story.
 
-<details><summary>Desktop/Tablet</summary><img src="features/feature-7-about-desktop-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-7-about-mobile.png"></details>
+<details><summary>Desktop/Tablet</summary><img src="readme/features/feature-7-about-desktop-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-7-about-mobile.png"></details>
 
 ### Feature 8 - Support Page
 
 Support page is the second and last static page on the website and is used to provide users with answers to frequently asked questions.
 - This page uses a control-less Bootstrap carousel to display answers and the standard carousel pips have been transformed into the questions. Once the member clicks on a questions, whoosh comes in flying the answer.
 
-<details><summary>Desktop/Tablet (Empty)</summary><img src="features/feature-8-support-desktop-empty.png"></details>
-<details><summary>Desktop/Tablet (Clicked)</summary><img src="features/feature-8-support-desktop-slide.png"></details>
-<details><summary>Mobile (Clicked)</summary><img src="features/feature-8-support-mobile-slide.png"></details>
+<details><summary>Desktop/Tablet (Empty)</summary><img src="readme/features/feature-8-support-desktop-empty.png"></details>
+<details><summary>Desktop/Tablet (Clicked)</summary><img src="readme/features/feature-8-support-desktop-slide.png"></details>
+<details><summary>Mobile (Clicked)</summary><img src="readme/features/feature-8-support-mobile-slide.png"></details>
 
 ### Feature 9 - Cart Page
 
@@ -598,17 +598,17 @@ This page is used to display the games the user has added to their cart. This pa
 - <small>*Empty Start - the user's cart was empty and they navigated to the cart page.</small>
 - <small>*Full Start - the user's cart was full, but they removed all items.</small>
 
-<details><summary>Desktop</summary><img src="features/feature-9-cart-empty-desktop.png"></details>
-<details><summary>Desktop (Empty Start)</summary ><img src="features/feature-9-cart-empty-desktop.png"></details>
-<details><summary>Desktop (Full Start)</summary><img src="features/feature-9-cart-full-start-desktop.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/feature-9-cart-empty-desktop.png"></details>
+<details><summary>Desktop (Empty Start)</summary ><img src="readme/features/feature-9-cart-empty-desktop.png"></details>
+<details><summary>Desktop (Full Start)</summary><img src="readme/features/feature-9-cart-full-start-desktop.png"></details>
 <br>
-<details><summary>Tablet</summary><img src="features/feature-9-cart-full-tablet.png"></details>
-<details><summary>Tablet (Empty Start)</summary><img src="features/feature-9-cart-empty-tablet.png"></details>
-<details><summary>Tablet (Full Start)</summary><img src="features/feature-9-cart-full-start-tablet.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/feature-9-cart-full-tablet.png"></details>
+<details><summary>Tablet (Empty Start)</summary><img src="readme/features/feature-9-cart-empty-tablet.png"></details>
+<details><summary>Tablet (Full Start)</summary><img src="readme/features/feature-9-cart-full-start-tablet.png"></details>
 <br>
-<details><summary>Mobile</summary><img src="features/feature-9-cart-full-mobile.png"></details>
-<details><summary>Mobile (Empty Start)</summary><img src="features/feature-9-cart-empty-mobile.png"></details>
-<details><summary>Mobile (Full Start)</summary><img src="features/feature-9-cart-full-start-mobile.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-9-cart-full-mobile.png"></details>
+<details><summary>Mobile (Empty Start)</summary><img src="readme/features/feature-9-cart-empty-mobile.png"></details>
+<details><summary>Mobile (Full Start)</summary><img src="readme/features/feature-9-cart-full-start-mobile.png"></details>
 
 ### Feature 10 - Checkout Page
 
@@ -620,12 +620,12 @@ If the site visitor is a guest, the form features an invite for them to login or
 
 Alternatively if the user is already logged in the form will feature a "save as default" checkbox which allows them automatically update their account information. If they user decided they wanted to provide a one-time alternative billing address, they can untick the box.
 
-<details><summary>Desktop (Guest)</summary><img src="features/feature-10-desktop-guest.png"></details>
-<details><summary>Desktop (User)</summary><img src="features/feature-10-desktop-user.png"></details>
-<details><summary>Tablet (Guest)</summary><img src="features/feature-10-tablet-guest.png"></details>
-<details><summary>Tablet (User)</summary><img src="features/feature-10-tablet-user.png"></details>
-<details><summary>Mobile (Guest)</summary><img src="features/feature-10-mobile-guest.png"></details>
-<details><summary>Mobile (User)</summary><img src="features/feature-10-mobile-user.png"></details>
+<details><summary>Desktop (Guest)</summary><img src="readme/features/feature-10-desktop-guest.png"></details>
+<details><summary>Desktop (User)</summary><img src="readme/features/feature-10-desktop-user.png"></details>
+<details><summary>Tablet (Guest)</summary><img src="readme/features/feature-10-tablet-guest.png"></details>
+<details><summary>Tablet (User)</summary><img src="readme/features/feature-10-tablet-user.png"></details>
+<details><summary>Mobile (Guest)</summary><img src="readme/features/feature-10-mobile-guest.png"></details>
+<details><summary>Mobile (User)</summary><img src="readme/features/feature-10-mobile-user.png"></details>
 
 ### Feature 11 - Checkout Success Page
 
@@ -633,12 +633,12 @@ Once the user clicks 'Pay Now' on the checkout page, if they payment is successf
 When redirected to the the checkout page, in the back-end the `checkout_success` view sends the user an e-mail containing their order along with the pseudo serial keys that you would generally expect in a digital video game store confirmation e-mail. The page itself displays the user's order number, a button to go back to the browse page, as well as a few suggested games which were not part of the user's cart. As the site does not _yet_ have a system to record the user's actions to assist in actually suggesting games, the suggested games use the same functionality (`random.sample()`) as featured games on home page.
 
 - Order Confirmation
-<details><summary>Desktop/Tablet</summary><img src="features/feature-11-success-page-1-desktop.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-11-success-page-1-mobile.png"></details>
+<details><summary>Desktop/Tablet</summary><img src="readme/features/feature-11-success-page-1-desktop.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-11-success-page-1-mobile.png"></details>
 
 - "Suggested Games"
-<details><summary>Desktop/Tablet</summary><img src="features/feature-11-success-page-2-desktop.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-11-success-page-2-mobile.png"></details>
+<details><summary>Desktop/Tablet</summary><img src="readme/features/feature-11-success-page-2-desktop.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-11-success-page-2-mobile.png"></details>
 
 ### Feature 12 - Profile _Pages_
 
@@ -648,27 +648,27 @@ The profile app is considered as one big feature with each of the pages availabl
 
 This is the first page that the user is redirected to when the click the navigation bar "My Profile" button. This allows the user to change their first and last names as well as _view_ their username and registered email address, their last logged in date and time as well as their date joined/registered.
 
-<details><summary>Desktop/Tablet</summary><img src="features/feature-12-profile-user-info-desktop-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-12-profile-user-info-mobile.png"></details>
+<details><summary>Desktop/Tablet</summary><img src="readme/features/feature-12-profile-user-info-desktop-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-12-profile-user-info-mobile.png"></details>
 
 #### Sub-feature - Billing Address
 
-<details><summary>Desktop/Tablet</summary><img src="features/feature-12-profile-billing-address-desktop-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-12-profile-billing-address-mobile.png"></details>
+<details><summary>Desktop/Tablet</summary><img src="readme/features/feature-12-profile-billing-address-desktop-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-12-profile-billing-address-mobile.png"></details>
 
 #### Sub-feature - Styled AllAuth Templates
 
 - Change Password
 
-<details><summary>Any Device</summary><img src="features/feature-12-profile-change-password-desktop-tablet.png"></details>
+<details><summary>Any Device</summary><img src="readme/features/feature-12-profile-change-password-desktop-tablet.png"></details>
 
 - Account Connections (OAuth)
 
-<details><summary>Any Device</summary><img src="features/feature-12-profile-oauth-desktop-tablet.png"></details>
+<details><summary>Any Device</summary><img src="readme/features/feature-12-profile-oauth-desktop-tablet.png"></details>
 
 - Email Addresses
 
-<details><summary>Any Device</summary><img src="features/feature-12-profile-email-desktop-tablet.png"></details>
+<details><summary>Any Device</summary><img src="readme/features/feature-12-profile-email-desktop-tablet.png"></details>
 
 ### Feature 13 - Media View Page and Media Forms (Staff Only)
 
@@ -683,15 +683,15 @@ Media is organized and categorized by Media Type (Image/Video) and Media Use (Co
 
 This page displays any Assigned or Unassigned media instances and allows the user to either edit or delete any of the media on the website. At present neither of the containers has search functionality as the game-base currently available is relatively small, however it is currently logged as a post-MVP feature.
 
-<details><summary>Desktop/Tablet</summary><img src="features/feature-13-media-desktop-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-13-media-mobile.png"></details>
+<details><summary>Desktop/Tablet</summary><img src="readme/features/feature-13-media-desktop-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-13-media-mobile.png"></details>
 
 - Media Form
 
-<details><summary>Desktop/Tablet (Add)</summary><img src="features/feature-13-media-add-desktop-tablet.png"></details>
-<details><summary>Desktop/Tablet (Edit)</summary><img src="features/feature-13-media-edit-tablet-mobile.png"></details>
-<details><summary>Mobile (Add)</summary><img src="features/feature-13-media-add-mobile.png"></details>
-<details><summary>Mobile (Edit)</summary><img src="features/feature-13-media-edit-mobile.png"></details>
+<details><summary>Desktop/Tablet (Add)</summary><img src="readme/features/feature-13-media-add-desktop-tablet.png"></details>
+<details><summary>Desktop/Tablet (Edit)</summary><img src="readme/features/feature-13-media-edit-tablet-mobile.png"></details>
+<details><summary>Mobile (Add)</summary><img src="readme/features/feature-13-media-add-mobile.png"></details>
+<details><summary>Mobile (Edit)</summary><img src="readme/features/feature-13-media-edit-mobile.png"></details>
 
 ### Feature 14 - Promo Page
 
@@ -699,21 +699,21 @@ Promo page is one of the signature features of the site and is created for the u
 
 - Header
 
-<details><summary>Desktop</summary><img src="features/feature-14-promo-1-desktop.png"></details>
-<details><summary>Tablet</summary><img src="features/feature-14-promo-1-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-14-promo-1-mobile.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/feature-14-promo-1-desktop.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/feature-14-promo-1-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-14-promo-1-mobile.png"></details>
 
 - Carousel
 
-<details><summary>Desktop</summary><img src="features/feature-14-promo-2-desktop.png"></details>
-<details><summary>Tablet</summary><img src="features/feature-14-promo-2-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-14-promo-2-mobile.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/feature-14-promo-2-desktop.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/feature-14-promo-2-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-14-promo-2-mobile.png"></details>
 
 - Table
 
-<details><summary>Desktop</summary><img src="features/feature-14-promo-3-desktop.png"></details>
-<details><summary>Tablet</summary><img src="features/feature-14-promo-3-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-14-promo-3-mobile.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/feature-14-promo-3-desktop.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/feature-14-promo-3-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-14-promo-3-mobile.png"></details>
 
 ### Feature 15 - Game/DLC Forms
 
@@ -721,15 +721,15 @@ The website offers the ability to add games and DLCs via the site itself as well
 
 - ADD
 
-<details><summary>Desktop</summary><img src="features/feature-15-dlc-add-desktop.png"></details>
-<details><summary>Tablet</summary><img src="features/feature-15-dlc-add-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-15-dlc-add-mobile.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/feature-15-dlc-add-desktop.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/feature-15-dlc-add-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-15-dlc-add-mobile.png"></details>
 
 - EDIT
 
-<details><summary>Desktop</summary><img src="features/feature-15-dlc-edit-desktop.png"></details>
-<details><summary>Tablet</summary><img src="features/feature-15-dlc-edit-tablet.png"></details>
-<details><summary>Mobile</summary><img src="features/feature-15-dlc-edit-mobile.png"></details>
+<details><summary>Desktop</summary><img src="readme/features/feature-15-dlc-edit-desktop.png"></details>
+<details><summary>Tablet</summary><img src="readme/features/feature-15-dlc-edit-tablet.png"></details>
+<details><summary>Mobile</summary><img src="readme/features/feature-15-dlc-edit-mobile.png"></details>
 
 
 # Technologies
@@ -764,32 +764,32 @@ I have scrolled the code in the input field on the validation tool so you can te
 <details>
 <summary>Home Page - index.html</summary>
 
-<img src="validation/html/home/index.png">
+<img src="readme/validation/html/home/index.png">
 </details>
 
 <details>
 <summary>Media View Page - media_list.html</summary>
 
-<img src="validation/html/home/media_list.png">
+<img src="readme/validation/html/home/media_list.png">
 </details>
 
 <details>
 <summary>Media Add/Edit Page - media-crud.html</summary>
 
-<img src="validation/html/home/media_crud_add.png">
-<img src="validation/html/home/media_crud_edit.png">
+<img src="readme/validation/html/home/media_crud_add.png">
+<img src="readme/validation/html/home/media_crud_edit.png">
 </details>
 
 <details>
 <summary>About - about.html</summary>
 
-<img src="validation/html/home/index.png">
+<img src="readme/validation/html/home/index.png">
 </details>
 
 <details>
 <summary>Support - support.html</summary>
 
-<img src="validation/html/home/index.png">
+<img src="readme/validation/html/home/index.png">
 </details>
 
 ### Games App
@@ -799,28 +799,28 @@ I have scrolled the code in the input field on the validation tool so you can te
 <details>
 <summary>Browse - index.html</summary>
 
-<img src="validation/html/games/index.png">
+<img src="readme/validation/html/games/index.png">
 </details>
 
 <details>
 <summary>Game/DLC Page - game.html</summary>
 
-<img src="validation/html/games/game.png">
+<img src="readme/validation/html/games/game.png">
 </details>
 
 <details>
 <summary>Game Add/Edit Page - game_crud.html </summary>
 
-<img src="validation/html/games/game_add.png">
-<img src="validation/html/games/game_edit.png">
-<img src="validation/html/games/dlc_add.png">
-<img src="validation/html/games/dlc_edit.png">
+<img src="readme/validation/html/games/game_add.png">
+<img src="readme/validation/html/games/game_edit.png">
+<img src="readme/validation/html/games/dlc_add.png">
+<img src="readme/validation/html/games/dlc_edit.png">
 </details>
 
 <details>
 <summary>Game Attribute Page - game_attr.html</summary>
 
-<img src="validation/html/games/index.png">
+<img src="readme/validation/html/games/index.png">
 </details>
 
 ### Promo App
@@ -830,7 +830,7 @@ I have scrolled the code in the input field on the validation tool so you can te
 <details>
 <summary>Promo Page - index.html</summary>
 
-<img src="validation/html/promo/index.png">
+<img src="readme/validation/html/promo/index.png">
 </details>
 
 ### Cart App
@@ -838,13 +838,13 @@ I have scrolled the code in the input field on the validation tool so you can te
 <details>
 <summary>Empty Cart - index.html</summary>
 
-<img src="validation/html/cart/empty_index.png">
+<img src="readme/validation/html/cart/empty_index.png">
 </details>
 
 <details>
 <summary>Full Cart - index.html</summary>
 
-<img src="validation/html/cart/full_index.png">
+<img src="readme/validation/html/cart/full_index.png">
 </details>
 
 ### Checkout App
@@ -852,13 +852,13 @@ I have scrolled the code in the input field on the validation tool so you can te
 <details>
 <summary>Checkout - index.html</summary>
 
-<img src="validation/html/checkout/checkout-page.png">
+<img src="readme/validation/html/checkout/checkout-page.png">
 </details>
 
 <details>
 <summary>Checkout Success - checkout_success.html</summary>
 
-<img src="validation/html/checkout/checkout-success-page.png">
+<img src="readme/validation/html/checkout/checkout-success-page.png">
 </details>
 
 ### Profiles App
@@ -866,13 +866,13 @@ I have scrolled the code in the input field on the validation tool so you can te
 <details>
 <summary>User Information Page - index.html</summary>
 
-<img src="validation/html/profiles/index.png">
+<img src="readme/validation/html/profiles/index.png">
 </details>
 
 <details>
 <summary>Checkout Success - checkout_success.html</summary>
 
-<img src="validation/html/profiles/billing.png">
+<img src="readme/validation/html/profiles/billing.png">
 </details>
 
 ## CSS Validation
@@ -882,7 +882,7 @@ I have scrolled the code in the input field on the validation tool so you can te
 <details>
 <summary>Primary Styles - style.css</summary>
 
-<img src="validation/css/base.png">
+<img src="readme/validation/css/base.png">
 </details>
 
 ## JavaScript Validation
@@ -896,13 +896,13 @@ I have scrolled the code in the input field on the validation tool so you can te
 
 I was unable to define the bootstrap (Bootstrap5) variable as it is injected via a third-party library.
 
-<img src="validation/javascript/base/base-messages-to-toasts.png">
+<img src="readme/validation/javascript/base/base-messages-to-toasts.png">
 </details>
 
 <details>
 <summary>Games Flip - games.js</summary>
 
-<img src="validation/javascript/base/games.js.png">
+<img src="readme/validation/javascript/base/games.js.png">
 </details>
 
 ### Home App
@@ -910,13 +910,13 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 <details>
 <summary>3D Box Effect - index.html</summary>
 
-<img src="validation/javascript/home/index-3d-box-effect.png">
+<img src="readme/validation/javascript/home/index-3d-box-effect.png">
 </details>
 
 <details>
 <summary>Media View - game/media_list.html</summary>
 
-<img src="validation/javascript/home/media-list-delete-buttons.png">
+<img src="readme/validation/javascript/home/media-list-delete-buttons.png">
 </details>
 
 ### Games App
@@ -925,25 +925,25 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 <summary>Browse Filter - index.html</summary>
 * I was unable to define the noUiSlider and wNumb variables as they are injected via a third-party libraries.
 
-<img src="validation/javascript/games/index-games-filter.png">
+<img src="readme/validation/javascript/games/index-games-filter.png">
 </details>
 
 <details>
 <summary>Browse Filter (Mobile Layout Setup) - index.html</summary>
 
-<img src="validation/javascript/games/index-filter-mobile.png">
+<img src="readme/validation/javascript/games/index-filter-mobile.png">
 </details>
 
 <details>
 <summary>Browse Sorting - index.html</summary>
 
-<img src="validation/javascript/games/index-sorting.png">
+<img src="readme/validation/javascript/games/index-sorting.png">
 </details>
 
 <details>
 <summary>Browse Pagination Input - index.html</summary>
 
-<img src="validation/javascript/games/index-pagination-input.png">
+<img src="readme/validation/javascript/games/index-pagination-input.png">
 </details>
 
 <details>
@@ -952,13 +952,13 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 * I was unable to define the tempusDominus (Tempus Dominus) variable as it is injected via a third-party library.
 * `pickerReleaseDate` is shown as not used, however this is what the Tempus Dominus documentation shows that the input fields should be defines as.
 
-<img src="validation/javascript/games/game-crud-datepickers.png">
+<img src="readme/validation/javascript/games/game-crud-datepickers.png">
 </details>
 
 <details>
 <summary>Select2 Multiselect Input - game_crud.html</summary>
 
-<img src="validation/javascript/games/game-crud-select2.png">
+<img src="readme/validation/javascript/games/game-crud-select2.png">
 </details>
 
 ### Promo App
@@ -966,7 +966,7 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 <details>
 <summary>Table Anchors - index.html</summary>
 
-<img src="validation/javascript/promo/index-anchor-table-rows.png">
+<img src="readme/validation/javascript/promo/index-anchor-table-rows.png">
 </details>
 
 ### Cart App
@@ -977,13 +977,13 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 * I was unable to define the bootstrap (Bootstrap5) variable as it is injected via a third-party library.
 * `tooptipList` configures each tooltip item on the page, as shown within Bootstrap 5.2 documentation.
 
-<img src="validation/javascript/cart/index-remove-button.png">
+<img src="readme/validation/javascript/cart/index-remove-button.png">
 </details>
 
 <details>
 <summary>Table Anchors - index.html</summary>
 
-<img src="validation/javascript/cart/index-redirect.png">
+<img src="readme/validation/javascript/cart/index-redirect.png">
 </details>
 
 ### Checkout App
@@ -991,7 +991,7 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 <details>
 <summary>Stripe - index.html</summary>
 
-<img src="validation/javascript/checkout/index-stripe.png">
+<img src="readme/validation/javascript/checkout/index-stripe.png">
 </details>
 
 ## Python Validation 
@@ -1003,55 +1003,55 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 <details>
 <summary>admin.py</summary>
 
-<img src="validation/python/home/admin.png">
+<img src="readme/validation/python/home/admin.png">
 </details>
 
 <details>
 <summary>apps.py</summary>
 
-<img src="validation/python/home/apps.png">
+<img src="readme/validation/python/home/apps.png">
 </details>
 
 <details>
 <summary>forms.py</summary>
 
-<img src="validation/python/home/forms.png">
+<img src="readme/validation/python/home/forms.png">
 </details>
 
 <details>
 <summary>models.py</summary>
 
-<img src="validation/python/home/models.png">
+<img src="readme/validation/python/home/models.png">
 </details>
 
 <details>
 <summary>signals.py</summary>
 
-<img src="validation/python/home/signals.png">
+<img src="readme/validation/python/home/signals.png">
 </details>
 
 <details>
 <summary>tests_forms.py</summary>
 
-<img src="validation/python/home/tests_forms.png">
+<img src="readme/validation/python/home/tests_forms.png">
 </details>
 
 <details>
 <summary>tests_models.py</summary>
 
-<img src="validation/python/home/tests_models.png">
+<img src="readme/validation/python/home/tests_models.png">
 </details>
 
 <details>
 <summary>tests_views.py</summary>
 
-<img src="validation/python/home/tests_views.png">
+<img src="readme/validation/python/home/tests_views.png">
 </details>
 
 <details>
 <summary>views.py</summary>
 
-<img src="validation/python/home/views.png">
+<img src="readme/validation/python/home/views.png">
 </details>
 
 ### Games App
@@ -1059,67 +1059,67 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 <details>
 <summary>admin.py</summary>
 
-<img src="validation/python/games/admin.png">
+<img src="readme/validation/python/games/admin.png">
 </details>
 
 <details>
 <summary>apps.py</summary>
 
-<img src="validation/python/games/apps.png">
+<img src="readme/validation/python/games/apps.png">
 </details>
 
 <details>
 <summary>forms.py</summary>
 
-<img src="validation/python/games/forms.png">
+<img src="readme/validation/python/games/forms.png">
 </details>
 
 <details>
 <summary>models.py</summary>
 
-<img src="validation/python/games/models.png">
+<img src="readme/validation/python/games/models.png">
 </details>
 
 <details>
 <summary>tags.py</summary>
 
-<img src="validation/python/games/tags.png">
+<img src="readme/validation/python/games/tags.png">
 </details>
 
 <details>
 <summary>tests_forms.py</summary>
 
-<img src="validation/python/games/tests_forms.png">
+<img src="readme/validation/python/games/tests_forms.png">
 </details>
 
 <details>
 <summary>tests_models.py</summary>
 
-<img src="validation/python/games/tests_models.png">
+<img src="readme/validation/python/games/tests_models.png">
 </details>
 
 <details>
 <summary>tests_views.py</summary>
 
-<img src="validation/python/games/tests_views.png">
+<img src="readme/validation/python/games/tests_views.png">
 </details>
 
 <details>
 <summary>urls.py</summary>
 
-<img src="validation/python/games/urls.png">
+<img src="readme/validation/python/games/urls.png">
 </details>
 
 <details>
 <summary>utils.py</summary>
 
-<img src="validation/python/games/utils.png">
+<img src="readme/validation/python/games/utils.png">
 </details>
 
 <details>
 <summary>views.py</summary>
 
-<img src="validation/python/games/views.png">
+<img src="readme/validation/python/games/views.png">
 </details>
 
 ### Promo App
@@ -1127,61 +1127,61 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 <details>
 <summary>admin.py</summary>
 
-<img src="validation/python/promo/admin.png">
+<img src="readme/validation/python/promo/admin.png">
 </details>
 
 <details>
 <summary>apps.py</summary>
 
-<img src="validation/python/promo/apps.png">
+<img src="readme/validation/python/promo/apps.png">
 </details>
 
 <details>
 <summary>models.py</summary>
 
-<img src="validation/python/promo/models.png">
+<img src="readme/validation/python/promo/models.png">
 </details>
 
 <details>
 <summary>promo_tags.py</summary>
 
-<img src="validation/python/promo/promo_tags.png">
+<img src="readme/validation/python/promo/promo_tags.png">
 </details>
 
 <details>
 <summary>signals.py</summary>
 
-<img src="validation/python/promo/signals.png">
+<img src="readme/validation/python/promo/signals.png">
 </details>
 
 <details>
 <summary>tests_models.py</summary>
 
-<img src="validation/python/promo/tests_models.png">
+<img src="readme/validation/python/promo/tests_models.png">
 </details>
 
 <details>
 <summary>tests_views.py</summary>
 
-<img src="validation/python/promo/tests_views.png">
+<img src="readme/validation/python/promo/tests_views.png">
 </details>
 
 <details>
 <summary>urls.py</summary>
 
-<img src="validation/python/promo/urls.png">
+<img src="readme/validation/python/promo/urls.png">
 </details>
 
 <details>
 <summary>urls.py</summary>
 
-<img src="validation/python/promo/urls.png">
+<img src="readme/validation/python/promo/urls.png">
 </details>
 
 <details>
 <summary>views.py</summary>
 
-<img src="validation/python/promo/views.png">
+<img src="readme/validation/python/promo/views.png">
 </details>
 
 ### Cart App
@@ -1189,49 +1189,49 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 <details>
 <summary>admin.py</summary>
 
-<img src="validation/python/cart/admin.png">
+<img src="readme/validation/python/cart/admin.png">
 </details>
 
 <details>
 <summary>apps.py</summary>
 
-<img src="validation/python/cart/apps.png">
+<img src="readme/validation/python/cart/apps.png">
 </details>
 
 <details>
 <summary>context.py</summary>
 
-<img src="validation/python/cart/context.png">
+<img src="readme/validation/python/cart/context.png">
 </details>
 
 <details>
 <summary>models.py</summary>
 
-<img src="validation/python/cart/models.png">
+<img src="readme/validation/python/cart/models.png">
 </details>
 
 <details>
 <summary>signals.py</summary>
 
-<img src="validation/python/cart/signals.png">
+<img src="readme/validation/python/cart/signals.png">
 </details>
 
 <details>
 <summary>tests_models.py</summary>
 
-<img src="validation/python/cart/tests_models.png">
+<img src="readme/validation/python/cart/tests_models.png">
 </details>
 
 <details>
 <summary>tests_views.py</summary>
 
-<img src="validation/python/cart/tests_views.png">
+<img src="readme/validation/python/cart/tests_views.png">
 </details>
 
 <details>
 <summary>views.py</summary>
 
-<img src="validation/python/cart/views.png">
+<img src="readme/validation/python/cart/views.png">
 </details>
 
 ### Checkout App
@@ -1239,73 +1239,73 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 <details>
 <summary>admin.py</summary>
 
-<img src="validation/python/checkout/admin.png">
+<img src="readme/validation/python/checkout/admin.png">
 </details>
 
 <details>
 <summary>apps.py</summary>
 
-<img src="validation/python/checkout/apps.png">
+<img src="readme/validation/python/checkout/apps.png">
 </details>
 
 <details>
 <summary>forms.py</summary>
 
-<img src="validation/python/checkout/forms.png">
+<img src="readme/validation/python/checkout/forms.png">
 </details>
 
 <details>
 <summary>models.py</summary>
 
-<img src="validation/python/checkout/models.png">
+<img src="readme/validation/python/checkout/models.png">
 </details>
 
 <details>
 <summary>signals.py</summary>
 
-<img src="validation/python/checkout/signals.png">
+<img src="readme/validation/python/checkout/signals.png">
 </details>
 
 <details>
 <summary>tests_forms.py</summary>
 
-<img src="validation/python/checkout/tests_forms.png">
+<img src="readme/validation/python/checkout/tests_forms.png">
 </details>
 
 <details>
 <summary>tests_models.py</summary>
 
-<img src="validation/python/checkout/tests_models.png">
+<img src="readme/validation/python/checkout/tests_models.png">
 </details>
 
 <details>
 <summary>tests_views.py</summary>
 
-<img src="validation/python/checkout/tests_views.png">
+<img src="readme/validation/python/checkout/tests_views.png">
 </details>
 
 <details>
 <summary>urls.py</summary>
 
-<img src="validation/python/checkout/urls.png">
+<img src="readme/validation/python/checkout/urls.png">
 </details>
 
 <details>
 <summary>views.py</summary>
 
-<img src="validation/python/checkout/views.png">
+<img src="readme/validation/python/checkout/views.png">
 </details>
 
 <details>
 <summary>webhook_handler.py</summary>
 
-<img src="validation/python/checkout/webhook_handler.png">
+<img src="readme/validation/python/checkout/webhook_handler.png">
 </details>
 
 <details>
 <summary>webhooks.py</summary>
 
-<img src="validation/python/checkout/views.png">
+<img src="readme/validation/python/checkout/views.png">
 </details>
 
 ### Profiles App
@@ -1313,67 +1313,67 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 <details>
 <summary>admin.py</summary>
 
-<img src="validation/python/profiles/admin.png">
+<img src="readme/validation/python/profiles/admin.png">
 </details>
 
 <details>
 <summary>apps.py</summary>
 
-<img src="validation/python/profiles/apps.png">
+<img src="readme/validation/python/profiles/apps.png">
 </details>
 
 <details>
 <summary>context_processors.py</summary>
 
-<img src="validation/python/profiles/context_processors.png">
+<img src="readme/validation/python/profiles/context_processors.png">
 </details>
 
 <details>
 <summary>forms.py</summary>
 
-<img src="validation/python/profiles/forms.png">
+<img src="readme/validation/python/profiles/forms.png">
 </details>
 
 <details>
 <summary>models.py</summary>
 
-<img src="validation/python/profiles/models.png">
+<img src="readme/validation/python/profiles/models.png">
 </details>
 
 <details>
 <summary>signals.py</summary>
 
-<img src="validation/python/profiles/signals.png">
+<img src="readme/validation/python/profiles/signals.png">
 </details>
 
 <details>
 <summary>tests_forms.py</summary>
 
-<img src="validation/python/profiles/tests_forms.png">
+<img src="readme/validation/python/profiles/tests_forms.png">
 </details>
 
 <details>
 <summary>tests_models.py</summary>
 
-<img src="validation/python/profiles/tests_models.png">
+<img src="readme/validation/python/profiles/tests_models.png">
 </details>
 
 <details>
 <summary>tests_views.py</summary>
 
-<img src="validation/python/profiles/tests_views.png">
+<img src="readme/validation/python/profiles/tests_views.png">
 </details>
 
 <details>
 <summary>urls.py</summary>
 
-<img src="validation/python/profiles/urls.png">
+<img src="readme/validation/python/profiles/urls.png">
 </details>
 
 <details>
 <summary>views.py</summary>
 
-<img src="validation/python/profiles/views.png">
+<img src="readme/validation/python/profiles/views.png">
 </details>
 
 ## Accessibility
@@ -1386,91 +1386,91 @@ I was unable to define the bootstrap (Bootstrap5) variable as it is injected via
 <details>
 <summary>Home Page</summary>
 
-<img src="validation/wave-accessibility/home-page.png">
+<img src="readme/validation/wave-accessibility/home-page.png">
 </details>
 
 <details>
 <summary>Game/DLC</summary>
 
-<img src="validation/wave-accessibility/game-detail-page.png">
+<img src="readme/validation/wave-accessibility/game-detail-page.png">
 </details>
 
 <details>
 <summary>Games/Browse</summary>
 
-<img src="validation/wave-accessibility/games-browse-page.png">
+<img src="readme/validation/wave-accessibility/games-browse-page.png">
 </details>
 
 <details>
 <summary>Game Attributes Page</summary>
 
-<img src="validation/wave-accessibility/game-attrs-page.png">
+<img src="readme/validation/wave-accessibility/game-attrs-page.png">
 </details>
 
 <details>
 <summary>Game Add/Edit</summary>
 
-<img src="validation/wave-accessibility/game-crud-page.png">
+<img src="readme/validation/wave-accessibility/game-crud-page.png">
 </details>
 
 <details>
 <summary>Promo</summary>
 
-<img src="validation/wave-accessibility/promo-page.png">
+<img src="readme/validation/wave-accessibility/promo-page.png">
 </details>
 
 <details>
 <summary>Cart</summary>
 
-<img src="validation/wave-accessibility/cart-page.png">
+<img src="readme/validation/wave-accessibility/cart-page.png">
 </details>
 
 <details>
 <summary>Checkout</summary>
 
-<img src="validation/wave-accessibility/checkout-page.png">
+<img src="readme/validation/wave-accessibility/checkout-page.png">
 </details>
 
 <details>
 <summary>Checkout Success</summary>
 
-<img src="validation/wave-accessibility/checkout-success-page.png">
+<img src="readme/validation/wave-accessibility/checkout-success-page.png">
 </details>
 
 <details>
 <summary>View Media</summary>
 
-<img src="validation/wave-accessibility/media-page.png">
+<img src="readme/validation/wave-accessibility/media-page.png">
 </details>
 
 <details>
 <summary>Media Add/Edit</summary>
 
-<img src="validation/wave-accessibility/media-crud-page.png">
+<img src="readme/validation/wave-accessibility/media-crud-page.png">
 </details>
 
 <details>
 <summary>Profile</summary>
 
-<img src="validation/wave-accessibility/profile-page.png">
+<img src="readme/validation/wave-accessibility/profile-page.png">
 </details>
 
 <details>
 <summary>Billing Address</summary>
 
-<img src="validation/wave-accessibility/billing-address-page.png">
+<img src="readme/validation/wave-accessibility/billing-address-page.png">
 </details>
 
 <details>
 <summary>About</summary>
 
-<img src="validation/wave-accessibility/about-page.png">
+<img src="readme/validation/wave-accessibility/about-page.png">
 </details>
 
 <details>
 <summary>Support</summary>
 
-<img src="validation/wave-accessibility/support-page.png.png">
+<img src="readme/validation/wave-accessibility/support-page.png">
 </details>
 
 ## Performance Testing
@@ -1480,91 +1480,91 @@ While the images on the website are not currently optimized, this presents an ex
 <details>
 <summary>Home Page</summary>
 
-<img src="validation/lighthouse/home-page.png">
+<img src="readme/validation/lighthouse/home-page.png">
 </details>
 
 <details>
 <summary>Game/DLC</summary>
 
-<img src="validation/lighthouse/game-detail-page.png">
+<img src="readme/validation/lighthouse/game-detail-page.png">
 </details>
 
 <details>
 <summary>Games/Browse</summary>
 
-<img src="validation/lighthouse/games-browse-page.png">
+<img src="readme/validation/lighthouse/games-browse-page.png">
 </details>
 
 <details>
 <summary>Game Attributes</summary>
 
-<img src="validation/lighthouse/game-attrs.png.png">
+<img src="readme/validation/lighthouse/game-attrs.png">
 </details>
 
 <details>
 <summary>Game Add/Edit</summary>
 
-<img src="validation/lighthouse/game-crud-page.png">
+<img src="readme/validation/lighthouse/game-crud-page.png">
 </details>
 
 <details>
 <summary>Promo</summary>
 
-<img src="validation/lighthouse/promo-page.png">
+<img src="readme/validation/lighthouse/promo-page.png">
 </details>
 
 <details>
 <summary>Cart</summary>
 
-<img src="validation/lighthouse/cart-page.png">
+<img src="readme/validation/lighthouse/cart-page.png">
 </details>
 
 <details>
 <summary>Checkout</summary>
 
-<img src="validation/lighthouse/checkout-page.png">
+<img src="readme/validation/lighthouse/checkout-page.png">
 </details>
 
 <details>
 <summary>Checkout Success</summary>
 
-<img src="validation/lighthouse/checkout-success-page.png">
+<img src="readme/validation/lighthouse/checkout-success-page.png">
 </details>
 
 <details>
 <summary>View Media</summary>
 
-<img src="validation/lighthouse/view-media-page.png">
+<img src="readme/validation/lighthouse/view-media-page.png">
 </details>
 
 <details>
 <summary>Media Add/Edit</summary>
 
-<img src="validation/lighthouse/media-crud-page.png">
+<img src="readme/validation/lighthouse/media-crud-page.png">
 </details>
 
 <details>
 <summary>Profile</summary>
 
-<img src="validation/lighthouse/profile-page.png">
+<img src="readme/validation/lighthouse/profile-page.png">
 </details>
 
 <details>
 <summary>Billing Address</summary>
 
-<img src="validation/lighthouse/billing-address-page.png">
+<img src="readme/validation/lighthouse/billing-address-page.png">
 </details>
 
 <details>
 <summary>About</summary>
 
-<img src="validation/lighthouse/about-page.png">
+<img src="readme/validation/lighthouse/about-page.png">
 </details>
 
 <details>
 <summary>Support</summary>
 
-<img src="validation/lighthouse/support-page.png">
+<img src="readme/validation/lighthouse/support-page.png">
 </details>
 
 ## Unit and User Story Testing
@@ -1626,7 +1626,7 @@ There is a number of application that are required in order to run this applicat
 5. Go into your bucket's Permissions tab and setup that the bucket to have Public Accesss and is visible to others. Consult the AWS documentation if required!
 6. The bucket should now be ready to use with your application, however you will need to configure your application to use S3 buckets to store your media and static files:
 
-![S3 settings.py Config](deployment/aws-s3/django-settings-aws-s3.png)
+![S3 settings.py Config](readme/deployment/aws-s3/django-settings-aws-s3.png)
 
 ## Local Deployment
 
@@ -1652,7 +1652,7 @@ There is a number of application that are required in order to run this applicat
 4. [Algolia](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/bayesian-average/#the-difficulties-with-calculating-a-reliable-rating) not so much for the code, but for providing the Bayesian Average formula which was used in the `user_rating_calc()` method. When looking around for a rating system a lot of people are using Pandas, but when dealing with a small amount of data I thought it would be easier to use plain Python.
 5. [CodeInstitute](https://codeinstitute.net/) - Stripe webhook and webhook handler. Followed along with video and then customized to fit my app.
 
-![Bayesian Average Formula](features/bayesian-avg.png)
+![Bayesian Average Formula](readme/features/bayesian-avg.png)
 
 ## Media Content
 
