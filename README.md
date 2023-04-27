@@ -414,11 +414,11 @@ The palette used in this project consists of two primary colors and two backgrou
 
 - The font used for the brand logo, navigation items, and headers is called "Major Mono Display" and is imported from Google Fonts library. It uses sans-serif as a fallback font.
 
-!["Major Mono Display"](readme/design/typography-font-a.png)
+!["Major Mono Display"](readme/design/typography/typography-font-a.png)
 
 - The font used for remaining content is called "Jost", also imported from Google Fonts library. It uses sans-serif as a fallback font.
 
-!["Jost"](readme/design/typography-font-b.png)
+!["Jost"](/readme/design/typography/typography-font-b.png)
 
 # Features
 
@@ -1589,11 +1589,11 @@ To set up the project to send emails and use a Google account as an SMTP server,
 3. To proceed, you will need to have, if you don't already, 2-Step Verification. Simply click on "2-Step Verification" and follow the instructions.
 4. Use the search bar to navigate to the "App passwords" page.
 
-![App Passwords](deployment/google-mail/app-passwords.png)
+![App Passwords](readme/deployment/google-mail/app-passwords.png)
 
 5. Select an App and a Device from the dropdown menus, then click on "Generate" to create your app password.
 
-![App Password Creation](deployment/google-mail/app-passwords-1.png)
+![App Password Creation](readme/deployment/google-mail/app-passwords-1.png)
 
 6. Make note of the 16-digit generated app password.
 6. In your env.py file, create an environment variable called EMAIL_HOST_PASS and assign it the 16-digit app password noted earlier.
@@ -1601,7 +1601,7 @@ To set up the project to send emails and use a Google account as an SMTP server,
 8. Now you can use `send_mail("Subject here", "Here is the message.", "from@example.com", ["to@example.com"], fail_silently)` in your views to send e-mails.
 9. Once e-mail has been setup, to ensure that during development the local server does not send e-mails via Google, it is recommended that the below code is added to your `settings.py`.
 
-![Email Configuration](deployment/google-mail/settings-config.png)
+![Email Configuration](readme/deployment/google-mail/settings-config.png)
 
 ## Stripe API
 
