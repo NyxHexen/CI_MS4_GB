@@ -27,11 +27,6 @@ A fully responsive full-stack e-commerce website selling video games and downloa
       - [Amazon Web Services (AWS) S3 bucket](#amazon-web-services--aws--s3-bucket)
   * [Scope](#scope)
     + [Admin/Site Owner User Stories (A)](#admin-site-owner-user-stories--a-)
-      - [User Account Management:](#user-account-management-)
-      - [User Communication and Support:](#user-communication-and-support-)
-      - [Product Browsing:](#product-browsing-)
-      - [Content Management:](#content-management-)
-      - [User Engagement:](#user-engagement-)
     + [Potential/New User User Stories (B)](#potential-new-user-user-stories--b-)
     + [Existing (Registered) User User Stories (C)](#existing--registered--user-user-stories--c-)
   * [Skeleton](#skeleton)
@@ -334,38 +329,27 @@ While ElephantSQL(PostgreSQL) holds our database, for image storage I have chose
 
 ### Admin/Site Owner User Stories (A)
 
-#### User Account Management:
-
 1. As an admin/site owner, I want potential users to be able to register for an account.
 2. As an admin/site owner, I want existing users to be able to login.
 3. As an admin/site owner, I want existing users to be able to change their password.
 4. As an admin/site owner, I want existing users to be able to recover their password if forgotten/lost.
 5. As an admin/site owner, I want existing users to be able to store their default billing details on the website.
 6. As an admin/site owner, I want potential users to be able to sign-up with their third-party vendor login details.
-
-#### User Communication and Support:
 7. As an admin/site owner, I want all users to be able to contact us via e-mail.
 8. As an admin/site owner, I want all users to be able to receive support through a FAQ page.
-
-#### Product Browsing:
 9. As an admin/site owner, I want potential users to know from the start what the purpose of the website is.
 10. As an admin/site owner, I want all users to be able to browse our products.
 11. As an admin/site owner, I want all users to be able to explore our promotions (sales).
 12. As an admin/site owner, I want all users to be able to view our company story/mission.
 13. As an admin/site owner, I want all users to be able to filter products.
 14. As an admin/site owner, I want all users to be able to find information about a specific product through a dedicated page.
-
-#### Content Management:
 15. As an admin/site owner, I want to be able to add new Media content through the main website.
 16. As an admin/site owner, I want to be able to edit Media content through the main website.
 17. As an admin/site owner, I want to be able to delete Media content through the main website.
 18. As an admin/site owner, I want to be able to add new Game/DLC content through the main website.
 19. As an admin/site owner, I want to be able to edit Game/DLC content through the main website.
 20. As an admin/site owner, I want to be able to delete Game/DLC content through the main website.
-
-#### User Engagement:
-21. As an admin/site owner, I want to employ marketing strategies to encourage users to purchase the products.
-22. As an admin/site owner, I want existing users to be able to rate the game/DLC products.
+21. As an admin/site owner, I want existing users to be able to rate the game/DLC products.
 
 ### Potential/New User User Stories (B)
 1. As a potential/new user, I want to know the site's purpose from the moment I visit the site.
@@ -379,9 +363,8 @@ While ElephantSQL(PostgreSQL) holds our database, for image storage I have chose
 9. As a potential/new user, I want to be able to filter products by different criteria (e.g. tags, features, platforms).
 10. As an potential/new user, I want to be able to browse and search for games that are associated with a specific publisher, developer, or platform, so that I can discover and access the games that interest me.
 11. As a potential/new user, I want to be able to see user ratings for the products.
-12. As an potential/new user, I want to be able to leave a rating for a product.
-13. As an potential/new user, I want to be able to view images and videos for a product.
-14. As an potential/new user, I want to be able to view details of a product.
+12. As an potential/new user, I want to be able to view images and videos for a product.
+13. As an potential/new user, I want to be able to view details of a product.
 
 ### Existing (Registered) User User Stories (C)
 1. As an existing user, I want to be able to login.
@@ -396,13 +379,13 @@ While ElephantSQL(PostgreSQL) holds our database, for image storage I have chose
 10. As an existing user, I want to be able to purchase the offered products.
 11. As an existing user, I want to be able to explore the available promotions (sales).
 12. As an existing user, I want to be able to sign up for the site's newsletter to receive notifications.
-13. As a potential/new user, I want to be able to sort products by different criteria (e.g. price, popularity, rating).
-14. As a potential/new user, I want to be able to filter products by different criteria (e.g. tags, features, platforms).
-14. As a potential/new user, I want to be able to see user ratings for the products.
-15. As an existing user, I want to be able to leave a rating for a product.
-16. As an existing user, I want to be able to view images and videos for a product.
-17. As an existing user, I want to be able to view details of a product.
-18. As an existing user, I want to be able to browse and search for games that are associated with a specific publisher, developer, or platform, so that I can discover and access the games that interest me.
+13. As an existing user, I want to be able to sort products by different criteria (e.g. price, popularity, rating).
+14. As an existing user, I want to be able to filter products by different criteria (e.g. tags, features, platforms).
+15. As an existing user, I want to be able to see user ratings for the products.
+16. As an existing user, I want to be able to leave a rating for a product.
+17. As an existing user, I want to be able to view images and videos for a product.
+18. As an existing user, I want to be able to view details of a product.
+19. As an existing user, I want to be able to browse and search for games that are associated with a specific publisher, developer, or platform, so that I can discover and access the games that interest me.
 
 ## Skeleton
 
