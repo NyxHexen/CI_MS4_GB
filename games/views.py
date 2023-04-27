@@ -317,6 +317,7 @@ def game_add(request, model_name):
             rating_form = RatingForm(rating_form_data)
             if rating_form.is_valid():
                 rating_form = rating_form.save()
+                messages.success(request, f"{game.name} has been created!")
                 return redirect(
                     reverse('game',
                             kwargs={'model_name': game.model_name(),
@@ -395,6 +396,7 @@ def game_edit(request, model_name, game_id):
                     )
                 if rating_form.is_valid():
                     rating_form = rating_form.save()
+                    messages.success(request, f"{game.name} has been edited!")
                     return redirect(
                         reverse('game',
                                 kwargs={
